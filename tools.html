@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>الأدوات المجانية | زهير محرز</title>
+<meta name="description" content="حاسبات صحية مجانية بالدارجة: مؤشر كتلة الجسم، السعرات والماكروز، الماء، دورات النوم، الكافيين، وقيم الأطباق المغربية.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#0A120F;--green:#22C55E;--neon:#1ED760;--green-soft:#E9F9EF;--ink:#14201A;--muted:#5B6B62;--line:#E3EDE6;--radius:24px;--shadow:0 10px 30px rgba(10,40,25,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',system-ui,sans-serif;background:#FBFDFB;color:var(--ink);line-height:1.8}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:60;background:rgba(10,18,15,.95);backdrop-filter:blur(10px)}
+.header-in{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.15rem}
+.logo .mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--green));display:grid;place-items:center;color:#06280F}
+.back{color:#C9D6CE;font-weight:700}.back:hover{color:var(--neon)}
+main{padding:56px 0 80px}
+.eyebrow{display:inline-block;font-weight:800;font-size:.85rem;color:var(--green);background:var(--green-soft);border:1px solid #CFEDD9;padding:4px 14px;border-radius:999px;margin-bottom:14px}
+h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:900;line-height:1.4;margin-bottom:10px}
+h1 .grad{background:linear-gradient(90deg,var(--neon),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--muted);max-width:700px}
+.toc{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 6px}
+.toc a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 18px;font-weight:800;box-shadow:var(--shadow)}
+.toc a:hover{border-color:var(--green);color:var(--green)}
+.tool{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-top:26px;scroll-margin-top:90px}
+.tool h2{font-size:1.35rem;font-weight:900;margin-bottom:4px}
+.tool .sub{color:var(--muted);margin-bottom:18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field label{display:block;font-weight:800;margin-bottom:5px;font-size:.95rem}
+.field input,.field select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;font-family:inherit;font-size:1rem;background:#FBFDFB}
+.field input:focus,.field select:focus{outline:none;border-color:var(--green)}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:10px 8px;font-family:inherit;font-weight:800;cursor:pointer;transition:.2s}
+.seg button.on{background:var(--neon);border-color:var(--neon);color:#06280F}
+.btn{display:inline-flex;font-weight:800;padding:12px 26px;border-radius:999px;background:var(--neon);color:#06280F;border:none;font-family:inherit;font-size:1rem;cursor:pointer;margin-top:16px;transition:.2s}
+.btn:hover{background:var(--green)}
+.result{margin-top:18px;background:var(--green-soft);border:1px solid #CFEDD9;border-radius:16px;padding:18px;display:none}
+.result.show{display:block}
+.result .big{font-size:1.7rem;font-weight:900}
+.result table{width:100%;border-collapse:collapse;margin-top:8px}
+.result td{padding:5px 0;border-bottom:1px dashed #CFEDD9}
+.result td:last-child{text-align:left;font-weight:800}
+.note{font-size:.85rem;color:var(--muted);margin-top:10px}
+.warn{color:#9A6B00;font-weight:700}
+table.foods{width:100%;border-collapse:collapse;font-size:.95rem}
+table.foods th,table.foods td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:right}
+table.foods th{background:#F4FAF5;font-weight:900}
+.search{width:100%;padding:13px 16px;border:1.5px solid var(--line);border-radius:14px;font-family:inherit;font-size:1rem;margin-bottom:14px}
+.search:focus{outline:none;border-color:var(--green)}
+.disclaimer{margin-top:34px;border:1.5px solid #EBD9A0;background:#FFFBEF;border-radius:20px;padding:20px 24px;font-size:.93rem}
+footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;font-size:.88rem}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-in">
+    <a class="logo" href="index.html"><span class="mark">ز</span> زهير محرز</a>
+    <a class="back" href="index.html">→ الرجوع للرئيسية</a>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <span class="eyebrow">مجانية بالكامل — بلا تسجيل</span>
+    <h1>أدوات <span class="grad">صحية وتغذية</span></h1>
+    <p class="lead">حاسبات سريعة بالدارجة مبنية على معادلات علمية معروفة. النتائج تقديرية للثقافة الصحية العامة، وماشي تشخيصاً طبياً.</p>
+    <div class="toc">
+      <a href="#bmi">⚖️ BMI</a><a href="#calories">🔥 السعرات والماكروز</a><a href="#water">💧 الماء</a><a href="#sleep">😴 دورات النوم</a><a href="#caffeine">☕ الكافيين</a><a href="#foods">🥘 أطباق مغربية</a>
+    </div>
+
+    <!-- BMI -->
+    <section class="tool" id="bmi">
+      <h2>⚖️ مؤشر كتلة الجسم BMI</h2>
+      <p class="sub">احسب مؤشرك واعرف المجال الصحي ديال وزنك.</p>
+      <div class="grid">
+        <div class="field"><label>الوزن (كغ)</label><input type="number" id="bmi-w" min="20" max="400" placeholder="مثال: 80"></div>
+        <div class="field"><label>الطول (سم)</label><input type="number" id="bmi-h" min="100" max="250" placeholder="مثال: 175"></div>
+      </div>
+      <button class="btn" onclick="calcBMI()">احسب</button>
+      <div class="result" id="bmi-r"></div>
+    </section>
+
+    <!-- Calories -->
+    <section class="tool" id="calories">
+      <h2>🔥 حاسبة السعرات والماكروز</h2>
+      <p class="sub">معادلة Mifflin-St Jeor — احتياجك اليومي على حساب هدفك.</p>
+      <div class="grid">
+        <div class="field"><label>الجنس</label><div class="seg" id="cal-sex"><button class="on" data-v="m">رجل</button><button data-v="f">امرأة</button></div></div>
+        <div class="field"><label>العمر (سنة)</label><input type="number" id="cal-age" min="10" max="100" placeholder="مثال: 30"></div>
+        <div class="field"><label>الوزن (كغ)</label><input type="number" id="cal-w" placeholder="مثال: 80"></div>
+        <div class="field"><label>الطول (سم)</label><input type="number" id="cal-h" placeholder="مثال: 175"></div>
+        <div class="field"><label>واش كنتمارس الرياضة؟</label><div class="seg" id="cal-sport"><button class="on" data-v="no">لا</button><button data-v="yes">نعم</button></div></div>
+        <div class="field" id="cal-act-wrap"><label>الحركة اليومية في الخدمة والحياة</label>
+          <select id="cal-act">
+            <option value="1.2">خدمة مكتبية وحركة قليلة</option>
+            <option value="1.375">حركة خفيفة (كنتمشى بزاف)</option>
+            <option value="1.55">حركة متوسطة (خدمة فيها وقوف وتنقل)</option>
+            <option value="1.725">حركة كبيرة (خدمة بدنية)</option>
+            <option value="1.9">حركة كبيرة بزاف (خدمة شاقة)</option>
+          </select></div>
+        <div class="field" id="cal-sess-wrap" style="display:none"><label>حصص الرياضة في الأسبوع</label>
+          <select id="cal-sess">
+            <option value="1.375">حصتين ولا أقل</option>
+            <option value="1.55">3 – 4 حصص</option>
+            <option value="1.725">5 – 6 حصص</option>
+            <option value="1.9">7 حصص ولا أكثر</option>
+          </select></div>
+        <div class="field"><label>الهدف</label><div class="seg" id="cal-goal"><button data-v="lose">نقصان الوزن</button><button class="on" data-v="keep">المحافظة</button><button data-v="gain">زيادة الوزن/العضلات</button></div></div>
+      </div>
+      <button class="btn" onclick="calcCalories()">احسب احتياجي</button>
+      <div class="result" id="cal-r"></div>
+      <p class="note">توزيع الماكروز الافتراضي: بروتين 30% · كربوهيدرات 40% · دهون 30% (كيتبدل شوية مع الهدف).</p>
+    </section>
+
+    <!-- Water -->
+    <section class="tool" id="water">
+      <h2>💧 حاسبة الماء</h2>
+      <p class="sub">شحال خاصك تشرب في النهار — قاعدة 30–35 مل لكل كيلوغرام، مع تعديل النشاط والجو.</p>
+      <div class="grid">
+        <div class="field"><label>الوزن (كغ)</label><input type="number" id="wat-w" placeholder="مثال: 80"></div>
+        <div class="field"><label>النشاط والجو</label>
+          <select id="wat-a">
+            <option value="30">نهار عادي، بلا رياضة</option>
+            <option value="35">رياضة ولا حركة بزاف</option>
+            <option value="40">رياضة + جو سخون</option>
+          </select></div>
+      </div>
+      <button class="btn" onclick="calcWater()">احسب</button>
+      <div class="result" id="wat-r"></div>
+      <p class="note">الماء كيجي أيضاً من الأكل والمشروبات الأخرى؛ لون البول الفاتح علامة عملية أنك قريب من الكفاية. حالات الكلى والقلب عندها حدود خاصة — سول طبيبك.</p>
+    </section>
+
+    <!-- Sleep -->
+    <section class="tool" id="sleep">
+      <h2>😴 حاسبة دورات النوم</h2>
+      <p class="sub">النوم كيتم في دورات ديال 90 دقيقة تقريباً. اختار وقت الفياق، ونعطيوك أوقات النوم اللي كتكمل بيها دورات كاملة (+15 دقيقة باش ترقد).</p>
+      <div class="grid">
+        <div class="field"><label>وقت الفياق</label><input type="time" id="slp-wake" value="07:00"></div>
+      </div>
+      <button class="btn" onclick="calcSleep()">اعطيني أوقات النوم</button>
+      <div class="result" id="slp-r"></div>
+    </section>
+
+    <!-- Caffeine -->
+    <section class="tool" id="caffeine">
+      <h2>☕ فاحص الكافيين</h2>
+      <p class="sub">جمع كافيين نهارك وقارنو مع الحد الآمن الشائع عند EFSA: حتى 400 مغ/يوم للبالغ السليم، و200 مغ للحوامل.</p>
+      <div class="grid">
+        <div class="field"><label>قهوة (إسبريسو/كأس صغير ≈ 65 مغ)</label><input type="number" id="caf-1" min="0" value="0"></div>
+        <div class="field"><label>أتاي (كأس ≈ 30 مغ)</label><input type="number" id="caf-2" min="0" value="0"></div>
+        <div class="field"><label>شاي أسود (كأس ≈ 45 مغ)</label><input type="number" id="caf-3" min="0" value="0"></div>
+        <div class="field"><label>مشروب طاقة (علبة 250مل ≈ 80 مغ)</label><input type="number" id="caf-4" min="0" value="0"></div>
+        <div class="field"><label>كولا (علبة 330مل ≈ 32 مغ)</label><input type="number" id="caf-5" min="0" value="0"></div>
+        <div class="field"><label>قهوة أمريكية/مصفاة (كأس ≈ 95 مغ)</label><input type="number" id="caf-6" min="0" value="0"></div>
+      </div>
+      <button class="btn" onclick="calcCaffeine()">اجمع الكافيين</button>
+      <div class="result" id="caf-r"></div>
+      <p class="note">القيم تقريبية وكتختلف مع طريقة التحضير. الكافيين بعد الظهر يقدر يخسر جودة النوم حتى لو رقدتي عادي.</p>
+    </section>
+
+    <!-- Foods -->
+    <section class="tool" id="foods">
+      <h2>🥘 بحث الأغذية المغربية</h2>
+      <p class="sub">قيم تقديرية لأطباقنا ومكوناتها — قاعدة كنبنّيوها وكنوسعوها. السعرات لحصة معتادة إلا تذكر العكس.</p>
+      <input class="search" id="food-q" type="text" placeholder="قلب: حريرة، كسكس، دجاج..." oninput="renderFoods()">
+      <div style="overflow-x:auto"><table class="foods">
+        <thead><tr><th>الطبق/المكوّن</th><th>الحصة</th><th>سعرات</th><th>بروتين (غ)</th><th>كربوهيدرات (غ)</th><th>دهون (غ)</th></tr></thead>
+        <tbody id="food-body"></tbody>
+      </table></div>
+      <p class="note">القيم تقديرية وكتختلف مع الوصفة وكمية الزيت واللحم — الهدف هو الصورة العامة، ماشي الدقة المخبرية.</p>
+    </section>
+
+    <div class="disclaimer"><b>تنبيه:</b> هاد الأدوات تعليمية للثقافة الصحية العامة. إلا عندك مرض مزمن (سكري، ضغط، كلى...) ولا كتاخد دواء، أي نظام غذائي خاص خاصو يتظبط مع طبيبك ولا مختص تغذية.</div>
+  </div>
+</main>
+<footer>© 2026 زهير محرز — بيت الوقاية · <a href="standards.html" style="text-decoration:underline">منهجنا ومعاييرنا</a> · <a href="verify.html" style="text-decoration:underline">التحقق من شهادة</a></footer>
+<script>
+function seg(id){var el=document.getElementById(id);var btns=el.querySelectorAll('button');btns.forEach(function(b){b.addEventListener('click',function(){btns.forEach(function(x){x.classList.remove('on')});b.classList.add('on');if(id==='cal-sport'){toggleSport();}})});return function(){return el.querySelector('button.on').dataset.v}}
+var getSex=seg('cal-sex'),getGoal=seg('cal-goal'),getSport=seg('cal-sport');
+function toggleSport(){var yes=getSport()==='yes';document.getElementById('cal-sess-wrap').style.display=yes?'':'none';document.getElementById('cal-act-wrap').style.display=yes?'none':''}
+function num(id){var v=parseFloat(document.getElementById(id).value);return isNaN(v)?null:v}
+function show(id,html){var r=document.getElementById(id);r.innerHTML=html;r.classList.add('show')}
+function calcBMI(){var w=num('bmi-w'),h=num('bmi-h');if(!w||!h){show('bmi-r','دخل الوزن والطول أولاً.');return}
+var m=h/100,bmi=w/(m*m),lo=(18.5*m*m).toFixed(0),hi=(24.9*m*m).toFixed(0),cat,color;
+if(bmi<18.5){cat='نقص في الوزن';color='#B45309'}else if(bmi<25){cat='المجال الصحي';color='#15803D'}else if(bmi<30){cat='زيادة في الوزن';color='#B45309'}else{cat='سمنة';color='#B91C1C'}
+show('bmi-r','<div class="big">BMI = '+bmi.toFixed(1)+' — <span style="color:'+color+'">'+cat+'</span></div><table><tr><td>المجال الصحي لوزنك على طولك</td><td>'+lo+' – '+hi+' كغ</td></tr></table><p class="note">BMI مؤشر عام: الرياضي العضلي يقدر يكون مرتفع بلا دهون زائدة، وكيبقى محيط الخصر والصحة العامة مهمين.</p>')}
+function calcCalories(){var age=num('cal-age'),w=num('cal-w'),h=num('cal-h');if(!age||!w||!h){show('cal-r','دخل العمر والوزن والطول أولاً.');return}
+var sex=getSex(),goal=getGoal();var bmr=10*w+6.25*h-5*age+(sex==='m'?5:-161);
+var act=getSport()==='yes'?parseFloat(document.getElementById('cal-sess').value):parseFloat(document.getElementById('cal-act').value);
+var tdee=Math.round(bmr*act);var target=tdee;
+if(goal==='lose')target=tdee-450;if(goal==='gain')target=tdee+300;
+var ps=goal==='gain'?0.32:(goal==='lose'?0.35:0.30),fs=0.30,cs=1-ps-fs;
+var p=Math.round(target*ps/4),c=Math.round(target*cs/4),f=Math.round(target*fs/9);
+show('cal-r','<div class="big">احتياجك اليومي ≈ '+target.toLocaleString('fr-MA')+' سعرة</div><table><tr><td>الأيض الأساسي BMR</td><td>'+Math.round(bmr).toLocaleString('fr-MA')+' سعرة</td></tr><tr><td>المحافظة (TDEE)</td><td>'+tdee.toLocaleString('fr-MA')+' سعرة</td></tr><tr><td>بروتين</td><td>'+p+' غ</td></tr><tr><td>كربوهيدرات</td><td>'+c+' غ</td></tr><tr><td>دهون</td><td>'+f+' غ</td></tr></table><p class="note">بداية عملية: جرب أسبوعين وراقب الوزن، وعدّل ±150–200 سعرة على حساب النتيجة.</p>')}
+function calcWater(){var w=num('wat-w');if(!w){show('wat-r','دخل الوزن أولاً.');return}
+var ml=w*parseFloat(document.getElementById('wat-a').value);var lo=(w*30/1000).toFixed(1),hi=(ml/1000).toFixed(1);
+show('wat-r','<div class="big">≈ '+hi+' لتر في النهار</div><table><tr><td>المجال التقديري</td><td>'+lo+' – '+hi+' لتر</td></tr><tr><td>بعدد الكيسان (250 مل)</td><td>'+Math.round(ml/250)+' كيسان</td></tr></table>')}
+function fmtT(mins){mins=((mins%1440)+1440)%1440;var h=Math.floor(mins/60),m=mins%60;return (h<10?'0':'')+h+':'+(m<10?'0':'')+m}
+function calcSleep(){var v=document.getElementById('slp-wake').value;if(!v){show('slp-r','اختار وقت الفياق.');return}
+var p=v.split(':'),wake=(+p[0])*60+(+p[1]);var rows='';
+[6,5,4].forEach(function(cyc){var sleep=wake-(cyc*90)-15;rows+='<tr><td>'+cyc+' دورات ('+(cyc*1.5)+' سوايع نوم)</td><td>ارقد مع '+fmtT(sleep)+'</td></tr>'});
+show('slp-r','<div class="big">باش تفيق مرتاح مع '+v+'</div><table>'+rows+'</table><p class="note">الأفضل 5–6 دورات. القاعدة الذهبية: نفس وقت الفياق كل نهار، حتى في الويكاند.</p>')}
+function calcCaffeine(){var vals=[['caf-1',65],['caf-2',30],['caf-3',45],['caf-4',80],['caf-5',32],['caf-6',95]];var tot=0;
+vals.forEach(function(x){var n=num(x[0])||0;tot+=n*x[1]});
+var msg,color;if(tot<=200){msg='داخل المجال المريح عند أغلب الناس.';color='#15803D'}else if(tot<=400){msg='قريب من الحد الأعلى الشائع (400 مغ) — راقب النوم والتوتر.';color='#B45309'}else{msg='فوق الحد الشائع 400 مغ/يوم — نقص بالتدريج باش تتفادى صداع الانقطاع.';color='#B91C1C'}
+show('caf-r','<div class="big">المجموع ≈ '+tot+' مغ — <span style="color:'+color+'">'+msg+'</span></div><p class="note">للحوامل: الحد الموصى به 200 مغ/يوم. للأطفال والمراهقين: الأقل هو الأفضل.</p>')}
+var FOODS=[
+['حريرة مغربية','زلافة 250 مل',180,7,26,5],['كسكس بالخضرة واللحم','طبق معتاد',550,22,75,16],['رفيسة بالدجاج','طبق معتاد',700,35,80,26],
+['طاجين دجاج بالليمون والزيتون','حصة معتادة',450,38,12,27],['طاجين كفتة بالبيض','حصة معتادة',520,30,10,38],['بسطيلة دجاج','قطعة 150غ',480,20,45,24],
+['مسمن','واحدة 100غ',300,6,45,10],['بغرير','واحد 80غ',140,4,28,1],['حرشة','واحدة 90غ',210,4,35,6],['سفنج','واحدة 70غ',230,4,30,10],
+['خبز الشعير','100غ',230,7,44,2],['خبز كامل','100غ',250,9,45,3],['عدس مطبوخ','طبق 250غ',290,14,42,6],['بيصارة','زلافة 250 مل',220,11,30,6],
+['لوبيا مطبوخة','طبق 250غ',270,13,40,5],['سمك سردين مشوي','100غ',210,24,0,12],['بيض مسلوق','بيضة واحدة',78,6,1,5],
+['زيت الزيتون','ملعقة كبيرة 15مل',120,0,0,14],['زيت أركان','ملعقة كبيرة 15مل',120,0,0,14],['أملو','ملعقة كبيرة 20غ',130,3,6,10],
+['تمر (مجفف)','3 حبات 24غ',68,0,18,0],['تين مجفف','حبتان 30غ',75,1,19,0],['لوز','حفنة 30غ',172,6,6,15],['كركاع (جوز)','حفنة 30غ',196,5,4,20],
+['زبيب','ملعقتان 30غ',90,1,24,0],['حليب كامل','كأس 250 مل',150,8,12,8],['رايب','علبة 125غ',90,5,11,3],['جبن أبيض','100غ',110,12,3,5],
+['أفوكادو','نصف حبة 100غ',160,2,9,15],['موز','حبة متوسطة',105,1,27,0],['برتقال','حبة متوسطة',62,1,15,0],['تفاح','حبة متوسطة',95,0,25,0],
+['شاي أخضر بالنعناع (بلا سكر)','كأس',2,0,0,0],['قهوة (بلا سكر)','كأس صغير',3,0,0,0],['عصير برتقال طبيعي','كأس 250 مل',112,2,26,0]];
+function renderFoods(){var q=(document.getElementById('food-q').value||'').trim();var tb=document.getElementById('food-body');tb.innerHTML='';
+FOODS.filter(function(f){return !q||f[0].indexOf(q)>-1}).forEach(function(f){tb.innerHTML+='<tr><td><b>'+f[0]+'</b></td><td>'+f[1]+'</td><td>'+f[2]+'</td><td>'+f[3]+'</td><td>'+f[4]+'</td><td>'+f[5]+'</td></tr>'});
+if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">ما لقينا حتى طبق بهاد الاسم — القاعدة كتكبر، جرب كلمة أخرى.</td></tr>'}
+renderFoods();
+</script>
+</body>
+</html>
