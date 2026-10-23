@@ -174,6 +174,13 @@ footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;fon
         <tbody id="food-body"></tbody>
       </table></div>
       <p class="note">القيم محسوبة من مرجع لكل 100غ (قاعدة بياناتنا الداخلية، كتتراجع وتتكبر) — والوصفة البيتية كتختلف مع كمية الزيت واللحم، فالحصة الموزونة هي اللي كتقرّبك من الدقة.</p>
+      <h3 style="font-weight:900;margin-top:26px">📦 منتجات معلّبة — بالاسم ولا بالباركود</h3>
+      <p class="sub">البيانات من قاعدة Open Food Facts العالمية المفتوحة (القيم لكل 100غ كيف ما مكتوبة في التغليف).</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <input class="search" style="flex:1;margin-bottom:0;min-width:200px" id="off-q" type="text" inputmode="search" placeholder="اسم منتج ولا رقم باركود (مثال: 6111242100992)">
+        <button class="btn" style="margin-top:0" onclick="searchOFF()">قلّب</button>
+      </div>
+      <div id="off-out" style="margin-top:14px"></div>
     </section>
 
     <div class="disclaimer"><b>تنبيه:</b> هاد الأدوات تعليمية للثقافة الصحية العامة. إلا عندك مرض مزمن (سكري، ضغط، كلى...) ولا كتاخد دواء، أي نظام غذائي خاص خاصو يتظبط مع طبيبك ولا مختص تغذية.</div>
@@ -221,11 +228,37 @@ var FOODS=[
 ['تمر (مجفف)','3 حبات — 24غ',24,283,2,75,0],['تين مجفف','حبتان — 30غ',30,250,3,63,1],['لوز','حفنة — 30غ',30,575,21,21,50],['كركاع (جوز)','حفنة — 30غ',30,654,15,14,65],
 ['زبيب','ملعقتان — 30غ',30,299,3,79,0.5],['حليب كامل','كأس — 250غ',250,61,3.2,4.8,3.3],['رايب','علبة — 125غ',125,72,4,9,2.4],['جبن أبيض','100غ',100,110,12,3,5],
 ['أفوكادو','نصف حبة — 100غ',100,160,2,9,15],['موز','حبة متوسطة — 118غ',118,89,1.1,23,0.3],['برتقال','حبة متوسطة — 130غ',130,47,0.9,12,0.1],['تفاح','حبة متوسطة — 180غ',180,52,0.3,14,0.2],
-['أتاي بالنعناع (بلا سكر)','كأس — 200غ',200,1,0,0.2,0],['قهوة (بلا سكر)','كأس — 100غ',100,2,0.3,0,0],['عصير برتقال طبيعي','كأس — 250غ',250,45,0.7,10,0.2]];
+['أتاي بالنعناع (بلا سكر)','كأس — 200غ',200,1,0,0.2,0],['قهوة (بلا سكر)','كأس — 100غ',100,2,0.3,0,0],['عصير برتقال طبيعي','كأس — 250غ',250,45,0.7,10,0.2],
+['طاجين لحم بالبرقوق','حصة — 380غ',380,155,8,14,7.5],['طنجية مراكشية','حصة — 350غ',350,168,11,2,13],['كسكس بالتفاية','طبق — 500غ',500,124,4.6,20,3],
+['مشوي لحم (شواية)','حصة — 200غ',200,250,26,0,16],['كفتة مشوية','حصة — 150غ',150,260,17,2,20],['دجاج مشوي (بلا جلد)','حصة — 150غ',150,165,31,0,3.6],
+['أرز أبيض مطبوخ','طبق — 200غ',200,130,2.4,28,0.3],['بطاطس مقلية','حصة — 150غ',150,312,3.4,41,15],['بطاطس مسلوقة','حصة — 200غ',200,87,1.9,20,0.1],
+['سلطة مغربية (طماطم وبصل)','طبق — 150غ',150,32,1,4,1.4],['زعلوك','حصة — 150غ',150,62,1.6,6,3.6],['تكتوكة','حصة — 150غ',150,58,1.5,5.5,3.4],
+['خبز أبيض (دائري)','ربع خبزة — 60غ',60,265,8,50,3],['كعب غزال','واحدة — 25غ',25,410,6,58,17],['شباكية','واحدة — 30غ',30,430,5,62,18],
+['فقاص','قطعة — 20غ',20,400,7,68,11],['بريوات بالعسل','واحدة — 35غ',35,390,5,52,18],['ملوزة (غريبة لوز)','واحدة — 20غ',20,470,8,52,25],
+['عسل حر','ملعقة كبيرة — 21غ',21,304,0.3,82,0],['سكر (في أتاي)','ملعقة صغيرة — 5غ',5,400,0,100,0],['زيتون أخضر','10 حبات — 30غ',30,145,1,4,15],
+['زيتون أسود','10 حبات — 30غ',30,115,0.8,6,11],['جبن مثلثات','قطعة — 16غ',16,260,8,3,24],['يوغورت طبيعي','علبة — 110غ',110,61,3.5,4.7,3.3],
+['عنب','حفنة — 150غ',150,69,0.7,18,0.2],['بطيخ أحمر','شريحة — 200غ',200,30,0.6,8,0.2],['شمام','حصة — 200غ',200,34,0.8,8,0.2],
+['رمان','نصف حبة — 100غ',100,83,1.7,19,1.2],['خوخ','حبة — 150غ',150,39,0.9,10,0.3],['فراولة','حصة — 150غ',150,32,0.7,8,0.3],
+['كيوي','حبة — 75غ',75,61,1.1,15,0.5],['طماطم','حبة — 120غ',120,18,0.9,3.9,0.2],['جزر','حبة — 80غ',80,41,0.9,10,0.2],
+['خيار','حبة — 150غ',150,15,0.7,3.6,0.1],['مشروب غازي (كولا)','علبة — 330غ',330,42,0,11,0],['ماء معدني','كأس — 250غ',250,0,0,0,0]];
 function renderFoods(){var q=(document.getElementById('food-q').value||'').trim();var tb=document.getElementById('food-body');tb.innerHTML='';
 FOODS.filter(function(f){return !q||f[0].indexOf(q)>-1}).forEach(function(f){var k=f[2]/100;tb.innerHTML+='<tr><td><b>'+f[0]+'</b></td><td>'+f[1]+'</td><td>'+Math.round(f[3]*k)+'</td><td>'+Math.round(f[4]*k)+'</td><td>'+Math.round(f[5]*k)+'</td><td>'+Math.round(f[6]*k)+'</td></tr>'});
 if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">ما لقينا حتى طبق بهاد الاسم — القاعدة كتكبر، جرب كلمة أخرى.</td></tr>'}
 renderFoods();
+function offRow(p){var n=p.nutriments||{};function g(k){var v=n[k];return (v===undefined||v===null)?'—':Math.round(v)}
+var name=(p.product_name||p.product_name_fr||p.generic_name||'منتج بلا اسم');var brand=p.brands?(' — '+p.brands):'';
+return '<tr><td><b>'+name+'</b>'+brand+'</td><td>100غ</td><td>'+g('energy-kcal_100g')+'</td><td>'+g('proteins_100g')+'</td><td>'+g('carbohydrates_100g')+'</td><td>'+g('fat_100g')+'</td></tr>'}
+function searchOFF(){var q=(document.getElementById('off-q').value||'').trim();var out=document.getElementById('off-out');
+if(!q){out.innerHTML='<p class="note">كتب اسم منتج ولا رقم الباركود أولاً.</p>';return}
+out.innerHTML='<p class="note">كنقلبو...</p>';
+var isCode=/^\d{8,14}$/.test(q);
+var url=isCode?('https://world.openfoodfacts.org/api/v2/product/'+q+'.json'):('https://world.openfoodfacts.org/cgi/search.pl?search_terms='+encodeURIComponent(q)+'&search_simple=1&action=process&json=1&page_size=8&fields=product_name,product_name_fr,generic_name,brands,nutriments');
+fetch(url).then(function(r){return r.json()}).then(function(d){
+var prods=isCode?(d.status===1&&d.product?[d.product]:[]):(d.products||[]);
+if(!prods.length){out.innerHTML='<p class="note">ما لقينا والو — تأكد من الرقم ولا جرب اسم آخر. بعض المنتجات المغربية باقي ما دخلتش للقاعدة العالمية.</p>';return}
+out.innerHTML='<div style="overflow-x:auto"><table class="foods"><thead><tr><th>المنتج</th><th>المرجع</th><th>سعرات</th><th>بروتين (غ)</th><th>كربوهيدرات (غ)</th><th>دهون (غ)</th></tr></thead><tbody>'+prods.map(offRow).join('')+'</tbody></table></div><p class="note">المصدر: Open Food Facts — بيانات مساهمة جماعية، راجع التغليف الأصلي دائماً.</p>';
+}).catch(function(){out.innerHTML='<p class="note warn">وقع مشكل في الاتصال — عاود المحاولة.</p>'})}
+document.getElementById('off-q').addEventListener('keydown',function(e){if(e.key==='Enter')searchOFF()});
 </script>
 </body>
 </html>
