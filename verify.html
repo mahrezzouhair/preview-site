@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>التحقق من شهادة | زهير محرز</title>
+<meta name="description" content="تحقق من صحة شهادات إتمام الدورات الصادرة عن زهير محرز — بيت الوقاية، برقم الشهادة أو رمز QR.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#0A120F;--green:#22C55E;--neon:#1ED760;--green-soft:#E9F9EF;--ink:#14201A;--muted:#5B6B62;--line:#E3EDE6;--radius:24px;--shadow:0 10px 30px rgba(10,40,25,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',system-ui,sans-serif;background:#FBFDFB;color:var(--ink);line-height:1.8}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:60;background:rgba(10,18,15,.95);backdrop-filter:blur(10px)}
+.header-in{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.15rem}
+.logo .mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--green));display:grid;place-items:center;color:#06280F}
+.back{color:#C9D6CE;font-weight:700}
+.back:hover{color:var(--neon)}
+main{padding:64px 0 90px}
+.eyebrow{display:inline-block;font-weight:800;font-size:.85rem;color:var(--green);background:var(--green-soft);border:1px solid #CFEDD9;padding:4px 14px;border-radius:999px;margin-bottom:14px}
+h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:900;line-height:1.4;margin-bottom:10px}
+h1 .grad{background:linear-gradient(90deg,var(--neon),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--muted);max-width:620px;margin-bottom:34px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px}
+form{display:flex;gap:10px;flex-wrap:wrap}
+input[type=text]{flex:1;min-width:220px;font-family:inherit;font-size:1.05rem;padding:13px 18px;border:2px solid var(--line);border-radius:999px;outline:none;direction:ltr;text-align:left}
+input[type=text]:focus{border-color:var(--green)}
+button{font-family:inherit;font-weight:800;font-size:1rem;background:var(--neon);color:#06280F;border:0;border-radius:999px;padding:13px 30px;cursor:pointer;transition:.2s}
+button:hover{background:var(--green)}
+.hint{color:var(--muted);font-size:.88rem;margin-top:12px}
+.result{margin-top:22px;display:none}
+.result.show{display:block}
+.result.ok{border:1.5px solid #B9E7C8;background:#F3FBF5;border-radius:20px;padding:24px}
+.result.bad{border:1.5px solid #F3C1C1;background:#FDF3F3;border-radius:20px;padding:24px}
+.result .status{font-weight:900;font-size:1.2rem;display:flex;align-items:center;gap:10px}
+.result.ok .status{color:#157347}
+.result.bad .status{color:#B02A2A}
+table{width:100%;border-collapse:collapse;margin-top:14px}
+td{padding:8px 4px;border-bottom:1px dashed var(--line);font-size:.98rem}
+td:first-child{color:var(--muted);font-weight:700;width:150px}
+.how{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.how .step{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px}
+.how .step b{display:block;font-weight:900;margin-bottom:4px}
+.how .step span{color:var(--muted);font-size:.92rem}
+.how .n{width:34px;height:34px;border-radius:50%;background:var(--green-soft);color:var(--green);display:grid;place-items:center;font-weight:900;margin-bottom:10px}
+footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;font-size:.88rem}
+.demo-tag{display:inline-block;background:#FFF4D6;color:#8A6D00;font-size:.75rem;font-weight:800;border-radius:999px;padding:1px 10px;margin-right:8px}
+@media(max-width:700px){.how{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-in">
+    <a class="logo" href="index.html"><span class="mark">ز</span> زهير محرز</a>
+    <a class="back" href="index.html">→ الرجوع للرئيسية</a>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <span class="eyebrow">سجل الشهادات الرسمي</span>
+    <h1>التحقق من <span class="grad">شهادة إتمام</span></h1>
+    <p class="lead">كل شهادة صادرة عن دورات زهير محرز — بيت الوقاية مسجلة عندنا برقم فريد. دخّل رقم الشهادة (ولا امسح رمز QR اللي عليها) باش تتأكد بلي هي أصلية وباسم صاحبها.</p>
+
+    <div class="card">
+      <form id="verifyForm">
+        <input type="text" id="codeInput" placeholder="ZM-2026-0001" autocomplete="off" spellcheck="false">
+        <button type="submit">تحقق</button>
+      </form>
+      <p class="hint">رقم الشهادة مكتوب أسفل الشهادة بجانب رمز QR. للتجربة في هاد النسخة الأولية: جرّب الرقم <b>ZM-DEMO</b></p>
+      <div class="result" id="resultBox"></div>
+    </div>
+
+    <div class="how">
+      <div class="step"><div class="n">1</div><b>رقم فريد لكل شهادة</b><span>كل خريج كيتسجل برقم تسلسلي ما كيتعاودش، مرتبط باسمه ودورته.</span></div>
+      <div class="step"><div class="n">2</div><b>رمز QR على الشهادة</b><span>أي مشغّل ولا مؤسسة يقدر يمسح الرمز ويتحقق في ثواني من هاد الصفحة.</span></div>
+      <div class="step"><div class="n">3</div><b>سجل محمي من التزوير</b><span>الشهادة الورقية بلا تسجيل عندنا ما عندها قيمة — التحقق كيتم من السجل فقط.</span></div>
+    </div>
+  </div>
+</main>
+<footer>© 2026 زهير محرز — بيت الوقاية · شهادات التكوين الصادرة هنا هي شهادات إتمام تكوين خاص، وليست دبلومات دولة</footer>
+
+<script>
+// سجل الشهادات — في النسخة النهائية غادي يتنقل لقاعدة بيانات الحسابات (Firebase).
+// هاد الإدخال الوحيد الحالي هو نموذج تجريبي للعرض فقط، ماشي شهادة حقيقية.
+var REGISTRY = {
+  "ZM-DEMO": {
+    demo: true,
+    name: "اسم تجريبي (نموذج للعرض فقط)",
+    course: "دورة الحجامة وخرائط الحجامة",
+    hours: "—",
+    date: "—",
+    status: "نموذج"
+  }
+};
+function normalize(code){ return (code||"").trim().toUpperCase().replace(/\s+/g,""); }
+function check(code){
+  var box=document.getElementById('resultBox');
+  var rec=REGISTRY[normalize(code)];
+  box.className='result show '+(rec?'ok':'bad');
+  if(rec){
+    box.innerHTML='<div class="status">✓ شهادة مسجلة عندنا</div>'+
+      (rec.demo?'<p style="margin-top:6px"><span class="demo-tag">نموذج تجريبي</span> هادا غير مثال كيوري كيفاش غادي يبان التحقق الحقيقي.</p>':'')+
+      '<table>'+
+      '<tr><td>الاسم</td><td><b>'+rec.name+'</b></td></tr>'+
+      '<tr><td>الدورة</td><td>'+rec.course+'</td></tr>'+
+      '<tr><td>عدد الساعات</td><td>'+rec.hours+'</td></tr>'+
+      '<tr><td>تاريخ الإتمام</td><td>'+rec.date+'</td></tr>'+
+      '<tr><td>رقم الشهادة</td><td dir="ltr" style="text-align:right">'+normalize(code)+'</td></tr>'+
+      '<tr><td>الحالة</td><td>'+rec.status+'</td></tr></table>';
+  } else {
+    box.innerHTML='<div class="status">✗ ما لقيناش هاد الرقم</div><p style="margin-top:6px;color:var(--muted)">تأكد من كتابة الرقم كيف ما هو في الشهادة. إلا كنت متأكد من الرقم وما ظهرش، تواصل معنا في واتساب — يقدر يكون خطأ في الطباعة ولا الشهادة غير صادرة عنا.</p>';
+  }
+}
+document.getElementById('verifyForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  check(document.getElementById('codeInput').value);
+});
+var q=new URLSearchParams(location.search).get('code');
+if(q){ document.getElementById('codeInput').value=q; check(q); }
+</script>
+</body>
+</html>
