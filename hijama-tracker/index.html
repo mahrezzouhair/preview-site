@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--dark:#0A120F;--dark2:#12241A;--green:#22C55E;--neon:#1ED760;--soft:#E9F9EF;--ink:#14201A;--muted:#5B6B62;--line:#E3EDE6;--red:#B91C1C;--radius:20px;--shadow:0 10px 30px rgba(10,40,25,.08)}
+:root{--dark:#0A120F;--green:#22C55E;--neon:#1ED760;--soft:#E9F9EF;--ink:#14201A;--muted:#5B6B62;--line:#E3EDE6;--red:#B91C1C;--radius:20px;--shadow:0 10px 30px rgba(10,40,25,.08)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Cairo',system-ui,sans-serif;background:#F4F8F4;color:var(--ink);line-height:1.75}
 button{font-family:inherit;cursor:pointer}
@@ -35,24 +35,28 @@ header{background:var(--dark);color:#fff;position:sticky;top:0;z-index:50}
 .chk{display:flex;gap:8px;align-items:center;font-weight:600}
 .chk input{width:auto}
 .flag{background:#FDECEC;color:var(--red);border-radius:8px;padding:1px 9px;font-size:.8rem;font-weight:800;display:inline-block;margin:2px}
+.ptag{background:var(--soft);border:1px solid #CFEDD9;border-radius:8px;padding:1px 9px;font-size:.85rem;font-weight:800;display:inline-block;margin:2px}
 table{width:100%;border-collapse:collapse;font-size:.94rem}
 th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}
 th{background:#F4FAF5;font-weight:900}
 .note{font-size:.85rem;color:var(--muted)}
 .banner{background:#FFF7E0;border:1.5px solid #EBD9A0;border-radius:14px;padding:12px 16px;margin-bottom:16px;font-weight:700;display:none}
 .gate{max-width:520px;margin:60px auto}
-.pt{cursor:pointer}
-.pt circle.core{fill:#fff;stroke:var(--green);stroke-width:2}
-.pt text{font-family:'Cairo';font-weight:900;fill:var(--green);pointer-events:none}
-.pt.sel circle.core{fill:var(--neon);stroke:#0B3D1E}
-.pt.sel text{fill:#06280F}
-.mapwrap{display:flex;gap:18px;flex-wrap:wrap}
-.mapbox{flex:1;min-width:260px;text-align:center}
-.seg{display:flex;gap:8px;justify-content:center;margin-bottom:10px}
-.seg button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 18px;font-weight:800}
+.seg{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+.seg button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 20px;font-weight:800}
 .seg button.on{background:var(--neon);border-color:var(--neon)}
+.mapstage{position:relative;max-width:430px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.mapstage img{width:100%;display:block}
+.bdg{position:absolute;transform:translate(-50%,-50%);width:27px;height:27px;border-radius:50%;border:2px solid #fff;background:rgba(20,32,26,.55);color:#fff;font-size:10.5px;font-weight:900;display:grid;place-items:center;cursor:pointer;box-shadow:0 1px 5px rgba(0,0,0,.35);transition:.15s;padding:0;line-height:1}
+.bdg:hover{background:var(--green);transform:translate(-50%,-50%) scale(1.15)}
+.bdg.sel{background:var(--neon);color:#06280F;border-color:#0B3D1E;transform:translate(-50%,-50%) scale(1.18)}
+.bdg.small{font-size:8.5px}
+.dz{display:flex;gap:8px;flex-wrap:wrap}
+.dz button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-weight:700;font-size:.9rem}
+.dz button:hover{border-color:var(--green);color:var(--green)}
+.dz button.on{background:var(--dark);color:#fff;border-color:var(--dark)}
 footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-size:.85rem}
-@media(max-width:640px){.grid{grid-template-columns:1fr}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.bdg{width:23px;height:23px;font-size:9px}}
 </style>
 </head>
 <body>
@@ -66,7 +70,6 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
 <div class="wrap">
   <div class="banner" id="upd-banner"></div>
 
-  <!-- Activation gate -->
   <div id="gate" class="card gate" style="display:none">
     <h2>🔑 تفعيل النسخة</h2>
     <p class="note" style="margin-bottom:14px">هاد الأداة خاصة بالممارسين المرخّص لهم. دخل اسم المركز/الممارس كيف ما هو في فاتورتك وكود التفعيل اللي وصلك بعد الشراء — الاسم غادي يظهر في نسختك وتقاريرك.</p>
@@ -79,7 +82,6 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
     </div>
   </div>
 
-  <!-- PIN lock -->
   <div id="lock" class="card gate" style="display:none">
     <h2>🔒 الأداة مقفلة</h2>
     <p class="note" style="margin-bottom:12px">دخل الرقم السري لفتح بيانات الزبناء.</p>
@@ -98,7 +100,6 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
       <button data-tab="settings">⚙️ الإعدادات والحماية</button>
     </div>
 
-    <!-- Clients -->
     <section id="tab-clients">
       <div class="card">
         <h2>زبون جديد</h2>
@@ -127,7 +128,6 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
       </div>
     </section>
 
-    <!-- New session -->
     <section id="tab-session" style="display:none">
       <div class="card">
         <h2>تسجيل جلسة</h2>
@@ -141,46 +141,42 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
         <label class="chk" style="margin-top:10px"><input type="checkbox" id="s-after"> عطيت تعليمات ما بعد الجلسة للزبون</label>
         <label class="chk"><input type="checkbox" id="s-consent"> الموافقة المستنيرة موقّعة ومحفوظة</label>
       </div>
+
       <div class="card">
-        <h2>🗺️ خريطة النقاط — اختار نقاط الجلسة</h2>
-        <div class="mapwrap">
-          <div class="mapbox">
-            <div class="seg"><button id="v-back" class="on" onclick="setView('back')">الظهر</button><button id="v-front" onclick="setView('front')">الأمام</button></div>
-            <div id="map-holder"></div>
-          </div>
-          <div style="flex:1;min-width:240px">
-            <b>النقاط المختارة (<span id="pt-count">0</span>):</b>
-            <div id="pt-list" style="margin-top:8px"></div>
-            <p class="note" style="margin-top:10px">الخريطة مرجعية عملية للممارس المدرب، مبنية على المواضع المتداولة في كتب الحجامة وخرائط WFAS — والتحديد النهائي كيبقى لتقدير الممارس حسب الحالة.</p>
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
-          <button class="btn dark" onclick="applySunnah()">☪️ حجامة السنة</button>
+        <h2>🗺️ خريطة المواضع — اختار نقاط الجلسة</h2>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+          <button class="btn dark" onclick="applySunnah()">☪️ حجامة السنة (المواضع النبوية)</button>
           <button class="btn dark" onclick="applyPreventive()">🛡️ الحجامة الوقائية</button>
           <button class="btn dark" onclick="toggleAI()">🤖 المساعد الذكي</button>
           <button class="btn ghost" onclick="clearSelection()">مسح الاختيار</button>
         </div>
-        <div id="ai-panel" style="display:none;margin-top:16px;border:1.5px dashed var(--green);border-radius:16px;padding:16px">
-          <b>🤖 المساعد الذكي — شنو هي مشاكل الزبون؟</b>
-          <p class="note">اختار المشاكل، والمساعد غادي يحدد ليك النقاط المناسبة من الخرائط على حساب دور كل نقطة، وتبقى تقدر تعدّل قبل الحفظ.</p>
-          <div id="ai-problems" style="display:flex;gap:12px;flex-wrap:wrap;margin:10px 0"></div>
-          <button class="btn" onclick="suggestPoints()">اقترح النقاط</button>
+        <div id="ai-panel" style="display:none;margin-bottom:16px;border:1.5px dashed var(--green);border-radius:16px;padding:16px">
+          <b>🤖 المساعد الذكي — اختار مرض/حالة الزبون وغادي تتحدد المواضع تلقائياً</b>
+          <p class="note" style="margin:6px 0">الجسم كله مواضع صالحة للحجامة، والمواضع كتختلف بحسب المرض ونوعه — المعالج كيختار بعض المواضع لا جميعها بحسب الحالة، ويقدر يزيد من خبرته. عند وجود أكثر من مرض كتتاخد أهم المواضع الرئيسية من كل مرض. الاقتراحات مرجعية من خرائط وفهرس المواضع، والقرار النهائي للممارس.</p>
+          <input id="dz-q" placeholder="قلب في الأمراض والحالات..." oninput="renderDiseases()" style="margin-bottom:10px">
+          <div class="dz" id="dz-list"></div>
           <div id="ai-out" style="margin-top:12px"></div>
         </div>
+        <div class="seg">
+          <button id="v-back" class="on" onclick="setView('back')">الظهر</button>
+          <button id="v-front" onclick="setView('front')">الأمام</button>
+          <button id="v-face" onclick="setView('face')">الوجه</button>
+        </div>
+        <div class="mapstage" id="mapstage"></div>
+        <p style="margin-top:14px"><b>المواضع المختارة (<span id="pt-count">0</span>):</b></p>
+        <div id="pt-list"></div>
         <button class="btn" style="margin-top:16px" onclick="saveSession()">حفظ الجلسة</button>
         <span class="note" id="s-msg" style="margin-right:10px"></span>
       </div>
     </section>
 
-    <!-- Records -->
     <section id="tab-records" style="display:none">
       <div class="card">
         <h2>سجل الجلسات</h2>
-        <div style="overflow-x:auto"><table><thead><tr><th>التاريخ</th><th>الزبون</th><th>النوع</th><th>النقاط</th><th>ملاحظات</th><th></th></tr></thead><tbody id="r-body"></tbody></table></div>
+        <div style="overflow-x:auto"><table><thead><tr><th>التاريخ</th><th>الزبون</th><th>النوع</th><th>المواضع</th><th>ملاحظات</th><th></th></tr></thead><tbody id="r-body"></tbody></table></div>
       </div>
     </section>
 
-    <!-- Settings -->
     <section id="tab-settings" style="display:none">
       <div class="card">
         <h2>الترخيص والنسخة</h2>
@@ -217,43 +213,121 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
 <footer>متتبّع الحجامة الاحترافي — منتج من زهير محرز / بيت الوقاية · البيانات ديالك كتبقى عندك، في جهازك</footer>
 
 <script>
-var APP_VERSION='1.2.0';
-var LS={lic:'ht_lic',clients:'ht_clients',sessions:'ht_sessions',pin:'ht_pin'};
+var APP_VERSION='2.0.0';
+var LS={lic:'ht2_lic',clients:'ht2_clients',sessions:'ht2_sessions',pin:'ht2_pin'};
 function load(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
 function esc(s){return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;')}
-// ---------- license ----------
+// ================= POINT REGISTRY (أرقام الخرائط الأصلية) =================
+// [id, x%, y%] per view — الإحداثيات على الخرائط المنظفة
+var REG={
+back:[['1',50,3.6],['19',48.6,8.3],['21',45.8,11.4],['20',52.6,11.4],['5',44.6,15.2],['4',56.4,15.2],['6',50.2,16.8],['23',44.8,17.8],['22',56.2,17.8],['25',39.8,20.8],['24',60.8,20.8],['27',46.2,25.2],['26',53.8,25.2],['30',47.6,31.6],['28',53.4,31.8],['31',42.2,33.8],['29',59.2,30.6],['37',38.6,37.2],['36',63.8,36.4],['35',42.6,38.6],['34',47.2,38.2],['32',53.2,38.2],['33',58.2,38.8],['ت35',42.6,41.6],['ت34',47.2,41.2],['ت32',53.2,41.2],['ت33',58.2,41.6],['43',44.6,44.6],['41',49.6,44.6],['42',54.4,44.6],['8',40.6,46.8],['40',45.2,47.6],['38',50,47.6],['39',54.6,47.6],['7',60.4,45.8],['47',43.6,50.8],['45',48.2,50.8],['44',53.6,50.8],['46',58,50.8],['85/2',45.2,57.8],['85/1',56,57.8],['86/2',45.2,61.2],['86/1',56.2,61.2],['87/2',45.4,64.8],['87/1',56.4,64.8],['88/2',45.6,68.8],['88/1',56.2,68.8],['89/2',45.6,73.8],['89/1',56.4,73.8],['90/2',45.6,79.2],['90/1',56.2,79.2],['84/2',48.6,95.2],['83/2',42.6,96.2],['84/1',57.2,95.2],['83/1',62.8,95.8]],
+front:[['3',50.2,3.8],['23',43.6,15.2],['22',57.4,15.2],['48',44.6,17.8],['49',56.4,18.2],['53',35.2,18.8],['54',64.6,19.2],['50',50.4,20.4],['55',45.2,21.8],['56',56.8,21.8],['59',47.4,23.8],['51',50.4,23.8],['57',46.2,25.4],['58',55.8,25.4],['52',50.4,26.8],['60',42.6,31.2],['61',45.6,31.2],['62',55,31.2],['63',58.2,31.2],['64',43.6,34.8],['65',57.4,34.8],['66',43.6,37.8],['67',56.8,37.8],['68',47.2,42.4],['69',54.4,42.4],['70',50.4,43.4],['72',46.2,46.4],['71',50.4,46.4],['73',55.4,46.4],['91/1',48.2,53.8],['91/2',53.2,53.8],['92/1',48.2,59.2],['92/2',53.6,59.2],['93/1',48.2,64.2],['93/2',54,64.2],['80/1',40.6,69.8],['80/2',61.8,68.8],['94/1',48.4,72.4],['94/2',54.4,71.8],['97/1',44.2,73.8],['97/2',59.4,73.8],['95/1',48.4,79.2],['95/2',54.4,79.2],['96/1',48.4,84.8],['96/2',54.4,84.8],['9',41.4,95.2],['10',57.2,95.2]],
+face:[['2',50,7.2],['11.1',38.6,13.8],['11.2',60.2,13.8],['3',49.6,15.4],['13.1',40.6,23.8],['13.2',58.4,23.8],['12.1',33.6,28.8],['12.2',64.6,28.8],['14.1',34.6,40.2],['14.2',63.8,40.2],['98.1',46.6,40.8],['98.2',52.8,40.8],['15.1',41.6,47.8],['15.2',58.8,47.8],['16.1',37.6,55.4],['16.2',61.8,55.4],['17.1',35.6,64.2],['17.2',64.4,64.2],['18',49.6,73.8]]};
+var SUNNAH=['1','2','3','4','5','6','7','8','9','10'];
+var PREVENTIVE=['6','26','27','4','5','1','9','10'];
+// ================= DISEASE INDEX (فهرس المواضع بحسب المرض — من عند الممارس) =================
+var DISEASES=[
+['الجهاز الدوراني',['6','26','27','55','56'],''],
+['مشاكل البلعوم',['6','26','27','28','30','32','34','50','51','52','18','4','5'],''],
+['الجهاز الهضمي',['6','28','34','35','ت32','ت33','ت34','ت35','60','61','62','63','64','65','66','67'],''],
+['الجهاز العصبي',['6','26','27','28','30','32','34','19','20','21','11.1','11.2','9','10'],'في الحالات المتطورة: تدليك اليدين والرجلين.'],
+['الهيكل العظمي',['6','24','25','36','37','38','80/1','80/2','94/1','94/2','4','5','9','10','76'],'الموضع 76 من الفهرس (ما كاينش في الخرائط الحالية).'],
+['الجهاز البولي الإخراجي',['ت32','ت34','42','43','6'],''],
+['الجهاز التناسلي',['6','9','10','38','39','40','41','42','43','70','71','72','73'],''],
+['مرضى السكري',['6','26','27','28','30','32','34','39','40'],'إذا رافقه حرارة القدمين زيد 9+10؛ وإذا رافقه اعتلال عصبي أو خمول زيد 20+21.'],
+['الضغط الدموي',['1','3','19','20','21','6','26','27','38'],'إذا رافقه خلل بوظائف الكلى زيد ت32+ت34+42+43.'],
+['البروستاتا',['6','38','39','40','41','42','43','70','71','72','73','9','10'],''],
+['التهاب الجيوب الجبهية',['13.1','13.2','20','21'],''],
+['التهاب الجيوب الوجنية',['15.1','15.2','20','21'],''],
+['التهاب الجيوب الوتدية',['14.1','14.2','20','21'],''],
+['التهاب الجيوب المصفية',['98.1','98.2','20','21'],'إذا رافقه صداع نصفي زيد 1؛ وإذا رافقه نزول بلغم أو صديد للحلق زيد 4+5 (الأخدعان).'],
+['الروماتيزم',['6','24','25','36','37','7','8','38','53','54','20','21','1','80/1','80/2','94/1','94/2','76','77','9','10'],'إذا سبق للمريض تناول أدوية: حجامة الجهاز الهضمي والمفاصل (6+26+27+28+29+30+31+32+33+34+35+ت33+20+21+80+94+9+10).'],
+['ضعف المناعة (الجهاز المناعي)',['4','5','6','28','30','32','34','35','ت33','ت35','38','59','62','63','64','65','66','67','18'],''],
+['حموضة المعدة',['6','26','27','28','30','32','34','35','38','50','51','52','62','63','18'],'المواضع 34 متقاربة.'],
+['القولون العصبي',['6','33','ت33','35','ت35','64','65','66','67'],''],
+['الانزلاق الغضروفي',['85/1','85/2','86/1','86/2','87/1','87/2','88/1','88/2','89/1','89/2','90/1','90/2','83/1','83/2','9','10','7','8','78','79','80/1','80/2','81','82','38','41'],'تبدا بكؤوس هواء لتحديد موضع الألم، ثم التشريط والكؤوس الدموية في مواضع الألم فقط. 9 أو 10 بحسب القدم و7 أو 8 بحسب الجهة. الأكواب 4-5 قريباً من الأصبعين الصغيرين من القدم.'],
+['الكوليسترول',['6','26','27','28','29','30','32','34'],''],
+['مشاكل الكلى',['4','5','6','ت32','ت34','42','43'],'إذا كان عنده ضغط: حجامة الضغط مع التكرار. إذا كان عنده التهاب اللوزتين: زيد 18 (مع القسط الهندي مطحوناً شرباً).'],
+['طنين الأذن',['12.1','12.2','17.1','17.2','20','21'],''],
+['الربو',['6','26','27','28','29','55','56','57','58'],''],
+['حساسية الجهاز التنفسي',['19','6','26','27','28','30','20','21'],'يضاف: 18 أو 4+5.'],
+['حساسية الطعام',['6','28','29','30','31','33','ت33','35','ت35','64','65','66','67'],'يضاف: 18 أو 4+5.'],
+['التدخين',['6','26','27','28','29','32','34','55','56','20','21','9','10'],''],
+['البواسير',['6','9','10','38','39','40','42','43'],''],
+['العقم',['6','9','10','38','39','40','41','42','43','70','71','72','73'],''],
+['النقرس',['9','10','6','26','27','32','34','42','43'],'تضاف المواضع التي يشعر فيها بالألم.'],
+['التبول اللاإرادي',['6','9','10','38','39','40','41','42','43','70','71','72','73'],'تدليك المواضع بالحجامة الجافة مع الزيوت الدافئة قبل الدموية أسفل الظهر؛ وعند الأطفال يمكن جعل الأكواب كلها أو بعضها جافة.'],
+['مشاكل الحنجرة',['4','5','6','18'],'إذا رافق المرض تشنجات عصبية: حجامة الجهاز العصبي مع هذه الكؤوس.'],
+['تنشيط وتقوية الذاكرة',['2','11.1','11.2','12.1','12.2','20','21','6'],'إذا كان عنده مشكلة في الجهاز العصبي: حجامة الجهاز العصبي.'],
+['السرطان',['6','26','27','32','34','42','43'],'مع التركيز على حجامة الجهاز المناعي؛ الورم الظاهر: الكؤوس حوله، وغير الظاهر: فوقه.'],
+['نقص فيتامين دال',['4','5','6','28','29','33','ت33','35','ت35','ت32','ت34'],''],
+['الجلطة',['1','20','21','6','24','25','36','37','7','8','38','18','80/1','80/2','94/1','94/2','9','10'],'الحجامة عكس الجهة المصابة (20 أو 21، 24 أو 25، 36 أو 37، 7 أو 8، 9 أو 10 بحسب الجهة)؛ ولا ضرر في نفس الجهة مع مراعاة عدم حجامة الحالة المصابة حديثاً ممن حركتهم ثقيلة.'],
+['مشاكل الجنس',['6','9','10','38','39','40','41','42','43','70','71','72','73'],''],
+['للتسمين',['4','5','6','19','26','27','32','34','42','43'],''],
+['الشلل الرعاش',['1','6','19','26','27','28','30','32','34','9','10'],'مساج اليدين والرجلين بالزيوت قبل الحجامة؛ وإذا كانت الحالة مستقرة يمكن حجامة الجهاز الهضمي بين كل حجامتين.'],
+['فقر الدم',['4','5','6','19','26','27','28','30'],''],
+['شرايين القلب التاجية',['6','26','27','28','29','55','56','58','62','63'],'26+27 متقاربة.'],
+['مشاكل الكبد',['4','5','6','28','29','60','61'],''],
+['مشاكل اللوزتين',['20','21','4','5','6','18'],'20+21 متقاربة.'],
+['مشاكل النطق المرضية',['1','6','18','19','20','21'],''],
+['التهاب العصب السابع',['1','15.1','15.2','16.1','16.2','11.1','11.2','13.1','13.2','17.1','17.2','20','21'],'المواضع 15+16+11+13+17 من الجهة المصابة فقط.'],
+['الثعلبة والصدفية والأكزيما والخدر والتنميل والرضوض والبرودة',[],'مواضعها فوقها تماماً؛ فإذا تعذر وضع الكؤوس لضيق المكان أو التهاب الموضع أو انتفاخه فتكون الأكواب حواليه لا عليه.'],
+['مشاكل المرارة',['6','28','29','32','33'],''],
+['مشاكل الطحال',['6','30','31','34','35'],''],
+['الصداع العام والنصفي (الشقيقة)',['1','20','21','6','26','27'],''],
+['أملاح القدم',['9','10'],'يفضل إضافة 6+26+27+28+30.'],
+['آلام الرقبة',['4','5','6'],'مع تدليك الرقبة بالزيوت.'],
+['آلام الأبهر',['6','22','23','26','27','28','30'],'تضاف مواضع التشنج والألم.'],
+['الناسور',['6','38','39','40','9','10'],'تضاف الحجامة فوق الناسور.'],
+['السعال بأنواعه',['6','26','27','28','30','50','51','52','55','56','57','58'],''],
+['كثرة النوم',['1','20','21','6','27','28','30'],''],
+['أورام المخ',['20','21','1'],'تضاف الحجامة فوق الورم أو حواليه.'],
+['إجهاد النظر',['1','13.1','13.2','14.1','14.2','15.1','15.2','20','21'],''],
+['الإمساك',['6','38','39','40','9','10'],''],
+['الدورة الشهرية عند النساء',['6','38','39','40','41','42','43','4','5'],''],
+['نزيف الرحم',['6','38','39','40','41','42','43'],'المواضع 38-43 تكون حجامات جافة.'],
+['إفرازات مهبلية',['6','38','39','40','70','71','72','73'],''],
+['مشاكل الحيض عند الفتيات',['6','38','39','40','70','71','72','73'],'المواضع 70-73 جافة.'],
+['تنشيط المبايض والرحم ومشاكلهما',['6','38','39','40','41','42','43','ت32','ت34','72','73'],''],
+['دوخة',['1','20','21','19'],''],
+['دمامل وخراجات',[],'فوق الخراج مباشرة وحواليه؛ إلا إذا كان ملتهباً فيقتصر على حواليه. وإذا كان سبب الإصابة السكري فيجب حجامة السكري.'],
+['تنشيط الدورة الدموية',['1','20','21','6','26','27','28','30'],''],
+['الاكتئاب',['1','4','5','6','26','27','20','21','38','39','40'],''],
+['الأنفلونزا',['98.1','98.2','18','1','26','27'],'قد تضاف حجامة الجهاز المناعي.'],
+['التسمم',['6','26','27','30','31','62','63'],''],
+['مشاكل المثانة',['6','41','42','43','70','71','72','73'],''],
+['الأرق',['1','20','21','6','26','27','38','39','40'],''],
+['خشونة الركبة',['80/1','80/2','94/1','94/2','97/1','97/2','88/1','88/2'],''],
+['التهابات اللثة ووجع الأسنان والقلاع',['18','17.1','17.2'],'']];
+// ================= license / pin / boot =================
 function codeOK(c){return /^HT-[A-Z0-9]{4}-[A-Z0-9]{4}$/i.test((c||'').trim())}
 function activate(){var n=document.getElementById('lic-name').value.trim(),c=document.getElementById('lic-code').value.trim().toUpperCase();
-if(!n){setErr('دخل اسم المركز/الممارس');return}
-if(!codeOK(c)){setErr('الكود خاصو يكون بصيغة HT-XXXX-XXXX');return}
+if(!n){document.getElementById('lic-err').textContent='دخل اسم المركز/الممارس';return}
+if(!codeOK(c)){document.getElementById('lic-err').textContent='الكود خاصو يكون بصيغة HT-XXXX-XXXX';return}
 save(LS.lic,{name:n,code:c,at:new Date().toISOString()});boot()}
-function setErr(t){document.getElementById('lic-err').textContent=t}
-// ---------- PIN ----------
 function pinSet(){return !!localStorage.getItem(LS.pin)}
 function savePin(){var p=document.getElementById('pin-new').value.trim();
 if(p){save(LS.pin,p);alert('تفعّل الرقم السري — غادي يتطلب في الفتح الجاي.')}else{localStorage.removeItem(LS.pin);alert('تلغى الرقم السري.')}}
-function unlock(){if(document.getElementById('pin-in').value===load(LS.pin,'')){sessionStorage.setItem('ht_unlocked','1');boot()}else{document.getElementById('pin-err').textContent='رقم غير صحيح'}}
-// ---------- boot ----------
+function unlock(){if(document.getElementById('pin-in').value===load(LS.pin,'')){sessionStorage.setItem('ht2_unlocked','1');boot()}else{document.getElementById('pin-err').textContent='رقم غير صحيح'}}
 function boot(){var lic=load(LS.lic,null);
 document.getElementById('gate').style.display=lic?'none':'';
 document.getElementById('lock').style.display='none';document.getElementById('app').style.display='none';
 if(!lic)return;
 document.getElementById('lic-line').textContent='مرخّص لـ: '+lic.name+' · كود '+lic.code;
-document.getElementById('lic-info').innerHTML='النسخة مرخّصة لـ <b>'+esc(lic.name)+'</b> (كود '+esc(lic.code)+') — التفعيل تم '+new Date(lic.at).toLocaleDateString('fr-MA')+'. الاسم كيظهر في الواجهة وأي تقرير مطبوع من نسختك.';
-if(pinSet()&&sessionStorage.getItem('ht_unlocked')!=='1'){document.getElementById('lock').style.display='';return}
+document.getElementById('lic-info').innerHTML='النسخة مرخّصة لـ <b>'+esc(lic.name)+'</b> (كود '+esc(lic.code)+') — التفعيل تم '+new Date(lic.at).toLocaleDateString('fr-MA')+'.';
+if(pinSet()&&sessionStorage.getItem('ht2_unlocked')!=='1'){document.getElementById('lock').style.display='';return}
 document.getElementById('app').style.display='';
 document.getElementById('ver-line').textContent='v'+APP_VERSION;
-renderClients();renderClientOptions();renderRecords();drawMap();checkUpdate(false)}
-// ---------- tabs ----------
+renderClients();renderClientOptions();renderRecords();drawMap();renderDiseases();checkUpdate(false)}
 document.querySelectorAll('.tabs button').forEach(function(b){b.addEventListener('click',function(){
 document.querySelectorAll('.tabs button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');
 ['clients','session','records','settings'].forEach(function(t){document.getElementById('tab-'+t).style.display=(t===b.dataset.tab)?'':'none'})})});
-// ---------- clients ----------
+// ================= clients =================
 function addClient(){var n=document.getElementById('c-name').value.trim();if(!n){alert('اسم الزبون ضروري');return}
 var flags=[];document.querySelectorAll('#c-flags input:checked').forEach(function(x){flags.push(x.value)});
 var cs=load(LS.clients,[]);cs.push({id:Date.now(),name:n,phone:document.getElementById('c-phone').value.trim(),age:document.getElementById('c-age').value,sex:document.getElementById('c-sex').value,flags:flags,notes:document.getElementById('c-notes').value.trim()});
-save(LS.clients,cs);document.getElementById('c-name').value='';document.getElementById('c-phone').value='';document.getElementById('c-age').value='';document.getElementById('c-notes').value='';
+save(LS.clients,cs);['c-name','c-phone','c-age','c-notes'].forEach(function(i){document.getElementById(i).value=''});
 document.querySelectorAll('#c-flags input').forEach(function(x){x.checked=false});
 renderClients();renderClientOptions()}
 function delClient(id){if(!confirm('حذف الزبون وجلساتو؟'))return;
@@ -268,50 +342,45 @@ tb.innerHTML+='<tr><td><b>'+esc(c.name)+'</b>'+(c.notes?'<br><span class="note">
 if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">ما كاين حتى زبون — زيد أول زبون من الفوق.</td></tr>'}
 function renderClientOptions(){var sel=document.getElementById('s-client');var cs=load(LS.clients,[]);
 sel.innerHTML=cs.length?cs.map(function(c){return '<option value="'+c.id+'">'+esc(c.name)+'</option>'}).join(''):'<option value="">— زيد زبون أولاً —</option>'}
-// ---------- map ----------
-var POINTS_BACK=[{n:'الكاهل (بين الكتفين أعلى الظهر)',x:100,y:86,r:['sunnah','prev','neck','headache','fatigue'],d:'نقطة الوقاية الأولى — تقليدياً للتعب العام وآلام الرقبة والكتفين والصداع'}, {n:'لوح الكتف الأيمن',x:72,y:108,r:['neck','back','chest'],d:'لآلام الكتف وأعلى الظهر والشد العضلي'}, {n:'لوح الكتف الأيسر',x:128,y:108,r:['neck','back','chest'],d:'لآلام الكتف وأعلى الظهر والشد العضلي'}, {n:'وسط الظهر',x:100,y:140,r:['back','digestive'],d:'لآلام الظهر واضطرابات المعدة'}, {n:'أسفل الظهر الأيمن (القطن)',x:76,y:168,r:['lowerback'],d:'لآلام أسفل الظهر وعرق النسا'}, {n:'أسفل الظهر الأيسر (القطن)',x:124,y:168,r:['lowerback'],d:'لآلام أسفل الظهر وعرق النسا'}, {n:'الورك الأيمن',x:66,y:196,r:['lowerback','joints'],d:'لعرق النسا وآلام الورك والمفاصل'}, {n:'الورك الأيسر',x:134,y:196,r:['lowerback','joints'],d:'لعرق النسا وآلام الورك والمفاصل'}, {n:'خلف الركبة اليمنى',x:82,y:268,r:['joints','fatigue'],d:'لآلام الركبة وثقل الساقين'}, {n:'خلف الركبة اليسرى',x:118,y:268,r:['joints','fatigue'],d:'لآلام الركبة وثقل الساقين'}];
-var POINTS_FRONT=[{n:'الأخدع الأيمن (جانب الرقبة)',x:84,y:62,r:['sunnah','prev','headache','neck','stress'],d:'من مواضع الحجامة النبوية — للصداع والشقيقة وآلام الرقبة'}, {n:'الأخدع الأيسر (جانب الرقبة)',x:116,y:62,r:['sunnah','prev','headache','neck','stress'],d:'من مواضع الحجامة النبوية — للصداع والشقيقة وآلام الرقبة'}, {n:'أعلى الصدر',x:100,y:102,r:['chest','stress'],d:'لضيق الصدر والتوتر'}, {n:'فم المعدة',x:100,y:138,r:['digestive'],d:'لمشاكل المعدة والهضم'}, {n:'السرة وما حولها',x:100,y:168,r:['digestive'],d:'للقولون وآلام البطن'}, {n:'الفخذ الأيمن',x:78,y:214,r:['joints','fatigue'],d:'لآلام الفخذ والساق'}, {n:'الفخذ الأيسر',x:122,y:214,r:['joints','fatigue'],d:'لآلام الفخذ والساق'}, {n:'ظاهر القدم اليمنى',x:80,y:330,r:['sunnah','prev','fatigue','joints'],d:'من مواضع الحجامة النبوية — للتعب العام وثقل الساقين'}, {n:'ظاهر القدم اليسرى',x:120,y:330,r:['sunnah','prev','fatigue','joints'],d:'من مواضع الحجامة النبوية — للتعب العام وثقل الساقين'}];
-var PROBLEMS={'sunnah':'نقاط السنة النبوية','prev':'وقاية عامة وتجديد','back':'آلام الظهر','lowerback':'أسفل الظهر وعرق النسا','neck':'الرقبة والكتفان','headache':'الصداع والشقيقة','joints':'المفاصل والركبة','fatigue':'التعب والخمول','digestive':'الهضم والقولون','stress':'التوتر والأرق','chest':'ضيق الصدر والتنفس'};
+// ================= map & selection =================
 var view='back',selected={};
-function bodySVG(){return '<ellipse cx="100" cy="34" rx="20" ry="24" fill="#DCEFE1"/><path d="M78 56 Q100 48 122 56 L132 120 Q136 170 128 210 L126 300 Q125 322 116 322 L108 322 Q104 322 103 300 L101 230 L99 300 Q98 322 92 322 L84 322 Q75 322 74 300 L72 210 Q64 170 68 120 Z" fill="#DCEFE1"/><path d="M70 66 Q52 74 50 120 L54 190 Q55 202 63 200 Q70 198 69 186 L66 124 Q66 84 76 72 Z" fill="#DCEFE1"/><path d="M130 66 Q148 74 150 120 L146 190 Q145 202 137 200 Q130 198 131 186 L134 124 Q134 84 124 72 Z" fill="#DCEFE1"/>'}
-function setView(v){view=v;document.getElementById('v-back').classList.toggle('on',v==='back');document.getElementById('v-front').classList.toggle('on',v==='front');drawMap()}
-function drawMap(){var pts=view==='back'?POINTS_BACK:POINTS_FRONT;var circles='';
-pts.forEach(function(p,i){var key=view+i;var sel=selected[key];
-circles+='<g class="pt'+(sel?' sel':'')+'" onclick="togglePt(\''+key+'\')"><circle class="core" cx="'+p.x+'" cy="'+p.y+'" r="13"/><text x="'+p.x+'" y="'+(p.y+5)+'" text-anchor="middle" font-size="12">'+(i+1)+'</text></g>'});
-document.getElementById('map-holder').innerHTML='<svg viewBox="0 0 200 350" style="max-width:300px;width:100%">'+bodySVG()+circles+'</svg>';
+function setView(v){view=v;['back','front','face'].forEach(function(x){document.getElementById('v-'+x).classList.toggle('on',x===v)});drawMap()}
+function drawMap(){var st=document.getElementById('mapstage');
+var badges=REG[view].map(function(p){var sel=selected[p[0]];var small=p[0].length>3?' small':'';
+return '<button class="bdg'+(sel?' sel':'')+small+'" style="left:'+p[1]+'%;top:'+p[2]+'%" onclick="togglePt(\''+p[0]+'\')">'+p[0]+'</button>'}).join('');
+st.innerHTML='<img src="assets/map-'+view+'.png" alt="خريطة المواضع">'+badges;
 renderPtList()}
-function ptByKey(key){var arr=key.indexOf('back')===0?POINTS_BACK:POINTS_FRONT;return arr[+key.replace('back','').replace('front','')]}
-function togglePt(key){if(selected[key])delete selected[key];else selected[key]=ptByKey(key).n;drawMap()}
-function renderPtList(){var names=Object.values(selected);document.getElementById('pt-count').textContent=names.length;
-document.getElementById('pt-list').innerHTML=names.length?names.map(function(n){return '<span class="flag" style="background:var(--soft);color:var(--ink)">'+esc(n)+'</span>'}).join(' '):'<span class="note">ما اخترتي حتى نقطة بعد — قلب في الخريطة وضغط على النقاط.</span>'}
-// ---------- smart assistant ----------
-function applyPreventive(){selected={};collectByRoles(['prev'],false)}
-function applySunnah(){selected={};collectByRoles(['sunnah'],false)}
-function collectByRoles(roles,append){if(!append)selected={};
-[['back',POINTS_BACK],['front',POINTS_FRONT]].forEach(function(pair){pair[1].forEach(function(p,i){if(p.r.some(function(r){return roles.indexOf(r)>-1}))selected[pair[0]+i]=p.n})});
-drawMap();renderSuggest(roles)}
-function suggestPoints(){var roles=[];document.querySelectorAll('#ai-problems input:checked').forEach(function(x){roles.push(x.value)});
-if(!roles.length){document.getElementById('ai-out').innerHTML='<span class="note" style="color:var(--red)">اختار مشكلة وحدة على الأقل.</span>';return}
-collectByRoles(roles,false)}
-function renderSuggest(roles){var seen={},rows=[];
-[['back',POINTS_BACK],['front',POINTS_FRONT]].forEach(function(pair){pair[1].forEach(function(p,i){if(selected[pair[0]+i]){if(!seen[p.n]){seen[p.n]=1;rows.push('<tr><td><b>'+esc(p.n)+'</b></td><td>'+esc(p.d)+'</td></tr>')}}})});
-document.getElementById('ai-out').innerHTML=rows.length?('<table><thead><tr><th>النقطة المقترحة</th><th>دورها التقليدي</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="note" style="margin-top:8px">هاد الاقتراحات مرجعية من أدبيات الحجامة وخرائطها، ماشي تشخيصاً طبياً — القرار النهائي للممارس المدرب، ويقدر يبدل أي نقطة من الخريطة قبل الحفظ.</p>'):''}
-function toggleAI(){var el=document.getElementById('ai-panel');el.style.display=el.style.display==='none'?'':'none';
-if(!document.getElementById('ai-problems').innerHTML){document.getElementById('ai-problems').innerHTML=Object.keys(PROBLEMS).map(function(k){return '<label class="chk"><input type="checkbox" value="'+k+'"> '+PROBLEMS[k]+'</label>'}).join('')}}
+function togglePt(id){if(selected[id])delete selected[id];else selected[id]=1;drawMap()}
+function renderPtList(){var ids=Object.keys(selected);
+ids.sort(function(a,b){return (parseFloat(a)||999)-(parseFloat(b)||999)});
+document.getElementById('pt-count').textContent=ids.length;
+document.getElementById('pt-list').innerHTML=ids.length?ids.map(function(i){return '<span class="ptag">موضع '+esc(i)+'</span>'}).join(' '):'<span class="note">ما اخترتي حتى موضع — ضغط على الأرقام في الخريطة، ولا استعمل السنة/الوقائية/المساعد الذكي.</span>'}
+function selectMany(ids,note){selected={};ids.forEach(function(i){selected[i]=1});drawMap();
+if(note!==undefined)document.getElementById('ai-out').innerHTML=note?('<p class="note" style="background:var(--soft);border-radius:10px;padding:10px 12px">'+esc(note)+'</p>'):''}
+function applySunnah(){selectMany(SUNNAH)}
+function applyPreventive(){selectMany(PREVENTIVE)}
 function clearSelection(){selected={};drawMap();document.getElementById('ai-out').innerHTML=''}
-// ---------- sessions ----------
+// ================= smart assistant =================
+function toggleAI(){var el=document.getElementById('ai-panel');el.style.display=el.style.display==='none'?'':'none'}
+function renderDiseases(){var q=(document.getElementById('dz-q').value||'').trim();
+var el=document.getElementById('dz-list');
+el.innerHTML=DISEASES.filter(function(d){return !q||d[0].indexOf(q)>-1}).map(function(d,i){
+return '<button onclick="pickDisease('+DISEASES.indexOf(d)+')">'+esc(d[0])+'</button>'}).join('')||'<span class="note">ما لقينا حتى حالة بهاد الاسم.</span>'}
+function pickDisease(i){var d=DISEASES[i];selectMany(d[1],d[2]);
+document.getElementById('ai-out').innerHTML='<p style="font-weight:800">✓ '+esc(d[0])+' — تحددات '+d[1].length+' مواضع في الخريطة (بدّل العرض: ظهر/أمام/وجه باش تشوفهم كاملين).</p>'+(d[2]?'<p class="note" style="background:var(--soft);border-radius:10px;padding:10px 12px;margin-top:6px">'+esc(d[2])+'</p>':'')}
+// ================= sessions =================
 document.getElementById('s-date').value=new Date().toISOString().slice(0,10);
 function saveSession(){var cid=+document.getElementById('s-client').value;if(!cid){alert('اختار الزبون');return}
-var pts=Object.values(selected);if(!pts.length){alert('اختار نقطة وحدة على الأقل من الخريطة');return}
+var pts=Object.keys(selected);if(!pts.length){alert('اختار موضع واحد على الأقل');return}
 var ss=load(LS.sessions,[]);ss.push({id:Date.now(),client:cid,date:document.getElementById('s-date').value,type:document.getElementById('s-type').value,dur:document.getElementById('s-dur').value,points:pts,notes:document.getElementById('s-notes').value.trim(),after:document.getElementById('s-after').checked,consent:document.getElementById('s-consent').checked});
 save(LS.sessions,ss);selected={};drawMap();document.getElementById('s-notes').value='';
 document.getElementById('s-msg').textContent='تسجلات الجلسة ✓';renderRecords();renderClients()}
 function delSession(id){save(LS.sessions,load(LS.sessions,[]).filter(function(s){return s.id!==id}));renderRecords();renderClients()}
 function renderRecords(){var cs=load(LS.clients,[]);var byId={};cs.forEach(function(c){byId[c.id]=c.name});
 var ss=load(LS.sessions,[]).slice().sort(function(a,b){return b.id-a.id});var tb=document.getElementById('r-body');tb.innerHTML='';
-ss.forEach(function(s){tb.innerHTML+='<tr><td>'+esc(s.date)+'</td><td><b>'+esc(byId[s.client]||'—')+'</b></td><td>'+esc(s.type)+(s.dur?' · '+esc(s.dur)+'د':'')+'</td><td>'+s.points.map(esc).join('، ')+'</td><td>'+esc(s.notes||'')+(s.consent?' ✓ موافقة':'')+(s.after?' ✓ تعليمات':'')+'</td><td><button class="btn ghost" onclick="delSession('+s.id+')">حذف</button></td></tr>'});
+ss.forEach(function(s){tb.innerHTML+='<tr><td>'+esc(s.date)+'</td><td><b>'+esc(byId[s.client]||'—')+'</b></td><td>'+esc(s.type)+(s.dur?' · '+esc(s.dur)+'د':'')+'</td><td>'+s.points.map(function(p){return 'موضع '+esc(p)}).join('، ')+'</td><td>'+esc(s.notes||'')+(s.consent?' ✓ موافقة':'')+(s.after?' ✓ تعليمات':'')+'</td><td><button class="btn ghost" onclick="delSession('+s.id+')">حذف</button></td></tr>'});
 if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">ما كاينة حتى جلسة مسجلة بعد.</td></tr>'}
-// ---------- backup (optional AES-GCM encryption) ----------
+// ================= backup =================
 function dl(name,text){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'application/json'}));a.download=name;a.click()}
 async function exportData(){var data={lic:load(LS.lic,null),clients:load(LS.clients,[]),sessions:load(LS.sessions,[]),v:APP_VERSION};
 var pass=document.getElementById('bk-pass').value;
@@ -332,7 +401,7 @@ var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:ub(obj.salt),iteration
 var pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:ub(obj.iv)},key,ub(obj.data));obj=JSON.parse(dec.decode(pt))}catch(e){alert('كلمة سر خاطئة ولا ملف تالف');return}}
 if(obj.clients)save(LS.clients,obj.clients);if(obj.sessions)save(LS.sessions,obj.sessions);
 alert('تم الاستيراد ✓');renderClients();renderClientOptions();renderRecords()}
-// ---------- update check ----------
+// ================= update =================
 function verCmp(a,b){var x=a.split('.').map(Number),y=b.split('.').map(Number);for(var i=0;i<3;i++){if(x[i]>y[i])return 1;if(x[i]<y[i])return -1}return 0}
 function checkUpdate(manual){fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){
 if(d.version&&verCmp(d.version,APP_VERSION)>0){var b=document.getElementById('upd-banner');b.style.display='';
