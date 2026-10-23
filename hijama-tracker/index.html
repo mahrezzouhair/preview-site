@@ -154,6 +154,18 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
             <p class="note" style="margin-top:10px">الخريطة مرجعية عملية للممارس المدرب، مبنية على المواضع المتداولة في كتب الحجامة وخرائط WFAS — والتحديد النهائي كيبقى لتقدير الممارس حسب الحالة.</p>
           </div>
         </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+          <button class="btn dark" onclick="applyPreventive()">🛡️ الحجامة الوقائية</button>
+          <button class="btn dark" onclick="toggleAI()">🤖 المساعد الذكي</button>
+          <button class="btn ghost" onclick="clearSelection()">مسح الاختيار</button>
+        </div>
+        <div id="ai-panel" style="display:none;margin-top:16px;border:1.5px dashed var(--green);border-radius:16px;padding:16px">
+          <b>🤖 المساعد الذكي — شنو هي مشاكل الزبون؟</b>
+          <p class="note">اختار المشاكل، والمساعد غادي يحدد ليك النقاط المناسبة من الخرائط على حساب دور كل نقطة، وتبقى تقدر تعدّل قبل الحفظ.</p>
+          <div id="ai-problems" style="display:flex;gap:12px;flex-wrap:wrap;margin:10px 0"></div>
+          <button class="btn" onclick="suggestPoints()">اقترح النقاط</button>
+          <div id="ai-out" style="margin-top:12px"></div>
+        </div>
         <button class="btn" style="margin-top:16px" onclick="saveSession()">حفظ الجلسة</button>
         <span class="note" id="s-msg" style="margin-right:10px"></span>
       </div>
@@ -204,7 +216,7 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
 <footer>متتبّع الحجامة الاحترافي — منتج من زهير محرز / بيت الوقاية · البيانات ديالك كتبقى عندك، في جهازك</footer>
 
 <script>
-var APP_VERSION='1.0.0';
+var APP_VERSION='1.1.0';
 var LS={lic:'ht_lic',clients:'ht_clients',sessions:'ht_sessions',pin:'ht_pin'};
 function load(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
@@ -256,19 +268,35 @@ if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">ما كاين حتى زبون
 function renderClientOptions(){var sel=document.getElementById('s-client');var cs=load(LS.clients,[]);
 sel.innerHTML=cs.length?cs.map(function(c){return '<option value="'+c.id+'">'+esc(c.name)+'</option>'}).join(''):'<option value="">— زيد زبون أولاً —</option>'}
 // ---------- map ----------
-var POINTS_BACK=[['الكاهل (بين الكتفين أعلى الظهر)',100,86],['لوح الكتف الأيمن',72,108],['لوح الكتف الأيسر',128,108],['وسط الظهر',100,140],['أسفل الظهر الأيمن (القطن)',76,168],['أسفل الظهر الأيسر (القطن)',124,168],['الورك الأيمن',66,196],['الورك الأيسر',134,196],['خلف الركبة اليمنى',82,268],['خلف الركبة اليسرى',118,268]];
-var POINTS_FRONT=[['الأخدع الأيمن (جانب الرقبة)',84,62],['الأخدع الأيسر (جانب الرقبة)',116,62],['أعلى الصدر',100,102],['فم المعدة',100,138],['السرة وما حولها',100,168],['الفخذ الأيمن',78,214],['الفخذ الأيسر',122,214],['ظاهر القدم اليمنى',80,330],['ظاهر القدم اليسرى',120,330]];
+var POINTS_BACK=[{n:'الكاهل (بين الكتفين أعلى الظهر)',x:100,y:86,r:['prev','neck','headache','fatigue'],d:'نقطة الوقاية الأولى — تقليدياً للتعب العام وآلام الرقبة والكتفين والصداع'}, {n:'لوح الكتف الأيمن',x:72,y:108,r:['neck','back','chest'],d:'لآلام الكتف وأعلى الظهر والشد العضلي'}, {n:'لوح الكتف الأيسر',x:128,y:108,r:['neck','back','chest'],d:'لآلام الكتف وأعلى الظهر والشد العضلي'}, {n:'وسط الظهر',x:100,y:140,r:['back','digestive'],d:'لآلام الظهر واضطرابات المعدة'}, {n:'أسفل الظهر الأيمن (القطن)',x:76,y:168,r:['lowerback'],d:'لآلام أسفل الظهر وعرق النسا'}, {n:'أسفل الظهر الأيسر (القطن)',x:124,y:168,r:['lowerback'],d:'لآلام أسفل الظهر وعرق النسا'}, {n:'الورك الأيمن',x:66,y:196,r:['lowerback','joints'],d:'لعرق النسا وآلام الورك والمفاصل'}, {n:'الورك الأيسر',x:134,y:196,r:['lowerback','joints'],d:'لعرق النسا وآلام الورك والمفاصل'}, {n:'خلف الركبة اليمنى',x:82,y:268,r:['joints','fatigue'],d:'لآلام الركبة وثقل الساقين'}, {n:'خلف الركبة اليسرى',x:118,y:268,r:['joints','fatigue'],d:'لآلام الركبة وثقل الساقين'}];
+var POINTS_FRONT=[{n:'الأخدع الأيمن (جانب الرقبة)',x:84,y:62,r:['prev','headache','neck','stress'],d:'من مواضع الحجامة النبوية — للصداع والشقيقة وآلام الرقبة'}, {n:'الأخدع الأيسر (جانب الرقبة)',x:116,y:62,r:['prev','headache','neck','stress'],d:'من مواضع الحجامة النبوية — للصداع والشقيقة وآلام الرقبة'}, {n:'أعلى الصدر',x:100,y:102,r:['chest','stress'],d:'لضيق الصدر والتوتر'}, {n:'فم المعدة',x:100,y:138,r:['digestive'],d:'لمشاكل المعدة والهضم'}, {n:'السرة وما حولها',x:100,y:168,r:['digestive'],d:'للقولون وآلام البطن'}, {n:'الفخذ الأيمن',x:78,y:214,r:['joints','fatigue'],d:'لآلام الفخذ والساق'}, {n:'الفخذ الأيسر',x:122,y:214,r:['joints','fatigue'],d:'لآلام الفخذ والساق'}, {n:'ظاهر القدم اليمنى',x:80,y:330,r:['prev','fatigue','joints'],d:'من مواضع الحجامة النبوية — للتعب العام وثقل الساقين'}, {n:'ظاهر القدم اليسرى',x:120,y:330,r:['prev','fatigue','joints'],d:'من مواضع الحجامة النبوية — للتعب العام وثقل الساقين'}];
+var PROBLEMS={'prev':'وقاية عامة وتجديد','back':'آلام الظهر','lowerback':'أسفل الظهر وعرق النسا','neck':'الرقبة والكتفان','headache':'الصداع والشقيقة','joints':'المفاصل والركبة','fatigue':'التعب والخمول','digestive':'الهضم والقولون','stress':'التوتر والأرق','chest':'ضيق الصدر والتنفس'};
 var view='back',selected={};
 function bodySVG(){return '<ellipse cx="100" cy="34" rx="20" ry="24" fill="#DCEFE1"/><path d="M78 56 Q100 48 122 56 L132 120 Q136 170 128 210 L126 300 Q125 322 116 322 L108 322 Q104 322 103 300 L101 230 L99 300 Q98 322 92 322 L84 322 Q75 322 74 300 L72 210 Q64 170 68 120 Z" fill="#DCEFE1"/><path d="M70 66 Q52 74 50 120 L54 190 Q55 202 63 200 Q70 198 69 186 L66 124 Q66 84 76 72 Z" fill="#DCEFE1"/><path d="M130 66 Q148 74 150 120 L146 190 Q145 202 137 200 Q130 198 131 186 L134 124 Q134 84 124 72 Z" fill="#DCEFE1"/>'}
 function setView(v){view=v;document.getElementById('v-back').classList.toggle('on',v==='back');document.getElementById('v-front').classList.toggle('on',v==='front');drawMap()}
 function drawMap(){var pts=view==='back'?POINTS_BACK:POINTS_FRONT;var circles='';
 pts.forEach(function(p,i){var key=view+i;var sel=selected[key];
-circles+='<g class="pt'+(sel?' sel':'')+'" onclick="togglePt(\''+key+'\',\''+p[0].replace(/'/g,'')+'\')"><circle class="core" cx="'+p[1]+'" cy="'+p[2]+'" r="13"/><text x="'+p[1]+'" y="'+(p[2]+5)+'" text-anchor="middle" font-size="12">'+(i+1)+'</text></g>'});
+circles+='<g class="pt'+(sel?' sel':'')+'" onclick="togglePt(\''+key+'\')"><circle class="core" cx="'+p.x+'" cy="'+p.y+'" r="13"/><text x="'+p.x+'" y="'+(p.y+5)+'" text-anchor="middle" font-size="12">'+(i+1)+'</text></g>'});
 document.getElementById('map-holder').innerHTML='<svg viewBox="0 0 200 350" style="max-width:300px;width:100%">'+bodySVG()+circles+'</svg>';
 renderPtList()}
-function togglePt(key,name){if(selected[key])delete selected[key];else selected[key]=name;drawMap()}
+function ptByKey(key){var arr=key.indexOf('back')===0?POINTS_BACK:POINTS_FRONT;return arr[+key.replace('back','').replace('front','')]}
+function togglePt(key){if(selected[key])delete selected[key];else selected[key]=ptByKey(key).n;drawMap()}
 function renderPtList(){var names=Object.values(selected);document.getElementById('pt-count').textContent=names.length;
 document.getElementById('pt-list').innerHTML=names.length?names.map(function(n){return '<span class="flag" style="background:var(--soft);color:var(--ink)">'+esc(n)+'</span>'}).join(' '):'<span class="note">ما اخترتي حتى نقطة بعد — قلب في الخريطة وضغط على النقاط.</span>'}
+// ---------- smart assistant ----------
+function applyPreventive(){selected={};collectByRoles(['prev'],false)}
+function collectByRoles(roles,append){if(!append)selected={};
+[['back',POINTS_BACK],['front',POINTS_FRONT]].forEach(function(pair){pair[1].forEach(function(p,i){if(p.r.some(function(r){return roles.indexOf(r)>-1}))selected[pair[0]+i]=p.n})});
+drawMap();renderSuggest(roles)}
+function suggestPoints(){var roles=[];document.querySelectorAll('#ai-problems input:checked').forEach(function(x){roles.push(x.value)});
+if(!roles.length){document.getElementById('ai-out').innerHTML='<span class="note" style="color:var(--red)">اختار مشكلة وحدة على الأقل.</span>';return}
+collectByRoles(roles,false)}
+function renderSuggest(roles){var seen={},rows=[];
+[['back',POINTS_BACK],['front',POINTS_FRONT]].forEach(function(pair){pair[1].forEach(function(p,i){if(selected[pair[0]+i]){if(!seen[p.n]){seen[p.n]=1;rows.push('<tr><td><b>'+esc(p.n)+'</b></td><td>'+esc(p.d)+'</td></tr>')}}})});
+document.getElementById('ai-out').innerHTML=rows.length?('<table><thead><tr><th>النقطة المقترحة</th><th>دورها التقليدي</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="note" style="margin-top:8px">هاد الاقتراحات مرجعية من أدبيات الحجامة وخرائطها، ماشي تشخيصاً طبياً — القرار النهائي للممارس المدرب، ويقدر يبدل أي نقطة من الخريطة قبل الحفظ.</p>'):''}
+function toggleAI(){var el=document.getElementById('ai-panel');el.style.display=el.style.display==='none'?'':'none';
+if(!document.getElementById('ai-problems').innerHTML){document.getElementById('ai-problems').innerHTML=Object.keys(PROBLEMS).map(function(k){return '<label class="chk"><input type="checkbox" value="'+k+'"> '+PROBLEMS[k]+'</label>'}).join('')}}
+function clearSelection(){selected={};drawMap();document.getElementById('ai-out').innerHTML=''}
 // ---------- sessions ----------
 document.getElementById('s-date').value=new Date().toISOString().slice(0,10);
 function saveSession(){var cid=+document.getElementById('s-client').value;if(!cid){alert('اختار الزبون');return}
