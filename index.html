@@ -49,7 +49,7 @@ nav.main a:hover, nav.main a.active{background:#1B2E23;color:#fff}
 .burger{display:none;background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer;line-height:1}
 /* Hero */
 .hero{background:var(--dark);color:#fff;position:relative;overflow:hidden;padding:70px 0 90px}
-.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(30,215,96,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(30,215,96,.05) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,rgba(30,215,96,.14) 1.6px,transparent 1.7px),radial-gradient(circle,rgba(30,215,96,.06) 1.6px,transparent 1.7px);background-size:26px 26px,26px 26px;background-position:0 0,13px 13px;pointer-events:none}
 .hero::after{content:"";position:absolute;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(30,215,96,.20),transparent 65%);top:-180px;left:-120px;pointer-events:none}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;position:relative;z-index:1}
 .badge-new{display:inline-flex;align-items:center;gap:8px;background:#14261B;border:1px solid #274434;color:#D9F5E3;font-weight:700;font-size:.88rem;padding:6px 14px;border-radius:999px;margin-bottom:20px}
@@ -192,7 +192,7 @@ footer a:hover{color:var(--neon)}
     <div class="reveal visible">
       <span class="badge-new"><b>جديد</b> دورة الحجامة وخرائطها — التسجيل كيفتح قريباً</span>
       <h1>صحّتك تستاهل <span class="wave">الحقيقة<svg viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M2 9 Q 30 2 60 8 T 118 6" fill="none" stroke="#1ED760" stroke-width="4" stroke-linecap="round"/></svg></span>،<br>ماشي <span class="grad">الخرافات</span></h1>
-      <p class="sub">أنا زهير محرز — صانع محتوى صحي بالدارجة، مؤسس بيت الوقاية، ومدرّب حجامة وتقويم العظام. كنفكّك المغالطات الصحية بالأدلة العلمية، وكنبني أدوات ودورات تخليك تفهم جسمك وتاخد القرار الصح.</p>
+      <p class="sub">أنا زهير محرز — صانع محتوى صحي بالدارجة، مؤسس بيت الوقاية، ومدرّب وباحث في الحجامة وتقويم العظام والوخز بالإبر الصينية. كنفكّك المغالطات الصحية بالأدلة العلمية، وكنبني أدوات ودورات تخليك تفهم جسمك وتاخد القرار الصح.</p>
       <div class="hero-btns">
         <a class="btn btn-primary" href="#tools">جرّب الأدوات المجانية</a>
         <a class="btn btn-ghost" href="#courses">اكتشف الدورات</a>
@@ -208,14 +208,14 @@ footer a:hover{color:var(--neon)}
     <div class="photo-card reveal visible">
       <div class="frame"><img src="assets/zouhair.jpg" alt="زهير محرز — صانع محتوى صحي"></div>
       <div class="chip-float chip-a"><span class="dot">🔬</span><span>تصحيح الخرافات<small>بالأدلة والمصادر</small></span></div>
-      <div class="chip-float chip-b"><span class="dot">🎓</span><span>دورات متخصصة<small>حجامة · تقويم العظام</small></span></div>
+      <div class="chip-float chip-b"><span class="dot">🎓</span><span>دورات متخصصة<small>حجامة · تقويم · وخز بالإبر</small></span></div>
     </div>
   </div>
 </div>
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track" id="marqueeTrack">
-    <span>حاسبة السعرات</span><i>✦</i><span>خرائط الحجامة</span><i>✦</i><span>تقويم العظام</span><i>✦</i><span>حاسبة الماء</span><i>✦</i><span>مخطط الوجبات</span><i>✦</i><span>دورات النوم</span><i>✦</i><span>أغذية مغربية</span><i>✦</i><span>تصحيح الخرافات</span><i>✦</i>
+    <span>حاسبة السعرات</span><i>✦</i><span>خرائط الحجامة</span><i>✦</i><span>تقويم العظام</span><i>✦</i><span>الوخز بالإبر الصينية</span><i>✦</i><span>حاسبة الماء</span><i>✦</i><span>مخطط الوجبات</span><i>✦</i><span>دورات النوم</span><i>✦</i><span>أغذية مغربية</span><i>✦</i><span>تصحيح الخرافات</span><i>✦</i>
   </div>
 </div>
 
@@ -233,14 +233,14 @@ footer a:hover{color:var(--neon)}
       <div class="pillar reveal">
         <div class="num">02 — مؤسس بيت الوقاية</div>
         <h3>مركز الحجامة وتقويم العظام بالدار البيضاء</h3>
-        <p>الخبرة الميدانية اليومية مع المرضى هي مصدر المحتوى والدورات: حجامة، تقويم عظام، وتدليك رياضي.</p>
-        <div class="tags"><span>حجامة</span><span>تقويم العظام</span><span>تدليك رياضي</span></div>
+        <p>الخبرة الميدانية اليومية مع المرضى هي مصدر المحتوى والدورات، في التخصصات الثلاثة: الحجامة، تقويم العظام، والوخز بالإبر الصينية.</p>
+        <div class="tags"><span>حجامة</span><span>تقويم العظام</span><span>وخز بالإبر الصينية</span></div>
         <a class="more" href="https://baytwikaya.site" target="_blank" rel="noopener">زور موقع المركز ←</a>
       </div>
       <div class="pillar reveal">
-        <div class="num">03 — مدرّب معتمد</div>
+        <div class="num">03 — مدرّب وباحث</div>
         <h3>دورات عملية من الصفر للاحتراف</h3>
-        <p>تكوين تطبيقي في الحجامة وخرائطها وتقويم العظام، بدروس مسجلة بالدارجة وشهادة إتمام.</p>
+        <p>تكوين تطبيقي وبحث مستمر في الحجامة وخرائطها وتقويم العظام والوخز بالإبر الصينية، بدروس مسجلة بالدارجة وشهادة إتمام.</p>
         <div class="tags"><span>دورة الحجامة</span><span>خرائط الحجامة</span><span>شهادة إتمام</span></div>
       </div>
     </div>
@@ -340,7 +340,7 @@ footer a:hover{color:var(--neon)}
     <div class="foot-grid">
       <div>
         <a class="logo" href="#"><span class="mark">ز</span> زهير محرز</a>
-        <p style="margin-top:12px;font-size:.93rem">صانع محتوى صحي بالدارجة — محتوى، أدوات، ودورات في الصحة والتغذية والحجامة وتقويم العظام.</p>
+        <p style="margin-top:12px;font-size:.93rem">صانع محتوى صحي بالدارجة — مدرّب وباحث. محتوى، أدوات، ودورات في الصحة والتغذية والحجامة وتقويم العظام والوخز بالإبر الصينية.</p>
         <div class="socials">
           <a href="https://www.instagram.com/mahrezzouhair" target="_blank" rel="noopener" aria-label="إنستغرام">IG</a>
           <a href="https://www.tiktok.com/@mahrezzouhair" target="_blank" rel="noopener" aria-label="تيك توك">TT</a>
