@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>متتبّع الحجامة الاحترافي | زهير محرز</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#0A120F;--dark2:#12241A;--green:#22C55E;--neon:#1ED760;--soft:#E9F9EF;--ink:#14201A;--muted:#5B6B62;--line:#E3EDE6;--red:#B91C1C;--radius:20px;--shadow:0 10px 30px rgba(10,40,25,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',system-ui,sans-serif;background:#F4F8F4;color:var(--ink);line-height:1.75}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:1rem;padding:11px 13px;border:1.5px solid var(--line);border-radius:12px;background:#fff;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green)}
+label{font-weight:800;display:block;margin-bottom:4px;font-size:.93rem}
+header{background:var(--dark);color:#fff;position:sticky;top:0;z-index:50}
+.hin{max-width:1080px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.logo{display:flex;gap:10px;align-items:center;font-weight:900;font-size:1.1rem}
+.mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--green));display:grid;place-items:center;color:#06280F}
+.lic{font-size:.82rem;color:#9FD8AE;font-weight:700}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 18px 70px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tabs button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:9px 18px;font-weight:800}
+.tabs button.on{background:var(--dark);color:#fff;border-color:var(--dark)}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:18px}
+.card h2{font-size:1.2rem;font-weight:900;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.btn{background:var(--neon);color:#06280F;border:none;font-weight:800;padding:11px 22px;border-radius:999px}
+.btn:hover{background:var(--green)}
+.btn.dark{background:var(--dark);color:#fff}.btn.ghost{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.btn.red{background:var(--red);color:#fff}
+.chk{display:flex;gap:8px;align-items:center;font-weight:600}
+.chk input{width:auto}
+.flag{background:#FDECEC;color:var(--red);border-radius:8px;padding:1px 9px;font-size:.8rem;font-weight:800;display:inline-block;margin:2px}
+table{width:100%;border-collapse:collapse;font-size:.94rem}
+th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}
+th{background:#F4FAF5;font-weight:900}
+.note{font-size:.85rem;color:var(--muted)}
+.banner{background:#FFF7E0;border:1.5px solid #EBD9A0;border-radius:14px;padding:12px 16px;margin-bottom:16px;font-weight:700;display:none}
+.gate{max-width:520px;margin:60px auto}
+.pt{cursor:pointer}
+.pt circle.core{fill:#fff;stroke:var(--green);stroke-width:2}
+.pt text{font-family:'Cairo';font-weight:900;fill:var(--green);pointer-events:none}
+.pt.sel circle.core{fill:var(--neon);stroke:#0B3D1E}
+.pt.sel text{fill:#06280F}
+.mapwrap{display:flex;gap:18px;flex-wrap:wrap}
+.mapbox{flex:1;min-width:260px;text-align:center}
+.seg{display:flex;gap:8px;justify-content:center;margin-bottom:10px}
+.seg button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 18px;font-weight:800}
+.seg button.on{background:var(--neon);border-color:var(--neon)}
+footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-size:.85rem}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hin">
+    <div class="logo"><span class="mark">ح</span> متتبّع الحجامة الاحترافي</div>
+    <div class="lic" id="lic-line">غير مفعّل</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="banner" id="upd-banner"></div>
+
+  <!-- Activation gate -->
+  <div id="gate" class="card gate" style="display:none">
+    <h2>🔑 تفعيل النسخة</h2>
+    <p class="note" style="margin-bottom:14px">هاد الأداة خاصة بالممارسين المرخّص لهم. دخل اسم المركز/الممارس كيف ما هو في فاتورتك وكود التفعيل اللي وصلك بعد الشراء — الاسم غادي يظهر في نسختك وتقاريرك.</p>
+    <div style="display:grid;gap:12px">
+      <div><label>اسم المركز أو الممارس</label><input id="lic-name" placeholder="مثال: مركز النور للحجامة"></div>
+      <div><label>كود التفعيل</label><input id="lic-code" placeholder="HT-XXXX-XXXX" dir="ltr" style="text-align:left"></div>
+      <button class="btn" onclick="activate()">تفعيل</button>
+      <p class="note" id="lic-err" style="color:var(--red)"></p>
+      <p class="note">نسخة العرض: أي كود بصيغة HT-XXXX-XXXX كيتقبل. في النسخة التجارية الأكواد كتصدر يدوياً لكل مشتري وكتكون مربوطة باسمو.</p>
+    </div>
+  </div>
+
+  <!-- PIN lock -->
+  <div id="lock" class="card gate" style="display:none">
+    <h2>🔒 الأداة مقفلة</h2>
+    <p class="note" style="margin-bottom:12px">دخل الرقم السري لفتح بيانات الزبناء.</p>
+    <div style="display:grid;gap:12px">
+      <input id="pin-in" type="password" inputmode="numeric" placeholder="الرقم السري">
+      <button class="btn" onclick="unlock()">فتح</button>
+      <p class="note" id="pin-err" style="color:var(--red)"></p>
+    </div>
+  </div>
+
+  <div id="app" style="display:none">
+    <div class="tabs">
+      <button data-tab="clients" class="on">👥 الزبناء</button>
+      <button data-tab="session">➕ جلسة جديدة</button>
+      <button data-tab="records">🗂️ سجل الجلسات</button>
+      <button data-tab="settings">⚙️ الإعدادات والحماية</button>
+    </div>
+
+    <!-- Clients -->
+    <section id="tab-clients">
+      <div class="card">
+        <h2>زبون جديد</h2>
+        <div class="grid">
+          <div><label>الاسم الكامل *</label><input id="c-name"></div>
+          <div><label>الهاتف</label><input id="c-phone" dir="ltr" style="text-align:left"></div>
+          <div><label>العمر</label><input id="c-age" type="number" min="1" max="120"></div>
+          <div><label>الجنس</label><select id="c-sex"><option value="">—</option><option>رجل</option><option>امرأة</option></select></div>
+        </div>
+        <label style="margin-top:12px">موانع وعلامات انتباه (فرز السلامة)</label>
+        <div style="display:flex;gap:14px;flex-wrap:wrap" id="c-flags">
+          <label class="chk"><input type="checkbox" value="مميعات الدم"> مميعات الدم/أسبرين</label>
+          <label class="chk"><input type="checkbox" value="فقر دم"> فقر دم</label>
+          <label class="chk"><input type="checkbox" value="سكري"> سكري</label>
+          <label class="chk"><input type="checkbox" value="ضغط"> ضغط</label>
+          <label class="chk"><input type="checkbox" value="حمل"> حمل/رضاعة</label>
+          <label class="chk"><input type="checkbox" value="جلد"> مشاكل جلدية</label>
+        </div>
+        <div style="margin-top:12px"><label>ملاحظات</label><textarea id="c-notes" rows="2"></textarea></div>
+        <button class="btn" style="margin-top:14px" onclick="addClient()">حفظ الزبون</button>
+      </div>
+      <div class="card">
+        <h2>قائمة الزبناء</h2>
+        <input id="c-q" placeholder="قلب بالاسم ولا الهاتف..." oninput="renderClients()" style="margin-bottom:12px">
+        <div style="overflow-x:auto"><table><thead><tr><th>الاسم</th><th>الهاتف</th><th>العمر/الجنس</th><th>انتباه</th><th>جلسات</th><th></th></tr></thead><tbody id="c-body"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- New session -->
+    <section id="tab-session" style="display:none">
+      <div class="card">
+        <h2>تسجيل جلسة</h2>
+        <div class="grid">
+          <div><label>الزبون *</label><select id="s-client"></select></div>
+          <div><label>التاريخ</label><input id="s-date" type="date"></div>
+          <div><label>نوع الحجامة</label><select id="s-type"><option>دموية</option><option>جافة</option><option>متحركة (تدليك)</option><option>جافة + دموية</option></select></div>
+          <div><label>المدة (دقيقة)</label><input id="s-dur" type="number" min="1" placeholder="30"></div>
+        </div>
+        <div style="margin-top:14px"><label>ملاحظات الجلسة</label><textarea id="s-notes" rows="2"></textarea></div>
+        <label class="chk" style="margin-top:10px"><input type="checkbox" id="s-after"> عطيت تعليمات ما بعد الجلسة للزبون</label>
+        <label class="chk"><input type="checkbox" id="s-consent"> الموافقة المستنيرة موقّعة ومحفوظة</label>
+      </div>
+      <div class="card">
+        <h2>🗺️ خريطة النقاط — اختار نقاط الجلسة</h2>
+        <div class="mapwrap">
+          <div class="mapbox">
+            <div class="seg"><button id="v-back" class="on" onclick="setView('back')">الظهر</button><button id="v-front" onclick="setView('front')">الأمام</button></div>
+            <div id="map-holder"></div>
+          </div>
+          <div style="flex:1;min-width:240px">
+            <b>النقاط المختارة (<span id="pt-count">0</span>):</b>
+            <div id="pt-list" style="margin-top:8px"></div>
+            <p class="note" style="margin-top:10px">الخريطة مرجعية عملية للممارس المدرب، مبنية على المواضع المتداولة في كتب الحجامة وخرائط WFAS — والتحديد النهائي كيبقى لتقدير الممارس حسب الحالة.</p>
+          </div>
+        </div>
+        <button class="btn" style="margin-top:16px" onclick="saveSession()">حفظ الجلسة</button>
+        <span class="note" id="s-msg" style="margin-right:10px"></span>
+      </div>
+    </section>
+
+    <!-- Records -->
+    <section id="tab-records" style="display:none">
+      <div class="card">
+        <h2>سجل الجلسات</h2>
+        <div style="overflow-x:auto"><table><thead><tr><th>التاريخ</th><th>الزبون</th><th>النوع</th><th>النقاط</th><th>ملاحظات</th><th></th></tr></thead><tbody id="r-body"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section id="tab-settings" style="display:none">
+      <div class="card">
+        <h2>الترخيص والنسخة</h2>
+        <p id="lic-info"></p>
+        <p class="note">الإصدار الحالي: <b id="ver-line"></b> — <button class="btn ghost" onclick="checkUpdate(true)">التحقق من تحديث</button> <span id="upd-msg" class="note"></span></p>
+        <p class="note">التحديثات كتوصل تلقائياً: الأداة كتراجع ملف الإصدار على موقعنا عند كل فتح، وإلا كان إصدار جديد كيظهر تنبيه والضغط عليه كيحدّث بلا ما تضيع البيانات (البيانات منفصلة على البرنامج).</p>
+      </div>
+      <div class="card">
+        <h2>🔐 حماية بيانات الزبناء</h2>
+        <ul style="padding-right:18px">
+          <li>البيانات كتبقى <b>في جهازك فقط</b> (تخزين محلي) — ما كتصعد حتى سيرفر وما كنوصلو ليها لا حنا لا غيرنا.</li>
+          <li>النسخ الاحتياطي يقدر يكون <b>مشفّراً بكلمة سر</b> (AES-GCM) — بلا كلمة السر الملف ما كيتقراش.</li>
+          <li>الرقم السري (PIN) كيقفل الأداة عند كل فتح جديد.</li>
+        </ul>
+        <div class="grid" style="margin-top:12px">
+          <div><label>رقم سري جديد (PIN) — خليه خاوياً للإلغاء</label><input id="pin-new" type="password" inputmode="numeric"></div>
+          <div><label>كلمة سر تشفير النسخة الاحتياطية (اختياري)</label><input id="bk-pass" type="password"></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+          <button class="btn dark" onclick="savePin()">حفظ الرقم السري</button>
+          <button class="btn" onclick="exportData()">⬇️ تصدير نسخة احتياطية</button>
+          <label class="btn ghost" style="display:inline-flex;align-items:center">⬆️ استيراد <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(event)"></label>
+        </div>
+        <p class="note" id="bk-msg" style="margin-top:10px"></p>
+      </div>
+      <div class="card">
+        <h2>منطقة الخطر</h2>
+        <button class="btn red" onclick="wipe()">مسح كل البيانات من هاد الجهاز</button>
+        <p class="note" style="margin-top:8px">كيحذف الزبناء والجلسات والترخيص من هاد المتصفح نهائياً. صدّر نسخة احتياطية قبل.</p>
+      </div>
+    </section>
+  </div>
+</div>
+<footer>متتبّع الحجامة الاحترافي — منتج من زهير محرز / بيت الوقاية · البيانات ديالك كتبقى عندك، في جهازك</footer>
+
+<script>
+var APP_VERSION='1.0.0';
+var LS={lic:'ht_lic',clients:'ht_clients',sessions:'ht_sessions',pin:'ht_pin'};
+function load(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function esc(s){return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+// ---------- license ----------
+function codeOK(c){return /^HT-[A-Z0-9]{4}-[A-Z0-9]{4}$/i.test((c||'').trim())}
+function activate(){var n=document.getElementById('lic-name').value.trim(),c=document.getElementById('lic-code').value.trim().toUpperCase();
+if(!n){setErr('دخل اسم المركز/الممارس');return}
+if(!codeOK(c)){setErr('الكود خاصو يكون بصيغة HT-XXXX-XXXX');return}
+save(LS.lic,{name:n,code:c,at:new Date().toISOString()});boot()}
+function setErr(t){document.getElementById('lic-err').textContent=t}
+// ---------- PIN ----------
+function pinSet(){return !!localStorage.getItem(LS.pin)}
+function savePin(){var p=document.getElementById('pin-new').value.trim();
+if(p){save(LS.pin,p);alert('تفعّل الرقم السري — غادي يتطلب في الفتح الجاي.')}else{localStorage.removeItem(LS.pin);alert('تلغى الرقم السري.')}}
+function unlock(){if(document.getElementById('pin-in').value===load(LS.pin,'')){sessionStorage.setItem('ht_unlocked','1');boot()}else{document.getElementById('pin-err').textContent='رقم غير صحيح'}}
+// ---------- boot ----------
+function boot(){var lic=load(LS.lic,null);
+document.getElementById('gate').style.display=lic?'none':'';
+document.getElementById('lock').style.display='none';document.getElementById('app').style.display='none';
+if(!lic)return;
+document.getElementById('lic-line').textContent='مرخّص لـ: '+lic.name+' · كود '+lic.code;
+document.getElementById('lic-info').innerHTML='النسخة مرخّصة لـ <b>'+esc(lic.name)+'</b> (كود '+esc(lic.code)+') — التفعيل تم '+new Date(lic.at).toLocaleDateString('fr-MA')+'. الاسم كيظهر في الواجهة وأي تقرير مطبوع من نسختك.';
+if(pinSet()&&sessionStorage.getItem('ht_unlocked')!=='1'){document.getElementById('lock').style.display='';return}
+document.getElementById('app').style.display='';
+document.getElementById('ver-line').textContent='v'+APP_VERSION;
+renderClients();renderClientOptions();renderRecords();drawMap();checkUpdate(false)}
+// ---------- tabs ----------
+document.querySelectorAll('.tabs button').forEach(function(b){b.addEventListener('click',function(){
+document.querySelectorAll('.tabs button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');
+['clients','session','records','settings'].forEach(function(t){document.getElementById('tab-'+t).style.display=(t===b.dataset.tab)?'':'none'})})});
+// ---------- clients ----------
+function addClient(){var n=document.getElementById('c-name').value.trim();if(!n){alert('اسم الزبون ضروري');return}
+var flags=[];document.querySelectorAll('#c-flags input:checked').forEach(function(x){flags.push(x.value)});
+var cs=load(LS.clients,[]);cs.push({id:Date.now(),name:n,phone:document.getElementById('c-phone').value.trim(),age:document.getElementById('c-age').value,sex:document.getElementById('c-sex').value,flags:flags,notes:document.getElementById('c-notes').value.trim()});
+save(LS.clients,cs);document.getElementById('c-name').value='';document.getElementById('c-phone').value='';document.getElementById('c-age').value='';document.getElementById('c-notes').value='';
+document.querySelectorAll('#c-flags input').forEach(function(x){x.checked=false});
+renderClients();renderClientOptions()}
+function delClient(id){if(!confirm('حذف الزبون وجلساتو؟'))return;
+save(LS.clients,load(LS.clients,[]).filter(function(c){return c.id!==id}));
+save(LS.sessions,load(LS.sessions,[]).filter(function(s){return s.client!==id}));
+renderClients();renderClientOptions();renderRecords()}
+function renderClients(){var q=(document.getElementById('c-q').value||'').trim();var cs=load(LS.clients,[]);var ss=load(LS.sessions,[]);
+var tb=document.getElementById('c-body');tb.innerHTML='';
+cs.filter(function(c){return !q||c.name.indexOf(q)>-1||(c.phone||'').indexOf(q)>-1}).forEach(function(c){
+var cnt=ss.filter(function(s){return s.client===c.id}).length;
+tb.innerHTML+='<tr><td><b>'+esc(c.name)+'</b>'+(c.notes?'<br><span class="note">'+esc(c.notes)+'</span>':'')+'</td><td dir="ltr" style="text-align:left">'+esc(c.phone||'—')+'</td><td>'+esc(c.age||'—')+' / '+esc(c.sex||'—')+'</td><td>'+(c.flags||[]).map(function(f){return '<span class="flag">'+esc(f)+'</span>'}).join('')+'</td><td>'+cnt+'</td><td><button class="btn ghost" onclick="delClient('+c.id+')">حذف</button></td></tr>'});
+if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">ما كاين حتى زبون — زيد أول زبون من الفوق.</td></tr>'}
+function renderClientOptions(){var sel=document.getElementById('s-client');var cs=load(LS.clients,[]);
+sel.innerHTML=cs.length?cs.map(function(c){return '<option value="'+c.id+'">'+esc(c.name)+'</option>'}).join(''):'<option value="">— زيد زبون أولاً —</option>'}
+// ---------- map ----------
+var POINTS_BACK=[['الكاهل (بين الكتفين أعلى الظهر)',100,86],['لوح الكتف الأيمن',72,108],['لوح الكتف الأيسر',128,108],['وسط الظهر',100,140],['أسفل الظهر الأيمن (القطن)',76,168],['أسفل الظهر الأيسر (القطن)',124,168],['الورك الأيمن',66,196],['الورك الأيسر',134,196],['خلف الركبة اليمنى',82,268],['خلف الركبة اليسرى',118,268]];
+var POINTS_FRONT=[['الأخدع الأيمن (جانب الرقبة)',84,62],['الأخدع الأيسر (جانب الرقبة)',116,62],['أعلى الصدر',100,102],['فم المعدة',100,138],['السرة وما حولها',100,168],['الفخذ الأيمن',78,214],['الفخذ الأيسر',122,214],['ظاهر القدم اليمنى',80,330],['ظاهر القدم اليسرى',120,330]];
+var view='back',selected={};
+function bodySVG(){return '<ellipse cx="100" cy="34" rx="20" ry="24" fill="#DCEFE1"/><path d="M78 56 Q100 48 122 56 L132 120 Q136 170 128 210 L126 300 Q125 322 116 322 L108 322 Q104 322 103 300 L101 230 L99 300 Q98 322 92 322 L84 322 Q75 322 74 300 L72 210 Q64 170 68 120 Z" fill="#DCEFE1"/><path d="M70 66 Q52 74 50 120 L54 190 Q55 202 63 200 Q70 198 69 186 L66 124 Q66 84 76 72 Z" fill="#DCEFE1"/><path d="M130 66 Q148 74 150 120 L146 190 Q145 202 137 200 Q130 198 131 186 L134 124 Q134 84 124 72 Z" fill="#DCEFE1"/>'}
+function setView(v){view=v;document.getElementById('v-back').classList.toggle('on',v==='back');document.getElementById('v-front').classList.toggle('on',v==='front');drawMap()}
+function drawMap(){var pts=view==='back'?POINTS_BACK:POINTS_FRONT;var circles='';
+pts.forEach(function(p,i){var key=view+i;var sel=selected[key];
+circles+='<g class="pt'+(sel?' sel':'')+'" onclick="togglePt(\''+key+'\',\''+p[0].replace(/'/g,'')+'\')"><circle class="core" cx="'+p[1]+'" cy="'+p[2]+'" r="13"/><text x="'+p[1]+'" y="'+(p[2]+5)+'" text-anchor="middle" font-size="12">'+(i+1)+'</text></g>'});
+document.getElementById('map-holder').innerHTML='<svg viewBox="0 0 200 350" style="max-width:300px;width:100%">'+bodySVG()+circles+'</svg>';
+renderPtList()}
+function togglePt(key,name){if(selected[key])delete selected[key];else selected[key]=name;drawMap()}
+function renderPtList(){var names=Object.values(selected);document.getElementById('pt-count').textContent=names.length;
+document.getElementById('pt-list').innerHTML=names.length?names.map(function(n){return '<span class="flag" style="background:var(--soft);color:var(--ink)">'+esc(n)+'</span>'}).join(' '):'<span class="note">ما اخترتي حتى نقطة بعد — قلب في الخريطة وضغط على النقاط.</span>'}
+// ---------- sessions ----------
+document.getElementById('s-date').value=new Date().toISOString().slice(0,10);
+function saveSession(){var cid=+document.getElementById('s-client').value;if(!cid){alert('اختار الزبون');return}
+var pts=Object.values(selected);if(!pts.length){alert('اختار نقطة وحدة على الأقل من الخريطة');return}
+var ss=load(LS.sessions,[]);ss.push({id:Date.now(),client:cid,date:document.getElementById('s-date').value,type:document.getElementById('s-type').value,dur:document.getElementById('s-dur').value,points:pts,notes:document.getElementById('s-notes').value.trim(),after:document.getElementById('s-after').checked,consent:document.getElementById('s-consent').checked});
+save(LS.sessions,ss);selected={};drawMap();document.getElementById('s-notes').value='';
+document.getElementById('s-msg').textContent='تسجلات الجلسة ✓';renderRecords();renderClients()}
+function delSession(id){save(LS.sessions,load(LS.sessions,[]).filter(function(s){return s.id!==id}));renderRecords();renderClients()}
+function renderRecords(){var cs=load(LS.clients,[]);var byId={};cs.forEach(function(c){byId[c.id]=c.name});
+var ss=load(LS.sessions,[]).slice().sort(function(a,b){return b.id-a.id});var tb=document.getElementById('r-body');tb.innerHTML='';
+ss.forEach(function(s){tb.innerHTML+='<tr><td>'+esc(s.date)+'</td><td><b>'+esc(byId[s.client]||'—')+'</b></td><td>'+esc(s.type)+(s.dur?' · '+esc(s.dur)+'د':'')+'</td><td>'+s.points.map(esc).join('، ')+'</td><td>'+esc(s.notes||'')+(s.consent?' ✓ موافقة':'')+(s.after?' ✓ تعليمات':'')+'</td><td><button class="btn ghost" onclick="delSession('+s.id+')">حذف</button></td></tr>'});
+if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">ما كاينة حتى جلسة مسجلة بعد.</td></tr>'}
+// ---------- backup (optional AES-GCM encryption) ----------
+function dl(name,text){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'application/json'}));a.download=name;a.click()}
+async function exportData(){var data={lic:load(LS.lic,null),clients:load(LS.clients,[]),sessions:load(LS.sessions,[]),v:APP_VERSION};
+var pass=document.getElementById('bk-pass').value;
+if(pass){try{var enc=new TextEncoder();var km=await crypto.subtle.importKey('raw',enc.encode(pass),'PBKDF2',false,['deriveKey']);
+var salt=crypto.getRandomValues(new Uint8Array(16));var iv=crypto.getRandomValues(new Uint8Array(12));
+var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:salt,iterations:120000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt']);
+var ct=await crypto.subtle.encrypt({name:'AES-GCM',iv:iv},key,enc.encode(JSON.stringify(data)));
+var b64=function(b){return btoa(String.fromCharCode.apply(null,new Uint8Array(b)))};
+dl('hijama-backup-encrypted.json',JSON.stringify({enc:1,salt:b64(salt),iv:b64(iv),data:b64(ct)}));
+document.getElementById('bk-msg').textContent='تصدرات نسخة مشفرة — بلا كلمة السر ما كتتقراش.';return}catch(e){}}
+dl('hijama-backup.json',JSON.stringify(data,null,1));document.getElementById('bk-msg').textContent='تصدرات نسخة احتياطية عادية (JSON).'}
+async function importData(ev){var f=ev.target.files[0];if(!f)return;var text=await f.text();var obj;
+try{obj=JSON.parse(text)}catch(e){alert('ملف غير صالح');return}
+if(obj.enc){var pass=prompt('هاد النسخة مشفرة — دخل كلمة السر:');if(!pass)return;
+try{var dec=new TextDecoder();var km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
+var ub=function(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})};
+var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:ub(obj.salt),iterations:120000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+var pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:ub(obj.iv)},key,ub(obj.data));obj=JSON.parse(dec.decode(pt))}catch(e){alert('كلمة سر خاطئة ولا ملف تالف');return}}
+if(obj.clients)save(LS.clients,obj.clients);if(obj.sessions)save(LS.sessions,obj.sessions);
+alert('تم الاستيراد ✓');renderClients();renderClientOptions();renderRecords()}
+// ---------- update check ----------
+function verCmp(a,b){var x=a.split('.').map(Number),y=b.split('.').map(Number);for(var i=0;i<3;i++){if(x[i]>y[i])return 1;if(x[i]<y[i])return -1}return 0}
+function checkUpdate(manual){fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){
+if(d.version&&verCmp(d.version,APP_VERSION)>0){var b=document.getElementById('upd-banner');b.style.display='';
+b.innerHTML='🔄 كاينة نسخة جديدة v'+d.version+' — <a href="#" onclick="location.reload(true);return false" style="text-decoration:underline">حدّث دابا</a> (البيانات ما غاديش تضيع)';
+if(manual)document.getElementById('upd-msg').textContent='كاينة نسخة جديدة!';}
+else if(manual)document.getElementById('upd-msg').textContent='أنت في آخر إصدار ✓';
+}).catch(function(){if(manual)document.getElementById('upd-msg').textContent='تعذر التحقق (الإنترنت؟)'})}
+function wipe(){if(!confirm('متأكد؟ غادي يتمسح كلشي من هاد الجهاز.'))return;
+[LS.lic,LS.clients,LS.sessions,LS.pin].forEach(function(k){localStorage.removeItem(k)});location.reload()}
+boot();
+</script>
+</body>
+</html>

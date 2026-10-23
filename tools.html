@@ -179,6 +179,12 @@ footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;fon
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <input class="search" style="flex:1;margin-bottom:0;min-width:200px" id="off-q" type="text" inputmode="search" placeholder="اسم منتج ولا رقم باركود (مثال: 6111242100992)">
         <button class="btn" style="margin-top:0" onclick="searchOFF()">قلّب</button>
+        <button class="btn" style="margin-top:0;background:var(--dark);color:#fff" onclick="startScan()">📷 مسح بالكاميرا</button>
+      </div>
+      <div id="scanner" style="display:none;margin-top:14px">
+        <div id="scan-box" style="border-radius:16px;overflow:hidden;background:#000"></div>
+        <button class="btn" style="background:#B91C1C;color:#fff" onclick="stopScan()">إيقاف الكاميرا</button>
+        <p class="note">قرّب الباركود من الكاميرا — خاص الموقع يكون مفتوح من الهاتف عبر HTTPS (وهو كذلك).</p>
       </div>
       <div id="off-out" style="margin-top:14px"></div>
     </section>
@@ -259,6 +265,24 @@ if(!prods.length){out.innerHTML='<p class="note">ما لقينا والو — ت
 out.innerHTML='<div style="overflow-x:auto"><table class="foods"><thead><tr><th>المنتج</th><th>المرجع</th><th>سعرات</th><th>بروتين (غ)</th><th>كربوهيدرات (غ)</th><th>دهون (غ)</th></tr></thead><tbody>'+prods.map(offRow).join('')+'</tbody></table></div><p class="note">المصدر: Open Food Facts — بيانات مساهمة جماعية، راجع التغليف الأصلي دائماً.</p>';
 }).catch(function(){out.innerHTML='<p class="note warn">وقع مشكل في الاتصال — عاود المحاولة.</p>'})}
 document.getElementById('off-q').addEventListener('keydown',function(e){if(e.key==='Enter')searchOFF()});
+var scanStream=null,scanTimer=null,html5Qr=null;
+function onCode(code){stopScan();document.getElementById('off-q').value=code;searchOFF()}
+function stopScan(){if(scanTimer){clearInterval(scanTimer);scanTimer=null}
+if(scanStream){scanStream.getTracks().forEach(function(t){t.stop()});scanStream=null}
+if(html5Qr){try{html5Qr.stop().then(function(){html5Qr.clear()})}catch(e){}html5Qr=null}
+document.getElementById('scanner').style.display='none';document.getElementById('scan-box').innerHTML=''}
+function startScan(){var box=document.getElementById('scan-box');document.getElementById('scanner').style.display='';
+if('BarcodeDetector' in window&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+box.innerHTML='<video id="scan-v" autoplay playsinline style="width:100%"></video>';
+navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(function(s){scanStream=s;var v=document.getElementById('scan-v');v.srcObject=s;
+var det=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128']});
+scanTimer=setInterval(function(){det.detect(v).then(function(codes){if(codes&&codes.length)onCode(codes[0].rawValue)}).catch(function(){})},400);
+}).catch(function(){box.innerHTML='<p class="note warn" style="padding:14px">الكاميرا ما متاحاش — عطي الإذن ولا كتب الرقم يدوياً.</p>'});
+}else{
+var s=document.createElement('script');s.src='https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js';
+s.onload=function(){try{html5Qr=new Html5Qrcode('scan-box');html5Qr.start({facingMode:'environment'},{fps:10,qrbox:240,formatsToSupport:[Html5QrcodeSupportedFormats.EAN_13,Html5QrcodeSupportedFormats.EAN_8,Html5QrcodeSupportedFormats.UPC_A,Html5QrcodeSupportedFormats.CODE_128]},function(txt){onCode(txt)},function(){})}catch(e){box.innerHTML='<p class="note warn" style="padding:14px">المسح ما مدعومش في هاد المتصفح — كتب الرقم يدوياً.</p>'}};
+s.onerror=function(){box.innerHTML='<p class="note warn" style="padding:14px">تعذر تحميل مكتبة المسح — كتب الرقم يدوياً.</p>'};
+document.body.appendChild(s)}}
 </script>
 </body>
 </html>
