@@ -177,6 +177,15 @@ th{color:var(--neon)}
         </table>
       </div>
       <div class="note" style="margin-top:10px">ما تقدرش تبدل دور حسابك انت. الأدمن هو اللي كيوافق على الحسابات المعلقة بتبديل دورها لمساعد.</div>
+      <div style="margin-top:18px;border-top:1px solid var(--line);padding-top:14px">
+        <h3 style="margin:0 0 10px">➕ إضافة حساب جديد (أدمن فقط)</h3>
+        <div class="grid">
+          <div><label>البريد الإلكتروني</label><input id="new-email" type="email" dir="ltr" style="text-align:left"></div>
+          <div><label>كلمة سر أولية (6 حروف على الأقل — صيفطها للمساعد في الخاص)</label><input id="new-pass" type="password"></div>
+          <div class="row"><button id="add-account-btn">إضافة الحساب</button><span id="add-account-msg" class="note"></span></div>
+        </div>
+        <div class="note" style="margin-top:8px">الحساب الجديد كيتزاد بدور «قيد الانتظار» وكيبان في اللائحة فوق — من بعد بدل الدور ديالو لـ «مساعد» باش توافق عليه.</div>
+      </div>
     </div>
 
     <div class="card" id="activity-card">
@@ -462,6 +471,29 @@ try { firebaseConfig = {
     } catch (e) { $('pending-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
   });
   $('logout-btn').addEventListener('click', function () { auth.signOut(); });
+
+  // Admin adds an account: created as PENDING, shows in the table, and the
+  // admin approves it by flipping the role dropdown to assistant.
+  // A secondary Firebase app creates the Auth user WITHOUT switching the
+  // admin's own session (the default app would sign the admin out).
+  $('add-account-btn').addEventListener('click', async function () {
+    if (currentRole !== 'admin') return;
+    var email = $('new-email').value.trim(), pass = $('new-pass').value;
+    if (!email || pass.length < 6) { $('add-account-msg').innerHTML = '<span class="err">دخل بريد صحيح وكلمة سر من 6 حروف على الأقل.</span>'; return; }
+    try {
+      var secondary;
+      try { secondary = firebase.app('secondary'); } catch (e) { secondary = firebase.initializeApp(firebaseConfig, 'secondary'); }
+      var cred = await secondary.auth().createUserWithEmailAndPassword(email, pass);
+      await db.collection('users').doc(cred.user.uid).set({
+        email: email, role: 'pending', createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      await logActivity('account-add', email + ' (أضيف من الأدمن، قيد الانتظار)');
+      await secondary.auth().signOut();
+      $('add-account-msg').innerHTML = '<span class="ok">تم ✓ — الحساب تزاد وكيبان في اللائحة بقيد الانتظار. بدل الدور ديالو لمساعد باش توافق عليه.</span>';
+      $('new-email').value = ''; $('new-pass').value = '';
+      await loadUsers(); await loadActivity();
+    } catch (e) { $('add-account-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
+  });
 
   $('key-file').addEventListener('change', async function (ev) {
     var f = ev.target.files[0];
