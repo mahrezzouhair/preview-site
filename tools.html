@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>الأدوات المجانية | زهير محرز</title>
-<meta name="description" content="حاسبات صحية مجانية بالدارجة: مؤشر كتلة الجسم، السعرات والماكروز، الماء، دورات النوم، الكافيين، وقيم الأطباق المغربية.">
+<meta name="description" content="حاسبات صحية مجانية بالعربية الفصحى: مؤشر كتلة الجسم، السعرات والماكروز، الماء، دورات النوم، الكافيين، وقيم الأطباق المغربية.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -16,10 +16,13 @@ body{font-family:'Cairo',system-ui,sans-serif;background:#FBFDFB;color:var(--ink
 a{text-decoration:none;color:inherit}
 .wrap{max-width:960px;margin:0 auto;padding:0 20px}
 header{position:sticky;top:0;z-index:60;background:rgba(10,18,15,.95);backdrop-filter:blur(10px)}
-.header-in{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.header-in{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.15rem}
 .logo .mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--green));display:grid;place-items:center;color:#06280F}
 .back{color:#C9D6CE;font-weight:700}.back:hover{color:var(--neon)}
+.lang{display:flex;gap:6px;align-items:center}
+.lang button{border:1.5px solid #3A4A42;background:transparent;color:#C9D6CE;border-radius:999px;padding:6px 14px;font-family:inherit;font-weight:800;font-size:.85rem;cursor:pointer}
+.lang button.on{background:var(--neon);border-color:var(--neon);color:#06280F}
 main{padding:56px 0 80px}
 .eyebrow{display:inline-block;font-weight:800;font-size:.85rem;color:var(--green);background:var(--green-soft);border:1px solid #CFEDD9;padding:4px 14px;border-radius:999px;margin-bottom:14px}
 h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:900;line-height:1.4;margin-bottom:10px}
@@ -61,209 +64,277 @@ footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;fon
 <body>
 <header>
   <div class="header-in">
-    <a class="logo" href="index.html"><span class="mark">ز</span> زهير محرز</a>
-    <a class="back" href="index.html">→ الرجوع للرئيسية</a>
+    <a class="logo" href="index.html"><span class="mark">ز</span> <span data-i18n="logo_name">زهير محرز</span></a>
+    <div class="lang" role="group" aria-label="Language">
+      <button data-lang="darija" onclick="setLang('darija')">الدارجة</button><button data-lang="ar" onclick="setLang('ar')">العربية الفصحى</button><button data-lang="fr" onclick="setLang('fr')">Français</button><button data-lang="en" onclick="setLang('en')">English</button>
+    </div>
+    <a class="back" href="index.html" data-i18n="back_home">→ الرجوع للرئيسية</a>
   </div>
 </header>
 <main>
   <div class="wrap">
-    <span class="eyebrow">مجانية بالكامل — بلا تسجيل</span>
-    <h1>أدوات <span class="grad">صحية وتغذية</span></h1>
-    <p class="lead">حاسبات سريعة بالدارجة مبنية على معادلات علمية معروفة. النتائج تقديرية للثقافة الصحية العامة، وماشي تشخيصاً طبياً.</p>
+    <span class="eyebrow" data-i18n="eyebrow">مجانية بالكامل — دون تسجيل</span>
+    <h1><span data-i18n="h1_a">أدوات</span> <span class="grad" data-i18n="h1_b">صحية وتغذية</span></h1>
+    <p class="lead" data-i18n="lead">حاسبات سريعة باللغة العربية مبنية على معادلات علمية معروفة. النتائج تقديرية للتثقيف الصحي العام، وليست تشخيصاً طبياً.</p>
     <div class="toc">
-      <a href="#bmi">⚖️ BMI</a><a href="#calories">🔥 السعرات والماكروز</a><a href="#water">💧 الماء</a><a href="#sleep">😴 دورات النوم</a><a href="#caffeine">☕ الكافيين</a><a href="#foods">🥘 أطباق مغربية</a>
+      <a href="#bmi">⚖️ <span data-i18n="toc_bmi">BMI</span></a><a href="#calories">🔥 <span data-i18n="toc_cal">السعرات والماكروز</span></a><a href="#water">💧 <span data-i18n="toc_water">الماء</span></a><a href="#sleep">😴 <span data-i18n="toc_sleep">دورات النوم</span></a><a href="#caffeine">☕ <span data-i18n="toc_caf">الكافيين</span></a><a href="#foods">🥘 <span data-i18n="toc_foods">أطباق مغربية</span></a>
     </div>
 
     <!-- BMI -->
     <section class="tool" id="bmi">
-      <h2>⚖️ مؤشر كتلة الجسم BMI</h2>
-      <p class="sub">احسب مؤشرك واعرف المجال الصحي ديال وزنك.</p>
+      <h2>⚖️ <span data-i18n="bmi_title">مؤشر كتلة الجسم BMI</span></h2>
+      <p class="sub" data-i18n="bmi_sub">احسب مؤشرك وتعرّف على النطاق الصحي لوزنك.</p>
       <div class="grid">
-        <div class="field"><label>الوزن (كغ)</label><input type="number" id="bmi-w" min="20" max="400" placeholder="مثال: 80"></div>
-        <div class="field"><label>الطول (سم)</label><input type="number" id="bmi-h" min="100" max="250" placeholder="مثال: 175"></div>
+        <div class="field"><label data-i18n="lbl_weight">الوزن (كغ)</label><input type="number" id="bmi-w" min="20" max="400" placeholder="مثال: 80" data-i18n-ph="ph_example80"></div>
+        <div class="field"><label data-i18n="lbl_height">الطول (سم)</label><input type="number" id="bmi-h" min="100" max="250" placeholder="مثال: 175" data-i18n-ph="ph_example175"></div>
       </div>
-      <button class="btn" onclick="calcBMI()">احسب</button>
+      <button class="btn" onclick="calcBMI()" data-i18n="btn_calc">احسب</button>
       <div class="result" id="bmi-r"></div>
     </section>
 
     <!-- Calories -->
     <section class="tool" id="calories">
-      <h2>🔥 حاسبة السعرات والماكروز</h2>
-      <p class="sub">معادلة Mifflin-St Jeor — احتياجك اليومي على حساب هدفك.</p>
+      <h2>🔥 <span data-i18n="cal_title">حاسبة السعرات والماكروز</span></h2>
+      <p class="sub" data-i18n="cal_sub">معادلة Mifflin-St Jeor — احتياجك اليومي بحسب هدفك.</p>
       <div class="grid">
-        <div class="field"><label>الجنس</label><div class="seg" id="cal-sex"><button class="on" data-v="m">رجل</button><button data-v="f">امرأة</button></div></div>
-        <div class="field"><label>العمر (سنة)</label><input type="number" id="cal-age" min="10" max="100" placeholder="مثال: 30"></div>
-        <div class="field"><label>الوزن (كغ)</label><input type="number" id="cal-w" placeholder="مثال: 80"></div>
-        <div class="field"><label>الطول (سم)</label><input type="number" id="cal-h" placeholder="مثال: 175"></div>
-        <div class="field"><label>واش كنتمارس الرياضة؟</label><div class="seg" id="cal-sport"><button class="on" data-v="no">لا</button><button data-v="yes">نعم</button></div></div>
-        <div class="field" id="cal-act-wrap"><label>الحركة اليومية في الخدمة والحياة</label>
+        <div class="field"><label data-i18n="lbl_sex">الجنس</label><div class="seg" id="cal-sex"><button class="on" data-v="m" data-i18n="sex_m">رجل</button><button data-v="f" data-i18n="sex_f">امرأة</button></div></div>
+        <div class="field"><label data-i18n="lbl_age">العمر (سنة)</label><input type="number" id="cal-age" min="10" max="100" placeholder="مثال: 30" data-i18n-ph="ph_example30"></div>
+        <div class="field"><label data-i18n="lbl_weight">الوزن (كغ)</label><input type="number" id="cal-w" placeholder="مثال: 80" data-i18n-ph="ph_example80"></div>
+        <div class="field"><label data-i18n="lbl_height">الطول (سم)</label><input type="number" id="cal-h" placeholder="مثال: 175" data-i18n-ph="ph_example175"></div>
+        <div class="field"><label data-i18n="lbl_sport_q">هل تمارس الرياضة؟</label><div class="seg" id="cal-sport"><button class="on" data-v="no" data-i18n="sport_no">لا</button><button data-v="yes" data-i18n="sport_yes">نعم</button></div></div>
+        <div class="field" id="cal-act-wrap"><label data-i18n="lbl_act">الحركة اليومية في العمل والحياة</label>
           <select id="cal-act">
-            <option value="1.2">خدمة مكتبية وحركة قليلة</option>
-            <option value="1.375">حركة خفيفة (كنتمشى بزاف)</option>
-            <option value="1.55">حركة متوسطة (خدمة فيها وقوف وتنقل)</option>
-            <option value="1.725">حركة كبيرة (خدمة بدنية)</option>
-            <option value="1.9">حركة كبيرة بزاف (خدمة شاقة)</option>
+            <option value="1.2" data-i18n="act1">عمل مكتبي وحركة قليلة</option>
+            <option value="1.375" data-i18n="act2">حركة خفيفة (مشي كثير)</option>
+            <option value="1.55" data-i18n="act3">حركة متوسطة (عمل يتضمن الوقوف والتنقل)</option>
+            <option value="1.725" data-i18n="act4">حركة كبيرة (عمل بدني)</option>
+            <option value="1.9" data-i18n="act5">حركة كبيرة جداً (عمل شاق)</option>
           </select></div>
-        <div class="field" id="cal-sess-wrap" style="display:none"><label>حصص الرياضة في الأسبوع</label>
+        <div class="field" id="cal-sess-wrap" style="display:none"><label data-i18n="lbl_sess">حصص الرياضة في الأسبوع</label>
           <select id="cal-sess">
-            <option value="1.375">حصتين ولا أقل</option>
-            <option value="1.55">3 – 4 حصص</option>
-            <option value="1.725">5 – 6 حصص</option>
-            <option value="1.9">7 حصص ولا أكثر</option>
+            <option value="1.375" data-i18n="sess1">حصتان أو أقل</option>
+            <option value="1.55" data-i18n="sess2">3 – 4 حصص</option>
+            <option value="1.725" data-i18n="sess3">5 – 6 حصص</option>
+            <option value="1.9" data-i18n="sess4">7 حصص أو أكثر</option>
           </select></div>
-        <div class="field"><label>الهدف</label><div class="seg" id="cal-goal"><button data-v="lose">نقصان الوزن</button><button class="on" data-v="keep">المحافظة</button><button data-v="gain">زيادة الوزن/العضلات</button></div></div>
+        <div class="field"><label data-i18n="lbl_goal">الهدف</label><div class="seg" id="cal-goal"><button data-v="lose" data-i18n="goal_lose">إنقاص الوزن</button><button class="on" data-v="keep" data-i18n="goal_keep">المحافظة</button><button data-v="gain" data-i18n="goal_gain">زيادة الوزن/العضلات</button></div></div>
       </div>
-      <button class="btn" onclick="calcCalories()">احسب احتياجي</button>
+      <button class="btn" onclick="calcCalories()" data-i18n="btn_calc_need">احسب احتياجي</button>
       <div class="result" id="cal-r"></div>
-      <p class="note">توزيع الماكروز الافتراضي: بروتين 30% · كربوهيدرات 40% · دهون 30% (كيتبدل شوية مع الهدف).</p>
+      <p class="note" data-i18n="cal_note">توزيع الماكروز الافتراضي: بروتين 30% · كربوهيدرات 40% · دهون 30% (يتغير قليلاً بحسب الهدف).</p>
     </section>
 
     <!-- Water -->
     <section class="tool" id="water">
-      <h2>💧 حاسبة الماء</h2>
-      <p class="sub">شحال خاصك تشرب في النهار — قاعدة 30–35 مل لكل كيلوغرام، مع تعديل النشاط والجو.</p>
+      <h2>💧 <span data-i18n="water_title">حاسبة الماء</span></h2>
+      <p class="sub" data-i18n="water_sub">كم يجب أن تشرب في اليوم؟ قاعدة 30–35 مل لكل كيلوغرام، مع تعديل بحسب النشاط والجو.</p>
       <div class="grid">
-        <div class="field"><label>الوزن (كغ)</label><input type="number" id="wat-w" placeholder="مثال: 80"></div>
-        <div class="field"><label>النشاط والجو</label>
+        <div class="field"><label data-i18n="lbl_weight">الوزن (كغ)</label><input type="number" id="wat-w" placeholder="مثال: 80" data-i18n-ph="ph_example80"></div>
+        <div class="field"><label data-i18n="lbl_activity">النشاط والجو</label>
           <select id="wat-a">
-            <option value="30">نهار عادي، بلا رياضة</option>
-            <option value="35">رياضة ولا حركة بزاف</option>
-            <option value="40">رياضة + جو سخون</option>
+            <option value="30" data-i18n="wat1">يوم عادي، دون رياضة</option>
+            <option value="35" data-i18n="wat2">رياضة أو حركة كثيرة</option>
+            <option value="40" data-i18n="wat3">رياضة + جو حار</option>
           </select></div>
       </div>
-      <button class="btn" onclick="calcWater()">احسب</button>
+      <button class="btn" onclick="calcWater()" data-i18n="btn_calc">احسب</button>
       <div class="result" id="wat-r"></div>
-      <p class="note">الماء كيجي أيضاً من الأكل والمشروبات الأخرى؛ لون البول الفاتح علامة عملية أنك قريب من الكفاية. حالات الكلى والقلب عندها حدود خاصة — سول طبيبك.</p>
+      <p class="note" data-i18n="water_note">الماء يأتي أيضاً من الطعام والمشروبات الأخرى؛ لون البول الفاتح علامة عملية على أنك قريب من الكفاية. حالات الكلى والقلب لها حدود خاصة — استشر طبيبك.</p>
     </section>
 
     <!-- Sleep -->
     <section class="tool" id="sleep">
-      <h2>😴 حاسبة دورات النوم</h2>
-      <p class="sub">النوم كيتم في دورات ديال 90 دقيقة تقريباً. اختار وقت الفياق، ونعطيوك أوقات النوم اللي كتكمل بيها دورات كاملة (+15 دقيقة باش ترقد).</p>
+      <h2>😴 <span data-i18n="sleep_title">حاسبة دورات النوم</span></h2>
+      <p class="sub" data-i18n="sleep_sub">النوم يتم في دورات مدتها 90 دقيقة تقريباً. اختر وقت الاستيقاظ، وسنعرض لك أوقات النوم التي تُكمل بها دورات كاملة (+15 دقيقة لكي تغفو).</p>
       <div class="grid">
-        <div class="field"><label>وقت الفياق</label><input type="time" id="slp-wake" value="07:00"></div>
+        <div class="field"><label data-i18n="lbl_wake">وقت الاستيقاظ</label><input type="time" id="slp-wake" value="07:00"></div>
       </div>
-      <button class="btn" onclick="calcSleep()">اعطيني أوقات النوم</button>
+      <button class="btn" onclick="calcSleep()" data-i18n="btn_sleep">اعرض أوقات النوم</button>
       <div class="result" id="slp-r"></div>
     </section>
 
     <!-- Caffeine -->
     <section class="tool" id="caffeine">
-      <h2>☕ فاحص الكافيين</h2>
-      <p class="sub">جمع كافيين نهارك وقارنو مع الحد الآمن الشائع عند EFSA: حتى 400 مغ/يوم للبالغ السليم، و200 مغ للحوامل.</p>
+      <h2>☕ <span data-i18n="caf_title">فاحص الكافيين</span></h2>
+      <p class="sub" data-i18n="caf_sub">اجمع كافيين يومك وقارنه مع الحد الآمن الشائع لدى EFSA: حتى 400 مغ/يوم للبالغ السليم، و200 مغ للحوامل.</p>
       <div class="grid">
-        <div class="field"><label>قهوة (إسبريسو/كأس صغير ≈ 65 مغ)</label><input type="number" id="caf-1" min="0" value="0"></div>
-        <div class="field"><label>أتاي (كأس ≈ 30 مغ)</label><input type="number" id="caf-2" min="0" value="0"></div>
-        <div class="field"><label>شاي أسود (كأس ≈ 45 مغ)</label><input type="number" id="caf-3" min="0" value="0"></div>
-        <div class="field"><label>مشروب طاقة (علبة 250مل ≈ 80 مغ)</label><input type="number" id="caf-4" min="0" value="0"></div>
-        <div class="field"><label>كولا (علبة 330مل ≈ 32 مغ)</label><input type="number" id="caf-5" min="0" value="0"></div>
-        <div class="field"><label>قهوة أمريكية/مصفاة (كأس ≈ 95 مغ)</label><input type="number" id="caf-6" min="0" value="0"></div>
+        <div class="field"><label data-i18n="caf1">قهوة (إسبريسو/كأس صغير ≈ 65 مغ)</label><input type="number" id="caf-1" min="0" value="0"></div>
+        <div class="field"><label data-i18n="caf2">شاي مغربي بالنعناع (كأس ≈ 30 مغ)</label><input type="number" id="caf-2" min="0" value="0"></div>
+        <div class="field"><label data-i18n="caf3">شاي أسود (كأس ≈ 45 مغ)</label><input type="number" id="caf-3" min="0" value="0"></div>
+        <div class="field"><label data-i18n="caf4">مشروب طاقة (علبة 250مل ≈ 80 مغ)</label><input type="number" id="caf-4" min="0" value="0"></div>
+        <div class="field"><label data-i18n="caf5">كولا (علبة 330مل ≈ 32 مغ)</label><input type="number" id="caf-5" min="0" value="0"></div>
+        <div class="field"><label data-i18n="caf6">قهوة أمريكية/مصفاة (كأس ≈ 95 مغ)</label><input type="number" id="caf-6" min="0" value="0"></div>
       </div>
-      <button class="btn" onclick="calcCaffeine()">اجمع الكافيين</button>
+      <button class="btn" onclick="calcCaffeine()" data-i18n="btn_caf">اجمع الكافيين</button>
       <div class="result" id="caf-r"></div>
-      <p class="note">القيم تقريبية وكتختلف مع طريقة التحضير. الكافيين بعد الظهر يقدر يخسر جودة النوم حتى لو رقدتي عادي.</p>
+      <p class="note" data-i18n="caf_note">القيم تقريبية وتختلف بحسب طريقة التحضير. الكافيين بعد الظهر قد يُفسد جودة النوم حتى لو نمت بشكل عادي.</p>
     </section>
 
     <!-- Foods -->
     <section class="tool" id="foods">
-      <h2>🥘 بحث الأغذية المغربية</h2>
-      <p class="sub">كل طبق عندو حصة محددة بالغرام، والقيم محسوبة من مرجع «لكل 100غ» — قاعدة كنبنّيوها وكنوسعوها ونراجعوها.</p>
-      <input class="search" id="food-q" type="text" placeholder="قلب: حريرة، كسكس، دجاج..." oninput="renderFoods()">
+      <h2>🥘 <span data-i18n="foods_title">بحث الأغذية المغربية</span></h2>
+      <p class="sub" data-i18n="foods_sub">لكل طبق حصة محددة بالغرام، والقيم محسوبة من مرجع «لكل 100غ» — قاعدة نبنيها ونوسّعها ونراجعها.</p>
+      <input class="search" id="food-q" type="text" placeholder="ابحث: حريرة، كسكس، دجاج..." data-i18n-ph="ph_food_search" oninput="renderFoods()">
       <div style="overflow-x:auto"><table class="foods">
-        <thead><tr><th>الطبق/المكوّن</th><th>الحصة المحددة</th><th>سعرات</th><th>بروتين (غ)</th><th>كربوهيدرات (غ)</th><th>دهون (غ)</th></tr></thead>
+        <thead><tr><th data-i18n="th_dish">الطبق/المكوّن</th><th data-i18n="th_portion">الحصة المحددة</th><th data-i18n="th_kcal">سعرات</th><th data-i18n="th_protein">بروتين (غ)</th><th data-i18n="th_carbs">كربوهيدرات (غ)</th><th data-i18n="th_fat">دهون (غ)</th></tr></thead>
         <tbody id="food-body"></tbody>
       </table></div>
-      <p class="note">القيم محسوبة من مرجع لكل 100غ (قاعدة بياناتنا الداخلية، كتتراجع وتتكبر) — والوصفة البيتية كتختلف مع كمية الزيت واللحم، فالحصة الموزونة هي اللي كتقرّبك من الدقة.</p>
-      <h3 style="font-weight:900;margin-top:26px">📦 منتجات معلّبة — بالاسم ولا بالباركود</h3>
-      <p class="sub">البيانات من قاعدة Open Food Facts العالمية المفتوحة (القيم لكل 100غ كيف ما مكتوبة في التغليف).</p>
+      <p class="note" data-i18n="foods_note">القيم محسوبة من مرجع لكل 100غ (قاعدة بياناتنا الداخلية، تُراجع وتتوسع) — والوصفة المنزلية تختلف بحسب كمية الزيت واللحم، فالحصة الموزونة هي التي تُقرّبك من الدقة.</p>
+      <h3 style="font-weight:900;margin-top:26px" data-i18n="off_title">📦 منتجات معلّبة — بالاسم أو بالباركود</h3>
+      <p class="sub" data-i18n="off_sub">البيانات من قاعدة Open Food Facts العالمية المفتوحة (القيم لكل 100غ كما هي مكتوبة على التغليف).</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <input class="search" style="flex:1;margin-bottom:0;min-width:200px" id="off-q" type="text" inputmode="search" placeholder="اسم منتج ولا رقم باركود (مثال: 6111242100992)">
-        <button class="btn" style="margin-top:0" onclick="searchOFF()">قلّب</button>
-        <button class="btn" style="margin-top:0;background:var(--dark);color:#fff" onclick="startScan()">📷 مسح بالكاميرا</button>
+        <input class="search" style="flex:1;margin-bottom:0;min-width:200px" id="off-q" type="text" inputmode="search" placeholder="اسم منتج أو رقم باركود (مثال: 6111242100992)" data-i18n-ph="ph_off">
+        <button class="btn" style="margin-top:0" onclick="searchOFF()" data-i18n="btn_search">ابحث</button>
+        <button class="btn" style="margin-top:0;background:var(--dark);color:#fff" onclick="startScan()" data-i18n="btn_scan">📷 مسح بالكاميرا</button>
       </div>
       <div id="scanner" style="display:none;margin-top:14px">
         <div id="scan-box" style="border-radius:16px;overflow:hidden;background:#000"></div>
-        <button class="btn" style="background:#B91C1C;color:#fff" onclick="stopScan()">إيقاف الكاميرا</button>
-        <p class="note">قرّب الباركود من الكاميرا — خاص الموقع يكون مفتوح من الهاتف عبر HTTPS (وهو كذلك).</p>
+        <button class="btn" style="background:#B91C1C;color:#fff" onclick="stopScan()" data-i18n="btn_stop_scan">إيقاف الكاميرا</button>
+        <p class="note" data-i18n="scan_note">قرّب الباركود من الكاميرا — يجب أن يكون الموقع مفتوحاً من الهاتف عبر HTTPS (وهو كذلك).</p>
       </div>
       <div id="off-out" style="margin-top:14px"></div>
     </section>
 
-    <div class="disclaimer"><b>تنبيه:</b> هاد الأدوات تعليمية للثقافة الصحية العامة. إلا عندك مرض مزمن (سكري، ضغط، كلى...) ولا كتاخد دواء، أي نظام غذائي خاص خاصو يتظبط مع طبيبك ولا مختص تغذية.</div>
+    <div class="disclaimer"><b data-i18n="disclaimer_b">تنبيه:</b> <span data-i18n="disclaimer">هذه الأدوات تعليمية للتثقيف الصحي العام. إذا كنت تعاني مرضاً مزمناً (سكري، ضغط، كلى...) أو تتناول دواءً، فأي نظام غذائي خاص يجب أن يُضبط مع طبيبك أو مختص تغذية.</span></div>
   </div>
 </main>
-<footer>© 2026 زهير محرز — بيت الوقاية · <a href="standards.html" style="text-decoration:underline">منهجنا ومعاييرنا</a> · <a href="verify.html" style="text-decoration:underline">التحقق من شهادة</a></footer>
+<footer>© 2026 <span data-i18n="logo_name">زهير محرز</span> — <span data-i18n="footer_brand">بيت الوقاية</span> · <a href="standards.html" style="text-decoration:underline" data-i18n="foot_standards">منهجنا ومعاييرنا</a> · <a href="verify.html" style="text-decoration:underline" data-i18n="foot_verify">التحقق من شهادة</a></footer>
 <script>
+var I18N={
+ar:{page_title:"الأدوات المجانية | زهير محرز",meta_desc:"حاسبات صحية مجانية بالعربية الفصحى: مؤشر كتلة الجسم، السعرات والماكروز، الماء، دورات النوم، الكافيين، وقيم الأطباق المغربية.",logo_name:"زهير محرز",footer_brand:"بيت الوقاية",back_home:"→ الرجوع للرئيسية",eyebrow:"مجانية بالكامل — دون تسجيل",h1_a:"أدوات",h1_b:"صحية وتغذية",lead:"حاسبات سريعة باللغة العربية مبنية على معادلات علمية معروفة. النتائج تقديرية للتثقيف الصحي العام، وليست تشخيصاً طبياً.",toc_bmi:"BMI",toc_cal:"السعرات والماكروز",toc_water:"الماء",toc_sleep:"دورات النوم",toc_caf:"الكافيين",toc_foods:"أطباق مغربية",bmi_title:"مؤشر كتلة الجسم BMI",bmi_sub:"احسب مؤشرك وتعرّف على النطاق الصحي لوزنك.",lbl_weight:"الوزن (كغ)",lbl_height:"الطول (سم)",ph_example80:"مثال: 80",ph_example175:"مثال: 175",btn_calc:"احسب",cal_title:"حاسبة السعرات والماكروز",cal_sub:"معادلة Mifflin-St Jeor — احتياجك اليومي بحسب هدفك.",lbl_sex:"الجنس",sex_m:"رجل",sex_f:"امرأة",lbl_age:"العمر (سنة)",ph_example30:"مثال: 30",lbl_sport_q:"هل تمارس الرياضة؟",sport_no:"لا",sport_yes:"نعم",lbl_act:"الحركة اليومية في العمل والحياة",act1:"عمل مكتبي وحركة قليلة",act2:"حركة خفيفة (مشي كثير)",act3:"حركة متوسطة (عمل يتضمن الوقوف والتنقل)",act4:"حركة كبيرة (عمل بدني)",act5:"حركة كبيرة جداً (عمل شاق)",lbl_sess:"حصص الرياضة في الأسبوع",sess1:"حصتان أو أقل",sess2:"3 – 4 حصص",sess3:"5 – 6 حصص",sess4:"7 حصص أو أكثر",lbl_goal:"الهدف",goal_lose:"إنقاص الوزن",goal_keep:"المحافظة",goal_gain:"زيادة الوزن/العضلات",btn_calc_need:"احسب احتياجي",cal_note:"توزيع الماكروز الافتراضي: بروتين 30% · كربوهيدرات 40% · دهون 30% (يتغير قليلاً بحسب الهدف).",water_title:"حاسبة الماء",water_sub:"كم يجب أن تشرب في اليوم؟ قاعدة 30–35 مل لكل كيلوغرام، مع تعديل بحسب النشاط والجو.",lbl_activity:"النشاط والجو",wat1:"يوم عادي، دون رياضة",wat2:"رياضة أو حركة كثيرة",wat3:"رياضة + جو حار",water_note:"الماء يأتي أيضاً من الطعام والمشروبات الأخرى؛ لون البول الفاتح علامة عملية على أنك قريب من الكفاية. حالات الكلى والقلب لها حدود خاصة — استشر طبيبك.",sleep_title:"حاسبة دورات النوم",sleep_sub:"النوم يتم في دورات مدتها 90 دقيقة تقريباً. اختر وقت الاستيقاظ، وسنعرض لك أوقات النوم التي تُكمل بها دورات كاملة (+15 دقيقة لكي تغفو).",lbl_wake:"وقت الاستيقاظ",btn_sleep:"اعرض أوقات النوم",caf_title:"فاحص الكافيين",caf_sub:"اجمع كافيين يومك وقارنه مع الحد الآمن الشائع لدى EFSA: حتى 400 مغ/يوم للبالغ السليم، و200 مغ للحوامل.",caf1:"قهوة (إسبريسو/كأس صغير ≈ 65 مغ)",caf2:"شاي مغربي بالنعناع (كأس ≈ 30 مغ)",caf3:"شاي أسود (كأس ≈ 45 مغ)",caf4:"مشروب طاقة (علبة 250مل ≈ 80 مغ)",caf5:"كولا (علبة 330مل ≈ 32 مغ)",caf6:"قهوة أمريكية/مصفاة (كأس ≈ 95 مغ)",btn_caf:"اجمع الكافيين",caf_note:"القيم تقريبية وتختلف بحسب طريقة التحضير. الكافيين بعد الظهر قد يُفسد جودة النوم حتى لو نمت بشكل عادي.",foods_title:"بحث الأغذية المغربية",foods_sub:"لكل طبق حصة محددة بالغرام، والقيم محسوبة من مرجع «لكل 100غ» — قاعدة نبنيها ونوسّعها ونراجعها.",ph_food_search:"ابحث: حريرة، كسكس، دجاج...",th_dish:"الطبق/المكوّن",th_portion:"الحصة المحددة",th_kcal:"سعرات",th_protein:"بروتين (غ)",th_carbs:"كربوهيدرات (غ)",th_fat:"دهون (غ)",foods_note:"القيم محسوبة من مرجع لكل 100غ (قاعدة بياناتنا الداخلية، تُراجع وتتوسع) — والوصفة المنزلية تختلف بحسب كمية الزيت واللحم، فالحصة الموزونة هي التي تُقرّبك من الدقة.",off_title:"📦 منتجات معلّبة — بالاسم أو بالباركود",off_sub:"البيانات من قاعدة Open Food Facts العالمية المفتوحة (القيم لكل 100غ كما هي مكتوبة على التغليف).",ph_off:"اسم منتج أو رقم باركود (مثال: 6111242100992)",btn_search:"ابحث",btn_scan:"📷 مسح بالكاميرا",btn_stop_scan:"إيقاف الكاميرا",scan_note:"قرّب الباركود من الكاميرا — يجب أن يكون الموقع مفتوحاً من الهاتف عبر HTTPS (وهو كذلك).",disclaimer_b:"تنبيه:",disclaimer:"هذه الأدوات تعليمية للتثقيف الصحي العام. إذا كنت تعاني مرضاً مزمناً (سكري، ضغط، كلى...) أو تتناول دواءً، فأي نظام غذائي خاص يجب أن يُضبط مع طبيبك أو مختص تغذية.",foot_standards:"منهجنا ومعاييرنا",foot_verify:"التحقق من شهادة",msg_fill_bmi:"أدخل الوزن والطول أولاً.",bmi_under:"نقص في الوزن",bmi_healthy:"النطاق الصحي",bmi_over:"زيادة في الوزن",bmi_obese:"سمنة",bmi_range:"النطاق الصحي لوزنك بحسب طولك",bmi_note:"BMI مؤشر عام: الرياضي العضلي قد يكون مؤشره مرتفعاً دون دهون زائدة، ويبقى محيط الخصر والصحة العامة مهمين.",unit_kg:"كغ",msg_fill_cal:"أدخل العمر والوزن والطول أولاً.",cal_daily:"احتياجك اليومي ≈ {v} سعرة",cal_bmr:"الأيض الأساسي BMR",cal_tdee:"المحافظة (TDEE)",cal_protein:"بروتين",cal_carbs:"كربوهيدرات",cal_fat:"دهون",unit_kcal:"سعرة",unit_g:"غ",cal_note2:"بداية عملية: جرّب أسبوعين وراقب الوزن، وعدّل ±150–200 سعرة بحسب النتيجة.",msg_fill_water:"أدخل الوزن أولاً.",water_per_day:"≈ {v} لتر في اليوم",water_range:"النطاق التقديري",water_glasses:"بعدد الأكواب (250 مل)",unit_liter:"لتر",unit_glass:"أكواب",msg_fill_sleep:"اختر وقت الاستيقاظ.",sleep_heading:"لكي تستيقظ مرتاحاً مع {v}",sleep_cycles:"{n} دورات ({h} ساعات نوم)",sleep_at:"نم مع {v}",sleep_note:"الأفضل 5–6 دورات. القاعدة الذهبية: نفس وقت الاستيقاظ كل يوم، حتى في عطلة نهاية الأسبوع.",caf_total:"المجموع ≈ {v} مغ",caf_msg_low:"داخل النطاق المريح لدى أغلب الناس.",caf_msg_mid:"قريب من الحد الأعلى الشائع (400 مغ) — راقب النوم والتوتر.",caf_msg_high:"فوق الحد الشائع 400 مغ/يوم — أنقص بالتدريج لكي تتفادى صداع الانقطاع.",caf_note2:"للحوامل: الحد الموصى به 200 مغ/يوم. للأطفال والمراهقين: الأقل هو الأفضل.",foods_empty:"لم نجد أي طبق بهذا الاسم — القاعدة تتوسع، جرّب كلمة أخرى.",off_enter:"اكتب اسم منتج أو رقم الباركود أولاً.",off_searching:"جارٍ البحث...",off_notfound:"لم نجد شيئاً — تأكد من الرقم أو جرّب اسماً آخر. بعض المنتجات المغربية لم تدخل بعد إلى القاعدة العالمية.",off_source:"المصدر: Open Food Facts — بيانات مساهمة جماعية، راجع التغليف الأصلي دائماً.",off_conn_err:"حدثت مشكلة في الاتصال — أعد المحاولة.",off_no_name:"منتج دون اسم",off_ref:"المرجع",off_cam_denied:"الكاميرا غير متاحة — امنح الإذن أو اكتب الرقم يدوياً.",off_scan_unsupported:"المسح غير مدعوم في هذا المتصفح — اكتب الرقم يدوياً.",off_scan_lib_fail:"تعذر تحميل مكتبة المسح — اكتب الرقم يدوياً."},
+fr:{page_title:"Outils gratuits | Zouhair Mahrez",meta_desc:"Calculateurs santé gratuits : indice de masse corporelle, calories et macros, eau, cycles de sommeil, caféine et valeurs des plats marocains.",logo_name:"Zouhair Mahrez",footer_brand:"Bayt Al-Wiqaya",back_home:"→ Retour à l'accueil",eyebrow:"Entièrement gratuit — sans inscription",h1_a:"Outils",h1_b:"santé et nutrition",lead:"Des calculateurs rapides fondés sur des équations scientifiques reconnues. Les résultats sont des estimations à visée éducative pour la culture santé générale, et non un diagnostic médical.",toc_bmi:"IMC",toc_cal:"Calories et macros",toc_water:"Eau",toc_sleep:"Cycles de sommeil",toc_caf:"Caféine",toc_foods:"Plats marocains",bmi_title:"Indice de masse corporelle (IMC)",bmi_sub:"Calculez votre indice et découvrez la fourchette saine correspondant à votre poids.",lbl_weight:"Poids (kg)",lbl_height:"Taille (cm)",ph_example80:"Ex. : 80",ph_example175:"Ex. : 175",btn_calc:"Calculer",cal_title:"Calculateur de calories et de macros",cal_sub:"Équation de Mifflin-St Jeor — vos besoins quotidiens selon votre objectif.",lbl_sex:"Sexe",sex_m:"Homme",sex_f:"Femme",lbl_age:"Âge (années)",ph_example30:"Ex. : 30",lbl_sport_q:"Pratiquez-vous un sport ?",sport_no:"Non",sport_yes:"Oui",lbl_act:"Activité quotidienne au travail et dans la vie",act1:"Travail de bureau et peu de mouvement",act2:"Activité légère (beaucoup de marche)",act3:"Activité modérée (travail debout avec déplacements)",act4:"Activité importante (travail physique)",act5:"Activité très importante (travail pénible)",lbl_sess:"Séances de sport par semaine",sess1:"2 séances ou moins",sess2:"3 – 4 séances",sess3:"5 – 6 séances",sess4:"7 séances ou plus",lbl_goal:"Objectif",goal_lose:"Perte de poids",goal_keep:"Maintien",goal_gain:"Prise de poids / de muscle",btn_calc_need:"Calculer mes besoins",cal_note:"Répartition par défaut des macros : protéines 30 % · glucides 40 % · lipides 30 % (elle varie légèrement selon l'objectif).",water_title:"Calculateur d'eau",water_sub:"Combien devez-vous boire par jour ? Règle de 30–35 ml par kilogramme, ajustée selon l'activité et le climat.",lbl_activity:"Activité et climat",wat1:"Journée ordinaire, sans sport",wat2:"Sport ou beaucoup de mouvement",wat3:"Sport + climat chaud",water_note:"L'eau provient aussi des aliments et des autres boissons ; une urine claire est un signe pratique que vous êtes proche de vos besoins. Les maladies rénales et cardiaques ont des limites particulières — consultez votre médecin.",sleep_title:"Calculateur de cycles de sommeil",sleep_sub:"Le sommeil se déroule en cycles d'environ 90 minutes. Choisissez votre heure de réveil, et nous vous indiquerons les heures de coucher qui complètent des cycles entiers (+15 minutes pour vous endormir).",lbl_wake:"Heure de réveil",btn_sleep:"Afficher les heures de coucher",caf_title:"Vérificateur de caféine",caf_sub:"Additionnez la caféine de votre journée et comparez-la à la limite de sécurité couramment admise par l'EFSA : jusqu'à 400 mg/jour pour un adulte en bonne santé, et 200 mg pour les femmes enceintes.",caf1:"Café (espresso / petite tasse ≈ 65 mg)",caf2:"Thé marocain à la menthe (verre ≈ 30 mg)",caf3:"Thé noir (verre ≈ 45 mg)",caf4:"Boisson énergisante (canette 250 ml ≈ 80 mg)",caf5:"Cola (canette 330 ml ≈ 32 mg)",caf6:"Café américain / filtré (verre ≈ 95 mg)",btn_caf:"Additionner la caféine",caf_note:"Les valeurs sont approximatives et varient selon la préparation. La caféine de l'après-midi peut nuire à la qualité du sommeil même si vous dormez normalement.",foods_title:"Recherche d'aliments marocains",foods_sub:"Chaque plat a une portion définie en grammes, et les valeurs sont calculées à partir d'une référence « pour 100 g » — une base que nous construisons, élargissons et révisons.",ph_food_search:"Rechercher : harira, couscous, poulet...",th_dish:"Plat / ingrédient",th_portion:"Portion définie",th_kcal:"Calories",th_protein:"Protéines (g)",th_carbs:"Glucides (g)",th_fat:"Lipides (g)",foods_note:"Les valeurs sont calculées à partir d'une référence pour 100 g (notre base de données interne, révisée et élargie) — et la recette maison varie selon la quantité d'huile et de viande, donc la portion pesée est ce qui vous rapproche le plus de la précision.",off_title:"📦 Produits emballés — par nom ou par code-barres",off_sub:"Données issues de la base mondiale ouverte Open Food Facts (valeurs pour 100 g telles qu'indiquées sur l'emballage).",ph_off:"Nom de produit ou code-barres (ex. : 6111242100992)",btn_search:"Rechercher",btn_scan:"📷 Scanner avec la caméra",btn_stop_scan:"Arrêter la caméra",scan_note:"Approchez le code-barres de la caméra — le site doit être ouvert depuis le téléphone en HTTPS (c'est le cas).",disclaimer_b:"Avertissement :",disclaimer:"Ces outils sont éducatifs, pour la culture santé générale. Si vous souffrez d'une maladie chronique (diabète, hypertension, reins...) ou si vous prenez un médicament, tout régime alimentaire particulier doit être adapté avec votre médecin ou un nutritionniste.",foot_standards:"Notre méthode et nos normes",foot_verify:"Vérifier un certificat",msg_fill_bmi:"Saisissez d'abord le poids et la taille.",bmi_under:"Insuffisance pondérale",bmi_healthy:"Fourchette saine",bmi_over:"Surpoids",bmi_obese:"Obésité",bmi_range:"Fourchette saine pour votre poids selon votre taille",bmi_note:"L'IMC est un indicateur général : un sportif musclé peut avoir un IMC élevé sans excès de graisse, et le tour de taille ainsi que la santé générale restent importants.",unit_kg:"kg",msg_fill_cal:"Saisissez d'abord l'âge, le poids et la taille.",cal_daily:"Vos besoins quotidiens ≈ {v} kcal",cal_bmr:"Métabolisme de base (BMR)",cal_tdee:"Maintien (TDEE)",cal_protein:"Protéines",cal_carbs:"Glucides",cal_fat:"Lipides",unit_kcal:"kcal",unit_g:"g",cal_note2:"Point de départ pratique : essayez deux semaines, suivez votre poids, et ajustez de ±150–200 kcal selon le résultat.",msg_fill_water:"Saisissez d'abord le poids.",water_per_day:"≈ {v} litres par jour",water_range:"Fourchette estimée",water_glasses:"En nombre de verres (250 ml)",unit_liter:"litres",unit_glass:"verres",msg_fill_sleep:"Choisissez une heure de réveil.",sleep_heading:"Pour vous réveiller reposé à {v}",sleep_cycles:"{n} cycles ({h} heures de sommeil)",sleep_at:"Couchez-vous à {v}",sleep_note:"Le mieux est de 5–6 cycles. Règle d'or : la même heure de réveil chaque jour, même le week-end.",caf_total:"Total ≈ {v} mg",caf_msg_low:"Dans la fourchette confortable pour la plupart des gens.",caf_msg_mid:"Proche de la limite supérieure courante (400 mg) — surveillez le sommeil et le stress.",caf_msg_high:"Au-dessus de la limite courante de 400 mg/jour — réduisez progressivement pour éviter les maux de tête de sevrage.",caf_note2:"Pour les femmes enceintes : la limite recommandée est de 200 mg/jour. Pour les enfants et les adolescents : le moins est le mieux.",foods_empty:"Aucun plat trouvé sous ce nom — la base s'élargit, essayez un autre mot.",off_enter:"Saisissez d'abord un nom de produit ou un code-barres.",off_searching:"Recherche en cours...",off_notfound:"Rien trouvé — vérifiez le numéro ou essayez un autre nom. Certains produits marocains ne figurent pas encore dans la base mondiale.",off_source:"Source : Open Food Facts — données collaboratives, vérifiez toujours l'emballage d'origine.",off_conn_err:"Un problème de connexion est survenu — réessayez.",off_no_name:"Produit sans nom",off_ref:"Référence",off_cam_denied:"Caméra indisponible — autorisez l'accès ou saisissez le numéro manuellement.",off_scan_unsupported:"Le scan n'est pas pris en charge par ce navigateur — saisissez le numéro manuellement.",off_scan_lib_fail:"Impossible de charger la bibliothèque de scan — saisissez le numéro manuellement."},
+en:{page_title:"Free tools | Zouhair Mahrez",meta_desc:"Free health calculators: body mass index, calories and macros, water, sleep cycles, caffeine, and Moroccan dish values.",logo_name:"Zouhair Mahrez",footer_brand:"Bayt Al-Wiqaya",back_home:"→ Back to home",eyebrow:"Completely free — no sign-up",h1_a:"Health",h1_b:"and nutrition tools",lead:"Quick calculators built on well-known scientific equations. Results are estimates for general health education, not a medical diagnosis.",toc_bmi:"BMI",toc_cal:"Calories & macros",toc_water:"Water",toc_sleep:"Sleep cycles",toc_caf:"Caffeine",toc_foods:"Moroccan dishes",bmi_title:"Body Mass Index (BMI)",bmi_sub:"Calculate your index and find the healthy range for your weight.",lbl_weight:"Weight (kg)",lbl_height:"Height (cm)",ph_example80:"E.g.: 80",ph_example175:"E.g.: 175",btn_calc:"Calculate",cal_title:"Calories & macros calculator",cal_sub:"Mifflin-St Jeor equation — your daily needs according to your goal.",lbl_sex:"Sex",sex_m:"Male",sex_f:"Female",lbl_age:"Age (years)",ph_example30:"E.g.: 30",lbl_sport_q:"Do you practise sport?",sport_no:"No",sport_yes:"Yes",lbl_act:"Daily activity at work and in life",act1:"Desk job and little movement",act2:"Light activity (a lot of walking)",act3:"Moderate activity (job involving standing and moving around)",act4:"High activity (physical job)",act5:"Very high activity (strenuous job)",lbl_sess:"Sport sessions per week",sess1:"2 sessions or fewer",sess2:"3 – 4 sessions",sess3:"5 – 6 sessions",sess4:"7 sessions or more",lbl_goal:"Goal",goal_lose:"Weight loss",goal_keep:"Maintenance",goal_gain:"Weight / muscle gain",btn_calc_need:"Calculate my needs",cal_note:"Default macro split: protein 30% · carbohydrates 40% · fat 30% (it varies slightly with the goal).",water_title:"Water calculator",water_sub:"How much should you drink per day? A rule of 30–35 ml per kilogram, adjusted for activity and climate.",lbl_activity:"Activity and climate",wat1:"Ordinary day, no sport",wat2:"Sport or a lot of movement",wat3:"Sport + hot climate",water_note:"Water also comes from food and other drinks; light-coloured urine is a practical sign that you are close to enough. Kidney and heart conditions have special limits — ask your doctor.",sleep_title:"Sleep cycles calculator",sleep_sub:"Sleep runs in cycles of about 90 minutes. Choose your wake-up time, and we will show you bedtimes that complete full cycles (+15 minutes to fall asleep).",lbl_wake:"Wake-up time",btn_sleep:"Show bedtimes",caf_title:"Caffeine checker",caf_sub:"Add up your day's caffeine and compare it with the commonly accepted EFSA safe limit: up to 400 mg/day for a healthy adult, and 200 mg for pregnant women.",caf1:"Coffee (espresso / small cup ≈ 65 mg)",caf2:"Moroccan mint tea (glass ≈ 30 mg)",caf3:"Black tea (glass ≈ 45 mg)",caf4:"Energy drink (250 ml can ≈ 80 mg)",caf5:"Cola (330 ml can ≈ 32 mg)",caf6:"American / filtered coffee (glass ≈ 95 mg)",btn_caf:"Add up caffeine",caf_note:"Values are approximate and vary with preparation. Afternoon caffeine can spoil sleep quality even if you sleep normally.",foods_title:"Moroccan foods search",foods_sub:"Every dish has a portion defined in grams, and values are calculated from a «per 100 g» reference — a database we build, expand and review.",ph_food_search:"Search: harira, couscous, chicken...",th_dish:"Dish / ingredient",th_portion:"Defined portion",th_kcal:"Calories",th_protein:"Protein (g)",th_carbs:"Carbohydrates (g)",th_fat:"Fat (g)",foods_note:"Values are calculated from a per-100 g reference (our internal database, reviewed and expanded) — and a home recipe varies with the amount of oil and meat, so a weighed portion is what brings you closest to accuracy.",off_title:"📦 Packaged products — by name or barcode",off_sub:"Data from the global open database Open Food Facts (values per 100 g as printed on the packaging).",ph_off:"Product name or barcode (e.g.: 6111242100992)",btn_search:"Search",btn_scan:"📷 Scan with camera",btn_stop_scan:"Stop camera",scan_note:"Bring the barcode close to the camera — the site must be opened from the phone over HTTPS (which it is).",disclaimer_b:"Note:",disclaimer:"These tools are educational, for general health education. If you have a chronic illness (diabetes, blood pressure, kidneys...) or take medication, any special diet must be adjusted with your doctor or a nutrition specialist.",foot_standards:"Our method and standards",foot_verify:"Verify a certificate",msg_fill_bmi:"Enter weight and height first.",bmi_under:"Underweight",bmi_healthy:"Healthy range",bmi_over:"Overweight",bmi_obese:"Obesity",bmi_range:"Healthy range for your weight for your height",bmi_note:"BMI is a general indicator: a muscular athlete can be high without excess fat, and waist circumference and general health remain important.",unit_kg:"kg",msg_fill_cal:"Enter age, weight and height first.",cal_daily:"Your daily needs ≈ {v} kcal",cal_bmr:"Basal metabolic rate (BMR)",cal_tdee:"Maintenance (TDEE)",cal_protein:"Protein",cal_carbs:"Carbohydrates",cal_fat:"Fat",unit_kcal:"kcal",unit_g:"g",cal_note2:"Practical start: try for two weeks, watch your weight, and adjust by ±150–200 kcal according to the result.",msg_fill_water:"Enter weight first.",water_per_day:"≈ {v} litres per day",water_range:"Estimated range",water_glasses:"In glasses (250 ml)",unit_liter:"litres",unit_glass:"glasses",msg_fill_sleep:"Choose a wake-up time.",sleep_heading:"To wake up rested at {v}",sleep_cycles:"{n} cycles ({h} hours of sleep)",sleep_at:"Sleep at {v}",sleep_note:"Best is 5–6 cycles. Golden rule: the same wake-up time every day, even at the weekend.",caf_total:"Total ≈ {v} mg",caf_msg_low:"Within the comfortable range for most people.",caf_msg_mid:"Close to the commonly accepted upper limit (400 mg) — watch sleep and stress.",caf_msg_high:"Above the commonly accepted limit of 400 mg/day — reduce gradually to avoid withdrawal headaches.",caf_note2:"For pregnant women: the recommended limit is 200 mg/day. For children and teenagers: less is better.",foods_empty:"No dish found under that name — the database is growing, try another word.",off_enter:"Enter a product name or barcode first.",off_searching:"Searching...",off_notfound:"Nothing found — check the number or try another name. Some Moroccan products are not yet in the global database.",off_source:"Source: Open Food Facts — community-contributed data, always check the original packaging.",off_conn_err:"A connection problem occurred — try again.",off_no_name:"Unnamed product",off_ref:"Reference",off_cam_denied:"Camera unavailable — grant permission or enter the number manually.",off_scan_unsupported:"Scanning is not supported in this browser — enter the number manually.",off_scan_lib_fail:"Could not load the scanning library — enter the number manually."},darija:{page_title:"الأدوات المجانية | زهير محرز",meta_desc:"حاسبات صحية مجانية بالدارجة: مؤشر كتلة الجسم، السعرات والماكروز، الماء، دورات النوم، الكافيين، وقيم الأطباق المغربية.",logo_name:"زهير محرز",footer_brand:"بيت الوقاية",back_home:"→ الرجوع للرئيسية",eyebrow:"مجانية بالكامل — بلا تسجيل",h1_a:"أدوات",h1_b:"صحية وتغذية",lead:"حاسبات سريعة بالدارجة مبنية على معادلات علمية معروفة. النتائج تقديرية للثقافة الصحية العامة، وماشي تشخيصاً طبياً.",toc_bmi:"BMI",toc_cal:"السعرات والماكروز",toc_water:"الماء",toc_sleep:"دورات النوم",toc_caf:"الكافيين",toc_foods:"أطباق مغربية",bmi_title:"مؤشر كتلة الجسم BMI",bmi_sub:"احسب مؤشرك واعرف المجال الصحي ديال وزنك.",lbl_weight:"الوزن (كغ)",lbl_height:"الطول (سم)",ph_example80:"مثال: 80",ph_example175:"مثال: 175",btn_calc:"احسب",cal_title:"حاسبة السعرات والماكروز",cal_sub:"معادلة Mifflin-St Jeor — احتياجك اليومي على حساب هدفك.",lbl_sex:"الجنس",sex_m:"رجل",sex_f:"امرأة",lbl_age:"العمر (سنة)",ph_example30:"مثال: 30",lbl_sport_q:"واش كنتمارس الرياضة؟",sport_no:"لا",sport_yes:"نعم",lbl_act:"الحركة اليومية في الخدمة والحياة",act1:"خدمة مكتبية وحركة قليلة",act2:"حركة خفيفة (كنتمشى بزاف)",act3:"حركة متوسطة (خدمة فيها وقوف وتنقل)",act4:"حركة كبيرة (خدمة بدنية)",act5:"حركة كبيرة بزاف (خدمة شاقة)",lbl_sess:"حصص الرياضة في الأسبوع",sess1:"حصتين ولا أقل",sess2:"3 – 4 حصص",sess3:"5 – 6 حصص",sess4:"7 حصص ولا أكثر",lbl_goal:"الهدف",goal_lose:"نقصان الوزن",goal_keep:"المحافظة",goal_gain:"زيادة الوزن/العضلات",btn_calc_need:"احسب احتياجي",cal_note:"توزيع الماكروز الافتراضي: بروتين 30% · كربوهيدرات 40% · دهون 30% (كيتبدل شوية مع الهدف).",water_title:"حاسبة الماء",water_sub:"شحال خاصك تشرب في النهار — قاعدة 30–35 مل لكل كيلوغرام، مع تعديل النشاط والجو.",lbl_activity:"النشاط والجو",wat1:"نهار عادي، بلا رياضة",wat2:"رياضة ولا حركة بزاف",wat3:"رياضة + جو سخون",water_note:"الماء كيجي أيضاً من الأكل والمشروبات الأخرى؛ لون البول الفاتح علامة عملية أنك قريب من الكفاية. حالات الكلى والقلب عندها حدود خاصة — سول طبيبك.",sleep_title:"حاسبة دورات النوم",sleep_sub:"النوم كيتم في دورات ديال 90 دقيقة تقريباً. اختار وقت الفياق، ونعطيوك أوقات النوم اللي كتكمل بيها دورات كاملة (+15 دقيقة باش ترقد).",lbl_wake:"وقت الفياق",btn_sleep:"اعطيني أوقات النوم",caf_title:"فاحص الكافيين",caf_sub:"جمع كافيين نهارك وقارنو مع الحد الآمن الشائع عند EFSA: حتى 400 مغ/يوم للبالغ السليم، و200 مغ للحوامل.",caf1:"قهوة (إسبريسو/كأس صغير ≈ 65 مغ)",caf2:"أتاي (كأس ≈ 30 مغ)",caf3:"شاي أسود (كأس ≈ 45 مغ)",caf4:"مشروب طاقة (علبة 250مل ≈ 80 مغ)",caf5:"كولا (علبة 330مل ≈ 32 مغ)",caf6:"قهوة أمريكية/مصفاة (كأس ≈ 95 مغ)",btn_caf:"اجمع الكافيين",caf_note:"القيم تقريبية وكتختلف مع طريقة التحضير. الكافيين بعد الظهر يقدر يخسر جودة النوم حتى لو رقدتي عادي.",foods_title:"بحث الأغذية المغربية",foods_sub:"كل طبق عندو حصة محددة بالغرام، والقيم محسوبة من مرجع «لكل 100غ» — قاعدة كنبنّيوها وكنوسعوها ونراجعوها.",ph_food_search:"قلب: حريرة، كسكس، دجاج...",th_dish:"الطبق/المكوّن",th_portion:"الحصة المحددة",th_kcal:"سعرات",th_protein:"بروتين (غ)",th_carbs:"كربوهيدرات (غ)",th_fat:"دهون (غ)",foods_note:"القيم محسوبة من مرجع لكل 100غ (قاعدة بياناتنا الداخلية، كتتراجع وتتكبر) — والوصفة البيتية كتختلف مع كمية الزيت واللحم، فالحصة الموزونة هي اللي كتقرّبك من الدقة.",off_title:"📦 منتجات معلّبة — بالاسم ولا بالباركود",off_sub:"البيانات من قاعدة Open Food Facts العالمية المفتوحة (القيم لكل 100غ كيف ما مكتوبة في التغليف).",ph_off:"اسم منتج ولا رقم باركود (مثال: 6111242100992)",btn_search:"قلّب",btn_scan:"📷 مسح بالكاميرا",btn_stop_scan:"إيقاف الكاميرا",scan_note:"قرّب الباركود من الكاميرا — خاص الموقع يكون مفتوح من الهاتف عبر HTTPS (وهو كذلك).",disclaimer_b:"تنبيه:",disclaimer:"هاد الأدوات تعليمية للثقافة الصحية العامة. إلا عندك مرض مزمن (سكري، ضغط، كلى...) ولا كتاخد دواء، أي نظام غذائي خاص خاصو يتظبط مع طبيبك ولا مختص تغذية.",foot_standards:"منهجنا ومعاييرنا",foot_verify:"التحقق من شهادة",msg_fill_bmi:"دخل الوزن والطول أولاً.",bmi_under:"نقص في الوزن",bmi_healthy:"المجال الصحي",bmi_over:"زيادة في الوزن",bmi_obese:"سمنة",bmi_range:"المجال الصحي لوزنك على طولك",bmi_note:"BMI مؤشر عام: الرياضي العضلي يقدر يكون مرتفع بلا دهون زائدة، وكيبقى محيط الخصر والصحة العامة مهمين.",unit_kg:"كغ",msg_fill_cal:"دخل العمر والوزن والطول أولاً.",cal_daily:"احتياجك اليومي ≈ {v} سعرة",cal_bmr:"الأيض الأساسي BMR",cal_tdee:"المحافظة (TDEE)",cal_protein:"بروتين",cal_carbs:"كربوهيدرات",cal_fat:"دهون",unit_kcal:"سعرة",unit_g:"غ",cal_note2:"بداية عملية: جرب أسبوعين وراقب الوزن، وعدّل ±150–200 سعرة على حساب النتيجة.",msg_fill_water:"دخل الوزن أولاً.",water_per_day:"≈ {v} لتر في النهار",water_range:"المجال التقديري",water_glasses:"بعدد الكيسان (250 مل)",unit_liter:"لتر",unit_glass:"كيسان",msg_fill_sleep:"اختار وقت الفياق.",sleep_heading:"باش تفيق مرتاح مع {v}",sleep_cycles:"{n} دورات ({h} سوايع نوم)",sleep_at:"ارقد مع {v}",sleep_note:"الأفضل 5–6 دورات. القاعدة الذهبية: نفس وقت الفياق كل نهار، حتى في الويكاند.",caf_total:"المجموع ≈ {v} مغ",caf_msg_low:"داخل المجال المريح عند أغلب الناس.",caf_msg_mid:"قريب من الحد الأعلى الشائع (400 مغ) — راقب النوم والتوتر.",caf_msg_high:"فوق الحد الشائع 400 مغ/يوم — نقص بالتدريج باش تتفادى صداع الانقطاع.",caf_note2:"للحوامل: الحد الموصى به 200 مغ/يوم. للأطفال والمراهقين: الأقل هو الأفضل.",foods_empty:"ما لقينا حتى طبق بهاد الاسم — القاعدة كتكبر، جرب كلمة أخرى.",off_enter:"كتب اسم منتج ولا رقم الباركود أولاً.",off_searching:"كنقلبو...",off_notfound:"ما لقينا والو — تأكد من الرقم ولا جرب اسم آخر. بعض المنتجات المغربية باقي ما دخلتش للقاعدة العالمية.",off_source:"المصدر: Open Food Facts — بيانات مساهمة جماعية، راجع التغليف الأصلي دائماً.",off_conn_err:"وقع مشكل في الاتصال — عاود المحاولة.",off_no_name:"منتج بلا اسم",off_ref:"المرجع",off_cam_denied:"الكاميرا ما متاحاش — عطي الإذن ولا كتب الرقم يدوياً.",off_scan_unsupported:"المسح ما مدعومش في هاد المتصفح — كتب الرقم يدوياً.",off_scan_lib_fail:"تعذر تحميل مكتبة المسح — كتب الرقم يدوياً."}};
+var CUR_LANG='ar';
+function t(k,params){var d=I18N[CUR_LANG]||I18N.ar;var s=(d[k]!==undefined?d[k]:(I18N.ar[k]||k));if(params){Object.keys(params).forEach(function(p){s=s.split('{'+p+'}').join(params[p])})}return s}
+function applyLang(lang){CUR_LANG=lang;document.documentElement.lang=(lang==='darija'?'ar':lang);document.documentElement.dir=(lang==='ar'||lang==='darija'?'rtl':'ltr');
+document.querySelectorAll('[data-i18n]').forEach(function(el){el.textContent=t(el.getAttribute('data-i18n'))});
+document.querySelectorAll('[data-i18n-ph]').forEach(function(el){el.placeholder=t(el.getAttribute('data-i18n-ph'))});
+document.title=t('page_title');var md=document.querySelector('meta[name="description"]');if(md)md.content=t('meta_desc');
+document.querySelectorAll('.lang button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===lang)});
+try{localStorage.setItem('site_lang',lang)}catch(e){}
+if(typeof renderFoods==='function')renderFoods()}
+function setLang(lang){applyLang(lang)}
+try{var saved=localStorage.getItem('site_lang');if(saved&&(saved==='ar'||saved==='fr'||saved==='en'||saved==='darija'))CUR_LANG=saved;else{try{if(Intl.DateTimeFormat().resolvedOptions().timeZone==='Africa/Casablanca')CUR_LANG='darija'}catch(e2){}}}catch(e){}
 function seg(id){var el=document.getElementById(id);var btns=el.querySelectorAll('button');btns.forEach(function(b){b.addEventListener('click',function(){btns.forEach(function(x){x.classList.remove('on')});b.classList.add('on');if(id==='cal-sport'){toggleSport();}})});return function(){return el.querySelector('button.on').dataset.v}}
 var getSex=seg('cal-sex'),getGoal=seg('cal-goal'),getSport=seg('cal-sport');
 function toggleSport(){var yes=getSport()==='yes';document.getElementById('cal-sess-wrap').style.display=yes?'':'none';document.getElementById('cal-act-wrap').style.display=yes?'none':''}
 function num(id){var v=parseFloat(document.getElementById(id).value);return isNaN(v)?null:v}
 function show(id,html){var r=document.getElementById(id);r.innerHTML=html;r.classList.add('show')}
-function calcBMI(){var w=num('bmi-w'),h=num('bmi-h');if(!w||!h){show('bmi-r','دخل الوزن والطول أولاً.');return}
+function calcBMI(){var w=num('bmi-w'),h=num('bmi-h');if(!w||!h){show('bmi-r',t('msg_fill_bmi'));return}
 var m=h/100,bmi=w/(m*m),lo=(18.5*m*m).toFixed(0),hi=(24.9*m*m).toFixed(0),cat,color;
-if(bmi<18.5){cat='نقص في الوزن';color='#B45309'}else if(bmi<25){cat='المجال الصحي';color='#15803D'}else if(bmi<30){cat='زيادة في الوزن';color='#B45309'}else{cat='سمنة';color='#B91C1C'}
-show('bmi-r','<div class="big">BMI = '+bmi.toFixed(1)+' — <span style="color:'+color+'">'+cat+'</span></div><table><tr><td>المجال الصحي لوزنك على طولك</td><td>'+lo+' – '+hi+' كغ</td></tr></table><p class="note">BMI مؤشر عام: الرياضي العضلي يقدر يكون مرتفع بلا دهون زائدة، وكيبقى محيط الخصر والصحة العامة مهمين.</p>')}
-function calcCalories(){var age=num('cal-age'),w=num('cal-w'),h=num('cal-h');if(!age||!w||!h){show('cal-r','دخل العمر والوزن والطول أولاً.');return}
+if(bmi<18.5){cat=t('bmi_under');color='#B45309'}else if(bmi<25){cat=t('bmi_healthy');color='#15803D'}else if(bmi<30){cat=t('bmi_over');color='#B45309'}else{cat=t('bmi_obese');color='#B91C1C'}
+show('bmi-r','<div class="big">BMI = '+bmi.toFixed(1)+' — <span style="color:'+color+'">'+cat+'</span></div><table><tr><td>'+t('bmi_range')+'</td><td>'+lo+' – '+hi+' '+t('unit_kg')+'</td></tr></table><p class="note">'+t('bmi_note')+'</p>')}
+function calcCalories(){var age=num('cal-age'),w=num('cal-w'),h=num('cal-h');if(!age||!w||!h){show('cal-r',t('msg_fill_cal'));return}
 var sex=getSex(),goal=getGoal();var bmr=10*w+6.25*h-5*age+(sex==='m'?5:-161);
 var act=getSport()==='yes'?parseFloat(document.getElementById('cal-sess').value):parseFloat(document.getElementById('cal-act').value);
 var tdee=Math.round(bmr*act);var target=tdee;
 if(goal==='lose')target=tdee-450;if(goal==='gain')target=tdee+300;
 var ps=goal==='gain'?0.32:(goal==='lose'?0.35:0.30),fs=0.30,cs=1-ps-fs;
 var p=Math.round(target*ps/4),c=Math.round(target*cs/4),f=Math.round(target*fs/9);
-show('cal-r','<div class="big">احتياجك اليومي ≈ '+target.toLocaleString('fr-MA')+' سعرة</div><table><tr><td>الأيض الأساسي BMR</td><td>'+Math.round(bmr).toLocaleString('fr-MA')+' سعرة</td></tr><tr><td>المحافظة (TDEE)</td><td>'+tdee.toLocaleString('fr-MA')+' سعرة</td></tr><tr><td>بروتين</td><td>'+p+' غ</td></tr><tr><td>كربوهيدرات</td><td>'+c+' غ</td></tr><tr><td>دهون</td><td>'+f+' غ</td></tr></table><p class="note">بداية عملية: جرب أسبوعين وراقب الوزن، وعدّل ±150–200 سعرة على حساب النتيجة.</p>')}
-function calcWater(){var w=num('wat-w');if(!w){show('wat-r','دخل الوزن أولاً.');return}
+show('cal-r','<div class="big">'+t('cal_daily',{v:target.toLocaleString('fr-MA')})+'</div><table><tr><td>'+t('cal_bmr')+'</td><td>'+Math.round(bmr).toLocaleString('fr-MA')+' '+t('unit_kcal')+'</td></tr><tr><td>'+t('cal_tdee')+'</td><td>'+tdee.toLocaleString('fr-MA')+' '+t('unit_kcal')+'</td></tr><tr><td>'+t('cal_protein')+'</td><td>'+p+' '+t('unit_g')+'</td></tr><tr><td>'+t('cal_carbs')+'</td><td>'+c+' '+t('unit_g')+'</td></tr><tr><td>'+t('cal_fat')+'</td><td>'+f+' '+t('unit_g')+'</td></tr></table><p class="note">'+t('cal_note2')+'</p>')}
+function calcWater(){var w=num('wat-w');if(!w){show('wat-r',t('msg_fill_water'));return}
 var ml=w*parseFloat(document.getElementById('wat-a').value);var lo=(w*30/1000).toFixed(1),hi=(ml/1000).toFixed(1);
-show('wat-r','<div class="big">≈ '+hi+' لتر في النهار</div><table><tr><td>المجال التقديري</td><td>'+lo+' – '+hi+' لتر</td></tr><tr><td>بعدد الكيسان (250 مل)</td><td>'+Math.round(ml/250)+' كيسان</td></tr></table>')}
+show('wat-r','<div class="big">'+t('water_per_day',{v:hi})+'</div><table><tr><td>'+t('water_range')+'</td><td>'+lo+' – '+hi+' '+t('unit_liter')+'</td></tr><tr><td>'+t('water_glasses')+'</td><td>'+Math.round(ml/250)+' '+t('unit_glass')+'</td></tr></table>')}
 function fmtT(mins){mins=((mins%1440)+1440)%1440;var h=Math.floor(mins/60),m=mins%60;return (h<10?'0':'')+h+':'+(m<10?'0':'')+m}
-function calcSleep(){var v=document.getElementById('slp-wake').value;if(!v){show('slp-r','اختار وقت الفياق.');return}
+function calcSleep(){var v=document.getElementById('slp-wake').value;if(!v){show('slp-r',t('msg_fill_sleep'));return}
 var p=v.split(':'),wake=(+p[0])*60+(+p[1]);var rows='';
-[6,5,4].forEach(function(cyc){var sleep=wake-(cyc*90)-15;rows+='<tr><td>'+cyc+' دورات ('+(cyc*1.5)+' سوايع نوم)</td><td>ارقد مع '+fmtT(sleep)+'</td></tr>'});
-show('slp-r','<div class="big">باش تفيق مرتاح مع '+v+'</div><table>'+rows+'</table><p class="note">الأفضل 5–6 دورات. القاعدة الذهبية: نفس وقت الفياق كل نهار، حتى في الويكاند.</p>')}
+[6,5,4].forEach(function(cyc){var sleep=wake-(cyc*90)-15;rows+='<tr><td>'+t('sleep_cycles',{n:cyc,h:(cyc*1.5)})+'</td><td>'+t('sleep_at',{v:fmtT(sleep)})+'</td></tr>'});
+show('slp-r','<div class="big">'+t('sleep_heading',{v:v})+'</div><table>'+rows+'</table><p class="note">'+t('sleep_note')+'</p>')}
 function calcCaffeine(){var vals=[['caf-1',65],['caf-2',30],['caf-3',45],['caf-4',80],['caf-5',32],['caf-6',95]];var tot=0;
 vals.forEach(function(x){var n=num(x[0])||0;tot+=n*x[1]});
-var msg,color;if(tot<=200){msg='داخل المجال المريح عند أغلب الناس.';color='#15803D'}else if(tot<=400){msg='قريب من الحد الأعلى الشائع (400 مغ) — راقب النوم والتوتر.';color='#B45309'}else{msg='فوق الحد الشائع 400 مغ/يوم — نقص بالتدريج باش تتفادى صداع الانقطاع.';color='#B91C1C'}
-show('caf-r','<div class="big">المجموع ≈ '+tot+' مغ — <span style="color:'+color+'">'+msg+'</span></div><p class="note">للحوامل: الحد الموصى به 200 مغ/يوم. للأطفال والمراهقين: الأقل هو الأفضل.</p>')}
-// [name, portion label, portion grams, per-100g: kcal, protein, carbs, fat]
+var msg,color;if(tot<=200){msg=t('caf_msg_low');color='#15803D'}else if(tot<=400){msg=t('caf_msg_mid');color='#B45309'}else{msg=t('caf_msg_high');color='#B91C1C'}
+show('caf-r','<div class="big">'+t('caf_total',{v:tot})+' — <span style="color:'+color+'">'+msg+'</span></div><p class="note">'+t('caf_note2')+'</p>')}
+// [Arabic name, Arabic portion, portion grams, per-100g: kcal, protein, carbs, fat, French name, English name, French portion, English portion, Darija name, Darija portion]
 var FOODS=[
-['حريرة مغربية','زلافة — 250غ',250,72,2.8,10,2.3],['كسكس بالخضرة واللحم','طبق — 500غ',500,110,4.4,15,3.2],['رفيسة بالدجاج','طبق — 500غ',500,140,7,16,5.2],
-['طاجين دجاج بالليمون والزيتون','حصة — 380غ',380,118,10,3,7.3],['طاجين كفتة بالبيض','حصة — 360غ',360,145,8.5,2.5,11],['بسطيلة دجاج','قطعة — 150غ',150,320,13,30,16],
-['مسمن','واحدة — 100غ',100,300,6,45,10],['بغرير','واحد — 80غ',80,175,5,35,1.2],['حرشة','واحدة — 90غ',90,233,4.4,39,6.6],['سفنج','واحدة — 70غ',70,330,5.7,43,14],
-['خبز الشعير','100غ',100,230,7,44,2],['خبز كامل','100غ',100,250,9,45,3],['عدس مطبوخ','طبق — 250غ',250,116,5.6,17,2.4],['بيصارة','زلافة — 250غ',250,88,4.4,12,2.4],
-['لوبيا مطبوخة','طبق — 250غ',250,108,5.2,16,2],['سمك سردين مشوي','100غ',100,210,24,0,12],['بيض مسلوق','بيضة — 55غ',55,143,12.5,1,9.5],
-['زيت الزيتون','ملعقة كبيرة — 15غ',15,800,0,0,93],['زيت أركان','ملعقة كبيرة — 15غ',15,800,0,0,93],['أملو','ملعقة كبيرة — 20غ',20,650,15,30,50],
-['تمر (مجفف)','3 حبات — 24غ',24,283,2,75,0],['تين مجفف','حبتان — 30غ',30,250,3,63,1],['لوز','حفنة — 30غ',30,575,21,21,50],['كركاع (جوز)','حفنة — 30غ',30,654,15,14,65],
-['زبيب','ملعقتان — 30غ',30,299,3,79,0.5],['حليب كامل','كأس — 250غ',250,61,3.2,4.8,3.3],['رايب','علبة — 125غ',125,72,4,9,2.4],['جبن أبيض','100غ',100,110,12,3,5],
-['أفوكادو','نصف حبة — 100غ',100,160,2,9,15],['موز','حبة متوسطة — 118غ',118,89,1.1,23,0.3],['برتقال','حبة متوسطة — 130غ',130,47,0.9,12,0.1],['تفاح','حبة متوسطة — 180غ',180,52,0.3,14,0.2],
-['أتاي بالنعناع (بلا سكر)','كأس — 200غ',200,1,0,0.2,0],['قهوة (بلا سكر)','كأس — 100غ',100,2,0.3,0,0],['عصير برتقال طبيعي','كأس — 250غ',250,45,0.7,10,0.2],
-['طاجين لحم بالبرقوق','حصة — 380غ',380,155,8,14,7.5],['طنجية مراكشية','حصة — 350غ',350,168,11,2,13],['كسكس بالتفاية','طبق — 500غ',500,124,4.6,20,3],
-['مشوي لحم (شواية)','حصة — 200غ',200,250,26,0,16],['كفتة مشوية','حصة — 150غ',150,260,17,2,20],['دجاج مشوي (بلا جلد)','حصة — 150غ',150,165,31,0,3.6],
-['أرز أبيض مطبوخ','طبق — 200غ',200,130,2.4,28,0.3],['بطاطس مقلية','حصة — 150غ',150,312,3.4,41,15],['بطاطس مسلوقة','حصة — 200غ',200,87,1.9,20,0.1],
-['سلطة مغربية (طماطم وبصل)','طبق — 150غ',150,32,1,4,1.4],['زعلوك','حصة — 150غ',150,62,1.6,6,3.6],['تكتوكة','حصة — 150غ',150,58,1.5,5.5,3.4],
-['خبز أبيض (دائري)','ربع خبزة — 60غ',60,265,8,50,3],['كعب غزال','واحدة — 25غ',25,410,6,58,17],['شباكية','واحدة — 30غ',30,430,5,62,18],
-['فقاص','قطعة — 20غ',20,400,7,68,11],['بريوات بالعسل','واحدة — 35غ',35,390,5,52,18],['ملوزة (غريبة لوز)','واحدة — 20غ',20,470,8,52,25],
-['عسل حر','ملعقة كبيرة — 21غ',21,304,0.3,82,0],['سكر (في أتاي)','ملعقة صغيرة — 5غ',5,400,0,100,0],['زيتون أخضر','10 حبات — 30غ',30,145,1,4,15],
-['زيتون أسود','10 حبات — 30غ',30,115,0.8,6,11],['جبن مثلثات','قطعة — 16غ',16,260,8,3,24],['يوغورت طبيعي','علبة — 110غ',110,61,3.5,4.7,3.3],
-['عنب','حفنة — 150غ',150,69,0.7,18,0.2],['بطيخ أحمر','شريحة — 200غ',200,30,0.6,8,0.2],['شمام','حصة — 200غ',200,34,0.8,8,0.2],
-['رمان','نصف حبة — 100غ',100,83,1.7,19,1.2],['خوخ','حبة — 150غ',150,39,0.9,10,0.3],['فراولة','حصة — 150غ',150,32,0.7,8,0.3],
-['كيوي','حبة — 75غ',75,61,1.1,15,0.5],['طماطم','حبة — 120غ',120,18,0.9,3.9,0.2],['جزر','حبة — 80غ',80,41,0.9,10,0.2],
-['خيار','حبة — 150غ',150,15,0.7,3.6,0.1],['مشروب غازي (كولا)','علبة — 330غ',330,42,0,11,0],['ماء معدني','كأس — 250غ',250,0,0,0,0]];
-function renderFoods(){var q=(document.getElementById('food-q').value||'').trim();var tb=document.getElementById('food-body');tb.innerHTML='';
-FOODS.filter(function(f){return !q||f[0].indexOf(q)>-1}).forEach(function(f){var k=f[2]/100;tb.innerHTML+='<tr><td><b>'+f[0]+'</b></td><td>'+f[1]+'</td><td>'+Math.round(f[3]*k)+'</td><td>'+Math.round(f[4]*k)+'</td><td>'+Math.round(f[5]*k)+'</td><td>'+Math.round(f[6]*k)+'</td></tr>'});
-if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">ما لقينا حتى طبق بهاد الاسم — القاعدة كتكبر، جرب كلمة أخرى.</td></tr>'}
-renderFoods();
+['حريرة مغربية','وعاء — 250غ',250,72,2.8,10,2.3,'Harira marocaine','Moroccan harira','Bol — 250 g','Bowl — 250 g','حريرة مغربية','زلافة — 250غ'],
+['كسكس بالخضروات واللحم','طبق — 500غ',500,110,4.4,15,3.2,'Couscous aux légumes et à la viande','Couscous with vegetables and meat','Plat — 500 g','Plate — 500 g','كسكس بالخضرة واللحم','طبق — 500غ'],
+['رفيسة بالدجاج','طبق — 500غ',500,140,7,16,5.2,'Rfissa au poulet','Rfissa with chicken','Plat — 500 g','Plate — 500 g','رفيسة بالدجاج','طبق — 500غ'],
+['طاجين دجاج بالليمون والزيتون','حصة — 380غ',380,118,10,3,7.3,'Tajine de poulet au citron et aux olives','Chicken tajine with lemon and olives','Portion — 380 g','Portion — 380 g','طاجين دجاج بالليمون والزيتون','حصة — 380غ'],
+['طاجين كفتة بالبيض','حصة — 360غ',360,145,8.5,2.5,11,'Tajine de kefta aux œufs','Kefta tajine with eggs','Portion — 360 g','Portion — 360 g','طاجين كفتة بالبيض','حصة — 360غ'],
+['بسطيلة دجاج','قطعة — 150غ',150,320,13,30,16,'Pastilla au poulet','Chicken pastilla','Pièce — 150 g','Piece — 150 g','بسطيلة دجاج','قطعة — 150غ'],
+['مسمن','واحدة — 100غ',100,300,6,45,10,'Msemen (crêpe feuilletée marocaine)','Msemen (Moroccan layered pancake)','Une pièce — 100 g','One piece — 100 g','مسمن','واحدة — 100غ'],
+['بغرير','واحد — 80غ',80,175,5,35,1.2,'Baghrir (crêpe marocaine aux mille trous)','Baghrir (Moroccan thousand-hole pancake)','Une pièce — 80 g','One piece — 80 g','بغرير','واحد — 80غ'],
+['حرشة','واحدة — 90غ',90,233,4.4,39,6.6,'Harcha (galette de semoule marocaine)','Harcha (Moroccan semolina cake)','Une pièce — 90 g','One piece — 90 g','حرشة','واحدة — 90غ'],
+['سفنج','واحدة — 70غ',70,330,5.7,43,14,'Sfenj (beignet marocain)','Sfenj (Moroccan doughnut)','Une pièce — 70 g','One piece — 70 g','سفنج','واحدة — 70غ'],
+['خبز الشعير','100غ',100,230,7,44,2,'Pain d\u2019orge','Barley bread','100 g','100 g','خبز الشعير','100غ'],
+['خبز كامل','100غ',100,250,9,45,3,'Pain complet','Wholemeal bread','100 g','100 g','خبز كامل','100غ'],
+['عدس مطبوخ','طبق — 250غ',250,116,5.6,17,2.4,'Lentilles cuites','Cooked lentils','Plat — 250 g','Plate — 250 g','عدس مطبوخ','طبق — 250غ'],
+['بيصارة','وعاء — 250غ',250,88,4.4,12,2.4,'Bissara (purée de fèves)','Bissara (fava bean purée)','Bol — 250 g','Bowl — 250 g','بيصارة','زلافة — 250غ'],
+['لوبيا مطبوخة','طبق — 250غ',250,108,5.2,16,2,'Haricots blancs cuits','Cooked white beans','Plat — 250 g','Plate — 250 g','لوبيا مطبوخة','طبق — 250غ'],
+['سمك سردين مشوي','100غ',100,210,24,0,12,'Sardines grillées','Grilled sardines','100 g','100 g','سمك سردين مشوي','100غ'],
+['بيض مسلوق','بيضة — 55غ',55,143,12.5,1,9.5,'Œuf dur','Boiled egg','Un œuf — 55 g','One egg — 55 g','بيض مسلوق','بيضة — 55غ'],
+['زيت الزيتون','ملعقة كبيرة — 15غ',15,800,0,0,93,'Huile d\u2019olive','Olive oil','Cuillère à soupe — 15 g','Tablespoon — 15 g','زيت الزيتون','ملعقة كبيرة — 15غ'],
+['زيت أركان','ملعقة كبيرة — 15غ',15,800,0,0,93,'Huile d\u2019argan','Argan oil','Cuillère à soupe — 15 g','Tablespoon — 15 g','زيت أركان','ملعقة كبيرة — 15غ'],
+['أملو','ملعقة كبيرة — 20غ',20,650,15,30,50,'Amlou (pâte d\u2019amandes, d\u2019huile d\u2019argan et de miel)','Amlou (almond, argan oil and honey paste)','Cuillère à soupe — 20 g','Tablespoon — 20 g','أملو','ملعقة كبيرة — 20غ'],
+['تمر (مجفف)','3 حبات — 24غ',24,283,2,75,0,'Dattes (séchées)','Dates (dried)','3 dattes — 24 g','3 dates — 24 g','تمر (مجفف)','3 حبات — 24غ'],
+['تين مجفف','حبتان — 30غ',30,250,3,63,1,'Figues séchées','Dried figs','2 figues — 30 g','2 figs — 30 g','تين مجفف','حبتان — 30غ'],
+['لوز','حفنة — 30غ',30,575,21,21,50,'Amandes','Almonds','Poignée — 30 g','Handful — 30 g','لوز','حفنة — 30غ'],
+['جوز','حفنة — 30غ',30,654,15,14,65,'Noix','Walnuts','Poignée — 30 g','Handful — 30 g','كركاع (جوز)','حفنة — 30غ'],
+['زبيب','ملعقتان — 30غ',30,299,3,79,0.5,'Raisins secs','Raisins','2 cuillères — 30 g','2 spoonfuls — 30 g','زبيب','ملعقتان — 30غ'],
+['حليب كامل','كأس — 250غ',250,61,3.2,4.8,3.3,'Lait entier','Whole milk','Verre — 250 g','Glass — 250 g','حليب كامل','كأس — 250غ'],
+['رائب','علبة — 125غ',125,72,4,9,2.4,'Raïb (lait fermenté marocain)','Raib (Moroccan fermented milk)','Pot — 125 g','Pot — 125 g','رايب','علبة — 125غ'],
+['جبن أبيض','100غ',100,110,12,3,5,'Fromage blanc','White cheese','100 g','100 g','جبن أبيض','100غ'],
+['أفوكادو','نصف حبة — 100غ',100,160,2,9,15,'Avocat','Avocado','Un demi-fruit — 100 g','Half a fruit — 100 g','أفوكادو','نصف حبة — 100غ'],
+['موز','حبة متوسطة — 118غ',118,89,1.1,23,0.3,'Banane','Banana','Une banane moyenne — 118 g','One medium banana — 118 g','موز','حبة متوسطة — 118غ'],
+['برتقال','حبة متوسطة — 130غ',130,47,0.9,12,0.1,'Orange','Orange','Une orange moyenne — 130 g','One medium orange — 130 g','برتقال','حبة متوسطة — 130غ'],
+['تفاح','حبة متوسطة — 180غ',180,52,0.3,14,0.2,'Pomme','Apple','Une pomme moyenne — 180 g','One medium apple — 180 g','تفاح','حبة متوسطة — 180غ'],
+['شاي مغربي بالنعناع (دون سكر)','كأس — 200غ',200,1,0,0.2,0,'Thé marocain à la menthe (sans sucre)','Moroccan mint tea (without sugar)','Verre — 200 g','Glass — 200 g','أتاي بالنعناع (بلا سكر)','كأس — 200غ'],
+['قهوة (دون سكر)','كأس — 100غ',100,2,0.3,0,0,'Café (sans sucre)','Coffee (without sugar)','Verre — 100 g','Glass — 100 g','قهوة (بلا سكر)','كأس — 100غ'],
+['عصير برتقال طبيعي','كأس — 250غ',250,45,0.7,10,0.2,'Jus d\u2019orange naturel','Fresh orange juice','Verre — 250 g','Glass — 250 g','عصير برتقال طبيعي','كأس — 250غ'],
+['طاجين لحم بالبرقوق','حصة — 380غ',380,155,8,14,7.5,'Tajine de viande aux pruneaux','Meat tajine with prunes','Portion — 380 g','Portion — 380 g','طاجين لحم بالبرقوق','حصة — 380غ'],
+['طنجية مراكشية','حصة — 350غ',350,168,11,2,13,'Tanjia marrakchie','Marrakech tanjia','Portion — 350 g','Portion — 350 g','طنجية مراكشية','حصة — 350غ'],
+['كسكس بالتفاية','طبق — 500غ',500,124,4.6,20,3,'Couscous à la tfaya (oignons confits et raisins secs)','Couscous with tfaya (caramelised onions and raisins)','Plat — 500 g','Plate — 500 g','كسكس بالتفاية','طبق — 500غ'],
+['مشوي لحم (شواية)','حصة — 200غ',200,250,26,0,16,'Viande grillée','Grilled meat','Portion — 200 g','Portion — 200 g','مشوي لحم (شواية)','حصة — 200غ'],
+['كفتة مشوية','حصة — 150غ',150,260,17,2,20,'Kefta grillée','Grilled kefta','Portion — 150 g','Portion — 150 g','كفتة مشوية','حصة — 150غ'],
+['دجاج مشوي (دون جلد)','حصة — 150غ',150,165,31,0,3.6,'Poulet grillé (sans peau)','Grilled chicken (without skin)','Portion — 150 g','Portion — 150 g','دجاج مشوي (بلا جلد)','حصة — 150غ'],
+['أرز أبيض مطبوخ','طبق — 200غ',200,130,2.4,28,0.3,'Riz blanc cuit','Cooked white rice','Plat — 200 g','Plate — 200 g','أرز أبيض مطبوخ','طبق — 200غ'],
+['بطاطس مقلية','حصة — 150غ',150,312,3.4,41,15,'Pommes de terre frites','French fries','Portion — 150 g','Portion — 150 g','بطاطس مقلية','حصة — 150غ'],
+['بطاطس مسلوقة','حصة — 200غ',200,87,1.9,20,0.1,'Pommes de terre bouillies','Boiled potatoes','Portion — 200 g','Portion — 200 g','بطاطس مسلوقة','حصة — 200غ'],
+['سلطة مغربية (طماطم وبصل)','طبق — 150غ',150,32,1,4,1.4,'Salade marocaine (tomates et oignons)','Moroccan salad (tomatoes and onions)','Plat — 150 g','Plate — 150 g','سلطة مغربية (طماطم وبصل)','طبق — 150غ'],
+['زعلوك','حصة — 150غ',150,62,1.6,6,3.6,'Zaalouk (salade d\u2019aubergines et de tomates)','Zaalouk (eggplant and tomato salad)','Portion — 150 g','Portion — 150 g','زعلوك','حصة — 150غ'],
+['تكتوكة','حصة — 150غ',150,58,1.5,5.5,3.4,'Tektouka (salade de poivrons et de tomates)','Tektouka (pepper and tomato salad)','Portion — 150 g','Portion — 150 g','تكتوكة','حصة — 150غ'],
+['خبز أبيض (دائري)','ربع رغيف — 60غ',60,265,8,50,3,'Pain blanc (rond)','White bread (round)','Quart de pain — 60 g','Quarter loaf — 60 g','خبز أبيض (دائري)','ربع خبزة — 60غ'],
+['كعب غزال','واحدة — 25غ',25,410,6,58,17,'Kaab el ghazal (cornes de gazelle)','Kaab el ghazal (gazelle horns)','Une pièce — 25 g','One piece — 25 g','كعب غزال','واحدة — 25غ'],
+['شباكية','واحدة — 30غ',30,430,5,62,18,'Chebakia (pâtisserie marocaine au miel et au sésame)','Chebakia (Moroccan honey and sesame pastry)','Une pièce — 30 g','One piece — 30 g','شباكية','واحدة — 30غ'],
+['فقاص','قطعة — 20غ',20,400,7,68,11,'Fekkas (biscuits marocains)','Fekkas (Moroccan biscuits)','Morceau — 20 g','Piece — 20 g','فقاص','قطعة — 20غ'],
+['بريوات بالعسل','واحدة — 35غ',35,390,5,52,18,'Briouates au miel','Briouates with honey','Une pièce — 35 g','One piece — 35 g','بريوات بالعسل','واحدة — 35غ'],
+['ملوزة (غريبة لوز)','واحدة — 20غ',20,470,8,52,25,'Mlouza (ghriba aux amandes)','Mlouza (almond ghriba)','Une pièce — 20 g','One piece — 20 g','ملوزة (غريبة لوز)','واحدة — 20غ'],
+['عسل حر','ملعقة كبيرة — 21غ',21,304,0.3,82,0,'Miel pur','Pure honey','Cuillère à soupe — 21 g','Tablespoon — 21 g','عسل حر','ملعقة كبيرة — 21غ'],
+['سكر (في الشاي المغربي)','ملعقة صغيرة — 5غ',5,400,0,100,0,'Sucre (dans le thé marocain)','Sugar (in Moroccan tea)','Cuillère à café — 5 g','Teaspoon — 5 g','سكر (في أتاي)','ملعقة صغيرة — 5غ'],
+['زيتون أخضر','10 حبات — 30غ',30,145,1,4,15,'Olives vertes','Green olives','10 olives — 30 g','10 olives — 30 g','زيتون أخضر','10 حبات — 30غ'],
+['زيتون أسود','10 حبات — 30غ',30,115,0.8,6,11,'Olives noires','Black olives','10 olives — 30 g','10 olives — 30 g','زيتون أسود','10 حبات — 30غ'],
+['جبن مثلثات','قطعة — 16غ',16,260,8,3,24,'Fromage en portions (triangles)','Processed cheese triangles','Une portion — 16 g','One portion — 16 g','جبن مثلثات','قطعة — 16غ'],
+['يوغورت طبيعي','علبة — 110غ',110,61,3.5,4.7,3.3,'Yaourt nature','Plain yoghurt','Pot — 110 g','Pot — 110 g','يوغورت طبيعي','علبة — 110غ'],
+['عنب','حفنة — 150غ',150,69,0.7,18,0.2,'Raisin','Grapes','Poignée — 150 g','Handful — 150 g','عنب','حفنة — 150غ'],
+['بطيخ أحمر','شريحة — 200غ',200,30,0.6,8,0.2,'Pastèque','Watermelon','Tranche — 200 g','Slice — 200 g','بطيخ أحمر','شريحة — 200غ'],
+['شمام','حصة — 200غ',200,34,0.8,8,0.2,'Melon','Cantaloupe melon','Portion — 200 g','Portion — 200 g','شمام','حصة — 200غ'],
+['رمان','نصف حبة — 100غ',100,83,1.7,19,1.2,'Grenade','Pomegranate','Un demi-fruit — 100 g','Half a fruit — 100 g','رمان','نصف حبة — 100غ'],
+['خوخ','حبة — 150غ',150,39,0.9,10,0.3,'Pêche','Peach','Une pêche — 150 g','One peach — 150 g','خوخ','حبة — 150غ'],
+['فراولة','حصة — 150غ',150,32,0.7,8,0.3,'Fraises','Strawberries','Portion — 150 g','Portion — 150 g','فراولة','حصة — 150غ'],
+['كيوي','حبة — 75غ',75,61,1.1,15,0.5,'Kiwi','Kiwi','Un kiwi — 75 g','One kiwi — 75 g','كيوي','حبة — 75غ'],
+['طماطم','حبة — 120غ',120,18,0.9,3.9,0.2,'Tomate','Tomato','Une tomate — 120 g','One tomato — 120 g','طماطم','حبة — 120غ'],
+['جزر','حبة — 80غ',80,41,0.9,10,0.2,'Carotte','Carrot','Une carotte — 80 g','One carrot — 80 g','جزر','حبة — 80غ'],
+['خيار','حبة — 150غ',150,15,0.7,3.6,0.1,'Concombre','Cucumber','Un concombre — 150 g','One cucumber — 150 g','خيار','حبة — 150غ'],
+['مشروب غازي (كولا)','علبة — 330غ',330,42,0,11,0,'Boisson gazeuse (cola)','Fizzy drink (cola)','Canette — 330 g','Can — 330 g','مشروب غازي (كولا)','علبة — 330غ'],
+['ماء معدني','كأس — 250غ',250,0,0,0,0,'Eau minérale','Mineral water','Verre — 250 g','Glass — 250 g','ماء معدني','كأس — 250غ']];
+function foodName(f){return CUR_LANG==='fr'?f[7]:(CUR_LANG==='en'?f[8]:(CUR_LANG==='darija'?f[11]:f[0]))}
+function foodPortion(f){return CUR_LANG==='fr'?f[9]:(CUR_LANG==='en'?f[10]:(CUR_LANG==='darija'?f[12]:f[1]))}
+function renderFoods(){var q=(document.getElementById('food-q').value||'').trim().toLowerCase();var tb=document.getElementById('food-body');tb.innerHTML='';
+FOODS.filter(function(f){return !q||f[0].toLowerCase().indexOf(q)>-1||f[7].toLowerCase().indexOf(q)>-1||f[8].toLowerCase().indexOf(q)>-1||f[11].toLowerCase().indexOf(q)>-1}).forEach(function(f){var k=f[2]/100;tb.innerHTML+='<tr><td><b>'+foodName(f)+'</b></td><td>'+foodPortion(f)+'</td><td>'+Math.round(f[3]*k)+'</td><td>'+Math.round(f[4]*k)+'</td><td>'+Math.round(f[5]*k)+'</td><td>'+Math.round(f[6]*k)+'</td></tr>'});
+if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">'+t('foods_empty')+'</td></tr>'}
 function offRow(p){var n=p.nutriments||{};function g(k){var v=n[k];return (v===undefined||v===null)?'—':Math.round(v)}
-var name=(p.product_name||p.product_name_fr||p.generic_name||'منتج بلا اسم');var brand=p.brands?(' — '+p.brands):'';
-return '<tr><td><b>'+name+'</b>'+brand+'</td><td>100غ</td><td>'+g('energy-kcal_100g')+'</td><td>'+g('proteins_100g')+'</td><td>'+g('carbohydrates_100g')+'</td><td>'+g('fat_100g')+'</td></tr>'}
+var name=(p.product_name||p.product_name_fr||p.generic_name||t('off_no_name'));var brand=p.brands?(' — '+p.brands):'';
+return '<tr><td><b>'+name+'</b>'+brand+'</td><td>'+(CUR_LANG==='ar'||CUR_LANG==='darija'?'100غ':'100 g')+'</td><td>'+g('energy-kcal_100g')+'</td><td>'+g('proteins_100g')+'</td><td>'+g('carbohydrates_100g')+'</td><td>'+g('fat_100g')+'</td></tr>'}
 function searchOFF(){var q=(document.getElementById('off-q').value||'').trim();var out=document.getElementById('off-out');
-if(!q){out.innerHTML='<p class="note">كتب اسم منتج ولا رقم الباركود أولاً.</p>';return}
-out.innerHTML='<p class="note">كنقلبو...</p>';
+if(!q){out.innerHTML='<p class="note">'+t('off_enter')+'</p>';return}
+out.innerHTML='<p class="note">'+t('off_searching')+'</p>';
 var isCode=/^\d{8,14}$/.test(q);
 var url=isCode?('https://world.openfoodfacts.org/api/v2/product/'+q+'.json'):('https://world.openfoodfacts.org/cgi/search.pl?search_terms='+encodeURIComponent(q)+'&search_simple=1&action=process&json=1&page_size=8&fields=product_name,product_name_fr,generic_name,brands,nutriments');
 fetch(url).then(function(r){return r.json()}).then(function(d){
 var prods=isCode?(d.status===1&&d.product?[d.product]:[]):(d.products||[]);
-if(!prods.length){out.innerHTML='<p class="note">ما لقينا والو — تأكد من الرقم ولا جرب اسم آخر. بعض المنتجات المغربية باقي ما دخلتش للقاعدة العالمية.</p>';return}
-out.innerHTML='<div style="overflow-x:auto"><table class="foods"><thead><tr><th>المنتج</th><th>المرجع</th><th>سعرات</th><th>بروتين (غ)</th><th>كربوهيدرات (غ)</th><th>دهون (غ)</th></tr></thead><tbody>'+prods.map(offRow).join('')+'</tbody></table></div><p class="note">المصدر: Open Food Facts — بيانات مساهمة جماعية، راجع التغليف الأصلي دائماً.</p>';
-}).catch(function(){out.innerHTML='<p class="note warn">وقع مشكل في الاتصال — عاود المحاولة.</p>'})}
+if(!prods.length){out.innerHTML='<p class="note">'+t('off_notfound')+'</p>';return}
+out.innerHTML='<div style="overflow-x:auto"><table class="foods"><thead><tr><th>'+t('th_dish')+'</th><th>'+t('off_ref')+'</th><th>'+t('th_kcal')+'</th><th>'+t('th_protein')+'</th><th>'+t('th_carbs')+'</th><th>'+t('th_fat')+'</th></tr></thead><tbody>'+prods.map(offRow).join('')+'</tbody></table></div><p class="note">'+t('off_source')+'</p>';
+}).catch(function(){out.innerHTML='<p class="note warn">'+t('off_conn_err')+'</p>'})}
 document.getElementById('off-q').addEventListener('keydown',function(e){if(e.key==='Enter')searchOFF()});
 var scanStream=null,scanTimer=null,html5Qr=null;
 function onCode(code){stopScan();document.getElementById('off-q').value=code;searchOFF()}
@@ -277,12 +348,13 @@ box.innerHTML='<video id="scan-v" autoplay playsinline style="width:100%"></vide
 navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(function(s){scanStream=s;var v=document.getElementById('scan-v');v.srcObject=s;
 var det=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128']});
 scanTimer=setInterval(function(){det.detect(v).then(function(codes){if(codes&&codes.length)onCode(codes[0].rawValue)}).catch(function(){})},400);
-}).catch(function(){box.innerHTML='<p class="note warn" style="padding:14px">الكاميرا ما متاحاش — عطي الإذن ولا كتب الرقم يدوياً.</p>'});
+}).catch(function(){box.innerHTML='<p class="note warn" style="padding:14px">'+t('off_cam_denied')+'</p>'});
 }else{
 var s=document.createElement('script');s.src='https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js';
-s.onload=function(){try{html5Qr=new Html5Qrcode('scan-box');html5Qr.start({facingMode:'environment'},{fps:10,qrbox:240,formatsToSupport:[Html5QrcodeSupportedFormats.EAN_13,Html5QrcodeSupportedFormats.EAN_8,Html5QrcodeSupportedFormats.UPC_A,Html5QrcodeSupportedFormats.CODE_128]},function(txt){onCode(txt)},function(){})}catch(e){box.innerHTML='<p class="note warn" style="padding:14px">المسح ما مدعومش في هاد المتصفح — كتب الرقم يدوياً.</p>'}};
-s.onerror=function(){box.innerHTML='<p class="note warn" style="padding:14px">تعذر تحميل مكتبة المسح — كتب الرقم يدوياً.</p>'};
+s.onload=function(){try{html5Qr=new Html5Qrcode('scan-box');html5Qr.start({facingMode:'environment'},{fps:10,qrbox:240,formatsToSupport:[Html5QrcodeSupportedFormats.EAN_13,Html5QrcodeSupportedFormats.EAN_8,Html5QrcodeSupportedFormats.UPC_A,Html5QrcodeSupportedFormats.CODE_128]},function(txt){onCode(txt)},function(){})}catch(e){box.innerHTML='<p class="note warn" style="padding:14px">'+t('off_scan_unsupported')+'</p>'}};
+s.onerror=function(){box.innerHTML='<p class="note warn" style="padding:14px">'+t('off_scan_lib_fail')+'</p>'};
 document.body.appendChild(s)}}
+applyLang(CUR_LANG);
 </script>
 </body>
 </html>

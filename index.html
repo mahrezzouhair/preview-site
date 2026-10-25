@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>زهير محرز | صانع محتوى صحي — أدوات ودورات بالدارجة</title>
-<meta name="description" content="زهير محرز — صانع محتوى صحي بالدارجة، مؤسس بيت الوقاية، ومدرّب حجامة وتقويم العظام. أدوات صحية مجانية ودورات متخصصة.">
+<title>زهير محرز | صانع محتوى صحي — أدوات ودورات</title>
+<meta name="description" content="زهير محرز — صانع محتوى صحي، مؤسس بيت الوقاية، ومدرّب وباحث في الحجامة وتقويم العظام والوخز بالإبر الصينية. أدوات صحية مجانية ودورات متخصصة.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -164,25 +164,36 @@ footer a:hover{color:var(--neon)}
   section{padding:60px 0}
   .course{padding:32px 24px}
 }
+/* Language switcher */
+.lang-bar{background:#07100C;border-bottom:1px solid #1C3325}
+.lang-in{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:7px 0}
+.lang-label{color:#9DB4A6;font-size:.85rem;font-weight:700}
+.lang-switch{display:flex;align-items:center;gap:6px}
+.lang-switch button{background:transparent;border:1px solid #2C4A38;color:#C9D6CE;border-radius:999px;padding:3px 13px;font-family:inherit;font-weight:800;font-size:.85rem;cursor:pointer}
+.lang-switch button.active{background:var(--neon);border-color:var(--neon);color:#06280F}
+.lang-sep{color:#33503F}
+html[dir="ltr"] .faq-q{text-align:left}
 @media(max-width:560px){.pillars,.tools-grid,.foot-grid{grid-template-columns:1fr}.chip-a{right:6px}.chip-b{left:6px}}
 </style>
 </head>
 <body>
 
+<div class="lang-bar"><div class="wrap lang-in"><span class="lang-label" data-i18n="lang_label">اللغة:</span><span class="lang-switch"><button type="button" data-lang="darija" aria-pressed="false">الدارجة</button><span class="lang-sep">|</span><button type="button" data-lang="ar" class="active" aria-pressed="true">العربية الفصحى</button><span class="lang-sep">|</span><button type="button" data-lang="fr" aria-pressed="false">Français</button><span class="lang-sep">|</span><button type="button" data-lang="en" aria-pressed="false">English</button></span></div></div>
+
 <header id="header">
   <div class="wrap header-in">
-    <a class="logo" href="#"><span class="mark">ز</span> زهير محرز</a>
+    <a class="logo" href="#"><span class="mark">ز</span><span data-i18n="brand_name">زهير محرز</span></a>
     <nav class="main" id="mainNav">
-      <a href="#" class="active">الرئيسية</a>
-      <a href="#pillars">شكون أنا</a>
-      <a href="#tools">الأدوات</a>
-      <a href="#courses">الدورات</a>
-      <a href="#faq">الأسئلة</a>
-      <a href="#contact">تواصل</a>
+      <a href="#" class="active" data-i18n="nav_home">الرئيسية</a>
+      <a href="#pillars" data-i18n="nav_about">من أنا</a>
+      <a href="#tools" data-i18n="nav_tools">الأدوات</a>
+      <a href="#courses" data-i18n="nav_courses">الدورات</a>
+      <a href="#faq" data-i18n="nav_faq">الأسئلة</a>
+      <a href="#contact" data-i18n="nav_contact">تواصل</a>
     </nav>
     <div class="header-cta">
-      <a class="btn btn-primary" href="https://wa.me/212664651301?text=%D8%B3%D9%84%D8%A7%D9%85%D8%8C%20%D8%A8%D8%BA%D9%8A%D8%AA%20%D9%86%D8%B3%D8%AA%D9%81%D8%B3%D8%B1" target="_blank" rel="noopener">تواصل في واتساب</a>
-      <button class="burger" id="burger" aria-label="القائمة">☰</button>
+      <a class="btn btn-primary" href="https://wa.me/212664651301?text=%D8%B3%D9%84%D8%A7%D9%85%D8%8C%20%D8%A8%D8%BA%D9%8A%D8%AA%20%D9%86%D8%B3%D8%AA%D9%81%D8%B3%D8%B1" target="_blank" rel="noopener" data-i18n="header_cta_whatsapp">تواصل عبر واتساب</a>
+      <button class="burger" id="burger" aria-label="القائمة" data-i18n-aria="burger_aria">☰</button>
     </div>
   </div>
 </header>
@@ -190,58 +201,58 @@ footer a:hover{color:var(--neon)}
 <div class="hero">
   <div class="wrap hero-grid">
     <div class="reveal visible">
-      <span class="badge-new"><b>جديد</b> دورة الحجامة وخرائطها — التسجيل كيفتح قريباً</span>
-      <h1>صحّتك تستاهل <span class="wave">الحقيقة<svg viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M2 9 Q 30 2 60 8 T 118 6" fill="none" stroke="#1ED760" stroke-width="4" stroke-linecap="round"/></svg></span>،<br>ماشي <span class="grad">الخرافات</span></h1>
-      <p class="sub">أنا زهير محرز — صانع محتوى صحي بالدارجة، مؤسس بيت الوقاية، ومدرّب وباحث في الحجامة وتقويم العظام والوخز بالإبر الصينية. كنفكّك المغالطات الصحية بالأدلة العلمية، وكنبني أدوات ودورات تخليك تفهم جسمك وتاخد القرار الصح.</p>
+      <span class="badge-new"><b data-i18n="badge_new">جديد</b> <span data-i18n="badge_text">دورة الحجامة وخرائطها — سيُفتح التسجيل قريباً</span></span>
+      <h1><span data-i18n="hero_title_a">صحتك تستحق</span> <span class="wave"><span data-i18n="hero_title_truth">الحقيقة</span><svg viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M2 9 Q 30 2 60 8 T 118 6" fill="none" stroke="#1ED760" stroke-width="4" stroke-linecap="round"/></svg></span>،<br><span data-i18n="hero_title_b">لا</span> <span class="grad" data-i18n="hero_title_myths">الخرافات</span></h1>
+      <p class="sub" data-i18n="hero_sub">أنا زهير محرز — صانع محتوى صحي، مؤسس بيت الوقاية، ومدرّب وباحث في الحجامة وتقويم العظام والوخز بالإبر الصينية. أفكّك المغالطات الصحية بالأدلة العلمية، وأبني أدوات ودورات تساعدك على فهم جسمك واتخاذ القرار الصحيح.</p>
       <div class="hero-btns">
-        <a class="btn btn-primary" href="#tools">جرّب الأدوات المجانية</a>
-        <a class="btn btn-ghost" href="#courses">اكتشف الدورات</a>
+        <a class="btn btn-primary" href="#tools" data-i18n="hero_btn_tools">جرّب الأدوات المجانية</a>
+        <a class="btn btn-ghost" href="#courses" data-i18n="hero_btn_courses">اكتشف الدورات</a>
       </div>
       <div class="proof">
-        <img src="assets/zouhair.jpg" alt="زهير محرز">
+        <img src="assets/zouhair.jpg" alt="زهير محرز" data-i18n-alt="alt_proof">
         <div>
           <span class="stars">★★★★★</span>
-          <small>أكثر من 14.7 ألف متابع على إنستغرام كيثيقو فالمحتوى</small>
+          <small data-i18n="proof_text">أكثر من 14.7 ألف متابع على إنستغرام يثقون بالمحتوى</small>
         </div>
       </div>
     </div>
     <div class="photo-card reveal visible">
-      <div class="frame"><img src="assets/zouhair.jpg" alt="زهير محرز — صانع محتوى صحي"></div>
-      <div class="chip-float chip-a"><span class="dot">🔬</span><span>تصحيح الخرافات<small>بالأدلة والمصادر</small></span></div>
-      <div class="chip-float chip-b"><span class="dot">🎓</span><span>دورات متخصصة<small>حجامة · تقويم · وخز بالإبر</small></span></div>
+      <div class="frame"><img src="assets/zouhair.jpg" alt="زهير محرز — صانع محتوى صحي" data-i18n-alt="alt_hero"></div>
+      <div class="chip-float chip-a"><span class="dot">🔬</span><span><span data-i18n="chip_a">تصحيح الخرافات</span><small data-i18n="chip_a_sub">بالأدلة والمصادر</small></span></div>
+      <div class="chip-float chip-b"><span class="dot">🎓</span><span><span data-i18n="chip_b">دورات متخصصة</span><small data-i18n="chip_b_sub">حجامة · تقويم · وخز بالإبر</small></span></div>
     </div>
   </div>
 </div>
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track" id="marqueeTrack">
-    <span>حاسبة السعرات</span><i>✦</i><span>خرائط الحجامة</span><i>✦</i><span>تقويم العظام</span><i>✦</i><span>الوخز بالإبر الصينية</span><i>✦</i><span>حاسبة الماء</span><i>✦</i><span>مخطط الوجبات</span><i>✦</i><span>دورات النوم</span><i>✦</i><span>أغذية مغربية</span><i>✦</i><span>تصحيح الخرافات</span><i>✦</i>
+    <span data-i18n="marq_calories">حاسبة السعرات</span><i>✦</i><span data-i18n="marq_maps">خرائط الحجامة</span><i>✦</i><span data-i18n="marq_bone">تقويم العظام</span><i>✦</i><span data-i18n="marq_acu">الوخز بالإبر الصينية</span><i>✦</i><span data-i18n="marq_water">حاسبة الماء</span><i>✦</i><span data-i18n="marq_meals">مخطط الوجبات</span><i>✦</i><span data-i18n="marq_sleep">دورات النوم</span><i>✦</i><span data-i18n="marq_foods">أغذية مغربية</span><i>✦</i><span data-i18n="marq_myths">تصحيح الخرافات</span><i>✦</i>
   </div>
 </div>
 
 <section id="pillars">
   <div class="wrap">
-    <span class="eyebrow reveal">ليش أنا؟</span>
-    <h2 class="reveal">ثلاثة أدوار في شخص واحد، <span class="grad">في خدمة صحّتك</span></h2>
+    <span class="eyebrow reveal" data-i18n="eyebrow_why">لماذا أنا؟</span>
+    <h2 class="reveal"><span data-i18n="pillars_title_a">ثلاثة أدوار في شخص واحد،</span> <span class="grad" data-i18n="pillars_title_b">في خدمة صحتك</span></h2>
     <div class="pillars">
       <div class="pillar featured reveal">
-        <div class="num">01 — صانع محتوى صحي</div>
-        <h3>محتوى بالدارجة يفكّك الخرافات</h3>
-        <p>فيديوهات قصيرة ومباشرة: واش هاد الأكلة صحية؟ واش هاد الإشاعة صح؟ الجواب دائماً بالأدلة، وبكلام يفهمو كل مغربي.</p>
-        <div class="tags"><span>تصحيح الخرافات</span><span>أطباق مغربية</span><span>أخبار صحية بالمصادر</span></div>
+        <div class="num" data-i18n="pillar1_num">01 — صانع محتوى صحي</div>
+        <h3 data-i18n="pillar1_title">محتوى يفكّك الخرافات</h3>
+        <p data-i18n="pillar1_text">مقاطع فيديو قصيرة ومباشرة: هل هذا الطبق صحي؟ هل هذه الشائعة صحيحة؟ الجواب دائماً بالأدلة، وبكلام يفهمه كل مغربي.</p>
+        <div class="tags"><span data-i18n="pillar1_tag1">تصحيح الخرافات</span><span data-i18n="pillar1_tag2">أطباق مغربية</span><span data-i18n="pillar1_tag3">أخبار صحية بالمصادر</span></div>
       </div>
       <div class="pillar reveal">
-        <div class="num">02 — مؤسس بيت الوقاية</div>
-        <h3>مركز الحجامة وتقويم العظام بالدار البيضاء</h3>
-        <p>الخبرة الميدانية اليومية مع المرضى هي مصدر المحتوى والدورات، في التخصصات الثلاثة: الحجامة، تقويم العظام، والوخز بالإبر الصينية.</p>
-        <div class="tags"><span>حجامة</span><span>تقويم العظام</span><span>وخز بالإبر الصينية</span></div>
-        <a class="more" href="https://baytwikaya.site" target="_blank" rel="noopener">زور موقع المركز ←</a>
+        <div class="num" data-i18n="pillar2_num">02 — مؤسس بيت الوقاية</div>
+        <h3 data-i18n="pillar2_title">مركز الحجامة وتقويم العظام بالدار البيضاء</h3>
+        <p data-i18n="pillar2_text">الخبرة الميدانية اليومية مع المرضى هي مصدر المحتوى والدورات، في التخصصات الثلاثة: الحجامة، تقويم العظام، والوخز بالإبر الصينية.</p>
+        <div class="tags"><span data-i18n="pillar2_tag1">حجامة</span><span data-i18n="pillar2_tag2">تقويم العظام</span><span data-i18n="pillar2_tag3">وخز بالإبر الصينية</span></div>
+        <a class="more" href="https://baytwikaya.site" target="_blank" rel="noopener" data-i18n="pillar2_more">زُر موقع المركز ←</a>
       </div>
       <div class="pillar reveal">
-        <div class="num">03 — مدرّب وباحث</div>
-        <h3>دورات عملية من الصفر للاحتراف</h3>
-        <p>تكوين تطبيقي وبحث مستمر في الحجامة وخرائطها وتقويم العظام والوخز بالإبر الصينية، بدروس مسجلة بالدارجة وشهادة إتمام.</p>
-        <div class="tags"><span>دورة الحجامة</span><span>خرائط الحجامة</span><span>شهادة إتمام</span></div>
+        <div class="num" data-i18n="pillar3_num">03 — مدرّب وباحث</div>
+        <h3 data-i18n="pillar3_title">دورات عملية من الصفر للاحتراف</h3>
+        <p data-i18n="pillar3_text">تكوين تطبيقي وبحث مستمر في الحجامة وخرائطها وتقويم العظام والوخز بالإبر الصينية، بدروس مسجلة وشهادة إتمام.</p>
+        <div class="tags"><span data-i18n="pillar3_tag1">دورة الحجامة</span><span data-i18n="pillar3_tag2">خرائط الحجامة</span><span data-i18n="pillar3_tag3">شهادة إتمام</span></div>
       </div>
     </div>
   </div>
@@ -249,59 +260,59 @@ footer a:hover{color:var(--neon)}
 
 <div class="stats">
   <div class="wrap stats-grid">
-    <div class="stat reveal"><div class="val"><span class="count" data-target="14700">0</span>+</div><div class="lbl">متابع على إنستغرام</div></div>
-    <div class="stat reveal"><div class="val"><span class="count" data-target="35">0</span>+</div><div class="lbl">فيديو ومنشور تعليمي</div></div>
-    <div class="stat reveal"><div class="val"><span class="count" data-target="3">0</span></div><div class="lbl">منصات: إنستغرام · تيك توك · يوتيوب</div></div>
-    <div class="stat reveal"><div class="val"><span class="count" data-target="2">0</span></div><div class="lbl">دورات متخصصة قريباً</div></div>
+    <div class="stat reveal"><div class="val"><span class="count" data-target="14700">0</span>+</div><div class="lbl" data-i18n="stat1_lbl">متابع على إنستغرام</div></div>
+    <div class="stat reveal"><div class="val"><span class="count" data-target="35">0</span>+</div><div class="lbl" data-i18n="stat2_lbl">فيديو ومنشور تعليمي</div></div>
+    <div class="stat reveal"><div class="val"><span class="count" data-target="3">0</span></div><div class="lbl" data-i18n="stat3_lbl">منصات: إنستغرام · تيك توك · يوتيوب</div></div>
+    <div class="stat reveal"><div class="val"><span class="count" data-target="2">0</span></div><div class="lbl" data-i18n="stat4_lbl">دورات متخصصة قريباً</div></div>
   </div>
 </div>
 
 <section id="tools" style="background:#FBFDFB">
   <div class="wrap">
-    <span class="eyebrow reveal">أدوات جاهزة</span>
-    <h2 class="reveal">أدوات صحية مجانية <span class="grad">تسرّع حياتك</span></h2>
-    <p class="lead reveal">حاسبات وأدوات تفاعلية بالدارجة، مبنية على معادلات علمية معروفة — جرّب، وافهم جسمك في ثواني.</p>
+    <span class="eyebrow reveal" data-i18n="eyebrow_tools">أدوات جاهزة</span>
+    <h2 class="reveal"><span data-i18n="tools_title_a">أدوات صحية مجانية</span> <span class="grad" data-i18n="tools_title_b">تُسهّل حياتك</span></h2>
+    <p class="lead reveal" data-i18n="tools_lead">حاسبات وأدوات تفاعلية، مبنية على معادلات علمية معروفة — جرّب، وافهم جسمك في ثوانٍ.</p>
     <div class="tools-grid">
-      <a class="tool reveal" href="tools.html#bmi"><div class="ico">⚖️</div><h3>مؤشر كتلة الجسم BMI</h3><p>احسب مؤشرك واعرف المجال الصحي ديال وزنك على حساب طولك.</p></a>
-      <a class="tool reveal" href="tools.html#calories"><div class="ico">🔥</div><h3>حاسبة السعرات والماكروز</h3><p>احتياجك اليومي من السعرات والبروتين والدهون والكربوهيدرات على حساب هدفك.</p></a>
-      <a class="tool reveal" href="tools.html#water"><div class="ico">💧</div><h3>حاسبة الماء</h3><p>شحال خاصك تشرب في النهار على حساب وزنك ونشاطك والجو.</p></a>
-      <a class="tool reveal" href="tools.html#sleep"><div class="ico">😴</div><h3>حاسبة دورات النوم</h3><p>اختار وقت النوم ولا الفياق على حساب دورات نوم كاملة ديال 90 دقيقة.</p></a>
-      <a class="tool reveal" href="tools.html#caffeine"><div class="ico">☕</div><h3>فاحص الكافيين</h3><p>جمع كافيين نهارك (قهوة، أتاي، مشروبات طاقة) وقارنو مع الحد الآمن.</p></a>
-      <a class="tool reveal" href="tools.html#foods"><div class="ico">🥘</div><h3>بحث الأغذية المغربية</h3><p>سعرات وقيم أطباقنا: الحريرة، الكسكس، الرفيسة، الطاجين... بقاعدة خاصة بينا.</p></a>
+      <a class="tool reveal" href="tools.html#bmi"><div class="ico">⚖️</div><h3 data-i18n="tool_bmi_title">مؤشر كتلة الجسم BMI</h3><p data-i18n="tool_bmi_text">احسب مؤشرك واعرف المجال الصحي لوزنك بحسب طولك.</p></a>
+      <a class="tool reveal" href="tools.html#calories"><div class="ico">🔥</div><h3 data-i18n="tool_cal_title">حاسبة السعرات والماكروز</h3><p data-i18n="tool_cal_text">احتياجك اليومي من السعرات والبروتين والدهون والكربوهيدرات بحسب هدفك.</p></a>
+      <a class="tool reveal" href="tools.html#water"><div class="ico">💧</div><h3 data-i18n="tool_water_title">حاسبة الماء</h3><p data-i18n="tool_water_text">كم يجب أن تشرب في اليوم بحسب وزنك ونشاطك والطقس.</p></a>
+      <a class="tool reveal" href="tools.html#sleep"><div class="ico">😴</div><h3 data-i18n="tool_sleep_title">حاسبة دورات النوم</h3><p data-i18n="tool_sleep_text">اختر وقت النوم أو الاستيقاظ بحسب دورات نوم كاملة مدتها 90 دقيقة.</p></a>
+      <a class="tool reveal" href="tools.html#caffeine"><div class="ico">☕</div><h3 data-i18n="tool_caf_title">فاحص الكافيين</h3><p data-i18n="tool_caf_text">اجمع كافيين يومك (قهوة، شاي، مشروبات طاقة) وقارنه بالحد الآمن.</p></a>
+      <a class="tool reveal" href="tools.html#foods"><div class="ico">🥘</div><h3 data-i18n="tool_foods_title">بحث الأغذية المغربية</h3><p data-i18n="tool_foods_text">سعرات وقيم أطباقنا: الحريرة، الكسكس، الرفيسة، الطاجين... من قاعدة بيانات خاصة بنا.</p></a>
     </div>
-    <p class="tools-note reveal">الأدوات كلها مجانية، بلا تسجيل وبلا إعلانات — وكتكبر مع الوقت. <a href="tools.html" style="color:var(--neon);font-weight:800">افتح صفحة الأدوات ←</a></p>
+    <p class="tools-note reveal"><span data-i18n="tools_note_a">جميع الأدوات مجانية، دون تسجيل ودون إعلانات — وهي تتوسع مع الوقت.</span> <a href="tools.html" style="color:var(--neon);font-weight:800" data-i18n="tools_note_link">افتح صفحة الأدوات ←</a></p>
   </div>
 </section>
 
 <section id="courses">
   <div class="wrap">
-    <span class="eyebrow reveal">الدورات</span>
-    <h2 class="reveal">تعلّم الحرفة <span class="grad">من ممارِس</span>، ماشي من نظري</h2>
+    <span class="eyebrow reveal" data-i18n="eyebrow_courses">الدورات</span>
+    <h2 class="reveal"><span data-i18n="courses_title_a">تعلّم الحرفة</span> <span class="grad" data-i18n="courses_title_b">من ممارِس</span>، <span data-i18n="courses_title_c">لا من منظّر</span></h2>
     <div class="course reveal" style="margin-top:30px">
       <div>
-        <span class="badge-new"><b>الدورة الأحدث</b> التسجيل كيفتح قريباً</span>
-        <h2>دورة الحجامة وخرائط الحجامة</h2>
-        <p>دورة عملية شاملة: أساسيات الحجامة النبوية والعلمية، خرائط النقاط كاملة، التعقيم والسلامة، وكيفاش تدير جلسة احترافية من الأول للآخر.</p>
+        <span class="badge-new"><b data-i18n="course_badge">الدورة الأحدث</b> <span data-i18n="course_badge_text">سيُفتح التسجيل قريباً</span></span>
+        <h2 data-i18n="course_title">دورة الحجامة وخرائط الحجامة</h2>
+        <p data-i18n="course_desc">دورة عملية شاملة: أساسيات الحجامة النبوية والعلمية، خرائط النقاط كاملة، التعقيم والسلامة، وكيف تدير جلسة احترافية من البداية إلى النهاية.</p>
         <ul class="checks">
-          <li>دروس فيديو مسجلة بالدارجة، بالوتيرة اللي تناسبك</li>
-          <li>خريطة نقاط الحجامة التفاعلية مدمجة مع الدروس</li>
-          <li>دروس معاينة مجانية قبل ما تقرر</li>
-          <li>تتبع تقدمك + شهادة إتمام باسمك</li>
+          <li data-i18n="check1">دروس فيديو مسجلة، بالوتيرة التي تناسبك</li>
+          <li data-i18n="check2">خريطة نقاط الحجامة التفاعلية مدمجة مع الدروس</li>
+          <li data-i18n="check3">دروس معاينة مجانية قبل أن تقرر</li>
+          <li data-i18n="check4">تتبع تقدمك + شهادة إتمام باسمك</li>
         </ul>
         <div class="hero-btns">
-          <a class="btn btn-primary" href="https://wa.me/212664651301?text=%D8%B3%D9%84%D8%A7%D9%85%D8%8C%20%D8%A8%D8%BA%D9%8A%D8%AA%20%D9%86%D8%B3%D8%AC%D9%84%20%D8%A7%D9%87%D8%AA%D9%85%D8%A7%D9%85%D9%8A%20%D9%81%D9%8A%20%D8%AF%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AD%D8%AC%D8%A7%D9%85%D8%A9" target="_blank" rel="noopener">سجّل اهتمامك في واتساب</a>
+          <a class="btn btn-primary" href="https://wa.me/212664651301?text=%D8%B3%D9%84%D8%A7%D9%85%D8%8C%20%D8%A8%D8%BA%D9%8A%D8%AA%20%D9%86%D8%B3%D8%AC%D9%84%20%D8%A7%D9%87%D8%AA%D9%85%D8%A7%D9%85%D9%8A%20%D9%81%D9%8A%20%D8%AF%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AD%D8%AC%D8%A7%D9%85%D8%A9" target="_blank" rel="noopener" data-i18n="course_whatsapp">سجّل اهتمامك في واتساب</a>
         </div>
       </div>
       <div class="course-side">
-        <div class="course-meta"><span>مسجّلة · فيديو عملي</span><span>شهادة إتمام</span><span>بالدارجة</span></div>
-        <h3>كيفاش كيخدم التسجيل؟</h3>
-        <p>1. كتدير حساب مجاني في الموقع<br>2. كتختار الدورة وكتخلص بتحويل بنكي<br>3. كيتأكد التحويل وكنفعّل ليك الدورة في حسابك<br>4. كتفتح ليك الدروس كاملة وكتكمل بالوتيرة ديالك</p>
-        <p class="price-note">الثمن وموعد الفتح كيُعلنوا قريباً — سجّل اهتمامك باش توصلك الأولوية. عندك شهادة من عندنا؟ <a href="verify.html" style="color:var(--neon);font-weight:800">تحقق منها هنا</a></p>
+        <div class="course-meta"><span data-i18n="course_meta1">مسجّلة · فيديو عملي</span><span data-i18n="course_meta2">شهادة إتمام</span><span data-i18n="course_meta3">بالدارجة</span></div>
+        <h3 data-i18n="course_how_title">كيف يعمل التسجيل؟</h3>
+        <p><span>1. </span><span data-i18n="course_step1">تنشئ حساباً مجانياً في الموقع</span><br><span>2. </span><span data-i18n="course_step2">تختار الدورة وتدفع بتحويل بنكي</span><br><span>3. </span><span data-i18n="course_step3">بعد التأكد من التحويل، نُفعّل لك الدورة في حسابك</span><br><span>4. </span><span data-i18n="course_step4">تُفتح لك الدروس كاملة وتكمل بالوتيرة الخاصة بك</span></p>
+        <p class="price-note"><span data-i18n="price_note_a">سيُعلن الثمن وموعد الفتح قريباً — سجّل اهتمامك لتصلك الأولوية.</span> <span data-i18n="price_note_b">هل لديك شهادة منّا؟</span> <a href="verify.html" style="color:var(--neon);font-weight:800" data-i18n="price_note_link">تحقق منها هنا</a></p>
       </div>
     </div>
     <div class="course-mini reveal">
-      <div><h3>دورة تقويم العظام</h3><p>أساسيات التشخيص والتقويم اليدوي — في طور الإعداد.</p></div>
-      <span class="soon" style="position:static">قريباً</span>
+      <div><h3 data-i18n="mini_title">دورة تقويم العظام</h3><p data-i18n="mini_text">أساسيات التشخيص والتقويم اليدوي — في طور الإعداد.</p></div>
+      <span class="soon" style="position:static" data-i18n="mini_soon">قريباً</span>
     </div>
   </div>
 </section>
@@ -309,15 +320,15 @@ footer a:hover{color:var(--neon)}
 <section id="faq" style="background:#FBFDFB">
   <div class="wrap">
     <div style="text-align:center">
-      <span class="eyebrow reveal">أسئلة شائعة</span>
-      <h2 class="reveal">عندك سؤال؟ <span class="grad">هادا الجواب</span></h2>
+      <span class="eyebrow reveal" data-i18n="eyebrow_faq">أسئلة شائعة</span>
+      <h2 class="reveal"><span data-i18n="faq_title_a">لديك سؤال؟</span> <span class="grad" data-i18n="faq_title_b">هذا هو الجواب</span></h2>
     </div>
     <div class="faq">
-      <div class="faq-item reveal"><button class="faq-q">كيفاش غادي نتسجل في دورة؟<span class="arr">⌄</span></button><div class="faq-a"><p>كتدير حساب مجاني في الموقع، كتختار الدورة، وكتخلص بتحويل بنكي. ملي كنتأكد من التحويل كنفعّل ليك الدورة يدوياً في حسابك، وكتفتح ليك الدروس كاملة.</p></div></div>
-      <div class="faq-item reveal"><button class="faq-q">واش الدروس مباشرة ولا مسجلة؟<span class="arr">⌄</span></button><div class="faq-a"><p>الدروس مسجلة بالفيديو، تقدر تتفرج فيها في أي وقت وبالوتيرة اللي تناسبك، وترجع ليها فوقت ما بغيتي من حسابك.</p></div></div>
-      <div class="faq-item reveal"><button class="faq-q">واش كاينة شهادة في آخر الدورة؟<span class="arr">⌄</span></button><div class="faq-a"><p>آه، ملي كتكمل الدورة كتوصلك شهادة إتمام باسمك بصيغة PDF.</p></div></div>
-      <div class="faq-item reveal"><button class="faq-q">واش المحتوى بالدارجة؟<span class="arr">⌄</span></button><div class="faq-a"><p>آه، كلشي بالدارجة المغربية وبأسلوب مبسط، مع المصطلحات العلمية مشروحة بكلام واضح.</p></div></div>
-      <div class="faq-item reveal"><button class="faq-q">الأدوات المجانية واش خاصني نتسجل باش نستعملها؟<span class="arr">⌄</span></button><div class="faq-a"><p>لا، الأدوات المجانية (الحاسبات والبحث في الأغذية) غادي تكون مفتوحة للجميع بلا حساب وبلا إعلانات.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q"><span data-i18n="faq_q1">كيف أسجّل في دورة؟</span><span class="arr">⌄</span></button><div class="faq-a"><p data-i18n="faq_a1">تنشئ حساباً مجانياً في الموقع، تختار الدورة، وتدفع بتحويل بنكي. عندما نتأكد من التحويل نُفعّل لك الدورة يدوياً في حسابك، وتُفتح لك الدروس كاملة.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q"><span data-i18n="faq_q2">هل الدروس مباشرة أم مسجلة؟</span><span class="arr">⌄</span></button><div class="faq-a"><p data-i18n="faq_a2">الدروس مسجلة بالفيديو، يمكنك مشاهدتها في أي وقت وبالوتيرة التي تناسبك، والعودة إليها متى شئت من حسابك.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q"><span data-i18n="faq_q3">هل توجد شهادة في نهاية الدورة؟</span><span class="arr">⌄</span></button><div class="faq-a"><p data-i18n="faq_a3">نعم، عندما تكمل الدورة تصلك شهادة إتمام باسمك بصيغة PDF.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q"><span data-i18n="faq_q4">هل المحتوى بالدارجة؟</span><span class="arr">⌄</span></button><div class="faq-a"><p data-i18n="faq_a4">نعم، كل المحتوى بالدارجة وبأسلوب مبسّط، مع شرح المصطلحات العلمية بكلام واضح.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q"><span data-i18n="faq_q5">هل يجب أن أسجّل لاستعمال الأدوات المجانية؟</span><span class="arr">⌄</span></button><div class="faq-a"><p data-i18n="faq_a5">لا، الأدوات المجانية (الحاسبات والبحث في الأغذية) ستكون مفتوحة للجميع دون حساب ودون إعلانات.</p></div></div>
     </div>
   </div>
 </section>
@@ -325,11 +336,11 @@ footer a:hover{color:var(--neon)}
 <section id="contact" style="padding-top:20px">
   <div class="wrap">
     <div class="cta reveal">
-      <h2>جاهز تبدا رحلتك الصحية؟</h2>
-      <p>تابع المحتوى اليومي، جرّب الأدوات، ولا سجّل في دورة — البداية من هنا.</p>
+      <h2 data-i18n="cta_title">هل أنت جاهز لبدء رحلتك الصحية؟</h2>
+      <p data-i18n="cta_text">تابع المحتوى اليومي، جرّب الأدوات، أو سجّل في دورة — البداية من هنا.</p>
       <div class="hero-btns">
-        <a class="btn btn-primary" href="https://wa.me/212664651301" target="_blank" rel="noopener">كلّمني في واتساب</a>
-        <a class="btn btn-ghost" href="#tools">شوف الأدوات</a>
+        <a class="btn btn-primary" href="https://wa.me/212664651301" target="_blank" rel="noopener" data-i18n="cta_whatsapp">كلّمني عبر واتساب</a>
+        <a class="btn btn-ghost" href="#tools" data-i18n="cta_tools">اكتشف الأدوات</a>
       </div>
     </div>
   </div>
@@ -339,36 +350,36 @@ footer a:hover{color:var(--neon)}
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <a class="logo" href="#"><span class="mark">ز</span> زهير محرز</a>
-        <p style="margin-top:12px;font-size:.93rem">صانع محتوى صحي بالدارجة — مدرّب وباحث. محتوى، أدوات، ودورات في الصحة والتغذية والحجامة وتقويم العظام والوخز بالإبر الصينية.</p>
+        <a class="logo" href="#"><span class="mark">ز</span><span data-i18n="brand_name">زهير محرز</span></a>
+        <p style="margin-top:12px;font-size:.93rem" data-i18n="footer_about">صانع محتوى صحي — مدرّب وباحث. محتوى، أدوات، ودورات في الصحة والتغذية والحجامة وتقويم العظام والوخز بالإبر الصينية.</p>
         <div class="socials">
-          <a href="https://www.instagram.com/mahrezzouhair" target="_blank" rel="noopener" aria-label="إنستغرام">IG</a>
-          <a href="https://www.tiktok.com/@mahrezzouhair" target="_blank" rel="noopener" aria-label="تيك توك">TT</a>
-          <a href="https://www.youtube.com/@zouhairmahrez" target="_blank" rel="noopener" aria-label="يوتيوب">YT</a>
+          <a href="https://www.instagram.com/mahrezzouhair" target="_blank" rel="noopener" aria-label="إنستغرام" data-i18n-aria="social_ig">IG</a>
+          <a href="https://www.tiktok.com/@mahrezzouhair" target="_blank" rel="noopener" aria-label="تيك توك" data-i18n-aria="social_tt">TT</a>
+          <a href="https://www.youtube.com/@zouhairmahrez" target="_blank" rel="noopener" aria-label="يوتيوب" data-i18n-aria="social_yt">YT</a>
         </div>
       </div>
       <div>
-        <h4>روابط</h4>
-        <a href="#pillars">شكون أنا</a>
-        <a href="#tools">الأدوات المجانية</a>
-        <a href="#courses">الدورات</a>
-        <a href="#faq">الأسئلة الشائعة</a>
-        <a href="verify.html">التحقق من شهادة</a>
-        <a href="standards.html">منهجنا ومعاييرنا</a>
+        <h4 data-i18n="foot_links_title">روابط</h4>
+        <a href="#pillars" data-i18n="foot_link_about">من أنا</a>
+        <a href="#tools" data-i18n="foot_link_tools">الأدوات المجانية</a>
+        <a href="#courses" data-i18n="foot_link_courses">الدورات</a>
+        <a href="#faq" data-i18n="foot_link_faq">الأسئلة الشائعة</a>
+        <a href="verify.html" data-i18n="foot_link_verify">التحقق من شهادة</a>
+        <a href="standards.html" data-i18n="foot_link_standards">منهجنا ومعاييرنا</a>
       </div>
       <div>
-        <h4>مشاريع</h4>
-        <a href="https://baytwikaya.site" target="_blank" rel="noopener">بيت الوقاية — المركز</a>
-        <a href="#courses">دورة الحجامة وخرائطها</a>
-        <a href="#courses">دورة تقويم العظام</a>
+        <h4 data-i18n="foot_projects_title">مشاريع</h4>
+        <a href="https://baytwikaya.site" target="_blank" rel="noopener" data-i18n="foot_proj_center">بيت الوقاية — المركز</a>
+        <a href="#courses" data-i18n="foot_proj_hijama">دورة الحجامة وخرائطها</a>
+        <a href="#courses" data-i18n="foot_proj_bone">دورة تقويم العظام</a>
       </div>
       <div>
-        <h4>النشرة البريدية</h4>
-        <p style="font-size:.93rem">كل أسبوع: خرافة صحية كنفكّكوها + أداة جديدة، في إيميلك.</p>
-        <div class="news-box"><input type="email" placeholder="إيميلك الإلكتروني" disabled><button disabled style="opacity:.55">قريباً</button></div>
+        <h4 data-i18n="foot_news_title">النشرة البريدية</h4>
+        <p style="font-size:.93rem" data-i18n="foot_news_text">كل أسبوع: خرافة صحية نفكّكها + أداة جديدة، في بريدك الإلكتروني.</p>
+        <div class="news-box"><input type="email" placeholder="بريدك الإلكتروني" disabled data-i18n-placeholder="news_placeholder"><button disabled style="opacity:.55" data-i18n="news_btn">قريباً</button></div>
       </div>
     </div>
-    <div class="foot-bottom">© 2026 زهير محرز — جميع الحقوق محفوظة · المحتوى تعليمي ولا يعوّض استشارة طبية</div>
+    <div class="foot-bottom" data-i18n="foot_bottom">© 2026 زهير محرز — جميع الحقوق محفوظة · المحتوى تعليمي ولا يعوّض استشارة طبية</div>
   </div>
 </footer>
 
@@ -402,6 +413,640 @@ document.querySelectorAll('.faq-item').forEach(function(item){
     if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px'}
   });
 });
+</script>
+<script>
+// Language switcher: Darija (default in Morocco) / Arabic / French / English, persisted in localStorage under site_lang
+var I18N = {
+ar: {
+page_title: "زهير محرز | صانع محتوى صحي — أدوات ودورات",
+meta_description: "زهير محرز — صانع محتوى صحي، مؤسس بيت الوقاية، ومدرّب وباحث في الحجامة وتقويم العظام والوخز بالإبر الصينية. أدوات صحية مجانية ودورات متخصصة.",
+brand_name: "زهير محرز",
+nav_home: "الرئيسية",
+nav_about: "من أنا",
+nav_tools: "الأدوات",
+nav_courses: "الدورات",
+nav_faq: "الأسئلة",
+nav_contact: "تواصل",
+header_cta_whatsapp: "تواصل عبر واتساب",
+burger_aria: "القائمة",
+badge_new: "جديد",
+badge_text: "دورة الحجامة وخرائطها — سيُفتح التسجيل قريباً",
+hero_title_a: "صحتك تستحق",
+hero_title_truth: "الحقيقة",
+hero_title_b: "لا",
+hero_title_myths: "الخرافات",
+hero_sub: "أنا زهير محرز — صانع محتوى صحي، مؤسس بيت الوقاية، ومدرّب وباحث في الحجامة وتقويم العظام والوخز بالإبر الصينية. أفكّك المغالطات الصحية بالأدلة العلمية، وأبني أدوات ودورات تساعدك على فهم جسمك واتخاذ القرار الصحيح.",
+hero_btn_tools: "جرّب الأدوات المجانية",
+hero_btn_courses: "اكتشف الدورات",
+proof_text: "أكثر من 14.7 ألف متابع على إنستغرام يثقون بالمحتوى",
+alt_proof: "زهير محرز",
+alt_hero: "زهير محرز — صانع محتوى صحي",
+chip_a: "تصحيح الخرافات",
+chip_a_sub: "بالأدلة والمصادر",
+chip_b: "دورات متخصصة",
+chip_b_sub: "حجامة · تقويم · وخز بالإبر",
+marq_calories: "حاسبة السعرات",
+marq_maps: "خرائط الحجامة",
+marq_bone: "تقويم العظام",
+marq_acu: "الوخز بالإبر الصينية",
+marq_water: "حاسبة الماء",
+marq_meals: "مخطط الوجبات",
+marq_sleep: "دورات النوم",
+marq_foods: "أغذية مغربية",
+marq_myths: "تصحيح الخرافات",
+eyebrow_why: "لماذا أنا؟",
+pillars_title_a: "ثلاثة أدوار في شخص واحد،",
+pillars_title_b: "في خدمة صحتك",
+pillar1_num: "01 — صانع محتوى صحي",
+pillar1_title: "محتوى يفكّك الخرافات",
+pillar1_text: "مقاطع فيديو قصيرة ومباشرة: هل هذا الطبق صحي؟ هل هذه الشائعة صحيحة؟ الجواب دائماً بالأدلة، وبكلام يفهمه كل مغربي.",
+pillar1_tag1: "تصحيح الخرافات",
+pillar1_tag2: "أطباق مغربية",
+pillar1_tag3: "أخبار صحية بالمصادر",
+pillar2_num: "02 — مؤسس بيت الوقاية",
+pillar2_title: "مركز الحجامة وتقويم العظام بالدار البيضاء",
+pillar2_text: "الخبرة الميدانية اليومية مع المرضى هي مصدر المحتوى والدورات، في التخصصات الثلاثة: الحجامة، تقويم العظام، والوخز بالإبر الصينية.",
+pillar2_tag1: "حجامة",
+pillar2_tag2: "تقويم العظام",
+pillar2_tag3: "وخز بالإبر الصينية",
+pillar2_more: "زُر موقع المركز ←",
+pillar3_num: "03 — مدرّب وباحث",
+pillar3_title: "دورات عملية من الصفر للاحتراف",
+pillar3_text: "تكوين تطبيقي وبحث مستمر في الحجامة وخرائطها وتقويم العظام والوخز بالإبر الصينية، بدروس مسجلة وشهادة إتمام.",
+pillar3_tag1: "دورة الحجامة",
+pillar3_tag2: "خرائط الحجامة",
+pillar3_tag3: "شهادة إتمام",
+stat1_lbl: "متابع على إنستغرام",
+stat2_lbl: "فيديو ومنشور تعليمي",
+stat3_lbl: "منصات: إنستغرام · تيك توك · يوتيوب",
+stat4_lbl: "دورات متخصصة قريباً",
+eyebrow_tools: "أدوات جاهزة",
+tools_title_a: "أدوات صحية مجانية",
+tools_title_b: "تُسهّل حياتك",
+tools_lead: "حاسبات وأدوات تفاعلية، مبنية على معادلات علمية معروفة — جرّب، وافهم جسمك في ثوانٍ.",
+tool_bmi_title: "مؤشر كتلة الجسم BMI",
+tool_bmi_text: "احسب مؤشرك واعرف المجال الصحي لوزنك بحسب طولك.",
+tool_cal_title: "حاسبة السعرات والماكروز",
+tool_cal_text: "احتياجك اليومي من السعرات والبروتين والدهون والكربوهيدرات بحسب هدفك.",
+tool_water_title: "حاسبة الماء",
+tool_water_text: "كم يجب أن تشرب في اليوم بحسب وزنك ونشاطك والطقس.",
+tool_sleep_title: "حاسبة دورات النوم",
+tool_sleep_text: "اختر وقت النوم أو الاستيقاظ بحسب دورات نوم كاملة مدتها 90 دقيقة.",
+tool_caf_title: "فاحص الكافيين",
+tool_caf_text: "اجمع كافيين يومك (قهوة، شاي، مشروبات طاقة) وقارنه بالحد الآمن.",
+tool_foods_title: "بحث الأغذية المغربية",
+tool_foods_text: "سعرات وقيم أطباقنا: الحريرة، الكسكس، الرفيسة، الطاجين... من قاعدة بيانات خاصة بنا.",
+tools_note_a: "جميع الأدوات مجانية، دون تسجيل ودون إعلانات — وهي تتوسع مع الوقت.",
+tools_note_link: "افتح صفحة الأدوات ←",
+eyebrow_courses: "الدورات",
+courses_title_a: "تعلّم الحرفة",
+courses_title_b: "من ممارِس",
+courses_title_c: "لا من منظّر",
+course_badge: "الدورة الأحدث",
+course_badge_text: "سيُفتح التسجيل قريباً",
+course_title: "دورة الحجامة وخرائط الحجامة",
+course_desc: "دورة عملية شاملة: أساسيات الحجامة النبوية والعلمية، خرائط النقاط كاملة، التعقيم والسلامة، وكيف تدير جلسة احترافية من البداية إلى النهاية.",
+check1: "دروس فيديو مسجلة، بالوتيرة التي تناسبك",
+check2: "خريطة نقاط الحجامة التفاعلية مدمجة مع الدروس",
+check3: "دروس معاينة مجانية قبل أن تقرر",
+check4: "تتبع تقدمك + شهادة إتمام باسمك",
+course_whatsapp: "سجّل اهتمامك في واتساب",
+course_meta1: "مسجّلة · فيديو عملي",
+course_meta2: "شهادة إتمام",
+course_meta3: "بالدارجة",
+course_how_title: "كيف يعمل التسجيل؟",
+course_step1: "تنشئ حساباً مجانياً في الموقع",
+course_step2: "تختار الدورة وتدفع بتحويل بنكي",
+course_step3: "بعد التأكد من التحويل، نُفعّل لك الدورة في حسابك",
+course_step4: "تُفتح لك الدروس كاملة وتكمل بالوتيرة الخاصة بك",
+price_note_a: "سيُعلن الثمن وموعد الفتح قريباً — سجّل اهتمامك لتصلك الأولوية.",
+price_note_b: "هل لديك شهادة منّا؟",
+price_note_link: "تحقق منها هنا",
+mini_title: "دورة تقويم العظام",
+mini_text: "أساسيات التشخيص والتقويم اليدوي — في طور الإعداد.",
+mini_soon: "قريباً",
+eyebrow_faq: "أسئلة شائعة",
+faq_title_a: "لديك سؤال؟",
+faq_title_b: "هذا هو الجواب",
+faq_q1: "كيف أسجّل في دورة؟",
+faq_a1: "تنشئ حساباً مجانياً في الموقع، تختار الدورة، وتدفع بتحويل بنكي. عندما نتأكد من التحويل نُفعّل لك الدورة يدوياً في حسابك، وتُفتح لك الدروس كاملة.",
+faq_q2: "هل الدروس مباشرة أم مسجلة؟",
+faq_a2: "الدروس مسجلة بالفيديو، يمكنك مشاهدتها في أي وقت وبالوتيرة التي تناسبك، والعودة إليها متى شئت من حسابك.",
+faq_q3: "هل توجد شهادة في نهاية الدورة؟",
+faq_a3: "نعم، عندما تكمل الدورة تصلك شهادة إتمام باسمك بصيغة PDF.",
+faq_q4: "هل المحتوى بالدارجة؟",
+faq_a4: "نعم، كل المحتوى بالدارجة وبأسلوب مبسّط، مع شرح المصطلحات العلمية بكلام واضح.",
+faq_q5: "هل يجب أن أسجّل لاستعمال الأدوات المجانية؟",
+faq_a5: "لا، الأدوات المجانية (الحاسبات والبحث في الأغذية) ستكون مفتوحة للجميع دون حساب ودون إعلانات.",
+cta_title: "هل أنت جاهز لبدء رحلتك الصحية؟",
+cta_text: "تابع المحتوى اليومي، جرّب الأدوات، أو سجّل في دورة — البداية من هنا.",
+cta_whatsapp: "كلّمني عبر واتساب",
+cta_tools: "اكتشف الأدوات",
+footer_about: "صانع محتوى صحي — مدرّب وباحث. محتوى، أدوات، ودورات في الصحة والتغذية والحجامة وتقويم العظام والوخز بالإبر الصينية.",
+social_ig: "إنستغرام",
+social_tt: "تيك توك",
+social_yt: "يوتيوب",
+foot_links_title: "روابط",
+foot_link_about: "من أنا",
+foot_link_tools: "الأدوات المجانية",
+foot_link_courses: "الدورات",
+foot_link_faq: "الأسئلة الشائعة",
+foot_link_verify: "التحقق من شهادة",
+foot_link_standards: "منهجنا ومعاييرنا",
+foot_projects_title: "مشاريع",
+foot_proj_center: "بيت الوقاية — المركز",
+foot_proj_hijama: "دورة الحجامة وخرائطها",
+foot_proj_bone: "دورة تقويم العظام",
+foot_news_title: "النشرة البريدية",
+foot_news_text: "كل أسبوع: خرافة صحية نفكّكها + أداة جديدة، في بريدك الإلكتروني.",
+news_placeholder: "بريدك الإلكتروني",
+news_btn: "قريباً",
+foot_bottom: "© 2026 زهير محرز — جميع الحقوق محفوظة · المحتوى تعليمي ولا يعوّض استشارة طبية",
+lang_label: "اللغة:"
+},
+darija: {
+page_title: "زهير محرز | صانع محتوى صحي — أدوات ودورات بالدارجة",
+meta_description: "زهير محرز — صانع محتوى صحي بالدارجة، مؤسس بيت الوقاية، ومدرّب حجامة وتقويم العظام. أدوات صحية مجانية ودورات متخصصة.",
+brand_name: "زهير محرز",
+nav_home: "الرئيسية",
+nav_about: "شكون أنا",
+nav_tools: "الأدوات",
+nav_courses: "الدورات",
+nav_faq: "الأسئلة",
+nav_contact: "تواصل",
+header_cta_whatsapp: "تواصل في واتساب",
+burger_aria: "القائمة",
+badge_new: "جديد",
+badge_text: "دورة الحجامة وخرائطها — التسجيل كيفتح قريباً",
+hero_title_a: "صحّتك تستاهل",
+hero_title_truth: "الحقيقة",
+hero_title_b: "ماشي",
+hero_title_myths: "الخرافات",
+hero_sub: "أنا زهير محرز — صانع محتوى صحي بالدارجة، مؤسس بيت الوقاية، ومدرّب وباحث في الحجامة وتقويم العظام والوخز بالإبر الصينية. كنفكّك المغالطات الصحية بالأدلة العلمية، وكنبني أدوات ودورات تخليك تفهم جسمك وتاخد القرار الصح.",
+hero_btn_tools: "جرّب الأدوات المجانية",
+hero_btn_courses: "اكتشف الدورات",
+proof_text: "أكثر من 14.7 ألف متابع على إنستغرام كيثيقو فالمحتوى",
+alt_proof: "زهير محرز",
+alt_hero: "زهير محرز — صانع محتوى صحي",
+chip_a: "تصحيح الخرافات",
+chip_a_sub: "بالأدلة والمصادر",
+chip_b: "دورات متخصصة",
+chip_b_sub: "حجامة · تقويم · وخز بالإبر",
+marq_calories: "حاسبة السعرات",
+marq_maps: "خرائط الحجامة",
+marq_bone: "تقويم العظام",
+marq_acu: "الوخز بالإبر الصينية",
+marq_water: "حاسبة الماء",
+marq_meals: "مخطط الوجبات",
+marq_sleep: "دورات النوم",
+marq_foods: "أغذية مغربية",
+marq_myths: "تصحيح الخرافات",
+eyebrow_why: "ليش أنا؟",
+pillars_title_a: "ثلاثة أدوار في شخص واحد،",
+pillars_title_b: "في خدمة صحّتك",
+pillar1_num: "01 — صانع محتوى صحي",
+pillar1_title: "محتوى بالدارجة يفكّك الخرافات",
+pillar1_text: "فيديوهات قصيرة ومباشرة: واش هاد الأكلة صحية؟ واش هاد الإشاعة صح؟ الجواب دائماً بالأدلة، وبكلام يفهمو كل مغربي.",
+pillar1_tag1: "تصحيح الخرافات",
+pillar1_tag2: "أطباق مغربية",
+pillar1_tag3: "أخبار صحية بالمصادر",
+pillar2_num: "02 — مؤسس بيت الوقاية",
+pillar2_title: "مركز الحجامة وتقويم العظام بالدار البيضاء",
+pillar2_text: "الخبرة الميدانية اليومية مع المرضى هي مصدر المحتوى والدورات، في التخصصات الثلاثة: الحجامة، تقويم العظام، والوخز بالإبر الصينية.",
+pillar2_tag1: "حجامة",
+pillar2_tag2: "تقويم العظام",
+pillar2_tag3: "وخز بالإبر الصينية",
+pillar2_more: "زور موقع المركز ←",
+pillar3_num: "03 — مدرّب وباحث",
+pillar3_title: "دورات عملية من الصفر للاحتراف",
+pillar3_text: "تكوين تطبيقي وبحث مستمر في الحجامة وخرائطها وتقويم العظام والوخز بالإبر الصينية، بدروس مسجلة بالدارجة وشهادة إتمام.",
+pillar3_tag1: "دورة الحجامة",
+pillar3_tag2: "خرائط الحجامة",
+pillar3_tag3: "شهادة إتمام",
+stat1_lbl: "متابع على إنستغرام",
+stat2_lbl: "فيديو ومنشور تعليمي",
+stat3_lbl: "منصات: إنستغرام · تيك توك · يوتيوب",
+stat4_lbl: "دورات متخصصة قريباً",
+eyebrow_tools: "أدوات جاهزة",
+tools_title_a: "أدوات صحية مجانية",
+tools_title_b: "تسرّع حياتك",
+tools_lead: "حاسبات وأدوات تفاعلية بالدارجة، مبنية على معادلات علمية معروفة — جرّب، وافهم جسمك في ثواني.",
+tool_bmi_title: "مؤشر كتلة الجسم BMI",
+tool_bmi_text: "احسب مؤشرك واعرف المجال الصحي ديال وزنك على حساب طولك.",
+tool_cal_title: "حاسبة السعرات والماكروز",
+tool_cal_text: "احتياجك اليومي من السعرات والبروتين والدهون والكربوهيدرات على حساب هدفك.",
+tool_water_title: "حاسبة الماء",
+tool_water_text: "شحال خاصك تشرب في النهار على حساب وزنك ونشاطك والجو.",
+tool_sleep_title: "حاسبة دورات النوم",
+tool_sleep_text: "اختار وقت النوم ولا الفياق على حساب دورات نوم كاملة ديال 90 دقيقة.",
+tool_caf_title: "فاحص الكافيين",
+tool_caf_text: "جمع كافيين نهارك (قهوة، أتاي، مشروبات طاقة) وقارنو مع الحد الآمن.",
+tool_foods_title: "بحث الأغذية المغربية",
+tool_foods_text: "سعرات وقيم أطباقنا: الحريرة، الكسكس، الرفيسة، الطاجين... بقاعدة خاصة بينا.",
+tools_note_a: "الأدوات كلها مجانية، بلا تسجيل وبلا إعلانات — وكتكبر مع الوقت.",
+tools_note_link: "افتح صفحة الأدوات ←",
+eyebrow_courses: "الدورات",
+courses_title_a: "تعلّم الحرفة",
+courses_title_b: "من ممارِس",
+courses_title_c: "ماشي من نظري",
+course_badge: "الدورة الأحدث",
+course_badge_text: "التسجيل كيفتح قريباً",
+course_title: "دورة الحجامة وخرائط الحجامة",
+course_desc: "دورة عملية شاملة: أساسيات الحجامة النبوية والعلمية، خرائط النقاط كاملة، التعقيم والسلامة، وكيفاش تدير جلسة احترافية من الأول للآخر.",
+check1: "دروس فيديو مسجلة بالدارجة، بالوتيرة اللي تناسبك",
+check2: "خريطة نقاط الحجامة التفاعلية مدمجة مع الدروس",
+check3: "دروس معاينة مجانية قبل ما تقرر",
+check4: "تتبع تقدمك + شهادة إتمام باسمك",
+course_whatsapp: "سجّل اهتمامك في واتساب",
+course_meta1: "مسجّلة · فيديو عملي",
+course_meta2: "شهادة إتمام",
+course_meta3: "بالدارجة",
+course_how_title: "كيفاش كيخدم التسجيل؟",
+course_step1: "كتدير حساب مجاني في الموقع",
+course_step2: "كتختار الدورة وكتخلص بتحويل بنكي",
+course_step3: "كيتأكد التحويل وكنفعّل ليك الدورة في حسابك",
+course_step4: "كتفتح ليك الدروس كاملة وكتكمل بالوتيرة ديالك",
+price_note_a: "الثمن وموعد الفتح كيُعلنوا قريباً — سجّل اهتمامك باش توصلك الأولوية.",
+price_note_b: "عندك شهادة من عندنا؟",
+price_note_link: "تحقق منها هنا",
+mini_title: "دورة تقويم العظام",
+mini_text: "أساسيات التشخيص والتقويم اليدوي — في طور الإعداد.",
+mini_soon: "قريباً",
+eyebrow_faq: "أسئلة شائعة",
+faq_title_a: "عندك سؤال؟",
+faq_title_b: "هادا الجواب",
+faq_q1: "كيفاش غادي نتسجل في دورة؟",
+faq_a1: "كتدير حساب مجاني في الموقع، كتختار الدورة، وكتخلص بتحويل بنكي. ملي كنتأكد من التحويل كنفعّل ليك الدورة يدوياً في حسابك، وكتفتح ليك الدروس كاملة.",
+faq_q2: "واش الدروس مباشرة ولا مسجلة؟",
+faq_a2: "الدروس مسجلة بالفيديو، تقدر تتفرج فيها في أي وقت وبالوتيرة اللي تناسبك، وترجع ليها فوقت ما بغيتي من حسابك.",
+faq_q3: "واش كاينة شهادة في آخر الدورة؟",
+faq_a3: "آه، ملي كتكمل الدورة كتوصلك شهادة إتمام باسمك بصيغة PDF.",
+faq_q4: "واش المحتوى بالدارجة؟",
+faq_a4: "آه، كلشي بالدارجة المغربية وبأسلوب مبسط، مع المصطلحات العلمية مشروحة بكلام واضح.",
+faq_q5: "الأدوات المجانية واش خاصني نتسجل باش نستعملها؟",
+faq_a5: "لا، الأدوات المجانية (الحاسبات والبحث في الأغذية) غادي تكون مفتوحة للجميع بلا حساب وبلا إعلانات.",
+cta_title: "جاهز تبدا رحلتك الصحية؟",
+cta_text: "تابع المحتوى اليومي، جرّب الأدوات، ولا سجّل في دورة — البداية من هنا.",
+cta_whatsapp: "كلّمني في واتساب",
+cta_tools: "شوف الأدوات",
+footer_about: "صانع محتوى صحي بالدارجة — مدرّب وباحث. محتوى، أدوات، ودورات في الصحة والتغذية والحجامة وتقويم العظام والوخز بالإبر الصينية.",
+social_ig: "إنستغرام",
+social_tt: "تيك توك",
+social_yt: "يوتيوب",
+foot_links_title: "روابط",
+foot_link_about: "شكون أنا",
+foot_link_tools: "الأدوات المجانية",
+foot_link_courses: "الدورات",
+foot_link_faq: "الأسئلة الشائعة",
+foot_link_verify: "التحقق من شهادة",
+foot_link_standards: "منهجنا ومعاييرنا",
+foot_projects_title: "مشاريع",
+foot_proj_center: "بيت الوقاية — المركز",
+foot_proj_hijama: "دورة الحجامة وخرائطها",
+foot_proj_bone: "دورة تقويم العظام",
+foot_news_title: "النشرة البريدية",
+foot_news_text: "كل أسبوع: خرافة صحية كنفكّكوها + أداة جديدة، في إيميلك.",
+news_placeholder: "إيميلك الإلكتروني",
+news_btn: "قريباً",
+foot_bottom: "© 2026 زهير محرز — جميع الحقوق محفوظة · المحتوى تعليمي ولا يعوّض استشارة طبية",
+lang_label: "اللغة:"
+},
+fr: {
+page_title: "Zouhair Mahrez | Créateur de contenu santé — outils et formations",
+meta_description: "Zouhair Mahrez — créateur de contenu santé, fondateur de Bayt Al-Wiqaya, et formateur et chercheur en Hijama, alignement osseux et acupuncture chinoise. Outils santé gratuits et formations spécialisées.",
+brand_name: "Zouhair Mahrez",
+nav_home: "Accueil",
+nav_about: "Qui suis-je",
+nav_tools: "Outils",
+nav_courses: "Formations",
+nav_faq: "Questions",
+nav_contact: "Contact",
+header_cta_whatsapp: "Contact sur WhatsApp",
+burger_aria: "Menu",
+badge_new: "Nouveau",
+badge_text: "Formation Hijama et ses cartes — les inscriptions ouvriront bientôt",
+hero_title_a: "Votre santé mérite",
+hero_title_truth: "la vérité",
+hero_title_b: "pas",
+hero_title_myths: "les mythes",
+hero_sub: "Je suis Zouhair Mahrez — créateur de contenu santé, fondateur de Bayt Al-Wiqaya, et formateur et chercheur en Hijama, alignement osseux et acupuncture chinoise. Je déconstruis les idées reçues sur la santé avec des preuves scientifiques, et je crée des outils et des formations pour vous aider à comprendre votre corps et à prendre la bonne décision.",
+hero_btn_tools: "Essayez les outils gratuits",
+hero_btn_courses: "Découvrez les formations",
+proof_text: "Plus de 14,7 mille abonnés sur Instagram font confiance au contenu",
+alt_proof: "Zouhair Mahrez",
+alt_hero: "Zouhair Mahrez — créateur de contenu santé",
+chip_a: "Correction des idées reçues",
+chip_a_sub: "Avec preuves et sources",
+chip_b: "Formations spécialisées",
+chip_b_sub: "Hijama · Alignement · Acupuncture",
+marq_calories: "Calculateur de calories",
+marq_maps: "Cartes de Hijama",
+marq_bone: "Alignement osseux",
+marq_acu: "Acupuncture chinoise",
+marq_water: "Calculateur d'eau",
+marq_meals: "Planificateur de repas",
+marq_sleep: "Cycles de sommeil",
+marq_foods: "Aliments marocains",
+marq_myths: "Correction des idées reçues",
+eyebrow_why: "Pourquoi moi ?",
+pillars_title_a: "Trois rôles en une seule personne,",
+pillars_title_b: "au service de votre santé",
+pillar1_num: "01 — Créateur de contenu santé",
+pillar1_title: "Un contenu qui déconstruit les idées reçues",
+pillar1_text: "De courtes vidéos directes : ce plat est-il sain ? Cette rumeur est-elle vraie ? La réponse s'appuie toujours sur des preuves, dans un langage que chaque Marocain comprend.",
+pillar1_tag1: "Correction des idées reçues",
+pillar1_tag2: "Plats marocains",
+pillar1_tag3: "Actualités santé avec sources",
+pillar2_num: "02 — Fondateur de Bayt Al-Wiqaya",
+pillar2_title: "Centre de Hijama et d'alignement osseux à Casablanca",
+pillar2_text: "L'expérience quotidienne sur le terrain auprès des patients est la source du contenu et des formations, dans les trois spécialités : la Hijama, l'alignement osseux et l'acupuncture chinoise.",
+pillar2_tag1: "Hijama",
+pillar2_tag2: "Alignement osseux",
+pillar2_tag3: "Acupuncture chinoise",
+pillar2_more: "Visitez le site du centre →",
+pillar3_num: "03 — Formateur et chercheur",
+pillar3_title: "Des formations pratiques, de zéro au professionnalisme",
+pillar3_text: "Une formation appliquée et une recherche continue en Hijama et ses cartes, en alignement osseux et en acupuncture chinoise, avec des leçons enregistrées et un certificat d'achèvement.",
+pillar3_tag1: "Formation Hijama",
+pillar3_tag2: "Cartes de Hijama",
+pillar3_tag3: "Certificat d'achèvement",
+stat1_lbl: "Abonnés sur Instagram",
+stat2_lbl: "Vidéos et publications éducatives",
+stat3_lbl: "Plateformes : Instagram · TikTok · YouTube",
+stat4_lbl: "Formations spécialisées bientôt",
+eyebrow_tools: "Outils prêts",
+tools_title_a: "Des outils santé gratuits",
+tools_title_b: "qui facilitent votre vie",
+tools_lead: "Des calculateurs et des outils interactifs, fondés sur des équations scientifiques reconnues — essayez-les et comprenez votre corps en quelques secondes.",
+tool_bmi_title: "Indice de masse corporelle (IMC)",
+tool_bmi_text: "Calculez votre indice et découvrez la plage saine de votre poids selon votre taille.",
+tool_cal_title: "Calculateur de calories et de macros",
+tool_cal_text: "Vos besoins quotidiens en calories, protéines, lipides et glucides selon votre objectif.",
+tool_water_title: "Calculateur d'eau",
+tool_water_text: "Combien vous devez boire par jour selon votre poids, votre activité et le climat.",
+tool_sleep_title: "Calculateur de cycles de sommeil",
+tool_sleep_text: "Choisissez l'heure du coucher ou du réveil selon des cycles de sommeil complets de 90 minutes.",
+tool_caf_title: "Vérificateur de caféine",
+tool_caf_text: "Additionnez la caféine de votre journée (café, thé, boissons énergisantes) et comparez-la à la limite sûre.",
+tool_foods_title: "Recherche d'aliments marocains",
+tool_foods_text: "Calories et valeurs de nos plats : harira, couscous, rfissa, tajine… à partir d'une base de données qui nous est propre.",
+tools_note_a: "Tous les outils sont gratuits, sans inscription et sans publicités — et ils s'enrichissent avec le temps.",
+tools_note_link: "Ouvrez la page des outils →",
+eyebrow_courses: "Formations",
+courses_title_a: "Apprenez le métier",
+courses_title_b: "auprès d'un praticien",
+courses_title_c: "pas d'un théoricien",
+course_badge: "La formation la plus récente",
+course_badge_text: "Les inscriptions ouvriront bientôt",
+course_title: "Formation Hijama et cartes de Hijama",
+course_desc: "Une formation pratique complète : les bases de la Hijama prophétique et scientifique, les cartes complètes des points, la stérilisation et la sécurité, et comment mener une séance professionnelle du début à la fin.",
+check1: "Des leçons vidéo enregistrées, à votre rythme",
+check2: "La carte interactive des points de Hijama intégrée aux leçons",
+check3: "Des leçons d'aperçu gratuites avant de décider",
+check4: "Suivi de votre progression + certificat d'achèvement à votre nom",
+course_whatsapp: "Inscrivez votre intérêt sur WhatsApp",
+course_meta1: "Enregistrée · vidéo pratique",
+course_meta2: "Certificat d'achèvement",
+course_meta3: "En darija",
+course_how_title: "Comment fonctionne l'inscription ?",
+course_step1: "Créez un compte gratuit sur le site",
+course_step2: "Choisissez la formation et payez par virement bancaire",
+course_step3: "Une fois le virement confirmé, nous activons la formation dans votre compte",
+course_step4: "Toutes les leçons s'ouvrent pour vous et vous avancez à votre rythme",
+price_note_a: "Le prix et la date d'ouverture seront annoncés bientôt — inscrivez votre intérêt pour bénéficier de la priorité.",
+price_note_b: "Avez-vous un certificat délivré par nous ?",
+price_note_link: "Vérifiez-le ici",
+mini_title: "Formation en alignement osseux",
+mini_text: "Les bases du diagnostic et de l'alignement manuel — en cours de préparation.",
+mini_soon: "Bientôt",
+eyebrow_faq: "Questions fréquentes",
+faq_title_a: "Vous avez une question ?",
+faq_title_b: "Voici la réponse",
+faq_q1: "Comment m'inscrire à une formation ?",
+faq_a1: "Créez un compte gratuit sur le site, choisissez la formation et payez par virement bancaire. Une fois le virement confirmé, nous activons la formation manuellement dans votre compte, et toutes les leçons s'ouvrent pour vous.",
+faq_q2: "Les leçons sont-elles en direct ou enregistrées ?",
+faq_a2: "Les leçons sont enregistrées en vidéo, vous pouvez les regarder à tout moment et à votre rythme, et y revenir quand vous le souhaitez depuis votre compte.",
+faq_q3: "Y a-t-il un certificat à la fin de la formation ?",
+faq_a3: "Oui, lorsque vous terminez la formation, vous recevez un certificat d'achèvement à votre nom au format PDF.",
+faq_q4: "Le contenu est-il en darija ?",
+faq_a4: "Oui, tout le contenu est en darija, dans un style simplifié, avec les termes scientifiques expliqués en langage clair.",
+faq_q5: "Faut-il s'inscrire pour utiliser les outils gratuits ?",
+faq_a5: "Non, les outils gratuits (les calculateurs et la recherche d'aliments) seront ouverts à tous, sans compte et sans publicités.",
+cta_title: "Prêt à commencer votre parcours santé ?",
+cta_text: "Suivez le contenu quotidien, essayez les outils ou inscrivez-vous à une formation — tout commence ici.",
+cta_whatsapp: "Parlez-moi sur WhatsApp",
+cta_tools: "Découvrez les outils",
+footer_about: "Créateur de contenu santé — formateur et chercheur. Contenu, outils et formations en santé, nutrition, Hijama, alignement osseux et acupuncture chinoise.",
+social_ig: "Instagram",
+social_tt: "TikTok",
+social_yt: "YouTube",
+foot_links_title: "Liens",
+foot_link_about: "Qui suis-je",
+foot_link_tools: "Outils gratuits",
+foot_link_courses: "Formations",
+foot_link_faq: "Questions fréquentes",
+foot_link_verify: "Vérification d'un certificat",
+foot_link_standards: "Notre approche et nos normes",
+foot_projects_title: "Projets",
+foot_proj_center: "Bayt Al-Wiqaya — le centre",
+foot_proj_hijama: "Formation Hijama et ses cartes",
+foot_proj_bone: "Formation en alignement osseux",
+foot_news_title: "La newsletter",
+foot_news_text: "Chaque semaine : une idée reçue santé que nous déconstruisons + un nouvel outil, dans votre boîte mail.",
+news_placeholder: "Votre adresse e-mail",
+news_btn: "Bientôt",
+foot_bottom: "© 2026 Zouhair Mahrez — tous droits réservés · Le contenu est éducatif et ne remplace pas un avis médical",
+lang_label: "Langue :"
+},
+en: {
+page_title: "Zouhair Mahrez | Health content creator — tools and courses",
+meta_description: "Zouhair Mahrez — health content creator, founder of Bayt Al-Wiqaya, and trainer and researcher in Hijama, bone alignment and Chinese acupuncture. Free health tools and specialised courses.",
+brand_name: "Zouhair Mahrez",
+nav_home: "Home",
+nav_about: "About me",
+nav_tools: "Tools",
+nav_courses: "Courses",
+nav_faq: "Questions",
+nav_contact: "Contact",
+header_cta_whatsapp: "Contact on WhatsApp",
+burger_aria: "Menu",
+badge_new: "New",
+badge_text: "Hijama course and its maps — registration opening soon",
+hero_title_a: "Your health deserves",
+hero_title_truth: "the truth",
+hero_title_b: "not",
+hero_title_myths: "myths",
+hero_sub: "I am Zouhair Mahrez — health content creator, founder of Bayt Al-Wiqaya, and trainer and researcher in Hijama, bone alignment and Chinese acupuncture. I debunk health myths with scientific evidence, and I build tools and courses to help you understand your body and make the right decision.",
+hero_btn_tools: "Try the free tools",
+hero_btn_courses: "Discover the courses",
+proof_text: "More than 14.7 thousand followers on Instagram trust the content",
+alt_proof: "Zouhair Mahrez",
+alt_hero: "Zouhair Mahrez — health content creator",
+chip_a: "Debunking myths",
+chip_a_sub: "With evidence and sources",
+chip_b: "Specialised courses",
+chip_b_sub: "Hijama · Alignment · Acupuncture",
+marq_calories: "Calorie calculator",
+marq_maps: "Hijama maps",
+marq_bone: "Bone alignment",
+marq_acu: "Chinese acupuncture",
+marq_water: "Water calculator",
+marq_meals: "Meal planner",
+marq_sleep: "Sleep cycles",
+marq_foods: "Moroccan foods",
+marq_myths: "Myth-busting",
+eyebrow_why: "Why me?",
+pillars_title_a: "Three roles in one person,",
+pillars_title_b: "at the service of your health",
+pillar1_num: "01 — Health content creator",
+pillar1_title: "Content that debunks myths",
+pillar1_text: "Short, direct videos: is this dish healthy? Is this rumour true? The answer is always evidence-based, in language every Moroccan understands.",
+pillar1_tag1: "Myth-busting",
+pillar1_tag2: "Moroccan dishes",
+pillar1_tag3: "Health news with sources",
+pillar2_num: "02 — Founder of Bayt Al-Wiqaya",
+pillar2_title: "Hijama and bone alignment centre in Casablanca",
+pillar2_text: "Daily hands-on experience with patients is the source of the content and courses, across the three specialities: Hijama, bone alignment and Chinese acupuncture.",
+pillar2_tag1: "Hijama",
+pillar2_tag2: "Bone alignment",
+pillar2_tag3: "Chinese acupuncture",
+pillar2_more: "Visit the centre's website →",
+pillar3_num: "03 — Trainer and researcher",
+pillar3_title: "Practical courses, from beginner to professional",
+pillar3_text: "Applied training and ongoing research in Hijama and its maps, bone alignment and Chinese acupuncture, with recorded lessons and a certificate of completion.",
+pillar3_tag1: "Hijama course",
+pillar3_tag2: "Hijama maps",
+pillar3_tag3: "Certificate of completion",
+stat1_lbl: "Followers on Instagram",
+stat2_lbl: "Educational videos and posts",
+stat3_lbl: "Platforms: Instagram · TikTok · YouTube",
+stat4_lbl: "Specialised courses coming soon",
+eyebrow_tools: "Ready tools",
+tools_title_a: "Free health tools",
+tools_title_b: "that make your life easier",
+tools_lead: "Interactive calculators and tools, based on well-known scientific equations — try them and understand your body in seconds.",
+tool_bmi_title: "Body Mass Index (BMI)",
+tool_bmi_text: "Calculate your index and find the healthy range for your weight based on your height.",
+tool_cal_title: "Calorie and macro calculator",
+tool_cal_text: "Your daily needs in calories, protein, fat and carbohydrates based on your goal.",
+tool_water_title: "Water calculator",
+tool_water_text: "How much you should drink per day based on your weight, activity and climate.",
+tool_sleep_title: "Sleep cycle calculator",
+tool_sleep_text: "Choose your bedtime or wake-up time based on full 90-minute sleep cycles.",
+tool_caf_title: "Caffeine checker",
+tool_caf_text: "Add up your day's caffeine (coffee, tea, energy drinks) and compare it with the safe limit.",
+tool_foods_title: "Moroccan food search",
+tool_foods_text: "Calories and values of our dishes: harira, couscous, rfissa, tagine… from our own database.",
+tools_note_a: "All tools are free, with no sign-up and no ads — and they keep growing over time.",
+tools_note_link: "Open the tools page →",
+eyebrow_courses: "Courses",
+courses_title_a: "Learn the craft",
+courses_title_b: "from a practitioner",
+courses_title_c: "not a theorist",
+course_badge: "The newest course",
+course_badge_text: "Registration opening soon",
+course_title: "Hijama course and Hijama maps",
+course_desc: "A comprehensive practical course: the foundations of prophetic and scientific Hijama, the complete point maps, sterilisation and safety, and how to run a professional session from start to finish.",
+check1: "Recorded video lessons, at your own pace",
+check2: "The interactive Hijama point map integrated with the lessons",
+check3: "Free preview lessons before you decide",
+check4: "Progress tracking + certificate of completion in your name",
+course_whatsapp: "Register your interest on WhatsApp",
+course_meta1: "Recorded · practical video",
+course_meta2: "Certificate of completion",
+course_meta3: "In Darija",
+course_how_title: "How does registration work?",
+course_step1: "Create a free account on the site",
+course_step2: "Choose the course and pay by bank transfer",
+course_step3: "Once the transfer is confirmed, we activate the course in your account",
+course_step4: "All lessons open for you and you progress at your own pace",
+price_note_a: "The price and opening date will be announced soon — register your interest to get priority.",
+price_note_b: "Do you have a certificate from us?",
+price_note_link: "Verify it here",
+mini_title: "Bone alignment course",
+mini_text: "Basics of diagnosis and manual alignment — in preparation.",
+mini_soon: "Soon",
+eyebrow_faq: "Frequently asked questions",
+faq_title_a: "Have a question?",
+faq_title_b: "Here is the answer",
+faq_q1: "How do I register for a course?",
+faq_a1: "Create a free account on the site, choose the course, and pay by bank transfer. Once we confirm the transfer, we manually activate the course in your account, and all lessons open for you.",
+faq_q2: "Are the lessons live or recorded?",
+faq_a2: "The lessons are recorded on video; you can watch them at any time and at your own pace, and return to them whenever you like from your account.",
+faq_q3: "Is there a certificate at the end of the course?",
+faq_a3: "Yes, when you complete the course, you receive a certificate of completion in your name in PDF format.",
+faq_q4: "Is the content in Darija?",
+faq_a4: "Yes, all content is in Darija, in a simplified style, with scientific terms explained in clear language.",
+faq_q5: "Do I need to sign up to use the free tools?",
+faq_a5: "No, the free tools (calculators and food search) will be open to everyone, with no account and no ads.",
+cta_title: "Ready to start your health journey?",
+cta_text: "Follow the daily content, try the tools, or register for a course — it all starts here.",
+cta_whatsapp: "Message me on WhatsApp",
+cta_tools: "Discover the tools",
+footer_about: "Health content creator — trainer and researcher. Content, tools and courses in health, nutrition, Hijama, bone alignment and Chinese acupuncture.",
+social_ig: "Instagram",
+social_tt: "TikTok",
+social_yt: "YouTube",
+foot_links_title: "Links",
+foot_link_about: "About me",
+foot_link_tools: "Free tools",
+foot_link_courses: "Courses",
+foot_link_faq: "Frequently asked questions",
+foot_link_verify: "Certificate verification",
+foot_link_standards: "Our approach and standards",
+foot_projects_title: "Projects",
+foot_proj_center: "Bayt Al-Wiqaya — the centre",
+foot_proj_hijama: "Hijama course and its maps",
+foot_proj_bone: "Bone alignment course",
+foot_news_title: "Newsletter",
+foot_news_text: "Every week: a health myth we debunk + a new tool, in your inbox.",
+news_placeholder: "Your email address",
+news_btn: "Soon",
+foot_bottom: "© 2026 Zouhair Mahrez — all rights reserved · Content is educational and does not replace medical advice",
+lang_label: "Language:"
+}
+};
+function applyLang(lang){
+  if(!I18N[lang]) lang="ar";
+  var d=I18N[lang];
+  document.documentElement.lang=(lang==="darija")?"ar":lang;
+  document.documentElement.dir=(lang==="ar"||lang==="darija")?"rtl":"ltr";
+  document.title=d.page_title;
+  var meta=document.querySelector('meta[name="description"]');
+  if(meta) meta.setAttribute("content", d.meta_description);
+  document.querySelectorAll("[data-i18n]").forEach(function(el){
+    var k=el.getAttribute("data-i18n");
+    if(d[k]!==undefined) el.textContent=d[k];
+  });
+  document.querySelectorAll("[data-i18n-alt]").forEach(function(el){
+    var k=el.getAttribute("data-i18n-alt");
+    if(d[k]!==undefined) el.setAttribute("alt", d[k]);
+  });
+  document.querySelectorAll("[data-i18n-aria]").forEach(function(el){
+    var k=el.getAttribute("data-i18n-aria");
+    if(d[k]!==undefined) el.setAttribute("aria-label", d[k]);
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
+    var k=el.getAttribute("data-i18n-placeholder");
+    if(d[k]!==undefined) el.setAttribute("placeholder", d[k]);
+  });
+  document.querySelectorAll("[data-lang]").forEach(function(b){
+    var on=b.getAttribute("data-lang")===lang;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-pressed", on?"true":"false");
+  });
+  try{ localStorage.setItem("site_lang", lang); }catch(e){}
+}
+document.querySelectorAll("[data-lang]").forEach(function(b){
+  b.addEventListener("click", function(){ applyLang(b.getAttribute("data-lang")); });
+});
+(function(){
+  var saved=null;
+  try{ saved=localStorage.getItem("site_lang"); }catch(e){}
+  var def="ar";
+  try{ if(Intl.DateTimeFormat().resolvedOptions().timeZone==="Africa/Casablanca") def="darija"; }catch(e){}
+  applyLang(saved||def);
+})();
 </script>
 </body>
 </html>

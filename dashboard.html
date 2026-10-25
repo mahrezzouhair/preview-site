@@ -58,7 +58,7 @@ th{color:var(--neon)}
   <div class="row" style="justify-content:space-between">
     <div>
       <h1>🛡️ لوحة تحكم متتبع الحجامة</h1>
-      <div class="note">خاص بالدعم فقط — توليد الأكواد، سجل الأكواد، وإدارة الحسابات.</div>
+      <div class="note">مخصصة للدعم فقط — توليد الأكواد، سجل الأكواد، وإدارة الحسابات.</div>
     </div>
     <div class="row" id="topbar" style="display:none">
       <span id="whoami" class="note"></span>
@@ -68,9 +68,9 @@ th{color:var(--neon)}
 
   <div id="not-configured" class="card warn" style="display:none">
     <b>Firebase غير مهيأ بعد.</b><br>
-    هاد الصفحة كتحتاج إعداد Firebase (مشروع + بيانات الاتصال) قبل ما تخدم.
-    راجع <span class="mono">dashboard-README.md</span> لخطوات الإعداد. حتى حاجة ما غادي تتكسر هنا —
-    الصفحة كتوقف في هاد الرسالة حتى يتم الإعداد.
+    تحتاج هذه الصفحة إلى إعداد Firebase (مشروع + بيانات الاتصال) قبل أن تعمل.
+    راجع <span class="mono">dashboard-README.md</span> لخطوات الإعداد. لن يتعطل شيء هنا —
+    تتوقف الصفحة عند هذه الرسالة حتى يكتمل الإعداد.
   </div>
 
   <div id="auth-view" class="card" style="display:none">
@@ -83,15 +83,15 @@ th{color:var(--neon)}
         <button class="ghost" id="register-btn">إنشاء حساب جديد</button>
         <span id="auth-msg" class="note"></span>
       </div>
-      <div class="note">الحسابات الجديدة كتاخد دور «قيد الانتظار» حتى يوافق عليها الأدمن من قسم إدارة الحسابات.</div>
+      <div class="note">تحصل الحسابات الجديدة على دور «قيد الانتظار» حتى يوافق عليها المدير من قسم إدارة الحسابات.</div>
     </div>
   </div>
 
   <div id="pending-view" class="card" style="display:none">
     <h2>⏳ الحساب قيد الانتظار</h2>
-    <p>حسابك تسجل، ولكن باقي ما توافق عليه من طرف الأدمن. ملي يتوافق عليك غادي تقدر تدخل للوحة.</p>
+    <p>تم تسجيل حسابك، لكن لم تتم الموافقة عليه بعد من قبل المدير. عندما تتم الموافقة عليك ستتمكن من الدخول إلى اللوحة.</p>
     <div class="row">
-      <button class="ghost" id="create-profile-btn">إنشاء ملف الانتظار (إلا ما كانش موجود)</button>
+      <button class="ghost" id="create-profile-btn">إنشاء ملف الانتظار (إذا لم يكن موجوداً)</button>
       <span id="pending-msg" class="note"></span>
     </div>
   </div>
@@ -107,10 +107,10 @@ th{color:var(--neon)}
     </div>
     <div class="card" id="key-card">
       <h2>🔑 ملف المفتاح</h2>
-      <p class="note">توليد الأكواد كيحتاج المفتاح الخاص. المفتاح كيتحمل في ذاكرة المتصفح فقط وقت الاستعمال — ما كيتخزنش في الصفحة ولا في قاعدة البيانات. بلا مفتاح، باقي أقسام اللوحة كتخدم للقراءة فقط.</p>
+      <p class="note">يتطلب توليد الأكواد المفتاح الخاص. يُحمَّل المفتاح في ذاكرة المتصفح فقط وقت الاستعمال — ولا يُخزَّن في الصفحة ولا في قاعدة البيانات. من دون مفتاح، تعمل بقية أقسام اللوحة للقراءة فقط.</p>
       <div class="grid">
         <div><label>حمّل ملف المفتاح (admin-key.json)</label><input type="file" id="key-file" accept=".json"></div>
-        <div id="key-status" class="note">ما تحمل حتى مفتاح بعد.</div>
+        <div id="key-status" class="note">لم يُحمَّل أي مفتاح بعد.</div>
       </div>
     </div>
 
@@ -118,7 +118,7 @@ th{color:var(--neon)}
       <h2>توليد كود تفعيل</h2>
       <div class="grid">
         <div><label>اسم المركز / الزبون</label><input id="c-name" placeholder="مثال: مركز النور للحجامة"></div>
-        <div><label>رقم الجهاز (من نافذة التفعيل عند الزبون)</label><input id="c-device" dir="ltr" style="text-align:left" placeholder="hw-… أو uuid-…"></div>
+        <div><label>رقم الجهاز (من نافذة التفعيل لدى الزبون)</label><input id="c-device" dir="ltr" style="text-align:left" placeholder="hw-… أو uuid-…"></div>
         <div><label>الخطة</label>
           <select id="c-plan">
             <option value="trial">تجريبي — 7 أيام (من أول تفعيل)</option>
@@ -130,7 +130,7 @@ th{color:var(--neon)}
         </div>
         <div class="row"><button id="gen-code">توليد الكود</button><span id="code-msg" class="note"></span></div>
         <div id="code-out-wrap" style="display:none">
-          <div class="warn" style="margin-bottom:10px"><b>⚠️ الكود غادي يبان هنا مرة وحدة فقط.</b> من بعد ما تسجّل، ما كيتخزنش الكود الكامل أبداً — كيتخزن غير بصمتو (hash). نسخو دابا وصيفطو للزبون.</div>
+          <div class="warn" style="margin-bottom:10px"><b>⚠️ سيظهر الكود هنا مرة واحدة فقط.</b> بعد تسجيله، لا يُخزَّن الكود الكامل أبداً — تُخزَّن بصمته (hash) فقط. انسخه الآن وأرسله إلى الزبون.</div>
           <div class="codebox" id="out-code"></div>
           <div class="row" style="margin-top:10px"><button class="ghost" id="copy-code">نسخ الكود</button><span id="code-payload" class="note"></span></div>
         </div>
@@ -167,26 +167,26 @@ th{color:var(--neon)}
           <tbody id="registry-body"></tbody>
         </table>
       </div>
-      <div class="note" style="margin-top:10px">الأكواد الكاملة ما كتبانش هنا أبداً — السجل كيحتفظ غير ببصماتها. التجديد = إصدار كود جديد (من قسم التوليد).</div>
+      <div class="note" style="margin-top:10px">لا تظهر الأكواد الكاملة هنا أبداً — يحتفظ السجل ببصماتها فقط. التجديد = إصدار كود جديد (من قسم التوليد).</div>
     </div>
 
     <div class="card" id="users-card" style="display:none">
-      <h2>👥 إدارة الحسابات (أدمن فقط)</h2>
+      <h2>👥 إدارة الحسابات (للمدير فقط)</h2>
       <div style="overflow-x:auto">
         <table>
           <thead><tr><th>البريد</th><th>الدور</th><th>تبديل الدور</th></tr></thead>
           <tbody id="users-body"></tbody>
         </table>
       </div>
-      <div class="note" style="margin-top:10px">ما تقدرش تبدل دور حسابك انت. الأدمن هو اللي كيوافق على الحسابات المعلقة بتبديل دورها لمساعد.</div>
+      <div class="note" style="margin-top:10px">لا يمكنك تغيير دور حسابك أنت. المدير هو من يوافق على الحسابات المعلقة بتغيير دورها إلى مساعد.</div>
       <div style="margin-top:18px;border-top:1px solid var(--line);padding-top:14px">
-        <h3 style="margin:0 0 10px">➕ إضافة حساب جديد (أدمن فقط)</h3>
+        <h3 style="margin:0 0 10px">➕ إضافة حساب جديد (للمدير فقط)</h3>
         <div class="grid">
           <div><label>البريد الإلكتروني</label><input id="new-email" type="email" dir="ltr" style="text-align:left"></div>
-          <div><label>كلمة سر أولية (6 حروف على الأقل — صيفطها للمساعد في الخاص)</label><input id="new-pass" type="password"></div>
+          <div><label>كلمة سر أولية (6 أحرف على الأقل — أرسلها إلى المساعد على الخاص)</label><input id="new-pass" type="password"></div>
           <div class="row"><button id="add-account-btn">إضافة الحساب</button><span id="add-account-msg" class="note"></span></div>
         </div>
-        <div class="note" style="margin-top:8px">الحساب الجديد كيتزاد بدور «قيد الانتظار» وكيبان في اللائحة فوق — من بعد بدل الدور ديالو لـ «مساعد» باش توافق عليه.</div>
+        <div class="note" style="margin-top:8px">يُضاف الحساب الجديد بدور «قيد الانتظار» ويظهر في القائمة أعلاه — ثم غيّر دوره إلى «مساعد» للموافقة عليه.</div>
       </div>
     </div>
 
@@ -197,7 +197,7 @@ th{color:var(--neon)}
 
     <div class="card" id="courses-card">
       <h2>🎓 الدورات والتفعيل</h2>
-      <p class="note">تسجيل طلبات الالتحاق بالدورات وطرق تفعيلها — الموافقة والرفض عند الأدمن فقط (نموذج الدورات: الدفع بالتحويل البنكي والتفعيل اليدوي من طرفك).</p>
+      <p class="note">تسجيل طلبات الالتحاق بالدورات وطرق تفعيلها — الموافقة والرفض للمدير فقط (نموذج الدورات: الدفع بالتحويل البنكي والتفعيل اليدوي من قبلك).</p>
       <div class="grid">
         <div><label>اسم المتدرب</label><input id="e-name" placeholder="مثال: أحمد العلوي"></div>
         <div><label>البريد (اختياري)</label><input id="e-email" type="email" dir="ltr" style="text-align:left"></div>
@@ -363,7 +363,7 @@ try { firebaseConfig = {
     // Users management: ADMIN ONLY. Revoke/extend buttons: ADMIN ONLY
     // (they are rendered per row only when currentRole === 'admin').
     // Page visibility is re-applied here so the role never leaks a page.
-    $('whoami').textContent = currentUser.email + ' — ' + (currentRole === 'admin' ? 'أدمن' : 'مساعد');
+    $('whoami').textContent = currentUser.email + ' — ' + (currentRole === 'admin' ? 'مدير' : 'مساعد');
     $('topbar').style.display = '';
     showPage(currentPage);
   }
@@ -408,7 +408,7 @@ try { firebaseConfig = {
         '<td class="mono">' + esc(String(c.deviceId || '').slice(0, 24)) + '</td>' +
         '<td><span class="badge ' + (c.status === 'active' ? 'active' : 'revoked') + '">' + statusLabel(c.status) + '</span></td>' +
         '<td>' + fmtDate(c.issuedAt) + '</td><td>' + esc(c.issuedByEmail) + '</td><td>' + actions + '</td></tr>';
-    }).join('') || '<tr><td colspan="7" class="note">ما كاين حتى كود مطابق.</td></tr>';
+    }).join('') || '<tr><td colspan="7" class="note">لا يوجد أي كود مطابق.</td></tr>';
     $('registry-body').querySelectorAll('[data-act]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         if (btn.getAttribute('data-act') === 'revoke') onRevoke(btn.getAttribute('data-hash'), btn.getAttribute('data-name'));
@@ -424,7 +424,7 @@ try { firebaseConfig = {
   }
   async function onRevoke(hash, name) {
     if (currentRole !== 'admin') return;
-    if (!confirm('متأكد؟ غادي يتلغى الكود ديال «' + name + '» نهائياً.')) return;
+    if (!confirm('هل أنت متأكد؟ سيُلغى الكود الخاص بـ «' + name + '» نهائياً.')) return;
     var batch = db.batch();
     batch.update(db.collection('codes').doc(hash), { status: 'revoked' });
     batch.set(db.collection('status').doc(hash), { status: 'revoked' }, { merge: true });
@@ -434,7 +434,7 @@ try { firebaseConfig = {
   }
   async function onExtend(hash, name) {
     if (currentRole !== 'admin') return;
-    var date = prompt('تاريخ الانتهاء الجديد (YYYY-MM-DD) للكود ديال «' + name + '»:');
+    var date = prompt('تاريخ الانتهاء الجديد (YYYY-MM-DD) للكود الخاص بـ «' + name + '»:');
     if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
     var iso = new Date(date + 'T00:00:00Z').toISOString();
     await db.collection('status').doc(hash).set({ status: 'active', expiresAt: iso }, { merge: true });
@@ -460,7 +460,7 @@ try { firebaseConfig = {
         await loadUsers(); await loadActivity();
       });
       tr.children[2].appendChild(sel);
-      if (isMe) { var s = document.createElement('span'); s.className = 'note'; s.textContent = ' (حسابك — ما تقدرش تبدل دورك)'; tr.children[2].appendChild(s); }
+      if (isMe) { var s = document.createElement('span'); s.className = 'note'; s.textContent = ' (حسابك — لا يمكنك تغيير دورك)'; tr.children[2].appendChild(s); }
       $('users-body').appendChild(tr);
     });
   }
@@ -471,7 +471,7 @@ try { firebaseConfig = {
       var d = doc.data();
       rows.push('<div>• <b>' + esc(d.byEmail) + '</b> — ' + esc(d.action) + ' — ' + esc(d.target) + ' <span class="note">(' + fmtDate(d.at) + ')</span></div>');
     });
-    $('activity-list').innerHTML = rows.join('') || '<div class="note">ما كاين حتى نشاط بعد.</div>';
+    $('activity-list').innerHTML = rows.join('') || '<div class="note">لا يوجد أي نشاط بعد.</div>';
   }
   var lastEnroll = [];
   function courseStatusLabel(s) { return { pending: 'قيد الانتظار', approved: 'موافق عليه', rejected: 'مرفوض' }[s] || s; }
@@ -500,7 +500,7 @@ try { firebaseConfig = {
       return '<tr><td>' + esc(e.name) + '</td><td>' + esc(e.course) + '</td><td>' + methodLabel(e.method) + '</td>' +
         '<td><span class="badge ' + badge + '">' + courseStatusLabel(e.status) + '</span></td>' +
         '<td>' + fmtDate(e.createdAt) + '</td><td>' + esc(e.byEmail) + '</td><td>' + actions + '</td></tr>';
-    }).join('') || '<tr><td colspan="7" class="note">ما كاين حتى طلب مطابق.</td></tr>';
+    }).join('') || '<tr><td colspan="7" class="note">لا يوجد أي طلب مطابق.</td></tr>';
     $('enroll-body').querySelectorAll('[data-eact]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         if (btn.getAttribute('data-eact') === 'approve') onEnrollDecide(btn.getAttribute('data-id'), btn.getAttribute('data-name'), 'approved');
@@ -510,7 +510,7 @@ try { firebaseConfig = {
   }
   async function onEnrollDecide(id, name, status) {
     if (currentRole !== 'admin') return;
-    if (!confirm((status === 'approved' ? 'توافق على التحاق «' : 'ترفض التحاق «') + name + '»؟')) return;
+    if (!confirm((status === 'approved' ? 'هل توافق على التحاق «' : 'هل ترفض التحاق «') + name + '»؟')) return;
     await db.collection('course-enrollments').doc(id).update({ status: status });
     await logActivity(status === 'approved' ? 'enroll-approve' : 'enroll-reject', name);
     await loadCourses(); await loadActivity();
@@ -545,7 +545,7 @@ try { firebaseConfig = {
       await db.collection('users').doc(cred.user.uid).set({
         email: cred.user.email, role: 'pending', createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-      $('auth-msg').innerHTML = '<span class="ok">تم إنشاء الحساب — في انتظار موافقة الأدمن.</span>';
+      $('auth-msg').innerHTML = '<span class="ok">تم إنشاء الحساب — في انتظار موافقة المدير.</span>';
     } catch (e) { $('auth-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
   });
   $('create-profile-btn').addEventListener('click', async function () {
@@ -565,7 +565,7 @@ try { firebaseConfig = {
   $('add-account-btn').addEventListener('click', async function () {
     if (currentRole !== 'admin') return;
     var email = $('new-email').value.trim(), pass = $('new-pass').value;
-    if (!email || pass.length < 6) { $('add-account-msg').innerHTML = '<span class="err">دخل بريد صحيح وكلمة سر من 6 حروف على الأقل.</span>'; return; }
+    if (!email || pass.length < 6) { $('add-account-msg').innerHTML = '<span class="err">أدخل بريداً صحيحاً وكلمة سر من 6 أحرف على الأقل.</span>'; return; }
     try {
       var secondary;
       try { secondary = firebase.app('secondary'); } catch (e) { secondary = firebase.initializeApp(firebaseConfig, 'secondary'); }
@@ -573,9 +573,9 @@ try { firebaseConfig = {
       await db.collection('users').doc(cred.user.uid).set({
         email: email, role: 'pending', createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-      await logActivity('account-add', email + ' (أضيف من الأدمن، قيد الانتظار)');
+      await logActivity('account-add', email + ' (أضيف من المدير، قيد الانتظار)');
       await secondary.auth().signOut();
-      $('add-account-msg').innerHTML = '<span class="ok">تم ✓ — الحساب تزاد وكيبان في اللائحة بقيد الانتظار. بدل الدور ديالو لمساعد باش توافق عليه.</span>';
+      $('add-account-msg').innerHTML = '<span class="ok">تم ✓ — أُضيف الحساب ويظهر في القائمة بقيد الانتظار. غيّر دوره إلى مساعد للموافقة عليه.</span>';
       $('new-email').value = ''; $('new-pass').value = '';
       await loadUsers(); await loadActivity();
     } catch (e) { $('add-account-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
@@ -586,9 +586,9 @@ try { firebaseConfig = {
     if (!f) return;
     try {
       var obj = JSON.parse(await f.text());
-      if (!obj.privateKeyJwk || !obj.publicKeyJwk) throw new Error('الملف ما فيهش مفاتيح JWK');
+      if (!obj.privateKeyJwk || !obj.publicKeyJwk) throw new Error('الملف لا يحتوي على مفاتيح JWK');
       privKey = await importPriv(obj.privateKeyJwk);
-      $('key-status').innerHTML = '<span class="ok">تم تحميل المفتاح ✓ — واجد لتوليد الأكواد.</span>';
+      $('key-status').innerHTML = '<span class="ok">تم تحميل المفتاح ✓ — جاهز لتوليد الأكواد.</span>';
     } catch (e) { $('key-status').innerHTML = '<span class="err">خطأ: ' + e.message + '</span>'; }
   });
   $('gen-code').addEventListener('click', async function () {
@@ -609,7 +609,7 @@ try { firebaseConfig = {
       $('out-code').textContent = code;
       $('code-payload').textContent = 'الاسم: ' + name + ' | الخطة: ' + planLabel(plan) + ' | المدة: ' + (window.TrackerAdmin.PLANS[plan] === null ? 'مدى الحياة' : window.TrackerAdmin.PLANS[plan] + ' يوم');
       $('code-out-wrap').style.display = '';
-      $('code-msg').innerHTML = '<span class="ok">تم ✓ — نسخ الكود دابا قبل ما يختفي.</span>';
+      $('code-msg').innerHTML = '<span class="ok">تم ✓ — انسخ الكود الآن قبل أن يختفي.</span>';
       await loadRegistry(); await loadActivity();
     } catch (e) { $('code-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
   });
@@ -618,7 +618,7 @@ try { firebaseConfig = {
   });
   $('add-enroll-btn').addEventListener('click', async function () {
     var name = $('e-name').value.trim(), course = $('e-course').value.trim();
-    if (!name || !course) { $('enroll-msg').innerHTML = '<span class="err">دخل اسم المتدرب واسم الدورة.</span>'; return; }
+    if (!name || !course) { $('enroll-msg').innerHTML = '<span class="err">أدخل اسم المتدرب واسم الدورة.</span>'; return; }
     try {
       await db.collection('course-enrollments').add({
         name: name, email: $('e-email').value.trim(), course: course, method: $('e-method').value,
@@ -627,7 +627,7 @@ try { firebaseConfig = {
         by: currentUser.uid, byEmail: currentUser.email
       });
       await logActivity('enroll-add', name + ' — ' + course + ' (قيد الانتظار)');
-      $('enroll-msg').innerHTML = '<span class="ok">تم ✓ — الطلب تسجل بقيد الانتظار. الموافقة عند الأدمن من نفس الصفحة.</span>';
+      $('enroll-msg').innerHTML = '<span class="ok">تم ✓ — سُجّل الطلب بقيد الانتظار. الموافقة للمدير من نفس الصفحة.</span>';
       $('e-name').value = ''; $('e-email').value = ''; $('e-course').value = ''; $('e-ref').value = '';
       await loadCourses(); await loadActivity();
     } catch (e) { $('enroll-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>متتبّع الحجامة الاحترافي | زهير محرز</title>
+<title data-i18n="title">متتبع الحجامة الاحترافي | زهير محرز</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -61,14 +61,20 @@ th{background:#F4FAF5;font-weight:900}
 .dz button:hover{border-color:var(--green);color:var(--green)}
 .dz button.on{background:var(--dark);color:#fff;border-color:var(--dark)}
 footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-size:.85rem}
+.langbar{background:#0A120F;color:#A9BFAF;text-align:center;padding:8px 12px;font-size:.9rem;font-weight:700}
+.langbar button{background:none;border:none;color:#A9BFAF;font-weight:800;padding:2px 8px}
+.langbar button.on{color:#1ED760;text-decoration:underline}
+html[dir="ltr"] th,html[dir="ltr"] td{text-align:left}
+html[dir="ltr"] .card ul{padding-right:0;padding-left:18px}
 @media(max-width:640px){.grid{grid-template-columns:1fr}.bdg{width:23px;height:23px;font-size:9px}}
 </style>
 </head>
 <body>
+<div class="langbar" id="lang-switch"><span data-i18n="lang_label">اللغة</span>: <button data-lang="darija" onclick="setLang('darija')">الدارجة</button> | <button data-lang="ar" class="on" onclick="setLang('ar')">العربية الفصحى</button> | <button data-lang="fr" onclick="setLang('fr')">Français</button> | <button data-lang="en" onclick="setLang('en')">English</button></div>
 <header>
   <div class="hin">
-    <div class="logo"><span class="mark">ح</span> متتبّع الحجامة الاحترافي</div>
-    <div class="lic" id="lic-line">غير مفعّل</div>
+    <div class="logo"><span class="mark">ح</span> <span data-i18n="app_name">متتبع الحجامة الاحترافي</span></div>
+    <div class="lic" id="lic-line" data-i18n="lic_inactive">غير مفعَّل</div>
   </div>
 </header>
 
@@ -76,152 +82,168 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
   <div class="banner" id="upd-banner"></div>
 
   <div id="gate" class="card gate" style="display:none">
-    <h2>🔑 تفعيل النسخة</h2>
-    <p class="note" style="margin-bottom:14px">هاد الأداة خاصة بالممارسين المرخّص لهم. دخل اسم المركز/الممارس كيف ما هو في فاتورتك وكود التفعيل اللي وصلك بعد الشراء — الاسم غادي يظهر في نسختك وتقاريرك.</p>
+    <h2 data-i18n="gate_title">🔑 تفعيل النسخة</h2>
+    <p class="note" style="margin-bottom:14px" data-i18n="gate_note">هذه الأداة خاصة بالممارسين المرخَّص لهم. أدخل اسم المركز أو الممارس كما هو في فاتورتك وكود التفعيل الذي وصلك بعد الشراء — سوف يظهر الاسم في نسختك وتقاريرك.</p>
     <div style="display:grid;gap:12px">
-      <div><label>اسم المركز أو الممارس</label><input id="lic-name" placeholder="مثال: مركز النور للحجامة"></div>
-      <div><label>كود التفعيل</label><input id="lic-code" placeholder="HT-XXXX-XXXX" dir="ltr" style="text-align:left"></div>
-      <button class="btn" onclick="activate()">تفعيل</button>
+      <div><label data-i18n="lic_name_label">اسم المركز أو الممارس</label><input id="lic-name" data-i18n-placeholder="lic_name_ph" placeholder="مثال: مركز النور للحجامة"></div>
+      <div><label data-i18n="lic_code_label">كود التفعيل</label><input id="lic-code" data-i18n-placeholder="lic_code_ph" placeholder="HT-XXXX-XXXX" dir="ltr" style="text-align:left"></div>
+      <button class="btn" data-i18n="activate_btn" onclick="activate()">تفعيل</button>
       <p class="note" id="lic-err" style="color:var(--red)"></p>
-      <p class="note">نسخة العرض: أي كود بصيغة HT-XXXX-XXXX كيتقبل. في النسخة التجارية الأكواد كتصدر يدوياً لكل مشتري وكتكون مربوطة باسمو.</p>
+      <p class="note" data-i18n="lic_demo_note">نسخة العرض: أي كود بصيغة HT-XXXX-XXXX يُقبل. في النسخة التجارية تُصدَر الأكواد يدوياً لكل مشترٍ وتكون مرتبطة باسمه.</p>
     </div>
   </div>
 
   <div id="lock" class="card gate" style="display:none">
-    <h2>🔒 الأداة مقفلة</h2>
-    <p class="note" style="margin-bottom:12px">دخل الرقم السري لفتح بيانات الزبناء.</p>
+    <h2 data-i18n="lock_title">🔒 الأداة مقفلة</h2>
+    <p class="note" style="margin-bottom:12px" data-i18n="lock_note">أدخل الرقم السري لفتح بيانات العملاء.</p>
     <div style="display:grid;gap:12px">
-      <input id="pin-in" type="password" inputmode="numeric" placeholder="الرقم السري">
-      <button class="btn" onclick="unlock()">فتح</button>
+      <input id="pin-in" type="password" inputmode="numeric" data-i18n-placeholder="pin_ph" placeholder="الرقم السري">
+      <button class="btn" data-i18n="unlock_btn" onclick="unlock()">فتح</button>
       <p class="note" id="pin-err" style="color:var(--red)"></p>
     </div>
   </div>
 
   <div id="app" style="display:none">
     <div class="tabs">
-      <button data-tab="clients" class="on">👥 الزبناء</button>
-      <button data-tab="session">➕ جلسة جديدة</button>
-      <button data-tab="records">🗂️ سجل الجلسات</button>
-      <button data-tab="settings">⚙️ الإعدادات والحماية</button>
+      <button data-tab="clients" class="on" data-i18n="tab_clients">👥 العملاء</button>
+      <button data-tab="session" data-i18n="tab_session">➕ جلسة جديدة</button>
+      <button data-tab="records" data-i18n="tab_records">🗂️ سجل الجلسات</button>
+      <button data-tab="settings" data-i18n="tab_settings">⚙️ الإعدادات والحماية</button>
     </div>
 
     <section id="tab-clients">
       <div class="card">
-        <h2>زبون جديد</h2>
+        <h2 data-i18n="new_client_title">عميل جديد</h2>
         <div class="grid">
-          <div><label>الاسم الكامل *</label><input id="c-name"></div>
-          <div><label>الهاتف</label><input id="c-phone" dir="ltr" style="text-align:left"></div>
-          <div><label>العمر</label><input id="c-age" type="number" min="1" max="120"></div>
-          <div><label>الجنس</label><select id="c-sex"><option value="">—</option><option>رجل</option><option>امرأة</option></select></div>
+          <div><label data-i18n="full_name_label">الاسم الكامل *</label><input id="c-name"></div>
+          <div><label data-i18n="phone_label">الهاتف</label><input id="c-phone" dir="ltr" style="text-align:left"></div>
+          <div><label data-i18n="age_label">العمر</label><input id="c-age" type="number" min="1" max="120"></div>
+          <div><label data-i18n="sex_label">الجنس</label><select id="c-sex"><option value="">—</option><option data-i18n="sex_male">رجل</option><option data-i18n="sex_female">امرأة</option></select></div>
         </div>
-        <label style="margin-top:12px">موانع وعلامات انتباه (فرز السلامة)</label>
+        <label style="margin-top:12px" data-i18n="flags_label">موانع وعلامات انتباه (فرز السلامة)</label>
         <div style="display:flex;gap:14px;flex-wrap:wrap" id="c-flags">
-          <label class="chk"><input type="checkbox" value="مميعات الدم"> مميعات الدم/أسبرين</label>
-          <label class="chk"><input type="checkbox" value="فقر دم"> فقر دم</label>
-          <label class="chk"><input type="checkbox" value="سكري"> سكري</label>
-          <label class="chk"><input type="checkbox" value="ضغط"> ضغط</label>
-          <label class="chk"><input type="checkbox" value="حمل"> حمل/رضاعة</label>
-          <label class="chk"><input type="checkbox" value="جلد"> مشاكل جلدية</label>
+          <label class="chk"><input type="checkbox" value="مميعات الدم"><span data-i18n="flag_blood">مميعات الدم/أسبرين</span></label>
+          <label class="chk"><input type="checkbox" value="فقر دم"><span data-i18n="flag_anemia">فقر دم</span></label>
+          <label class="chk"><input type="checkbox" value="سكري"><span data-i18n="flag_diabetes">سكري</span></label>
+          <label class="chk"><input type="checkbox" value="ضغط"><span data-i18n="flag_pressure">ضغط</span></label>
+          <label class="chk"><input type="checkbox" value="حمل"><span data-i18n="flag_pregnancy">حمل/رضاعة</span></label>
+          <label class="chk"><input type="checkbox" value="جلد"><span data-i18n="flag_skin">مشاكل جلدية</span></label>
         </div>
-        <div style="margin-top:12px"><label>ملاحظات</label><textarea id="c-notes" rows="2"></textarea></div>
-        <button class="btn" style="margin-top:14px" onclick="addClient()">حفظ الزبون</button>
+        <div style="margin-top:12px"><label data-i18n="notes_label">ملاحظات</label><textarea id="c-notes" rows="2"></textarea></div>
+        <button class="btn" style="margin-top:14px" data-i18n="save_client_btn" onclick="addClient()">حفظ العميل</button>
       </div>
       <div class="card">
-        <h2>قائمة الزبناء</h2>
-        <input id="c-q" placeholder="قلب بالاسم ولا الهاتف..." oninput="renderClients()" style="margin-bottom:12px">
-        <div style="overflow-x:auto"><table><thead><tr><th>الاسم</th><th>الهاتف</th><th>العمر/الجنس</th><th>انتباه</th><th>جلسات</th><th></th></tr></thead><tbody id="c-body"></tbody></table></div>
+        <h2 data-i18n="client_list_title">قائمة العملاء</h2>
+        <input id="c-q" data-i18n-placeholder="client_search_ph" placeholder="ابحث بالاسم أو الهاتف..." oninput="renderClients()" style="margin-bottom:12px">
+        <div style="overflow-x:auto"><table><thead><tr><th data-i18n="th_name">الاسم</th><th data-i18n="th_phone">الهاتف</th><th data-i18n="th_age_sex">العمر/الجنس</th><th data-i18n="th_attention">انتباه</th><th data-i18n="th_sessions">جلسات</th><th></th></tr></thead><tbody id="c-body"></tbody></table></div>
       </div>
     </section>
 
     <section id="tab-session" style="display:none">
       <div class="card">
-        <h2>تسجيل جلسة</h2>
+        <h2 data-i18n="session_title">تسجيل جلسة</h2>
         <div class="grid">
-          <div><label>الزبون *</label><select id="s-client"></select></div>
-          <div><label>التاريخ</label><input id="s-date" type="date"></div>
-          <div><label>نوع الحجامة</label><select id="s-type"><option>دموية</option><option>جافة</option><option>متحركة (تدليك)</option><option>جافة + دموية</option></select></div>
-          <div><label>المدة (دقيقة)</label><input id="s-dur" type="number" min="1" placeholder="30"></div>
+          <div><label data-i18n="session_client_label">العميل *</label><select id="s-client"></select></div>
+          <div><label data-i18n="session_date_label">التاريخ</label><input id="s-date" type="date"></div>
+          <div><label data-i18n="session_type_label">نوع الحجامة</label><select id="s-type"><option data-i18n="type_bloody">دموية</option><option data-i18n="type_dry">جافة</option><option data-i18n="type_moving">متحركة (تدليك)</option><option data-i18n="type_both">جافة + دموية</option></select></div>
+          <div><label data-i18n="duration_label">المدة (دقيقة)</label><input id="s-dur" type="number" min="1" data-i18n-placeholder="duration_ph" placeholder="30"></div>
         </div>
-        <div style="margin-top:14px"><label>ملاحظات الجلسة</label><textarea id="s-notes" rows="2"></textarea></div>
-        <label class="chk" style="margin-top:10px"><input type="checkbox" id="s-after"> عطيت تعليمات ما بعد الجلسة للزبون</label>
-        <label class="chk"><input type="checkbox" id="s-consent"> الموافقة المستنيرة موقّعة ومحفوظة</label>
+        <div style="margin-top:14px"><label data-i18n="session_notes_label">ملاحظات الجلسة</label><textarea id="s-notes" rows="2"></textarea></div>
+        <label class="chk" style="margin-top:10px"><input type="checkbox" id="s-after"><span data-i18n="after_label">أعطيت تعليمات ما بعد الجلسة للعميل</span></label>
+        <label class="chk"><input type="checkbox" id="s-consent"><span data-i18n="consent_label">الموافقة المستنيرة موقَّعة ومحفوظة</span></label>
       </div>
 
       <div class="card">
-        <h2>🗺️ خريطة المواضع — اختار نقاط الجلسة</h2>
+        <h2 data-i18n="map_title">🗺️ خريطة المواضع — اختر نقاط الجلسة</h2>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-          <button class="btn dark" id="btn-sunnah" onclick="applySunnah()">☪️ حجامة السنة (المواضع النبوية)</button>
-          <button class="btn dark" id="btn-preventive" onclick="applyPreventive()">🛡️ الحجامة الوقائية</button>
-          <button class="btn dark" id="btn-both" onclick="applyBoth()">☪️🛡️ نقاط السنة والوقائية معاً</button>
-          <button class="btn dark" onclick="toggleAI()">🤖 المساعد الذكي</button>
-          <button class="btn ghost" onclick="clearSelection()">مسح الاختيار</button>
-          <button class="btn" id="show-all-btn" style="display:none" onclick="showAllPts()">👁️ إظهار كل النقط</button>
+          <button class="btn dark" id="btn-sunnah" data-i18n="btn_sunnah" onclick="applySunnah()">☪️ حجامة السنة (المواضع النبوية)</button>
+          <button class="btn dark" id="btn-preventive" data-i18n="btn_preventive" onclick="applyPreventive()">🛡️ الحجامة الوقائية</button>
+          <button class="btn dark" id="btn-both" data-i18n="btn_both" onclick="applyBoth()">☪️🛡️ نقاط السنة والوقائية معاً</button>
+          <button class="btn dark" data-i18n="btn_ai" onclick="toggleAI()">🤖 المساعد الذكي</button>
+          <button class="btn ghost" data-i18n="btn_clear" onclick="clearSelection()">مسح الاختيار</button>
+          <button class="btn" id="show-all-btn" style="display:none" data-i18n="btn_show_all" onclick="showAllPts()">👁️ إظهار كل النقاط</button>
         </div>
         <div id="ai-panel" style="display:none;margin-bottom:16px;border:1.5px dashed var(--green);border-radius:16px;padding:16px">
-          <b>🤖 المساعد الذكي — اختار مرض/حالة الزبون وغادي تتحدد المواضع تلقائياً</b>
-          <p class="note" style="margin:6px 0">الجسم كله مواضع صالحة للحجامة، والمواضع كتختلف بحسب المرض ونوعه — المعالج كيختار بعض المواضع لا جميعها بحسب الحالة، ويقدر يزيد من خبرته. عند وجود أكثر من مرض كتتاخد أهم المواضع الرئيسية من كل مرض. الاقتراحات مرجعية من خرائط وفهرس المواضع، والقرار النهائي للممارس.</p>
-          <input id="dz-q" placeholder="قلب في الأمراض والحالات..." oninput="renderDiseases()" style="margin-bottom:10px">
+          <b data-i18n="ai_title">🤖 المساعد الذكي — اختر مرض/حالة العميل وسوف تُحدَّد المواضع تلقائياً</b>
+          <p class="note" style="margin:6px 0" data-i18n="ai_note">الجسم كله مواضع صالحة للحجامة، والمواضع تختلف بحسب المرض ونوعه — يختار المعالج بعض المواضع لا جميعها بحسب الحالة، ويمكنه أن يضيف من خبرته. عند وجود أكثر من مرض تُؤخذ أهم المواضع الرئيسية من كل مرض. الاقتراحات مرجعية من خرائط وفهرس المواضع، والقرار النهائي للممارس.</p>
+          <input id="dz-q" data-i18n-placeholder="dz_search_ph" placeholder="ابحث في الأمراض والحالات..." oninput="renderDiseases()" style="margin-bottom:10px">
           <div class="dz" id="dz-list"></div>
           <div id="ai-out" style="margin-top:12px"></div>
         </div>
         <div class="seg">
-          <button id="v-back" class="on" onclick="setView('back')">الظهر</button>
-          <button id="v-front" onclick="setView('front')">الأمام</button>
-          <button id="v-face" onclick="setView('face')">الوجه</button>
-          <button id="v-limbs" onclick="setView('limbs')">الأطراف (يدين وأرجل)</button>
+          <button id="v-back" class="on" data-i18n="view_back" onclick="setView('back')">الظهر</button>
+          <button id="v-front" data-i18n="view_front" onclick="setView('front')">الأمام</button>
+          <button id="v-face" data-i18n="view_face" onclick="setView('face')">الوجه</button>
+          <button id="v-limbs" data-i18n="view_limbs" onclick="setView('limbs')">الأطراف (اليدان والرجلان)</button>
         </div>
         <div class="mapstage" id="mapstage"></div>
-        <p style="margin-top:14px"><b>المواضع المختارة (<span id="pt-count">0</span>):</b></p>
+        <p style="margin-top:14px"><b><span data-i18n="selected_label">المواضع المختارة</span> (<span id="pt-count">0</span>):</b></p>
         <div id="pt-list"></div>
-        <button class="btn" style="margin-top:16px" onclick="saveSession()">حفظ الجلسة</button>
+        <button class="btn" style="margin-top:16px" data-i18n="save_session_btn" onclick="saveSession()">حفظ الجلسة</button>
         <span class="note" id="s-msg" style="margin-right:10px"></span>
       </div>
     </section>
 
     <section id="tab-records" style="display:none">
       <div class="card">
-        <h2>سجل الجلسات</h2>
-        <div style="overflow-x:auto"><table><thead><tr><th>التاريخ</th><th>الزبون</th><th>النوع</th><th>المواضع</th><th>ملاحظات</th><th></th></tr></thead><tbody id="r-body"></tbody></table></div>
+        <h2 data-i18n="records_title">سجل الجلسات</h2>
+        <div style="overflow-x:auto"><table><thead><tr><th data-i18n="th_date">التاريخ</th><th data-i18n="th_client">العميل</th><th data-i18n="th_type">النوع</th><th data-i18n="th_points">المواضع</th><th data-i18n="th_notes">ملاحظات</th><th></th></tr></thead><tbody id="r-body"></tbody></table></div>
       </div>
     </section>
 
     <section id="tab-settings" style="display:none">
       <div class="card">
-        <h2>الترخيص والنسخة</h2>
+        <h2 data-i18n="settings_lic_title">الترخيص والنسخة</h2>
         <p id="lic-info"></p>
-        <p class="note">الإصدار الحالي: <b id="ver-line"></b> — <button class="btn ghost" onclick="checkUpdate(true)">التحقق من تحديث</button> <span id="upd-msg" class="note"></span></p>
-        <p class="note">التحديثات كتوصل تلقائياً: الأداة كتراجع ملف الإصدار على موقعنا عند كل فتح، وإلا كان إصدار جديد كيظهر تنبيه والضغط عليه كيحدّث بلا ما تضيع البيانات (البيانات منفصلة على البرنامج).</p>
+        <p class="note"><span data-i18n="current_version">الإصدار الحالي:</span> <b id="ver-line"></b> — <button class="btn ghost" data-i18n="update_check_btn" onclick="checkUpdate(true)">التحقق من تحديث</button> <span id="upd-msg" class="note"></span></p>
+        <p class="note" data-i18n="updates_note">التحديثات تصل تلقائياً: تراجع الأداة ملف الإصدار على موقعنا عند كل فتح، وإذا كان هناك إصدار جديد يظهر تنبيه والضغط عليه يُحدِّث دون ضياع البيانات (البيانات منفصلة عن البرنامج).</p>
       </div>
       <div class="card">
-        <h2>🔐 حماية بيانات الزبناء</h2>
+        <h2 data-i18n="protect_title">🔐 حماية بيانات العملاء</h2>
         <ul style="padding-right:18px">
-          <li>البيانات كتبقى <b>في جهازك فقط</b> (تخزين محلي) — ما كتصعد حتى سيرفر وما كنوصلو ليها لا حنا لا غيرنا.</li>
-          <li>النسخ الاحتياطي يقدر يكون <b>مشفّراً بكلمة سر</b> (AES-GCM) — بلا كلمة السر الملف ما كيتقراش.</li>
-          <li>الرقم السري (PIN) كيقفل الأداة عند كل فتح جديد.</li>
+          <li data-i18n="protect_b1" data-i18n-html="1">البيانات تبقى <b>في جهازك فقط</b> (تخزين محلي) — لا تُرفع إلى أي خادم ولا نصل إليها لا نحن ولا غيرنا.</li>
+          <li data-i18n="protect_b2" data-i18n-html="1">النسخ الاحتياطي يمكن أن يكون <b>مشفَّراً بكلمة سر</b> (AES-GCM) — دون كلمة السر لا يُقرأ الملف.</li>
+          <li data-i18n="protect_b3">الرقم السري (PIN) يقفل الأداة عند كل فتح جديد.</li>
         </ul>
         <div class="grid" style="margin-top:12px">
-          <div><label>رقم سري جديد (PIN) — خليه خاوياً للإلغاء</label><input id="pin-new" type="password" inputmode="numeric"></div>
-          <div><label>كلمة سر تشفير النسخة الاحتياطية (اختياري)</label><input id="bk-pass" type="password"></div>
+          <div><label data-i18n="pin_new_label">رقم سري جديد (PIN) — اتركه فارغاً للإلغاء</label><input id="pin-new" type="password" inputmode="numeric"></div>
+          <div><label data-i18n="bk_pass_label">كلمة سر تشفير النسخة الاحتياطية (اختياري)</label><input id="bk-pass" type="password"></div>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
-          <button class="btn dark" onclick="savePin()">حفظ الرقم السري</button>
-          <button class="btn" onclick="exportData()">⬇️ تصدير نسخة احتياطية</button>
-          <label class="btn ghost" style="display:inline-flex;align-items:center">⬆️ استيراد <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(event)"></label>
+          <button class="btn dark" data-i18n="save_pin_btn" onclick="savePin()">حفظ الرقم السري</button>
+          <button class="btn" data-i18n="export_btn" onclick="exportData()">⬇️ تصدير نسخة احتياطية</button>
+          <label class="btn ghost" style="display:inline-flex;align-items:center"><span data-i18n="import_btn">⬆️ استيراد</span> <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(event)"></label>
         </div>
         <p class="note" id="bk-msg" style="margin-top:10px"></p>
       </div>
       <div class="card">
-        <h2>منطقة الخطر</h2>
-        <button class="btn red" onclick="wipe()">مسح كل البيانات من هاد الجهاز</button>
-        <p class="note" style="margin-top:8px">كيحذف الزبناء والجلسات والترخيص من هاد المتصفح نهائياً. صدّر نسخة احتياطية قبل.</p>
+        <h2 data-i18n="danger_title">منطقة الخطر</h2>
+        <button class="btn red" data-i18n="wipe_btn" onclick="wipe()">مسح كل البيانات من هذا الجهاز</button>
+        <p class="note" style="margin-top:8px" data-i18n="wipe_note">يحذف العملاء والجلسات والترخيص من هذا المتصفح نهائياً. صدِّر نسخة احتياطية قبل ذلك.</p>
       </div>
     </section>
   </div>
 </div>
-<footer>متتبّع الحجامة الاحترافي — منتج من زهير محرز / بيت الوقاية · البيانات ديالك كتبقى عندك، في جهازك</footer>
+<footer data-i18n="footer_text">متتبع الحجامة الاحترافي — منتج من زهير محرز / بيت الوقاية · بياناتك تبقى عندك، في جهازك</footer>
 
 <script>
 var APP_VERSION='2.2.7';
+// ================= I18N (الدارجة | العربية الفصحى | Français | English) =================
+// Language choice is stored ONLY under 'site_lang' ('ar'|'darija'|'fr'|'en'); app data keys (ht2_*) are untouched.
+// Update-banner notes come from version.json notes_i18n (per language, falling back to the Fusha note).
+var I18N={"ar": {"title": "متتبع الحجامة الاحترافي | زهير محرز", "app_name": "متتبع الحجامة الاحترافي", "lic_inactive": "غير مفعَّل", "gate_title": "🔑 تفعيل النسخة", "gate_note": "هذه الأداة خاصة بالممارسين المرخَّص لهم. أدخل اسم المركز أو الممارس كما هو في فاتورتك وكود التفعيل الذي وصلك بعد الشراء — سوف يظهر الاسم في نسختك وتقاريرك.", "lic_name_label": "اسم المركز أو الممارس", "lic_name_ph": "مثال: مركز النور للحجامة", "lic_code_label": "كود التفعيل", "lic_code_ph": "HT-XXXX-XXXX", "activate_btn": "تفعيل", "lic_demo_note": "نسخة العرض: أي كود بصيغة HT-XXXX-XXXX يُقبل. في النسخة التجارية تُصدَر الأكواد يدوياً لكل مشترٍ وتكون مرتبطة باسمه.", "lock_title": "🔒 الأداة مقفلة", "lock_note": "أدخل الرقم السري لفتح بيانات العملاء.", "pin_ph": "الرقم السري", "unlock_btn": "فتح", "tab_clients": "👥 العملاء", "tab_session": "➕ جلسة جديدة", "tab_records": "🗂️ سجل الجلسات", "tab_settings": "⚙️ الإعدادات والحماية", "new_client_title": "عميل جديد", "full_name_label": "الاسم الكامل *", "phone_label": "الهاتف", "age_label": "العمر", "sex_label": "الجنس", "sex_male": "رجل", "sex_female": "امرأة", "flags_label": "موانع وعلامات انتباه (فرز السلامة)", "flag_blood": "مميعات الدم/أسبرين", "flag_anemia": "فقر دم", "flag_diabetes": "سكري", "flag_pressure": "ضغط", "flag_pregnancy": "حمل/رضاعة", "flag_skin": "مشاكل جلدية", "notes_label": "ملاحظات", "save_client_btn": "حفظ العميل", "client_list_title": "قائمة العملاء", "client_search_ph": "ابحث بالاسم أو الهاتف...", "th_name": "الاسم", "th_phone": "الهاتف", "th_age_sex": "العمر/الجنس", "th_attention": "انتباه", "th_sessions": "جلسات", "session_title": "تسجيل جلسة", "session_client_label": "العميل *", "session_date_label": "التاريخ", "session_type_label": "نوع الحجامة", "type_bloody": "دموية", "type_dry": "جافة", "type_moving": "متحركة (تدليك)", "type_both": "جافة + دموية", "duration_label": "المدة (دقيقة)", "duration_ph": "30", "session_notes_label": "ملاحظات الجلسة", "after_label": "أعطيت تعليمات ما بعد الجلسة للعميل", "consent_label": "الموافقة المستنيرة موقَّعة ومحفوظة", "map_title": "🗺️ خريطة المواضع — اختر نقاط الجلسة", "btn_sunnah": "☪️ حجامة السنة (المواضع النبوية)", "btn_preventive": "🛡️ الحجامة الوقائية", "btn_both": "☪️🛡️ نقاط السنة والوقائية معاً", "btn_ai": "🤖 المساعد الذكي", "btn_clear": "مسح الاختيار", "btn_show_all": "👁️ إظهار كل النقاط", "ai_title": "🤖 المساعد الذكي — اختر مرض/حالة العميل وسوف تُحدَّد المواضع تلقائياً", "ai_note": "الجسم كله مواضع صالحة للحجامة، والمواضع تختلف بحسب المرض ونوعه — يختار المعالج بعض المواضع لا جميعها بحسب الحالة، ويمكنه أن يضيف من خبرته. عند وجود أكثر من مرض تُؤخذ أهم المواضع الرئيسية من كل مرض. الاقتراحات مرجعية من خرائط وفهرس المواضع، والقرار النهائي للممارس.", "dz_search_ph": "ابحث في الأمراض والحالات...", "selected_label": "المواضع المختارة", "save_session_btn": "حفظ الجلسة", "records_title": "سجل الجلسات", "th_date": "التاريخ", "th_client": "العميل", "th_type": "النوع", "th_points": "المواضع", "th_notes": "ملاحظات", "settings_lic_title": "الترخيص والنسخة", "current_version": "الإصدار الحالي:", "update_check_btn": "التحقق من تحديث", "updates_note": "التحديثات تصل تلقائياً: تراجع الأداة ملف الإصدار على موقعنا عند كل فتح، وإذا كان هناك إصدار جديد يظهر تنبيه والضغط عليه يُحدِّث دون ضياع البيانات (البيانات منفصلة عن البرنامج).", "protect_title": "🔐 حماية بيانات العملاء", "protect_b1": "البيانات تبقى <b>في جهازك فقط</b> (تخزين محلي) — لا تُرفع إلى أي خادم ولا نصل إليها لا نحن ولا غيرنا.", "protect_b2": "النسخ الاحتياطي يمكن أن يكون <b>مشفَّراً بكلمة سر</b> (AES-GCM) — دون كلمة السر لا يُقرأ الملف.", "protect_b3": "الرقم السري (PIN) يقفل الأداة عند كل فتح جديد.", "pin_new_label": "رقم سري جديد (PIN) — اتركه فارغاً للإلغاء", "bk_pass_label": "كلمة سر تشفير النسخة الاحتياطية (اختياري)", "save_pin_btn": "حفظ الرقم السري", "export_btn": "⬇️ تصدير نسخة احتياطية", "import_btn": "⬆️ استيراد", "danger_title": "منطقة الخطر", "wipe_btn": "مسح كل البيانات من هذا الجهاز", "wipe_note": "يحذف العملاء والجلسات والترخيص من هذا المتصفح نهائياً. صدِّر نسخة احتياطية قبل ذلك.", "footer_text": "متتبع الحجامة الاحترافي — منتج من زهير محرز / بيت الوقاية · بياناتك تبقى عندك، في جهازك", "err_name_required": "أدخل اسم المركز/الممارس", "err_code_format": "يجب أن يكون الكود بصيغة HT-XXXX-XXXX", "pin_set_msg": "تم تفعيل الرقم السري — سوف يُطلب عند الفتح القادم.", "pin_cleared_msg": "تم إلغاء الرقم السري.", "pin_wrong": "رقم غير صحيح", "licensed_line": "مرخَّص لـ: {name} · الكود {code}", "lic_info": "النسخة مرخَّصة لـ <b>{name}</b> (الكود {code}) — تم التفعيل في {date}.", "client_name_required": "اسم العميل ضروري", "del_client_confirm": "حذف العميل وجلساته؟", "no_clients": "لا يوجد أي عميل بعد — أضف أول عميل من الأعلى.", "client_option_empty": "— أضف عميلاً أولاً —", "del_btn": "حذف", "no_point_map_note": "لا يوجد أي موضع مختار في هذا العرض — غيّر العرض (ظهر/أمام/وجه/أطراف) لعرض النقاط المختارة.", "pt_list_empty": "لم تختر أي موضع بعد — اضغط على الأرقام في الخريطة، أو استعمل السنة/الوقائية/المساعد الذكي.", "pt_label": "موضع", "no_disease_found": "لم نجد أي حالة بهذا الاسم.", "ai_pick_tpl": "✓ {name} — تم تحديد {n} موضعاً، وتظهر هي فقط في الخريطة (غيّر العرض: ظهر/أمام/وجه/أطراف لعرضها كاملة؛ لإضافة موضع من خبرتك اضغط على «إظهار كل النقاط»).", "map_alt": "خريطة المواضع", "session_client_required": "اختر العميل", "session_point_required": "اختر موضعاً واحداً على الأقل", "session_saved": "تم تسجيل الجلسة ✓", "no_records": "لا توجد أي جلسة مسجلة بعد.", "minutes_short": "د", "consent_mark": "✓ موافقة", "after_mark": "✓ تعليمات", "backup_enc_msg": "تم تصدير نسخة مشفَّرة — دون كلمة السر لا تُقرأ.", "backup_plain_msg": "تم تصدير نسخة احتياطية عادية (JSON).", "invalid_file_msg": "ملف غير صالح", "backup_pass_prompt": "هذه النسخة مشفَّرة — أدخل كلمة السر:", "wrong_pass_msg": "كلمة سر خاطئة أو ملف تالف", "imported_msg": "تم الاستيراد ✓", "upd_available": "توجد نسخة جديدة", "upd_now": "حدِّث الآن", "upd_data_safe": "(البيانات لن تضيع)", "upd_available_msg": "توجد نسخة جديدة!", "upd_latest_msg": "أنت في آخر إصدار ✓", "upd_fail_msg": "تعذر التحقق (الإنترنت؟)", "wipe_confirm": "متأكد؟ سوف يُمسح كل شيء من هذا الجهاز.", "lang_label": "اللغة", "view_back": "الظهر", "view_front": "الأمام", "view_face": "الوجه", "view_limbs": "الأطراف (اليدان والرجلان)"}, "darija": {"title": "متتبّع الحجامة الاحترافي | زهير محرز", "app_name": "متتبّع الحجامة الاحترافي", "lic_inactive": "غير مفعّل", "gate_title": "🔑 تفعيل النسخة", "gate_note": "هاد الأداة خاصة بالممارسين المرخّص لهم. دخل اسم المركز/الممارس كيف ما هو في فاتورتك وكود التفعيل اللي وصلك بعد الشراء — الاسم غادي يظهر في نسختك وتقاريرك.", "lic_name_label": "اسم المركز أو الممارس", "lic_name_ph": "مثال: مركز النور للحجامة", "lic_code_label": "كود التفعيل", "lic_code_ph": "HT-XXXX-XXXX", "activate_btn": "تفعيل", "lic_demo_note": "نسخة العرض: أي كود بصيغة HT-XXXX-XXXX كيتقبل. في النسخة التجارية الأكواد كتصدر يدوياً لكل مشتري وكتكون مربوطة باسمو.", "lock_title": "🔒 الأداة مقفلة", "lock_note": "دخل الرقم السري لفتح بيانات الزبناء.", "pin_ph": "الرقم السري", "unlock_btn": "فتح", "tab_clients": "👥 الزبناء", "tab_session": "➕ جلسة جديدة", "tab_records": "🗂️ سجل الجلسات", "tab_settings": "⚙️ الإعدادات والحماية", "new_client_title": "زبون جديد", "full_name_label": "الاسم الكامل *", "phone_label": "الهاتف", "age_label": "العمر", "sex_label": "الجنس", "sex_male": "رجل", "sex_female": "امرأة", "flags_label": "موانع وعلامات انتباه (فرز السلامة)", "flag_blood": "مميعات الدم/أسبرين", "flag_anemia": "فقر دم", "flag_diabetes": "سكري", "flag_pressure": "ضغط", "flag_pregnancy": "حمل/رضاعة", "flag_skin": "مشاكل جلدية", "notes_label": "ملاحظات", "save_client_btn": "حفظ الزبون", "client_list_title": "قائمة الزبناء", "client_search_ph": "قلب بالاسم ولا الهاتف...", "th_name": "الاسم", "th_phone": "الهاتف", "th_age_sex": "العمر/الجنس", "th_attention": "انتباه", "th_sessions": "جلسات", "session_title": "تسجيل جلسة", "session_client_label": "الزبون *", "session_date_label": "التاريخ", "session_type_label": "نوع الحجامة", "type_bloody": "دموية", "type_dry": "جافة", "type_moving": "متحركة (تدليك)", "type_both": "جافة + دموية", "duration_label": "المدة (دقيقة)", "duration_ph": "30", "session_notes_label": "ملاحظات الجلسة", "after_label": "عطيت تعليمات ما بعد الجلسة للزبون", "consent_label": "الموافقة المستنيرة موقّعة ومحفوظة", "map_title": "🗺️ خريطة المواضع — اختار نقاط الجلسة", "btn_sunnah": "☪️ حجامة السنة (المواضع النبوية)", "btn_preventive": "🛡️ الحجامة الوقائية", "btn_both": "☪️🛡️ نقاط السنة والوقائية معاً", "btn_ai": "🤖 المساعد الذكي", "btn_clear": "مسح الاختيار", "btn_show_all": "👁️ إظهار كل النقط", "ai_title": "🤖 المساعد الذكي — اختار مرض/حالة الزبون وغادي تتحدد المواضع تلقائياً", "ai_note": "الجسم كله مواضع صالحة للحجامة، والمواضع كتختلف بحسب المرض ونوعه — المعالج كيختار بعض المواضع لا جميعها بحسب الحالة، ويقدر يزيد من خبرته. عند وجود أكثر من مرض كتتاخد أهم المواضع الرئيسية من كل مرض. الاقتراحات مرجعية من خرائط وفهرس المواضع، والقرار النهائي للممارس.", "dz_search_ph": "قلب في الأمراض والحالات...", "selected_label": "المواضع المختارة", "save_session_btn": "حفظ الجلسة", "records_title": "سجل الجلسات", "th_date": "التاريخ", "th_client": "الزبون", "th_type": "النوع", "th_points": "المواضع", "th_notes": "ملاحظات", "settings_lic_title": "الترخيص والنسخة", "current_version": "الإصدار الحالي:", "update_check_btn": "التحقق من تحديث", "updates_note": "التحديثات كتوصل تلقائياً: الأداة كتراجع ملف الإصدار على موقعنا عند كل فتح، وإلا كان إصدار جديد كيظهر تنبيه والضغط عليه كيحدّث بلا ما تضيع البيانات (البيانات منفصلة على البرنامج).", "protect_title": "🔐 حماية بيانات الزبناء", "protect_b1": "البيانات كتبقى <b>في جهازك فقط</b> (تخزين محلي) — ما كتصعد حتى سيرفر وما كنوصلو ليها لا حنا لا غيرنا.", "protect_b2": "النسخ الاحتياطي يقدر يكون <b>مشفّراً بكلمة سر</b> (AES-GCM) — بلا كلمة السر الملف ما كيتقراش.", "protect_b3": "الرقم السري (PIN) كيقفل الأداة عند كل فتح جديد.", "pin_new_label": "رقم سري جديد (PIN) — خليه خاوياً للإلغاء", "bk_pass_label": "كلمة سر تشفير النسخة الاحتياطية (اختياري)", "save_pin_btn": "حفظ الرقم السري", "export_btn": "⬇️ تصدير نسخة احتياطية", "import_btn": "⬆️ استيراد", "danger_title": "منطقة الخطر", "wipe_btn": "مسح كل البيانات من هاد الجهاز", "wipe_note": "كيحذف الزبناء والجلسات والترخيص من هاد المتصفح نهائياً. صدّر نسخة احتياطية قبل.", "footer_text": "متتبّع الحجامة الاحترافي — منتج من زهير محرز / بيت الوقاية · البيانات ديالك كتبقى عندك، في جهازك", "err_name_required": "دخل اسم المركز/الممارس", "err_code_format": "الكود خاصو يكون بصيغة HT-XXXX-XXXX", "pin_set_msg": "تفعّل الرقم السري — غادي يتطلب في الفتح الجاي.", "pin_cleared_msg": "تلغى الرقم السري.", "pin_wrong": "رقم غير صحيح", "licensed_line": "مرخّص لـ: {name} · كود {code}", "lic_info": "النسخة مرخّصة لـ <b>{name}</b> (كود {code}) — التفعيل تم {date}.", "client_name_required": "اسم الزبون ضروري", "del_client_confirm": "حذف الزبون وجلساتو؟", "no_clients": "ما كاين حتى زبون — زيد أول زبون من الفوق.", "client_option_empty": "— زيد زبون أولاً —", "del_btn": "حذف", "no_point_map_note": "ما كاين حتى موضع مختار في هاد العرض — بدّل العرض (ظهر/أمام/وجه/أطراف) باش تشوف النقط المختارة.", "pt_list_empty": "ما اخترتي حتى موضع — ضغط على الأرقام في الخريطة، ولا استعمل السنة/الوقائية/المساعد الذكي.", "pt_label": "موضع", "no_disease_found": "ما لقينا حتى حالة بهاد الاسم.", "ai_pick_tpl": "✓ {name} — تحددات {n} مواضع، ومعروضة غير هي في الخريطة (بدّل العرض: ظهر/أمام/وجه/أطراف باش تشوفهم كاملين؛ لزيادة موضع من خبرتك ضغط على «إظهار كل النقط»).", "map_alt": "خريطة المواضع", "session_client_required": "اختار الزبون", "session_point_required": "اختار موضع واحد على الأقل", "session_saved": "تسجلات الجلسة ✓", "no_records": "ما كاينة حتى جلسة مسجلة بعد.", "minutes_short": "د", "consent_mark": "✓ موافقة", "after_mark": "✓ تعليمات", "backup_enc_msg": "تصدرات نسخة مشفرة — بلا كلمة السر ما كتتقراش.", "backup_plain_msg": "تصدرات نسخة احتياطية عادية (JSON).", "invalid_file_msg": "ملف غير صالح", "backup_pass_prompt": "هاد النسخة مشفرة — دخل كلمة السر:", "wrong_pass_msg": "كلمة سر خاطئة ولا ملف تالف", "imported_msg": "تم الاستيراد ✓", "upd_available": "كاينة نسخة جديدة", "upd_now": "حدّث دابا", "upd_data_safe": "(البيانات ما غاديش تضيع)", "upd_available_msg": "كاينة نسخة جديدة!", "upd_latest_msg": "أنت في آخر إصدار ✓", "upd_fail_msg": "تعذر التحقق (الإنترنت؟)", "wipe_confirm": "متأكد؟ غادي يتمسح كلشي من هاد الجهاز.", "lang_label": "اللغة", "view_back": "الظهر", "view_front": "الأمام", "view_face": "الوجه", "view_limbs": "الأطراف (يدين وأرجل)"}, "fr": {"title": "Suivi professionnel de la hijama | Zouhair Mahrez", "app_name": "Suivi professionnel de la hijama", "lic_inactive": "Non activé", "gate_title": "🔑 Activation de la version", "gate_note": "Cet outil est réservé aux praticiens agréés. Saisissez le nom du centre ou du praticien tel qu’il figure sur votre facture, ainsi que le code d’activation reçu après l’achat — le nom apparaîtra dans votre version et vos rapports.", "lic_name_label": "Nom du centre ou du praticien", "lic_name_ph": "Exemple : Centre Nour de hijama", "lic_code_label": "Code d’activation", "lic_code_ph": "HT-XXXX-XXXX", "activate_btn": "Activer", "lic_demo_note": "Version de démonstration : tout code au format HT-XXXX-XXXX est accepté. Dans la version commerciale, les codes sont émis manuellement pour chaque acheteur et liés à son nom.", "lock_title": "🔒 Outil verrouillé", "lock_note": "Saisissez le code PIN pour ouvrir les données des clients.", "pin_ph": "Code PIN", "unlock_btn": "Ouvrir", "tab_clients": "👥 Clients", "tab_session": "➕ Nouvelle séance", "tab_records": "🗂️ Historique des séances", "tab_settings": "⚙️ Paramètres et protection", "new_client_title": "Nouveau client", "full_name_label": "Nom complet *", "phone_label": "Téléphone", "age_label": "Âge", "sex_label": "Sexe", "sex_male": "Homme", "sex_female": "Femme", "flags_label": "Contre-indications et signes d’attention (tri de sécurité)", "flag_blood": "Anticoagulants / aspirine", "flag_anemia": "Anémie", "flag_diabetes": "Diabète", "flag_pressure": "Hypertension", "flag_pregnancy": "Grossesse / allaitement", "flag_skin": "Problèmes de peau", "notes_label": "Remarques", "save_client_btn": "Enregistrer le client", "client_list_title": "Liste des clients", "client_search_ph": "Rechercher par nom ou téléphone…", "th_name": "Nom", "th_phone": "Téléphone", "th_age_sex": "Âge / sexe", "th_attention": "Attention", "th_sessions": "Séances", "session_title": "Enregistrement d’une séance", "session_client_label": "Client *", "session_date_label": "Date", "session_type_label": "Type de hijama", "type_bloody": "Sanguine", "type_dry": "Sèche", "type_moving": "Mobile (massage)", "type_both": "Sèche + sanguine", "duration_label": "Durée (minutes)", "duration_ph": "30", "session_notes_label": "Remarques sur la séance", "after_label": "Les consignes post-séance ont été données au client", "consent_label": "Le consentement éclairé est signé et conservé", "map_title": "🗺️ Carte des points — choisissez les points de la séance", "btn_sunnah": "☪️ Hijama de la Sunna (points prophétiques)", "btn_preventive": "🛡️ Hijama préventive", "btn_both": "☪️🛡️ Points de la Sunna et préventifs ensemble", "btn_ai": "🤖 Assistant intelligent", "btn_clear": "Effacer la sélection", "btn_show_all": "👁️ Afficher tous les points", "ai_title": "🤖 Assistant intelligent — choisissez la maladie ou l’état du client et les points seront sélectionnés automatiquement", "ai_note": "Tout le corps comporte des points adaptés à la hijama, et les points varient selon la maladie et son type — le praticien choisit certains points, pas tous, selon l’état, et peut en ajouter selon son expérience. En présence de plusieurs maladies, les points principaux les plus importants de chaque maladie sont retenus. Les suggestions sont indicatives, issues des cartes et de l’index des points ; la décision finale revient au praticien.", "dz_search_ph": "Rechercher parmi les maladies et les états…", "selected_label": "Points sélectionnés", "save_session_btn": "Enregistrer la séance", "records_title": "Historique des séances", "th_date": "Date", "th_client": "Client", "th_type": "Type", "th_points": "Points", "th_notes": "Remarques", "settings_lic_title": "Licence et version", "current_version": "Version actuelle :", "update_check_btn": "Vérifier les mises à jour", "updates_note": "Les mises à jour arrivent automatiquement : l’outil vérifie le fichier de version sur notre site à chaque ouverture ; si une nouvelle version existe, une alerte apparaît et un clic met à jour sans perte de données (les données sont séparées du programme).", "protect_title": "🔐 Protection des données des clients", "protect_b1": "Les données restent <b>sur votre appareil uniquement</b> (stockage local) — elles ne sont envoyées vers aucun serveur et nous n’y avons accès, ni nous ni personne d’autre.", "protect_b2": "La sauvegarde peut être <b>chiffrée par un mot de passe</b> (AES-GCM) — sans le mot de passe, le fichier est illisible.", "protect_b3": "Le code PIN verrouille l’outil à chaque nouvelle ouverture.", "pin_new_label": "Nouveau code PIN — laissez vide pour annuler", "bk_pass_label": "Mot de passe de chiffrement de la sauvegarde (facultatif)", "save_pin_btn": "Enregistrer le code PIN", "export_btn": "⬇️ Exporter une sauvegarde", "import_btn": "⬆️ Importer", "danger_title": "Zone dangereuse", "wipe_btn": "Effacer toutes les données de cet appareil", "wipe_note": "Supprime définitivement les clients, les séances et la licence de ce navigateur. Exportez une sauvegarde avant.", "footer_text": "Suivi professionnel de la hijama — produit de Zouhair Mahrez / Bayt Al-Wiqaya · Vos données restent chez vous, sur votre appareil", "err_name_required": "Saisissez le nom du centre ou du praticien", "err_code_format": "Le code doit être au format HT-XXXX-XXXX", "pin_set_msg": "Le code PIN est activé — il sera demandé à la prochaine ouverture.", "pin_cleared_msg": "Le code PIN a été annulé.", "pin_wrong": "Code incorrect", "licensed_line": "Licencié à : {name} · Code {code}", "lic_info": "La version est licenciée à <b>{name}</b> (code {code}) — activation le {date}.", "client_name_required": "Le nom du client est obligatoire", "del_client_confirm": "Supprimer le client et ses séances ?", "no_clients": "Aucun client pour le moment — ajoutez un premier client ci-dessus.", "client_option_empty": "— Ajoutez d’abord un client —", "del_btn": "Supprimer", "no_point_map_note": "Aucun point sélectionné dans cette vue — changez de vue (dos / avant / visage / membres) pour voir les points sélectionnés.", "pt_list_empty": "Aucun point choisi pour le moment — cliquez sur les numéros de la carte, ou utilisez la Sunna / la préventive / l’assistant intelligent.", "pt_label": "Point", "no_disease_found": "Aucun état trouvé sous ce nom.", "ai_pick_tpl": "✓ {name} — {n} points sélectionnés, seuls ceux-ci sont affichés sur la carte (changez de vue : dos / avant / visage / membres pour les voir tous ; pour ajouter un point selon votre expérience, cliquez sur « Afficher tous les points »).", "map_alt": "Carte des points", "session_client_required": "Choisissez le client", "session_point_required": "Choisissez au moins un point", "session_saved": "Séance enregistrée ✓", "no_records": "Aucune séance enregistrée pour le moment.", "minutes_short": " min", "consent_mark": "✓ consentement", "after_mark": "✓ consignes", "backup_enc_msg": "Sauvegarde chiffrée exportée — sans le mot de passe, elle est illisible.", "backup_plain_msg": "Sauvegarde ordinaire exportée (JSON).", "invalid_file_msg": "Fichier invalide", "backup_pass_prompt": "Cette sauvegarde est chiffrée — saisissez le mot de passe :", "wrong_pass_msg": "Mot de passe incorrect ou fichier endommagé", "imported_msg": "Importation terminée ✓", "upd_available": "Une nouvelle version est disponible", "upd_now": "Mettre à jour maintenant", "upd_data_safe": "(les données ne seront pas perdues)", "upd_available_msg": "Une nouvelle version est disponible !", "upd_latest_msg": "Vous êtes sur la dernière version ✓", "upd_fail_msg": "Vérification impossible (connexion ?)", "wipe_confirm": "Êtes-vous sûr ? Tout sera effacé de cet appareil.", "lang_label": "Langue", "view_back": "Dos", "view_front": "Avant", "view_face": "Visage", "view_limbs": "Membres (mains et pieds)"}, "en": {"title": "Professional Hijama Tracker | Zouhair Mahrez", "app_name": "Professional Hijama Tracker", "lic_inactive": "Not activated", "gate_title": "🔑 Version activation", "gate_note": "This tool is for licensed practitioners only. Enter the centre/practitioner name as it appears on your invoice and the activation code you received after purchase — the name will appear in your copy and reports.", "lic_name_label": "Centre or practitioner name", "lic_name_ph": "Example: Nour Hijama Centre", "lic_code_label": "Activation code", "lic_code_ph": "HT-XXXX-XXXX", "activate_btn": "Activate", "lic_demo_note": "Demo version: any code in the format HT-XXXX-XXXX is accepted. In the commercial version, codes are issued manually to each buyer and linked to their name.", "lock_title": "🔒 Tool locked", "lock_note": "Enter the PIN to open client data.", "pin_ph": "PIN", "unlock_btn": "Unlock", "tab_clients": "👥 Clients", "tab_session": "➕ New session", "tab_records": "🗂️ Session history", "tab_settings": "⚙️ Settings and protection", "new_client_title": "New client", "full_name_label": "Full name *", "phone_label": "Phone", "age_label": "Age", "sex_label": "Sex", "sex_male": "Male", "sex_female": "Female", "flags_label": "Contraindications and caution flags (safety screening)", "flag_blood": "Blood thinners / aspirin", "flag_anemia": "Anaemia", "flag_diabetes": "Diabetes", "flag_pressure": "Hypertension", "flag_pregnancy": "Pregnancy / breastfeeding", "flag_skin": "Skin problems", "notes_label": "Notes", "save_client_btn": "Save client", "client_list_title": "Client list", "client_search_ph": "Search by name or phone…", "th_name": "Name", "th_phone": "Phone", "th_age_sex": "Age / sex", "th_attention": "Caution", "th_sessions": "Sessions", "session_title": "Record a session", "session_client_label": "Client *", "session_date_label": "Date", "session_type_label": "Hijama type", "type_bloody": "Wet (bloody)", "type_dry": "Dry", "type_moving": "Moving (massage)", "type_both": "Dry + wet", "duration_label": "Duration (minutes)", "duration_ph": "30", "session_notes_label": "Session notes", "after_label": "Post-session instructions were given to the client", "consent_label": "Informed consent is signed and stored", "map_title": "🗺️ Point map — choose the session points", "btn_sunnah": "☪️ Sunnah hijama (prophetic points)", "btn_preventive": "🛡️ Preventive hijama", "btn_both": "☪️🛡️ Sunnah and preventive points together", "btn_ai": "🤖 Smart Assistant", "btn_clear": "Clear selection", "btn_show_all": "👁️ Show all points", "ai_title": "🤖 Smart Assistant — choose the client’s condition and the points will be selected automatically", "ai_note": "The whole body has points suitable for hijama, and the points vary by disease and its type — the practitioner chooses some points, not all, according to the case, and may add from experience. When several diseases are present, the most important main points from each disease are taken. Suggestions are for reference, from the point maps and index; the final decision rests with the practitioner.", "dz_search_ph": "Search diseases and conditions…", "selected_label": "Selected points", "save_session_btn": "Save session", "records_title": "Session history", "th_date": "Date", "th_client": "Client", "th_type": "Type", "th_points": "Points", "th_notes": "Notes", "settings_lic_title": "Licence and version", "current_version": "Current version:", "update_check_btn": "Check for updates", "updates_note": "Updates arrive automatically: the tool checks the version file on our site at each opening; if a new version exists, an alert appears and clicking it updates without losing data (data is separate from the program).", "protect_title": "🔐 Client data protection", "protect_b1": "Data stays <b>on your device only</b> (local storage) — it is not uploaded to any server, and neither we nor anyone else can access it.", "protect_b2": "The backup can be <b>encrypted with a password</b> (AES-GCM) — without the password, the file cannot be read.", "protect_b3": "The PIN locks the tool at each new opening.", "pin_new_label": "New PIN — leave empty to cancel", "bk_pass_label": "Backup encryption password (optional)", "save_pin_btn": "Save PIN", "export_btn": "⬇️ Export backup", "import_btn": "⬆️ Import", "danger_title": "Danger zone", "wipe_btn": "Erase all data from this device", "wipe_note": "Permanently deletes clients, sessions and the licence from this browser. Export a backup first.", "footer_text": "Professional Hijama Tracker — a product by Zouhair Mahrez / Bayt Al-Wiqaya · Your data stays with you, on your device", "err_name_required": "Enter the centre/practitioner name", "err_code_format": "The code must be in the format HT-XXXX-XXXX", "pin_set_msg": "PIN activated — it will be requested at the next opening.", "pin_cleared_msg": "PIN cancelled.", "pin_wrong": "Incorrect PIN", "licensed_line": "Licensed to: {name} · Code {code}", "lic_info": "The version is licensed to <b>{name}</b> (code {code}) — activated on {date}.", "client_name_required": "Client name is required", "del_client_confirm": "Delete the client and their sessions?", "no_clients": "No clients yet — add a first client above.", "client_option_empty": "— Add a client first —", "del_btn": "Delete", "no_point_map_note": "No point selected in this view — change the view (back / front / face / limbs) to see the selected points.", "pt_list_empty": "No point chosen yet — click the numbers on the map, or use Sunnah / preventive / Smart Assistant.", "pt_label": "Point", "no_disease_found": "No condition found by that name.", "ai_pick_tpl": "✓ {name} — {n} points selected, only these are shown on the map (change the view: back / front / face / limbs to see them all; to add a point from your experience, click “Show all points”).", "map_alt": "Point map", "session_client_required": "Choose the client", "session_point_required": "Choose at least one point", "session_saved": "Session recorded ✓", "no_records": "No sessions recorded yet.", "minutes_short": " min", "consent_mark": "✓ consent", "after_mark": "✓ instructions", "backup_enc_msg": "Encrypted backup exported — without the password it cannot be read.", "backup_plain_msg": "Plain backup exported (JSON).", "invalid_file_msg": "Invalid file", "backup_pass_prompt": "This backup is encrypted — enter the password:", "wrong_pass_msg": "Wrong password or damaged file", "imported_msg": "Import complete ✓", "upd_available": "A new version is available", "upd_now": "Update now", "upd_data_safe": "(data will not be lost)", "upd_available_msg": "A new version is available!", "upd_latest_msg": "You are on the latest version ✓", "upd_fail_msg": "Could not check (internet?)", "wipe_confirm": "Are you sure? Everything will be erased from this device.", "lang_label": "Language", "view_back": "Back", "view_front": "Front", "view_face": "Face", "view_limbs": "Limbs (hands and feet)"}};
+var CUR=(function(){try{var l=localStorage.getItem('site_lang');if(l==='ar'||l==='darija'||l==='fr'||l==='en')return l}catch(e){}try{var tz=Intl.DateTimeFormat().resolvedOptions().timeZone;if(tz==='Africa/Casablanca')return 'darija'}catch(e){}return 'ar'})();
+function t(k){var d=I18N[CUR]||I18N.ar;return (d[k]!==undefined)?d[k]:(I18N.ar[k]||k)}
+function dzName(d){if(!d[3]||!d[3][CUR])return d[0];return d[3][CUR].name||d[0]}
+function dzNote(d){if(!d[3]||!d[3][CUR])return d[2];return d[3][CUR].note||''}
+function applyLang(lang,rerender){CUR=lang;document.documentElement.lang=(lang==='darija')?'ar':lang;document.documentElement.dir=(lang==='ar'||lang==='darija')?'rtl':'ltr';
+document.querySelectorAll('[data-i18n]').forEach(function(el){var v=t(el.getAttribute('data-i18n'));if(el.hasAttribute('data-i18n-html')){el.innerHTML=v}else{el.textContent=v}});
+document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){el.placeholder=t(el.getAttribute('data-i18n-placeholder'))});
+document.querySelectorAll('#lang-switch [data-lang]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===lang)});
+if(rerender){try{renderClients();renderClientOptions();renderRecords();drawMap();renderDiseases()}catch(e){}}}
+function setLang(lang){try{localStorage.setItem('site_lang',lang)}catch(e){}applyLang(lang,true)}
+applyLang(CUR,false);
+
 var LS={lic:'ht2_lic',clients:'ht2_clients',sessions:'ht2_sessions',pin:'ht2_pin'};
 function load(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
@@ -237,94 +259,94 @@ var SUNNAH=['1','2','3','4','5','6','7','8','9','10'];
 var PREVENTIVE=['6','26','27','4','5','9','10','32','34','7','8'];
 // ================= DISEASE INDEX (فهرس المواضع بحسب المرض — من عند الممارس) =================
 var DISEASES=[
-['الجهاز الدوراني',['6','26','27','55','56'],''],
-['مشاكل البلعوم',['6','26','27','28','30','32','34','50','51','52','18','4','5'],''],
-['الجهاز الهضمي',['6','28','34','35','ت32','ت33','ت34','ت35','60','61','62','63','64','65','66','67'],''],
-['الجهاز العصبي',['6','26','27','28','30','32','34','19','20','21','11.1','11.2','9','10'],'في الحالات المتطورة: تدليك اليدين والرجلين.'],
-['الهيكل العظمي',['6','24','25','36','37','38','80/1','80/2','94/1','94/2','4','5','9','10','76'],'الموضع 76 من الفهرس (ما كاينش في الخرائط الحالية).'],
-['الجهاز البولي الإخراجي',['ت32','ت34','42','43','6'],''],
-['الجهاز التناسلي',['6','9','10','38','39','40','41','42','43','70','71','72','73'],''],
-['مرضى السكري',['6','26','27','28','30','32','34','39','40'],'إذا رافقه حرارة القدمين زيد 9+10؛ وإذا رافقه اعتلال عصبي أو خمول زيد 20+21.'],
-['الضغط الدموي',['1','3','19','20','21','6','26','27','38'],'إذا رافقه خلل بوظائف الكلى زيد ت32+ت34+42+43.'],
-['البروستاتا',['6','38','39','40','41','42','43','70','71','72','73','9','10'],''],
-['التهاب الجيوب الجبهية',['13.1','13.2','20','21'],''],
-['التهاب الجيوب الوجنية',['15.1','15.2','20','21'],''],
-['التهاب الجيوب الوتدية',['14.1','14.2','20','21'],''],
-['التهاب الجيوب المصفية',['98.1','98.2','20','21'],'إذا رافقه صداع نصفي زيد 1؛ وإذا رافقه نزول بلغم أو صديد للحلق زيد 4+5 (الأخدعان).'],
-['الروماتيزم',['6','24','25','36','37','7','8','38','53','54','20','21','1','80/1','80/2','94/1','94/2','76','77','9','10'],'إذا سبق للمريض تناول أدوية: حجامة الجهاز الهضمي والمفاصل (6+26+27+28+29+30+31+32+33+34+35+ت33+20+21+80+94+9+10).'],
-['ضعف المناعة (الجهاز المناعي)',['4','5','6','28','30','32','34','35','ت33','ت35','38','59','62','63','64','65','66','67','18'],''],
-['حموضة المعدة',['6','26','27','28','30','32','34','35','38','50','51','52','62','63','18'],'المواضع 34 متقاربة.'],
-['القولون العصبي',['6','33','ت33','35','ت35','64','65','66','67'],''],
-['الانزلاق الغضروفي',['85/1','85/2','86/1','86/2','87/1','87/2','88/1','88/2','89/1','89/2','90/1','90/2','83/1','83/2','9','10','7','8','78','79','80/1','80/2','81','82','38','41'],'تبدا بكؤوس هواء لتحديد موضع الألم، ثم التشريط والكؤوس الدموية في مواضع الألم فقط. 9 أو 10 بحسب القدم و7 أو 8 بحسب الجهة. الأكواب 4-5 قريباً من الأصبعين الصغيرين من القدم.'],
-['الكوليسترول',['6','26','27','28','29','30','32','34'],''],
-['مشاكل الكلى',['4','5','6','ت32','ت34','42','43'],'إذا كان عنده ضغط: حجامة الضغط مع التكرار. إذا كان عنده التهاب اللوزتين: زيد 18 (مع القسط الهندي مطحوناً شرباً).'],
-['طنين الأذن',['12.1','12.2','17.1','17.2','20','21'],''],
-['الربو',['6','26','27','28','29','55','56','57','58'],''],
-['حساسية الجهاز التنفسي',['19','6','26','27','28','30','20','21'],'يضاف: 18 أو 4+5.'],
-['حساسية الطعام',['6','28','29','30','31','33','ت33','35','ت35','64','65','66','67'],'يضاف: 18 أو 4+5.'],
-['التدخين',['6','26','27','28','29','32','34','55','56','20','21','9','10'],''],
-['البواسير',['6','9','10','38','39','40','42','43'],''],
-['العقم',['6','9','10','38','39','40','41','42','43','70','71','72','73'],''],
-['النقرس',['9','10','6','26','27','32','34','42','43'],'تضاف المواضع التي يشعر فيها بالألم.'],
-['التبول اللاإرادي',['6','9','10','38','39','40','41','42','43','70','71','72','73'],'تدليك المواضع بالحجامة الجافة مع الزيوت الدافئة قبل الدموية أسفل الظهر؛ وعند الأطفال يمكن جعل الأكواب كلها أو بعضها جافة.'],
-['مشاكل الحنجرة',['4','5','6','18'],'إذا رافق المرض تشنجات عصبية: حجامة الجهاز العصبي مع هذه الكؤوس.'],
-['تنشيط وتقوية الذاكرة',['2','11.1','11.2','12.1','12.2','20','21','6'],'إذا كان عنده مشكلة في الجهاز العصبي: حجامة الجهاز العصبي.'],
-['السرطان',['6','26','27','32','34','42','43'],'مع التركيز على حجامة الجهاز المناعي؛ الورم الظاهر: الكؤوس حوله، وغير الظاهر: فوقه.'],
-['نقص فيتامين دال',['4','5','6','28','29','33','ت33','35','ت35','ت32','ت34'],''],
-['الجلطة',['1','20','21','6','24','25','36','37','7','8','38','18','80/1','80/2','94/1','94/2','9','10'],'الحجامة عكس الجهة المصابة (20 أو 21، 24 أو 25، 36 أو 37، 7 أو 8، 9 أو 10 بحسب الجهة)؛ ولا ضرر في نفس الجهة مع مراعاة عدم حجامة الحالة المصابة حديثاً ممن حركتهم ثقيلة.'],
-['مشاكل الجنس',['6','9','10','38','39','40','41','42','43','70','71','72','73'],''],
-['للتسمين',['4','5','6','19','26','27','32','34','42','43'],''],
-['الشلل الرعاش',['1','6','19','26','27','28','30','32','34','9','10'],'مساج اليدين والرجلين بالزيوت قبل الحجامة؛ وإذا كانت الحالة مستقرة يمكن حجامة الجهاز الهضمي بين كل حجامتين.'],
-['فقر الدم',['4','5','6','19','26','27','28','30'],''],
-['شرايين القلب التاجية',['6','26','27','28','29','55','56','58','62','63'],'26+27 متقاربة.'],
-['مشاكل الكبد',['4','5','6','28','29','60','61'],''],
-['مشاكل اللوزتين',['20','21','4','5','6','18'],'20+21 متقاربة.'],
-['مشاكل النطق المرضية',['1','6','18','19','20','21'],''],
-['التهاب العصب السابع',['1','15.1','15.2','16.1','16.2','11.1','11.2','13.1','13.2','17.1','17.2','20','21'],'المواضع 15+16+11+13+17 من الجهة المصابة فقط.'],
-['الثعلبة والصدفية والأكزيما والخدر والتنميل والرضوض والبرودة',[],'مواضعها فوقها تماماً؛ فإذا تعذر وضع الكؤوس لضيق المكان أو التهاب الموضع أو انتفاخه فتكون الأكواب حواليه لا عليه.'],
-['مشاكل المرارة',['6','28','29','32','33'],''],
-['مشاكل الطحال',['6','30','31','34','35'],''],
-['الصداع العام والنصفي (الشقيقة)',['1','20','21','6','26','27'],''],
-['أملاح القدم',['9','10'],'يفضل إضافة 6+26+27+28+30.'],
-['آلام الرقبة',['4','5','6'],'مع تدليك الرقبة بالزيوت.'],
-['آلام الأبهر',['6','22','23','26','27','28','30'],'تضاف مواضع التشنج والألم.'],
-['الناسور',['6','38','39','40','9','10'],'تضاف الحجامة فوق الناسور.'],
-['السعال بأنواعه',['6','26','27','28','30','50','51','52','55','56','57','58'],''],
-['كثرة النوم',['1','20','21','6','27','28','30'],''],
-['أورام المخ',['20','21','1'],'تضاف الحجامة فوق الورم أو حواليه.'],
-['إجهاد النظر',['1','13.1','13.2','14.1','14.2','15.1','15.2','20','21'],''],
-['الإمساك',['6','38','39','40','9','10'],''],
-['الدورة الشهرية عند النساء',['6','38','39','40','41','42','43','4','5'],''],
-['نزيف الرحم',['6','38','39','40','41','42','43'],'المواضع 38-43 تكون حجامات جافة.'],
-['إفرازات مهبلية',['6','38','39','40','70','71','72','73'],''],
-['مشاكل الحيض عند الفتيات',['6','38','39','40','70','71','72','73'],'المواضع 70-73 جافة.'],
-['تنشيط المبايض والرحم ومشاكلهما',['6','38','39','40','41','42','43','ت32','ت34','72','73'],''],
-['دوخة',['1','20','21','19'],''],
-['دمامل وخراجات',[],'فوق الخراج مباشرة وحواليه؛ إلا إذا كان ملتهباً فيقتصر على حواليه. وإذا كان سبب الإصابة السكري فيجب حجامة السكري.'],
-['تنشيط الدورة الدموية',['1','20','21','6','26','27','28','30'],''],
-['الاكتئاب',['1','4','5','6','26','27','20','21','38','39','40'],''],
-['الأنفلونزا',['98.1','98.2','18','1','26','27'],'قد تضاف حجامة الجهاز المناعي.'],
-['التسمم',['6','26','27','30','31','62','63'],''],
-['مشاكل المثانة',['6','41','42','43','70','71','72','73'],''],
-['الأرق',['1','20','21','6','26','27','38','39','40'],''],
-['خشونة الركبة',['80/1','80/2','94/1','94/2','97/1','97/2','88/1','88/2'],''],
-['التهابات اللثة ووجع الأسنان والقلاع',['18','17.1','17.2'],'']];
+['الجهاز الدوراني',['6','26','27','55','56'],'',{fr:{name:"Système circulatoire",note:""},en:{name:"Circulatory system",note:""},darija:{name:"الجهاز الدوراني",note:""}}],
+['مشاكل البلعوم',['6','26','27','28','30','32','34','50','51','52','18','4','5'],'',{fr:{name:"Problèmes du pharynx",note:""},en:{name:"Pharynx problems",note:""},darija:{name:"مشاكل البلعوم",note:""}}],
+['الجهاز الهضمي',['6','28','34','35','ت32','ت33','ت34','ت35','60','61','62','63','64','65','66','67'],'',{fr:{name:"Système digestif",note:""},en:{name:"Digestive system",note:""},darija:{name:"الجهاز الهضمي",note:""}}],
+['الجهاز العصبي',['6','26','27','28','30','32','34','19','20','21','11.1','11.2','9','10'],'في الحالات المتطورة: تدليك اليدين والرجلين.',{fr:{name:"Système nerveux",note:"Dans les cas avancés : massage des mains et des pieds."},en:{name:"Nervous system",note:"In advanced cases: massage of the hands and feet."},darija:{name:"الجهاز العصبي",note:"في الحالات المتطورة: تدليك اليدين والرجلين."}}],
+['الهيكل العظمي',['6','24','25','36','37','38','80/1','80/2','94/1','94/2','4','5','9','10','76'],'الموضع 76 من الفهرس (غير موجود في الخرائط الحالية).',{fr:{name:"Squelette",note:"Le point 76 de l’index (absent des cartes actuelles)."},en:{name:"Skeletal system",note:"Point 76 from the index (not on the current maps)."},darija:{name:"الهيكل العظمي",note:"الموضع 76 من الفهرس (ما كاينش في الخرائط الحالية)."}}],
+['الجهاز البولي الإخراجي',['ت32','ت34','42','43','6'],'',{fr:{name:"Système urinaire et excréteur",note:""},en:{name:"Urinary and excretory system",note:""},darija:{name:"الجهاز البولي الإخراجي",note:""}}],
+['الجهاز التناسلي',['6','9','10','38','39','40','41','42','43','70','71','72','73'],'',{fr:{name:"Système reproducteur",note:""},en:{name:"Reproductive system",note:""},darija:{name:"الجهاز التناسلي",note:""}}],
+['مرضى السكري',['6','26','27','28','30','32','34','39','40'],'إذا رافقه حرارة القدمين أضف 9+10؛ وإذا رافقه اعتلال عصبي أو خمول أضف 20+21.',{fr:{name:"Patients diabétiques",note:"S’il s’accompagne de chaleur aux pieds, ajoutez 9+10 ; s’il s’accompagne de neuropathie ou de fatigue, ajoutez 20+21."},en:{name:"Diabetes patients",note:"If accompanied by heat in the feet, add 9+10; if accompanied by neuropathy or sluggishness, add 20+21."},darija:{name:"مرضى السكري",note:"إذا رافقه حرارة القدمين زيد 9+10؛ وإذا رافقه اعتلال عصبي أو خمول زيد 20+21."}}],
+['الضغط الدموي',['1','3','19','20','21','6','26','27','38'],'إذا رافقه خلل بوظائف الكلى أضف ت32+ت34+42+43.',{fr:{name:"Tension artérielle",note:"S’il s’accompagne d’un trouble de la fonction rénale, ajoutez ت32+ت34+42+43."},en:{name:"Blood pressure",note:"If accompanied by impaired kidney function, add ت32+ت34+42+43."},darija:{name:"الضغط الدموي",note:"إذا رافقه خلل بوظائف الكلى زيد ت32+ت34+42+43."}}],
+['البروستاتا',['6','38','39','40','41','42','43','70','71','72','73','9','10'],'',{fr:{name:"Prostate",note:""},en:{name:"Prostate",note:""},darija:{name:"البروستاتا",note:""}}],
+['التهاب الجيوب الجبهية',['13.1','13.2','20','21'],'',{fr:{name:"Sinusite frontale",note:""},en:{name:"Frontal sinusitis",note:""},darija:{name:"التهاب الجيوب الجبهية",note:""}}],
+['التهاب الجيوب الوجنية',['15.1','15.2','20','21'],'',{fr:{name:"Sinusite maxillaire",note:""},en:{name:"Maxillary sinusitis",note:""},darija:{name:"التهاب الجيوب الوجنية",note:""}}],
+['التهاب الجيوب الوتدية',['14.1','14.2','20','21'],'',{fr:{name:"Sinusite sphénoïdale",note:""},en:{name:"Sphenoid sinusitis",note:""},darija:{name:"التهاب الجيوب الوتدية",note:""}}],
+['التهاب الجيوب المصفية',['98.1','98.2','20','21'],'إذا رافقه صداع نصفي أضف 1؛ وإذا رافقه نزول بلغم أو صديد إلى الحلق أضف 4+5 (الأخدعان).',{fr:{name:"Sinusite ethmoïdale",note:"S’il s’accompagne d’une migraine, ajoutez 1 ; s’il s’accompagne d’un écoulement de mucus ou de pus vers la gorge, ajoutez 4+5 (les akhda‘ayn)."},en:{name:"Ethmoid sinusitis",note:"If accompanied by migraine, add 1; if accompanied by mucus or pus draining into the throat, add 4+5 (the akhda‘ayn)."},darija:{name:"التهاب الجيوب المصفية",note:"إذا رافقه صداع نصفي زيد 1؛ وإذا رافقه نزول بلغم أو صديد للحلق زيد 4+5 (الأخدعان)."}}],
+['الروماتيزم',['6','24','25','36','37','7','8','38','53','54','20','21','1','80/1','80/2','94/1','94/2','76','77','9','10'],'إذا سبق للمريض تناول أدوية: حجامة الجهاز الهضمي والمفاصل (6+26+27+28+29+30+31+32+33+34+35+ت33+20+21+80+94+9+10).',{fr:{name:"Rhumatisme",note:"Si le patient a déjà pris des médicaments : hijama du système digestif et des articulations (6+26+27+28+29+30+31+32+33+34+35+ت33+20+21+80+94+9+10)."},en:{name:"Rheumatism",note:"If the patient has previously taken medicines: hijama of the digestive system and joints (6+26+27+28+29+30+31+32+33+34+35+ت33+20+21+80+94+9+10)."},darija:{name:"الروماتيزم",note:"إذا سبق للمريض تناول أدوية: حجامة الجهاز الهضمي والمفاصل (6+26+27+28+29+30+31+32+33+34+35+ت33+20+21+80+94+9+10)."}}],
+['ضعف المناعة (الجهاز المناعي)',['4','5','6','28','30','32','34','35','ت33','ت35','38','59','62','63','64','65','66','67','18'],'',{fr:{name:"Faiblesse immunitaire (système immunitaire)",note:""},en:{name:"Weak immunity (immune system)",note:""},darija:{name:"ضعف المناعة (الجهاز المناعي)",note:""}}],
+['حموضة المعدة',['6','26','27','28','30','32','34','35','38','50','51','52','62','63','18'],'الموضعان 34 متقاربان.',{fr:{name:"Acidité gastrique",note:"Les deux points 34 sont proches l’un de l’autre."},en:{name:"Gastric acidity",note:"The two 34 points are close together."},darija:{name:"حموضة المعدة",note:"المواضع 34 متقاربة."}}],
+['القولون العصبي',['6','33','ت33','35','ت35','64','65','66','67'],'',{fr:{name:"Côlon irritable",note:""},en:{name:"Irritable bowel",note:""},darija:{name:"القولون العصبي",note:""}}],
+['الانزلاق الغضروفي',['85/1','85/2','86/1','86/2','87/1','87/2','88/1','88/2','89/1','89/2','90/1','90/2','83/1','83/2','9','10','7','8','78','79','80/1','80/2','81','82','38','41'],'ابدأ بكؤوس هواء لتحديد موضع الألم، ثم التشريط والكؤوس الدموية في مواضع الألم فقط. 9 أو 10 بحسب القدم و7 أو 8 بحسب الجهة. الأكواب 4-5 قريبة من الأصبعين الصغيرين من القدم.',{fr:{name:"Hernie discale",note:"Commencez par des ventouses à air pour localiser le point douloureux, puis scarification et ventouses sanguines sur les seuls points douloureux. 9 ou 10 selon le pied, et 7 ou 8 selon le côté. Les ventouses 4-5 sont proches des deux petits orteils."},en:{name:"Herniated disc",note:"Start with air cups to locate the painful point, then scarification and bloody cups on the painful points only. 9 or 10 depending on the foot, and 7 or 8 depending on the side. Cups 4–5 are close to the two little toes."},darija:{name:"الانزلاق الغضروفي",note:"تبدا بكؤوس هواء لتحديد موضع الألم، ثم التشريط والكؤوس الدموية في مواضع الألم فقط. 9 أو 10 بحسب القدم و7 أو 8 بحسب الجهة. الأكواب 4-5 قريباً من الأصبعين الصغيرين من القدم."}}],
+['الكوليسترول',['6','26','27','28','29','30','32','34'],'',{fr:{name:"Cholestérol",note:""},en:{name:"Cholesterol",note:""},darija:{name:"الكوليسترول",note:""}}],
+['مشاكل الكلى',['4','5','6','ت32','ت34','42','43'],'إذا كان لديه ضغط: حجامة الضغط مع التكرار. إذا كان لديه التهاب اللوزتين: أضف 18 (مع القسط الهندي مطحوناً شرباً).',{fr:{name:"Problèmes rénaux",note:"S’il a de l’hypertension : hijama de la tension, avec répétition. S’il a une inflammation des amygdales : ajoutez 18 (avec du costus indien moulu, à boire)."},en:{name:"Kidney problems",note:"If they have hypertension: blood-pressure hijama, repeated. If they have tonsillitis: add 18 (with ground Indian costus, taken as a drink)."},darija:{name:"مشاكل الكلى",note:"إذا كان عنده ضغط: حجامة الضغط مع التكرار. إذا كان عنده التهاب اللوزتين: زيد 18 (مع القسط الهندي مطحوناً شرباً)."}}],
+['طنين الأذن',['12.1','12.2','17.1','17.2','20','21'],'',{fr:{name:"Acouphènes",note:""},en:{name:"Tinnitus",note:""},darija:{name:"طنين الأذن",note:""}}],
+['الربو',['6','26','27','28','29','55','56','57','58'],'',{fr:{name:"Asthme",note:""},en:{name:"Asthma",note:""},darija:{name:"الربو",note:""}}],
+['حساسية الجهاز التنفسي',['19','6','26','27','28','30','20','21'],'يُضاف: 18 أو 4+5.',{fr:{name:"Allergie respiratoire",note:"Ajout : 18 ou 4+5."},en:{name:"Respiratory allergy",note:"Add: 18 or 4+5."},darija:{name:"حساسية الجهاز التنفسي",note:"يضاف: 18 أو 4+5."}}],
+['حساسية الطعام',['6','28','29','30','31','33','ت33','35','ت35','64','65','66','67'],'يُضاف: 18 أو 4+5.',{fr:{name:"Allergie alimentaire",note:"Ajout : 18 ou 4+5."},en:{name:"Food allergy",note:"Add: 18 or 4+5."},darija:{name:"حساسية الطعام",note:"يضاف: 18 أو 4+5."}}],
+['التدخين',['6','26','27','28','29','32','34','55','56','20','21','9','10'],'',{fr:{name:"Tabagisme",note:""},en:{name:"Smoking",note:""},darija:{name:"التدخين",note:""}}],
+['البواسير',['6','9','10','38','39','40','42','43'],'',{fr:{name:"Hémorroïdes",note:""},en:{name:"Haemorrhoids",note:""},darija:{name:"البواسير",note:""}}],
+['العقم',['6','9','10','38','39','40','41','42','43','70','71','72','73'],'',{fr:{name:"Infertilité",note:""},en:{name:"Infertility",note:""},darija:{name:"العقم",note:""}}],
+['النقرس',['9','10','6','26','27','32','34','42','43'],'تُضاف المواضع التي يشعر فيها بالألم.',{fr:{name:"Goutte",note:"Ajoutez les points où la douleur est ressentie."},en:{name:"Gout",note:"Add the points where pain is felt."},darija:{name:"النقرس",note:"تضاف المواضع التي يشعر فيها بالألم."}}],
+['التبول اللاإرادي',['6','9','10','38','39','40','41','42','43','70','71','72','73'],'تدليك المواضع بالحجامة الجافة مع الزيوت الدافئة قبل الدموية أسفل الظهر؛ وعند الأطفال يمكن جعل الأكواب كلها أو بعضها جافة.',{fr:{name:"Énurésie",note:"Massage des points par hijama sèche avec des huiles tièdes avant la hijama sanguine, en bas du dos ; chez les enfants, toutes les ventouses ou certaines peuvent être sèches."},en:{name:"Bedwetting",note:"Massage of the points with dry hijama and warm oils before wet hijama on the lower back; in children, all or some cups may be dry."},darija:{name:"التبول اللاإرادي",note:"تدليك المواضع بالحجامة الجافة مع الزيوت الدافئة قبل الدموية أسفل الظهر؛ وعند الأطفال يمكن جعل الأكواب كلها أو بعضها جافة."}}],
+['مشاكل الحنجرة',['4','5','6','18'],'إذا رافق المرض تشنجات عصبية: حجامة الجهاز العصبي مع هذه الكؤوس.',{fr:{name:"Problèmes du larynx",note:"Si la maladie s’accompagne de spasmes nerveux : hijama du système nerveux avec ces ventouses."},en:{name:"Larynx problems",note:"If the disease is accompanied by nervous spasms: nervous-system hijama together with these cups."},darija:{name:"مشاكل الحنجرة",note:"إذا رافق المرض تشنجات عصبية: حجامة الجهاز العصبي مع هذه الكؤوس."}}],
+['تنشيط وتقوية الذاكرة',['2','11.1','11.2','12.1','12.2','20','21','6'],'إذا كان لديه مشكلة في الجهاز العصبي: حجامة الجهاز العصبي.',{fr:{name:"Stimulation et renforcement de la mémoire",note:"S’il a un problème du système nerveux : hijama du système nerveux."},en:{name:"Memory stimulation and strengthening",note:"If they have a nervous-system problem: nervous-system hijama."},darija:{name:"تنشيط وتقوية الذاكرة",note:"إذا كان عنده مشكلة في الجهاز العصبي: حجامة الجهاز العصبي."}}],
+['السرطان',['6','26','27','32','34','42','43'],'مع التركيز على حجامة الجهاز المناعي؛ الورم الظاهر: الكؤوس حوله، وغير الظاهر: فوقه.',{fr:{name:"Cancer",note:"En insistant sur la hijama du système immunitaire ; tumeur visible : les ventouses autour d’elle, non visible : au-dessus d’elle."},en:{name:"Cancer",note:"With emphasis on immune-system hijama; visible tumour: cups around it, non-visible: above it."},darija:{name:"السرطان",note:"مع التركيز على حجامة الجهاز المناعي؛ الورم الظاهر: الكؤوس حوله، وغير الظاهر: فوقه."}}],
+['نقص فيتامين دال',['4','5','6','28','29','33','ت33','35','ت35','ت32','ت34'],'',{fr:{name:"Carence en vitamine D",note:""},en:{name:"Vitamin D deficiency",note:""},darija:{name:"نقص فيتامين دال",note:""}}],
+['الجلطة',['1','20','21','6','24','25','36','37','7','8','38','18','80/1','80/2','94/1','94/2','9','10'],'الحجامة عكس الجهة المصابة (20 أو 21، 24 أو 25، 36 أو 37، 7 أو 8، 9 أو 10 بحسب الجهة)؛ ولا ضرر في الجهة نفسها مع مراعاة عدم حجامة الحالة المصابة حديثاً ممن حركتهم ثقيلة.',{fr:{name:"Thrombose",note:"Hijama du côté opposé au côté atteint (20 ou 21, 24 ou 25, 36 ou 37, 7 ou 8, 9 ou 10 selon le côté) ; il n’y a pas de mal à faire le même côté, en veillant à ne pas faire de hijama sur un cas récemment atteint dont les mouvements sont lourds."},en:{name:"Clot / stroke",note:"Hijama on the opposite side to the affected side (20 or 21, 24 or 25, 36 or 37, 7 or 8, 9 or 10 depending on the side); there is no harm in the same side, taking care not to cup a recently affected case whose movements are heavy."},darija:{name:"الجلطة",note:"الحجامة عكس الجهة المصابة (20 أو 21، 24 أو 25، 36 أو 37، 7 أو 8، 9 أو 10 بحسب الجهة)؛ ولا ضرر في نفس الجهة مع مراعاة عدم حجامة الحالة المصابة حديثاً ممن حركتهم ثقيلة."}}],
+['المشاكل الجنسية',['6','9','10','38','39','40','41','42','43','70','71','72','73'],'',{fr:{name:"Problèmes sexuels",note:""},en:{name:"Sexual problems",note:""},darija:{name:"مشاكل الجنس",note:""}}],
+['زيادة الوزن',['4','5','6','19','26','27','32','34','42','43'],'',{fr:{name:"Prise de poids",note:""},en:{name:"Weight gain",note:""},darija:{name:"للتسمين",note:""}}],
+['الشلل الرعاش',['1','6','19','26','27','28','30','32','34','9','10'],'تدليك اليدين والرجلين بالزيوت قبل الحجامة؛ وإذا كانت الحالة مستقرة يمكن حجامة الجهاز الهضمي بين كل حجامتين.',{fr:{name:"Maladie de Parkinson",note:"Massage des mains et des pieds avec des huiles avant la hijama ; si l’état est stable, la hijama du système digestif peut être faite entre deux hijamas."},en:{name:"Parkinson’s disease",note:"Massage of the hands and feet with oils before hijama; if the condition is stable, digestive-system hijama may be done between every two hijama sessions."},darija:{name:"الشلل الرعاش",note:"مساج اليدين والرجلين بالزيوت قبل الحجامة؛ وإذا كانت الحالة مستقرة يمكن حجامة الجهاز الهضمي بين كل حجامتين."}}],
+['فقر الدم',['4','5','6','19','26','27','28','30'],'',{fr:{name:"Anémie",note:""},en:{name:"Anaemia",note:""},darija:{name:"فقر الدم",note:""}}],
+['شرايين القلب التاجية',['6','26','27','28','29','55','56','58','62','63'],'26+27 متقاربان.',{fr:{name:"Artères coronaires",note:"26+27 sont proches l’un de l’autre."},en:{name:"Coronary arteries",note:"26+27 are close together."},darija:{name:"شرايين القلب التاجية",note:"26+27 متقاربة."}}],
+['مشاكل الكبد',['4','5','6','28','29','60','61'],'',{fr:{name:"Problèmes du foie",note:""},en:{name:"Liver problems",note:""},darija:{name:"مشاكل الكبد",note:""}}],
+['مشاكل اللوزتين',['20','21','4','5','6','18'],'20+21 متقاربان.',{fr:{name:"Problèmes des amygdales",note:"20+21 sont proches l’un de l’autre."},en:{name:"Tonsil problems",note:"20+21 are close together."},darija:{name:"مشاكل اللوزتين",note:"20+21 متقاربة."}}],
+['مشاكل النطق المرضية',['1','6','18','19','20','21'],'',{fr:{name:"Troubles pathologiques de la parole",note:""},en:{name:"Pathological speech problems",note:""},darija:{name:"مشاكل النطق المرضية",note:""}}],
+['التهاب العصب السابع',['1','15.1','15.2','16.1','16.2','11.1','11.2','13.1','13.2','17.1','17.2','20','21'],'المواضع 15+16+11+13+17 من الجهة المصابة فقط.',{fr:{name:"Névrite du nerf facial (7e nerf)",note:"Les points 15+16+11+13+17 du côté atteint uniquement."},en:{name:"Seventh (facial) nerve inflammation",note:"Points 15+16+11+13+17 from the affected side only."},darija:{name:"التهاب العصب السابع",note:"المواضع 15+16+11+13+17 من الجهة المصابة فقط."}}],
+['الثعلبة والصدفية والأكزيما والخدر والتنميل والرضوض والبرودة',[],'مواضعها فوقها تماماً؛ فإذا تعذر وضع الكؤوس لضيق المكان أو التهاب الموضع أو انتفاخه فتكون الأكواب حواليه لا عليه.',{fr:{name:"Alopécie, psoriasis, eczéma, engourdissement, picotements, contusions et froideur",note:"Leurs points sont exactement dessus ; s’il est impossible de poser les ventouses faute de place, ou à cause d’une inflammation ou d’un gonflement du point, les ventouses sont alors autour, pas dessus."},en:{name:"Alopecia, psoriasis, eczema, numbness, tingling, bruises and coldness",note:"Their points are exactly on top of them; if cups cannot be placed for lack of space, or because the point is inflamed or swollen, the cups go around, not on top."},darija:{name:"الثعلبة والصدفية والأكزيما والخدر والتنميل والرضوض والبرودة",note:"مواضعها فوقها تماماً؛ فإذا تعذر وضع الكؤوس لضيق المكان أو التهاب الموضع أو انتفاخه فتكون الأكواب حواليه لا عليه."}}],
+['مشاكل المرارة',['6','28','29','32','33'],'',{fr:{name:"Problèmes de la vésicule biliaire",note:""},en:{name:"Gallbladder problems",note:""},darija:{name:"مشاكل المرارة",note:""}}],
+['مشاكل الطحال',['6','30','31','34','35'],'',{fr:{name:"Problèmes de la rate",note:""},en:{name:"Spleen problems",note:""},darija:{name:"مشاكل الطحال",note:""}}],
+['الصداع العام والنصفي (الشقيقة)',['1','20','21','6','26','27'],'',{fr:{name:"Céphalées générales et migraine",note:""},en:{name:"General and migraine headaches",note:""},darija:{name:"الصداع العام والنصفي (الشقيقة)",note:""}}],
+['أملاح القدم',['9','10'],'يُفضَّل إضافة 6+26+27+28+30.',{fr:{name:"Dépôts salins du pied",note:"Il est préférable d’ajouter 6+26+27+28+30."},en:{name:"Salt deposits in the foot",note:"It is preferable to add 6+26+27+28+30."},darija:{name:"أملاح القدم",note:"يفضل إضافة 6+26+27+28+30."}}],
+['آلام الرقبة',['4','5','6'],'مع تدليك الرقبة بالزيوت.',{fr:{name:"Douleurs cervicales",note:"Avec massage du cou avec des huiles."},en:{name:"Neck pain",note:"With massage of the neck with oils."},darija:{name:"آلام الرقبة",note:"مع تدليك الرقبة بالزيوت."}}],
+['آلام الأبهر',['6','22','23','26','27','28','30'],'تُضاف مواضع التشنج والألم.',{fr:{name:"Douleurs de la région de l’aorte",note:"Ajoutez les points de spasme et de douleur."},en:{name:"Aorta-area pain",note:"Add the spasm and pain points."},darija:{name:"آلام الأبهر",note:"تضاف مواضع التشنج والألم."}}],
+['الناسور',['6','38','39','40','9','10'],'تُضاف الحجامة فوق الناسور.',{fr:{name:"Fistule",note:"Ajoutez la hijama au-dessus de la fistule."},en:{name:"Fistula",note:"Add hijama above the fistula."},darija:{name:"الناسور",note:"تضاف الحجامة فوق الناسور."}}],
+['السعال بأنواعه',['6','26','27','28','30','50','51','52','55','56','57','58'],'',{fr:{name:"Toux (tous types)",note:""},en:{name:"Cough (all types)",note:""},darija:{name:"السعال بأنواعه",note:""}}],
+['كثرة النوم',['1','20','21','6','27','28','30'],'',{fr:{name:"Sommeil excessif",note:""},en:{name:"Excessive sleep",note:""},darija:{name:"كثرة النوم",note:""}}],
+['أورام المخ',['20','21','1'],'تُضاف الحجامة فوق الورم أو حواليه.',{fr:{name:"Tumeurs cérébrales",note:"Ajoutez la hijama au-dessus de la tumeur ou autour d’elle."},en:{name:"Brain tumours",note:"Add hijama above the tumour or around it."},darija:{name:"أورام المخ",note:"تضاف الحجامة فوق الورم أو حواليه."}}],
+['إجهاد النظر',['1','13.1','13.2','14.1','14.2','15.1','15.2','20','21'],'',{fr:{name:"Fatigue visuelle",note:""},en:{name:"Eye strain",note:""},darija:{name:"إجهاد النظر",note:""}}],
+['الإمساك',['6','38','39','40','9','10'],'',{fr:{name:"Constipation",note:""},en:{name:"Constipation",note:""},darija:{name:"الإمساك",note:""}}],
+['الدورة الشهرية عند النساء',['6','38','39','40','41','42','43','4','5'],'',{fr:{name:"Cycle menstruel chez les femmes",note:""},en:{name:"Menstrual cycle in women",note:""},darija:{name:"الدورة الشهرية عند النساء",note:""}}],
+['نزيف الرحم',['6','38','39','40','41','42','43'],'المواضع 38-43 تكون حجامات جافة.',{fr:{name:"Saignement utérin",note:"Les points 38–43 sont des hijamas sèches."},en:{name:"Uterine bleeding",note:"Points 38–43 are dry hijama."},darija:{name:"نزيف الرحم",note:"المواضع 38-43 تكون حجامات جافة."}}],
+['إفرازات مهبلية',['6','38','39','40','70','71','72','73'],'',{fr:{name:"Pertes vaginales",note:""},en:{name:"Vaginal discharge",note:""},darija:{name:"إفرازات مهبلية",note:""}}],
+['مشاكل الحيض عند الفتيات',['6','38','39','40','70','71','72','73'],'المواضع 70-73 جافة.',{fr:{name:"Troubles menstruels chez les jeunes filles",note:"Les points 70–73 sont secs."},en:{name:"Menstrual problems in girls",note:"Points 70–73 are dry."},darija:{name:"مشاكل الحيض عند الفتيات",note:"المواضع 70-73 جافة."}}],
+['تنشيط المبايض والرحم ومشاكلهما',['6','38','39','40','41','42','43','ت32','ت34','72','73'],'',{fr:{name:"Stimulation des ovaires et de l’utérus et leurs problèmes",note:""},en:{name:"Stimulation of the ovaries and uterus and their problems",note:""},darija:{name:"تنشيط المبايض والرحم ومشاكلهما",note:""}}],
+['الدوار',['1','20','21','19'],'',{fr:{name:"Vertiges",note:""},en:{name:"Dizziness",note:""},darija:{name:"دوخة",note:""}}],
+['دمامل وخراجات',[],'فوق الخراج مباشرة وحواليه؛ إلا إذا كان ملتهباً فيقتصر على حواليه. وإذا كان سبب الإصابة السكري فيجب حجامة السكري.',{fr:{name:"Furoncles et abcès",note:"Directement au-dessus de l’abcès et autour ; sauf s’il est enflammé, on se limite alors à autour. Et si la cause est le diabète, il faut la hijama du diabète."},en:{name:"Boils and abscesses",note:"Directly above the abscess and around it; except if it is inflamed, in which case only around it. And if the cause of the injury is diabetes, diabetes hijama is required."},darija:{name:"دمامل وخراجات",note:"فوق الخراج مباشرة وحواليه؛ إلا إذا كان ملتهباً فيقتصر على حواليه. وإذا كان سبب الإصابة السكري فيجب حجامة السكري."}}],
+['تنشيط الدورة الدموية',['1','20','21','6','26','27','28','30'],'',{fr:{name:"Stimulation de la circulation sanguine",note:""},en:{name:"Blood circulation stimulation",note:""},darija:{name:"تنشيط الدورة الدموية",note:""}}],
+['الاكتئاب',['1','4','5','6','26','27','20','21','38','39','40'],'',{fr:{name:"Dépression",note:""},en:{name:"Depression",note:""},darija:{name:"الاكتئاب",note:""}}],
+['الأنفلونزا',['98.1','98.2','18','1','26','27'],'قد تُضاف حجامة الجهاز المناعي.',{fr:{name:"Grippe",note:"La hijama du système immunitaire peut être ajoutée."},en:{name:"Influenza",note:"Immune-system hijama may be added."},darija:{name:"الأنفلونزا",note:"قد تضاف حجامة الجهاز المناعي."}}],
+['التسمم',['6','26','27','30','31','62','63'],'',{fr:{name:"Empoisonnement",note:""},en:{name:"Poisoning",note:""},darija:{name:"التسمم",note:""}}],
+['مشاكل المثانة',['6','41','42','43','70','71','72','73'],'',{fr:{name:"Problèmes de la vessie",note:""},en:{name:"Bladder problems",note:""},darija:{name:"مشاكل المثانة",note:""}}],
+['الأرق',['1','20','21','6','26','27','38','39','40'],'',{fr:{name:"Insomnie",note:""},en:{name:"Insomnia",note:""},darija:{name:"الأرق",note:""}}],
+['خشونة الركبة',['80/1','80/2','94/1','94/2','97/1','97/2','88/1','88/2'],'',{fr:{name:"Gonarthrose (raideur du genou)",note:""},en:{name:"Knee osteoarthritis (stiffness)",note:""},darija:{name:"خشونة الركبة",note:""}}],
+['التهابات اللثة وألم الأسنان والقلاع',['18','17.1','17.2'],'',{fr:{name:"Inflammation des gencives, mal de dents et aphtes",note:""},en:{name:"Gum inflammation, toothache and mouth ulcers",note:""},darija:{name:"التهابات اللثة ووجع الأسنان والقلاع",note:""}}]];
 // ================= license / pin / boot =================
 function codeOK(c){return /^HT-[A-Z0-9]{4}-[A-Z0-9]{4}$/i.test((c||'').trim())}
 function activate(){var n=document.getElementById('lic-name').value.trim(),c=document.getElementById('lic-code').value.trim().toUpperCase();
-if(!n){document.getElementById('lic-err').textContent='دخل اسم المركز/الممارس';return}
-if(!codeOK(c)){document.getElementById('lic-err').textContent='الكود خاصو يكون بصيغة HT-XXXX-XXXX';return}
+if(!n){document.getElementById('lic-err').textContent=t('err_name_required');return}
+if(!codeOK(c)){document.getElementById('lic-err').textContent=t('err_code_format');return}
 save(LS.lic,{name:n,code:c,at:new Date().toISOString()});boot()}
 function pinSet(){return !!localStorage.getItem(LS.pin)}
 function savePin(){var p=document.getElementById('pin-new').value.trim();
-if(p){save(LS.pin,p);alert('تفعّل الرقم السري — غادي يتطلب في الفتح الجاي.')}else{localStorage.removeItem(LS.pin);alert('تلغى الرقم السري.')}}
-function unlock(){if(document.getElementById('pin-in').value===load(LS.pin,'')){sessionStorage.setItem('ht2_unlocked','1');boot()}else{document.getElementById('pin-err').textContent='رقم غير صحيح'}}
+if(p){save(LS.pin,p);alert(t('pin_set_msg'))}else{localStorage.removeItem(LS.pin);alert(t('pin_cleared_msg'))}}
+function unlock(){if(document.getElementById('pin-in').value===load(LS.pin,'')){sessionStorage.setItem('ht2_unlocked','1');boot()}else{document.getElementById('pin-err').textContent=t('pin_wrong')}}
 function boot(){var lic=load(LS.lic,null);
 document.getElementById('gate').style.display=lic?'none':'';
 document.getElementById('lock').style.display='none';document.getElementById('app').style.display='none';
 if(!lic)return;
-document.getElementById('lic-line').textContent='مرخّص لـ: '+lic.name+' · كود '+lic.code;
-document.getElementById('lic-info').innerHTML='النسخة مرخّصة لـ <b>'+esc(lic.name)+'</b> (كود '+esc(lic.code)+') — التفعيل تم '+new Date(lic.at).toLocaleDateString('fr-MA')+'.';
+document.getElementById('lic-line').textContent=t('licensed_line').replace('{name}',lic.name).replace('{code}',lic.code);
+document.getElementById('lic-info').innerHTML=t('lic_info').replace('{name}',esc(lic.name)).replace('{code}',esc(lic.code)).replace('{date}',new Date(lic.at).toLocaleDateString((CUR==='ar'||CUR==='darija')?'fr-MA':(CUR==='fr'?'fr-FR':'en-GB')));
 if(pinSet()&&sessionStorage.getItem('ht2_unlocked')!=='1'){document.getElementById('lock').style.display='';return}
 document.getElementById('app').style.display='';
 document.getElementById('ver-line').textContent='v'+APP_VERSION;
@@ -333,13 +355,13 @@ document.querySelectorAll('.tabs button').forEach(function(b){b.addEventListener
 document.querySelectorAll('.tabs button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');
 ['clients','session','records','settings'].forEach(function(t){document.getElementById('tab-'+t).style.display=(t===b.dataset.tab)?'':'none'})})});
 // ================= clients =================
-function addClient(){var n=document.getElementById('c-name').value.trim();if(!n){alert('اسم الزبون ضروري');return}
+function addClient(){var n=document.getElementById('c-name').value.trim();if(!n){alert(t('client_name_required'));return}
 var flags=[];document.querySelectorAll('#c-flags input:checked').forEach(function(x){flags.push(x.value)});
 var cs=load(LS.clients,[]);cs.push({id:Date.now(),name:n,phone:document.getElementById('c-phone').value.trim(),age:document.getElementById('c-age').value,sex:document.getElementById('c-sex').value,flags:flags,notes:document.getElementById('c-notes').value.trim()});
 save(LS.clients,cs);['c-name','c-phone','c-age','c-notes'].forEach(function(i){document.getElementById(i).value=''});
 document.querySelectorAll('#c-flags input').forEach(function(x){x.checked=false});
 renderClients();renderClientOptions()}
-function delClient(id){if(!confirm('حذف الزبون وجلساتو؟'))return;
+function delClient(id){if(!confirm(t('del_client_confirm')))return;
 save(LS.clients,load(LS.clients,[]).filter(function(c){return c.id!==id}));
 save(LS.sessions,load(LS.sessions,[]).filter(function(s){return s.client!==id}));
 renderClients();renderClientOptions();renderRecords()}
@@ -347,10 +369,10 @@ function renderClients(){var q=(document.getElementById('c-q').value||'').trim()
 var tb=document.getElementById('c-body');tb.innerHTML='';
 cs.filter(function(c){return !q||c.name.indexOf(q)>-1||(c.phone||'').indexOf(q)>-1}).forEach(function(c){
 var cnt=ss.filter(function(s){return s.client===c.id}).length;
-tb.innerHTML+='<tr><td><b>'+esc(c.name)+'</b>'+(c.notes?'<br><span class="note">'+esc(c.notes)+'</span>':'')+'</td><td dir="ltr" style="text-align:left">'+esc(c.phone||'—')+'</td><td>'+esc(c.age||'—')+' / '+esc(c.sex||'—')+'</td><td>'+(c.flags||[]).map(function(f){return '<span class="flag">'+esc(f)+'</span>'}).join('')+'</td><td>'+cnt+'</td><td><button class="btn ghost" onclick="delClient('+c.id+')">حذف</button></td></tr>'});
-if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">ما كاين حتى زبون — زيد أول زبون من الفوق.</td></tr>'}
+tb.innerHTML+='<tr><td><b>'+esc(c.name)+'</b>'+(c.notes?'<br><span class="note">'+esc(c.notes)+'</span>':'')+'</td><td dir="ltr" style="text-align:left">'+esc(c.phone||'—')+'</td><td>'+esc(c.age||'—')+' / '+esc(c.sex||'—')+'</td><td>'+(c.flags||[]).map(function(f){return '<span class="flag">'+esc(f)+'</span>'}).join('')+'</td><td>'+cnt+'</td><td><button class="btn ghost" onclick="delClient('+c.id+')">'+t('del_btn')+'</button></td></tr>'});
+if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">'+t('no_clients')+'</td></tr>'}
 function renderClientOptions(){var sel=document.getElementById('s-client');var cs=load(LS.clients,[]);
-sel.innerHTML=cs.length?cs.map(function(c){return '<option value="'+c.id+'">'+esc(c.name)+'</option>'}).join(''):'<option value="">— زيد زبون أولاً —</option>'}
+sel.innerHTML=cs.length?cs.map(function(c){return '<option value="'+c.id+'">'+esc(c.name)+'</option>'}).join(''):'<option value="">'+t('client_option_empty')+'</option>'}
 // ================= map & selection =================
 var view='back',selected={},onlySel=false,activeChoice=null;
 function syncChoiceUI(){var s=document.getElementById('btn-sunnah'),p=document.getElementById('btn-preventive'),b=document.getElementById('btn-both');
@@ -368,9 +390,9 @@ document.getElementById('show-all-btn').style.display=onlySel?'':'none';
 var shown=HOT[view].filter(function(p){return (!onlySel||isSel(p[0]))&&!isLowerDup(p)});
 var badges=shown.map(function(p){var sel=isSel(p[0]);
 var diam=p[3]*1.2,fs=(diam*(p[0].length<=2?0.42:0.33)).toFixed(2);
-return '<button class="hot'+(sel?' sel':'')+(SUNNAH.indexOf(p[0])>-1?' prop':'')+'" style="left:'+p[1]+'%;top:'+p[2]+'%;width:'+diam+'%;font-size:'+fs+'cqw" onclick="togglePt(\''+p[0]+'\')" aria-label="موضع '+p[0]+'">'+esc(p[0])+'</button>'}).join('');
-var note=(onlySel&&!shown.length)?'<p class="note" style="text-align:center">ما كاين حتى موضع مختار في هاد العرض — بدّل العرض (ظهر/أمام/وجه/أطراف) باش تشوف النقط المختارة.</p>':'';
-st.innerHTML='<img src="assets/map2-'+view+'.jpg" alt="خريطة المواضع">'+badges+note;
+return '<button class="hot'+(sel?' sel':'')+(SUNNAH.indexOf(p[0])>-1?' prop':'')+'" style="left:'+p[1]+'%;top:'+p[2]+'%;width:'+diam+'%;font-size:'+fs+'cqw" onclick="togglePt(\''+p[0]+'\')" aria-label="'+t('pt_label')+' '+p[0]+'">'+esc(p[0])+'</button>'}).join('');
+var note=(onlySel&&!shown.length)?'<p class="note" style="text-align:center">'+t('no_point_map_note')+'</p>':'';
+st.innerHTML='<img src="assets/map2-'+view+'.jpg" alt="'+t('map_alt')+'">'+badges+note;
 renderPtList()}
 function togglePt(id){if(selected[id])delete selected[id];else selected[id]=1;
 if(!Object.keys(selected).length){onlySel=false;activeChoice=null;syncChoiceUI()}drawMap()}
@@ -378,7 +400,7 @@ function showAllPts(){onlySel=false;drawMap()}
 function renderPtList(){var ids=Object.keys(selected);
 ids.sort(function(a,b){return (parseFloat(a)||999)-(parseFloat(b)||999)});
 document.getElementById('pt-count').textContent=ids.length;
-document.getElementById('pt-list').innerHTML=ids.length?ids.map(function(i){return '<span class="ptag">موضع '+esc(i)+'</span>'}).join(' '):'<span class="note">ما اخترتي حتى موضع — ضغط على الأرقام في الخريطة، ولا استعمل السنة/الوقائية/المساعد الذكي.</span>'}
+document.getElementById('pt-list').innerHTML=ids.length?ids.map(function(i){return '<span class="ptag">'+t('pt_label')+' '+esc(i)+'</span>'}).join(' '):'<span class="note">'+t('pt_list_empty')+'</span>'}
 function selectMany(ids,note){selected={};ids.forEach(function(i){selected[i]=1});onlySel=true;drawMap();syncChoiceUI();
 if(note!==undefined)document.getElementById('ai-out').innerHTML=note?('<p class="note" style="background:var(--soft);border-radius:10px;padding:10px 12px">'+esc(note)+'</p>'):''}
 function applySunnah(){activeChoice={type:'sunnah'};selectMany(SUNNAH)}
@@ -389,22 +411,22 @@ function clearSelection(){selected={};onlySel=false;activeChoice=null;drawMap();
 function toggleAI(){var el=document.getElementById('ai-panel');el.style.display=el.style.display==='none'?'':'none'}
 function renderDiseases(){var q=(document.getElementById('dz-q').value||'').trim();
 var el=document.getElementById('dz-list');
-el.innerHTML=DISEASES.filter(function(d){return !q||d[0].indexOf(q)>-1}).map(function(d,i){var idx=DISEASES.indexOf(d);
-return '<button class="'+(activeChoice&&activeChoice.type==='disease'&&activeChoice.index===idx?'on':'')+'" onclick="pickDisease('+idx+')">'+esc(d[0])+'</button>'}).join('')||'<span class="note">ما لقينا حتى حالة بهاد الاسم.</span>'}
-function pickDisease(i){var d=DISEASES[i];activeChoice={type:'disease',index:i};selectMany(d[1],d[2]);
-document.getElementById('ai-out').innerHTML='<p style="font-weight:800">✓ '+esc(d[0])+' — تحددات '+d[1].length+' مواضع، ومعروضة غير هي في الخريطة (بدّل العرض: ظهر/أمام/وجه/أطراف باش تشوفهم كاملين؛ لزيادة موضع من خبرتك ضغط على «إظهار كل النقط»).</p>'+(d[2]?'<p class="note" style="background:var(--soft);border-radius:10px;padding:10px 12px;margin-top:6px">'+esc(d[2])+'</p>':'')}
+el.innerHTML=DISEASES.filter(function(d){return !q||dzName(d).indexOf(q)>-1||d[0].indexOf(q)>-1}).map(function(d,i){var idx=DISEASES.indexOf(d);
+return '<button class="'+(activeChoice&&activeChoice.type==='disease'&&activeChoice.index===idx?'on':'')+'" onclick="pickDisease('+idx+')">'+esc(dzName(d))+'</button>'}).join('')||'<span class="note">'+t('no_disease_found')+'</span>'}
+function pickDisease(i){var d=DISEASES[i];activeChoice={type:'disease',index:i};selectMany(d[1],dzNote(d));
+document.getElementById('ai-out').innerHTML='<p style="font-weight:800">'+t('ai_pick_tpl').replace('{name}',esc(dzName(d))).replace('{n}',d[1].length)+'</p>'+(dzNote(d)?'<p class="note" style="background:var(--soft);border-radius:10px;padding:10px 12px;margin-top:6px">'+esc(dzNote(d))+'</p>':'')}
 // ================= sessions =================
 document.getElementById('s-date').value=new Date().toISOString().slice(0,10);
-function saveSession(){var cid=+document.getElementById('s-client').value;if(!cid){alert('اختار الزبون');return}
-var pts=Object.keys(selected);if(!pts.length){alert('اختار موضع واحد على الأقل');return}
+function saveSession(){var cid=+document.getElementById('s-client').value;if(!cid){alert(t('session_client_required'));return}
+var pts=Object.keys(selected);if(!pts.length){alert(t('session_point_required'));return}
 var ss=load(LS.sessions,[]);ss.push({id:Date.now(),client:cid,date:document.getElementById('s-date').value,type:document.getElementById('s-type').value,dur:document.getElementById('s-dur').value,points:pts,notes:document.getElementById('s-notes').value.trim(),after:document.getElementById('s-after').checked,consent:document.getElementById('s-consent').checked});
 save(LS.sessions,ss);selected={};onlySel=false;activeChoice=null;drawMap();syncChoiceUI();document.getElementById('s-notes').value='';
-document.getElementById('s-msg').textContent='تسجلات الجلسة ✓';renderRecords();renderClients()}
+document.getElementById('s-msg').textContent=t('session_saved');renderRecords();renderClients()}
 function delSession(id){save(LS.sessions,load(LS.sessions,[]).filter(function(s){return s.id!==id}));renderRecords();renderClients()}
 function renderRecords(){var cs=load(LS.clients,[]);var byId={};cs.forEach(function(c){byId[c.id]=c.name});
 var ss=load(LS.sessions,[]).slice().sort(function(a,b){return b.id-a.id});var tb=document.getElementById('r-body');tb.innerHTML='';
-ss.forEach(function(s){tb.innerHTML+='<tr><td>'+esc(s.date)+'</td><td><b>'+esc(byId[s.client]||'—')+'</b></td><td>'+esc(s.type)+(s.dur?' · '+esc(s.dur)+'د':'')+'</td><td>'+s.points.map(function(p){return 'موضع '+esc(p)}).join('، ')+'</td><td>'+esc(s.notes||'')+(s.consent?' ✓ موافقة':'')+(s.after?' ✓ تعليمات':'')+'</td><td><button class="btn ghost" onclick="delSession('+s.id+')">حذف</button></td></tr>'});
-if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">ما كاينة حتى جلسة مسجلة بعد.</td></tr>'}
+ss.forEach(function(s){tb.innerHTML+='<tr><td>'+esc(s.date)+'</td><td><b>'+esc(byId[s.client]||'—')+'</b></td><td>'+esc(s.type)+(s.dur?' · '+esc(s.dur)+t('minutes_short'):'')+'</td><td>'+s.points.map(function(p){return t('pt_label')+' '+esc(p)}).join('، ')+'</td><td>'+esc(s.notes||'')+(s.consent?' '+t('consent_mark'):'')+(s.after?' '+t('after_mark'):'')+'</td><td><button class="btn ghost" onclick="delSession('+s.id+')">'+t('del_btn')+'</button></td></tr>'});
+if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">'+t('no_records')+'</td></tr>'}
 // ================= backup =================
 function dl(name,text){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'application/json'}));a.download=name;a.click()}
 async function exportData(){var data={lic:load(LS.lic,null),clients:load(LS.clients,[]),sessions:load(LS.sessions,[]),v:APP_VERSION};
@@ -415,26 +437,27 @@ var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:salt,iterations:120000
 var ct=await crypto.subtle.encrypt({name:'AES-GCM',iv:iv},key,enc.encode(JSON.stringify(data)));
 var b64=function(b){return btoa(String.fromCharCode.apply(null,new Uint8Array(b)))};
 dl('hijama-backup-encrypted.json',JSON.stringify({enc:1,salt:b64(salt),iv:b64(iv),data:b64(ct)}));
-document.getElementById('bk-msg').textContent='تصدرات نسخة مشفرة — بلا كلمة السر ما كتتقراش.';return}catch(e){}}
-dl('hijama-backup.json',JSON.stringify(data,null,1));document.getElementById('bk-msg').textContent='تصدرات نسخة احتياطية عادية (JSON).'}
+document.getElementById('bk-msg').textContent=t('backup_enc_msg');return}catch(e){}}
+dl('hijama-backup.json',JSON.stringify(data,null,1));document.getElementById('bk-msg').textContent=t('backup_plain_msg')}
 async function importData(ev){var f=ev.target.files[0];if(!f)return;var text=await f.text();var obj;
-try{obj=JSON.parse(text)}catch(e){alert('ملف غير صالح');return}
-if(obj.enc){var pass=prompt('هاد النسخة مشفرة — دخل كلمة السر:');if(!pass)return;
+try{obj=JSON.parse(text)}catch(e){alert(t('invalid_file_msg'));return}
+if(obj.enc){var pass=prompt(t('backup_pass_prompt'));if(!pass)return;
 try{var dec=new TextDecoder();var km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
 var ub=function(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})};
 var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:ub(obj.salt),iterations:120000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
-var pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:ub(obj.iv)},key,ub(obj.data));obj=JSON.parse(dec.decode(pt))}catch(e){alert('كلمة سر خاطئة ولا ملف تالف');return}}
+var pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:ub(obj.iv)},key,ub(obj.data));obj=JSON.parse(dec.decode(pt))}catch(e){alert(t('wrong_pass_msg'));return}}
 if(obj.clients)save(LS.clients,obj.clients);if(obj.sessions)save(LS.sessions,obj.sessions);
-alert('تم الاستيراد ✓');renderClients();renderClientOptions();renderRecords()}
+alert(t('imported_msg'));renderClients();renderClientOptions();renderRecords()}
 // ================= update =================
 function verCmp(a,b){var x=a.split('.').map(Number),y=b.split('.').map(Number);for(var i=0;i<3;i++){if(x[i]>y[i])return 1;if(x[i]<y[i])return -1}return 0}
+function versionNote(d){if(d&&d.notes_i18n&&typeof d.notes_i18n==='object'){return d.notes_i18n[CUR]||d.notes_i18n.ar||((typeof d.notes==='string')?d.notes:'')}return (typeof d.notes==='string')?d.notes:''}
 function checkUpdate(manual){fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){
 if(d.version&&verCmp(d.version,APP_VERSION)>0){var b=document.getElementById('upd-banner');b.style.display='';
-b.innerHTML='🔄 كاينة نسخة جديدة v'+d.version+' — <a href="#" onclick="location.reload(true);return false" style="text-decoration:underline">حدّث دابا</a> (البيانات ما غاديش تضيع)';
-if(manual)document.getElementById('upd-msg').textContent='كاينة نسخة جديدة!';}
-else if(manual)document.getElementById('upd-msg').textContent='أنت في آخر إصدار ✓';
-}).catch(function(){if(manual)document.getElementById('upd-msg').textContent='تعذر التحقق (الإنترنت؟)'})}
-function wipe(){if(!confirm('متأكد؟ غادي يتمسح كلشي من هاد الجهاز.'))return;
+b.innerHTML='🔄 '+t('upd_available')+' v'+d.version+' — <a href="#" onclick="location.reload(true);return false" style="text-decoration:underline">'+t('upd_now')+'</a> '+t('upd_data_safe')+(versionNote(d)?' — '+esc(versionNote(d)):'');
+if(manual)document.getElementById('upd-msg').textContent=t('upd_available_msg');}
+else if(manual)document.getElementById('upd-msg').textContent=t('upd_latest_msg');
+}).catch(function(){if(manual)document.getElementById('upd-msg').textContent=t('upd_fail_msg')})}
+function wipe(){if(!confirm(t('wipe_confirm')))return;
 [LS.lic,LS.clients,LS.sessions,LS.pin].forEach(function(k){localStorage.removeItem(k)});location.reload()}
 boot();
 </script>

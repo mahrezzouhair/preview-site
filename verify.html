@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>التحقق من شهادة | زهير محرز</title>
+<title data-i18n="page_title">التحقق من شهادة | زهير محرز</title>
 <meta name="description" content="تحقق من صحة شهادات إتمام الدورات الصادرة عن زهير محرز — بيت الوقاية، برقم الشهادة أو رمز QR.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,6 +21,10 @@ header{position:sticky;top:0;z-index:60;background:rgba(10,18,15,.95);backdrop-f
 .logo .mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--green));display:grid;place-items:center;color:#06280F}
 .back{color:#C9D6CE;font-weight:700}
 .back:hover{color:var(--neon)}
+.lang-switch{display:flex;align-items:center;gap:6px;color:#C9D6CE;font-weight:700;font-size:.9rem}
+.lang-switch button{background:transparent;color:#C9D6CE;border:1px solid transparent;border-radius:999px;padding:6px 10px;font-size:.9rem}
+.lang-switch button:hover{background:rgba(255,255,255,.08);color:#fff}
+.lang-switch button.active{color:#fff;border-color:var(--neon)}
 main{padding:64px 0 90px}
 .eyebrow{display:inline-block;font-weight:800;font-size:.85rem;color:var(--green);background:var(--green-soft);border:1px solid #CFEDD9;padding:4px 14px;border-radius:999px;margin-bottom:14px}
 h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:900;line-height:1.4;margin-bottom:10px}
@@ -56,37 +60,38 @@ footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;fon
 <body>
 <header>
   <div class="header-in">
-    <a class="logo" href="index.html"><span class="mark">ز</span> زهير محرز</a>
-    <a class="back" href="index.html">→ الرجوع للرئيسية</a>
+    <a class="logo" href="index.html"><span class="mark">ز</span> <span data-i18n="logo_name">زهير محرز</span></a>
+    <div class="lang-switch"><button type="button" data-lang="darija">الدارجة</button><span>|</span><button type="button" data-lang="ar">العربية الفصحى</button><span>|</span><button type="button" data-lang="fr">Français</button><span>|</span><button type="button" data-lang="en">English</button></div>
+    <a class="back" href="index.html" data-i18n="back">→ الرجوع للرئيسية</a>
   </div>
 </header>
 <main>
   <div class="wrap">
-    <span class="eyebrow">سجل الشهادات الرسمي</span>
-    <h1>التحقق من <span class="grad">شهادة إتمام</span></h1>
-    <p class="lead">كل شهادة صادرة عن دورات زهير محرز — بيت الوقاية مسجلة عندنا برقم فريد. دخّل رقم الشهادة (ولا امسح رمز QR اللي عليها) باش تتأكد بلي هي أصلية وباسم صاحبها.</p>
+    <span class="eyebrow" data-i18n="eyebrow">سجل الشهادات الرسمي</span>
+    <h1><span data-i18n="h1_prefix">التحقق من </span><span class="grad" data-i18n="h1_grad">شهادة إتمام</span></h1>
+    <p class="lead" data-i18n="lead">كل شهادة صادرة عن دورات زهير محرز — بيت الوقاية مسجلة لدينا برقم فريد. أدخل رقم الشهادة (أو امسح رمز QR الموجود عليها) للتأكد من أنها أصلية وباسم صاحبها.</p>
 
     <div class="card">
       <form id="verifyForm">
-        <input type="text" id="codeInput" placeholder="ZM-2026-0001" autocomplete="off" spellcheck="false">
-        <button type="submit">تحقق</button>
+        <input type="text" id="codeInput" data-i18n-placeholder="placeholder_code" placeholder="ZM-2026-0001" autocomplete="off" spellcheck="false">
+        <button type="submit" data-i18n="verify_button">تحقق</button>
       </form>
-      <p class="hint">رقم الشهادة مكتوب أسفل الشهادة بجانب رمز QR. للتجربة في هاد النسخة الأولية: جرّب الرقم <b>ZM-DEMO</b></p>
+      <p class="hint"><span data-i18n="hint">رقم الشهادة مكتوب أسفل الشهادة بجانب رمز QR. للتجربة في هذه النسخة الأولية: جرّب الرقم</span> <b>ZM-DEMO</b></p>
       <div class="result" id="resultBox"></div>
     </div>
 
     <div class="how">
-      <div class="step"><div class="n">1</div><b>رقم فريد لكل شهادة</b><span>كل خريج كيتسجل برقم تسلسلي ما كيتعاودش، مرتبط باسمه ودورته.</span></div>
-      <div class="step"><div class="n">2</div><b>رمز QR على الشهادة</b><span>أي مشغّل ولا مؤسسة يقدر يمسح الرمز ويتحقق في ثواني من هاد الصفحة.</span></div>
-      <div class="step"><div class="n">3</div><b>سجل محمي من التزوير</b><span>الشهادة الورقية بلا تسجيل عندنا ما عندها قيمة — التحقق كيتم من السجل فقط.</span></div>
+      <div class="step"><div class="n">1</div><b data-i18n="step1_title">رقم فريد لكل شهادة</b><span data-i18n="step1_text">يُسجَّل كل خريج برقم تسلسلي لا يتكرر، مرتبط باسمه ودورته.</span></div>
+      <div class="step"><div class="n">2</div><b data-i18n="step2_title">رمز QR على الشهادة</b><span data-i18n="step2_text">يستطيع أي مشغّل أو مؤسسة مسح الرمز والتحقق في ثوانٍ من هذه الصفحة.</span></div>
+      <div class="step"><div class="n">3</div><b data-i18n="step3_title">سجل محمي من التزوير</b><span data-i18n="step3_text">الشهادة الورقية دون تسجيل لدينا لا قيمة لها — يتم التحقق من السجل فقط.</span></div>
     </div>
   </div>
 </main>
-<footer>© 2026 زهير محرز — بيت الوقاية · شهادات التكوين الصادرة هنا هي شهادات إتمام تكوين خاص، وليست دبلومات دولة</footer>
+<footer data-i18n="footer">© 2026 زهير محرز — بيت الوقاية · شهادات التكوين الصادرة هنا هي شهادات إتمام تكوين خاص، وليست دبلومات دولة</footer>
 
 <script>
-// سجل الشهادات — في النسخة النهائية غادي يتنقل لقاعدة بيانات الحسابات (Firebase).
-// هاد الإدخال الوحيد الحالي هو نموذج تجريبي للعرض فقط، ماشي شهادة حقيقية.
+// سجل الشهادات — في النسخة النهائية سوف ينتقل إلى قاعدة بيانات الحسابات (Firebase).
+// هذا الإدخال الوحيد الحالي هو نموذج تجريبي للعرض فقط، وليس شهادة حقيقية.
 var REGISTRY = {
   "ZM-DEMO": {
     demo: true,
@@ -97,29 +102,185 @@ var REGISTRY = {
     status: "نموذج"
   }
 };
+var I18N = {
+  ar: {
+    page_title: "التحقق من شهادة | زهير محرز",
+    meta_desc: "تحقق من صحة شهادات إتمام الدورات الصادرة عن زهير محرز — بيت الوقاية، برقم الشهادة أو رمز QR.",
+    logo_name: "زهير محرز",
+    back: "→ الرجوع للرئيسية",
+    eyebrow: "سجل الشهادات الرسمي",
+    h1_prefix: "التحقق من ",
+    h1_grad: "شهادة إتمام",
+    lead: "كل شهادة صادرة عن دورات زهير محرز — بيت الوقاية مسجلة لدينا برقم فريد. أدخل رقم الشهادة (أو امسح رمز QR الموجود عليها) للتأكد من أنها أصلية وباسم صاحبها.",
+    verify_button: "تحقق",
+    hint: "رقم الشهادة مكتوب أسفل الشهادة بجانب رمز QR. للتجربة في هذه النسخة الأولية: جرّب الرقم",
+    placeholder_code: "ZM-2026-0001",
+    step1_title: "رقم فريد لكل شهادة",
+    step1_text: "يُسجَّل كل خريج برقم تسلسلي لا يتكرر، مرتبط باسمه ودورته.",
+    step2_title: "رمز QR على الشهادة",
+    step2_text: "يستطيع أي مشغّل أو مؤسسة مسح الرمز والتحقق في ثوانٍ من هذه الصفحة.",
+    step3_title: "سجل محمي من التزوير",
+    step3_text: "الشهادة الورقية دون تسجيل لدينا لا قيمة لها — يتم التحقق من السجل فقط.",
+    footer: "© 2026 زهير محرز — بيت الوقاية · شهادات التكوين الصادرة هنا هي شهادات إتمام تكوين خاص، وليست دبلومات دولة",
+    valid_status: "شهادة مسجلة لدينا",
+    demo_tag: "نموذج تجريبي",
+    demo_note: "هذا مجرد مثال يوضح كيف سيظهر التحقق الحقيقي.",
+    label_name: "الاسم",
+    label_course: "الدورة",
+    label_hours: "عدد الساعات",
+    label_date: "تاريخ الإتمام",
+    label_code: "رقم الشهادة",
+    label_status: "الحالة",
+    invalid_status: "لم نجد هذا الرقم",
+    invalid_text: "تأكد من كتابة الرقم كما هو في الشهادة. إذا كنت متأكداً من الرقم ولم يظهر، تواصل معنا عبر واتساب — فقد يكون خطأ في الطباعة أو أن الشهادة غير صادرة عنا."
+  },
+  fr: {
+    page_title: "Vérification de certificat | Zouhair Mahrez",
+    meta_desc: "Vérifiez l'authenticité des certificats de fin de formation délivrés par Zouhair Mahrez — Bayt Al-Wiqaya, à l'aide du numéro du certificat ou du QR code.",
+    logo_name: "Zouhair Mahrez",
+    back: "→ Retour à l'accueil",
+    eyebrow: "Registre officiel des certificats",
+    h1_prefix: "Vérification d'un ",
+    h1_grad: "certificat de fin de formation",
+    lead: "Chaque certificat délivré par les formations de Zouhair Mahrez — Bayt Al-Wiqaya est enregistré chez nous sous un numéro unique. Saisissez le numéro du certificat (ou scannez le QR code qui y figure) pour vérifier son authenticité et qu'il est bien au nom de son titulaire.",
+    verify_button: "Vérifier",
+    hint: "Le numéro du certificat figure en bas du certificat, à côté du QR code. Pour tester cette version préliminaire : essayez le numéro",
+    placeholder_code: "ZM-2026-0001",
+    step1_title: "Un numéro unique par certificat",
+    step1_text: "Chaque diplômé est enregistré sous un numéro de série unique, lié à son nom et à sa formation.",
+    step2_title: "QR code sur le certificat",
+    step2_text: "Tout employeur ou établissement peut scanner le code et vérifier en quelques secondes depuis cette page.",
+    step3_title: "Un registre protégé contre la falsification",
+    step3_text: "Un certificat papier non enregistré chez nous n'a aucune valeur — la vérification se fait uniquement à partir du registre.",
+    footer: "© 2026 Zouhair Mahrez — Bayt Al-Wiqaya · Les certificats de formation délivrés ici sont des certificats de fin de formation privée, et non des diplômes d'État",
+    valid_status: "Certificat enregistré chez nous",
+    demo_tag: "Modèle de démonstration",
+    demo_note: "Ceci n'est qu'un exemple illustrant à quoi ressemblera la vérification réelle.",
+    label_name: "Nom",
+    label_course: "Formation",
+    label_hours: "Nombre d'heures",
+    label_date: "Date d'achèvement",
+    label_code: "Numéro du certificat",
+    label_status: "Statut",
+    invalid_status: "Nous n'avons pas trouvé ce numéro",
+    invalid_text: "Vérifiez que le numéro est saisi exactement comme il figure sur le certificat. Si vous êtes sûr du numéro et qu'il n'apparaît pas, contactez-nous sur WhatsApp — il peut s'agir d'une erreur d'impression ou d'un certificat qui n'a pas été délivré par nous."
+  },
+  en: {
+    page_title: "Certificate Verification | Zouhair Mahrez",
+    meta_desc: "Verify the authenticity of course completion certificates issued by Zouhair Mahrez — Bayt Al-Wiqaya, using the certificate number or QR code.",
+    logo_name: "Zouhair Mahrez",
+    back: "→ Back to home",
+    eyebrow: "Official certificate registry",
+    h1_prefix: "Verification of a ",
+    h1_grad: "completion certificate",
+    lead: "Every certificate issued by Zouhair Mahrez's courses — Bayt Al-Wiqaya is registered with us under a unique number. Enter the certificate number (or scan the QR code on it) to verify that it is genuine and in its holder's name.",
+    verify_button: "Verify",
+    hint: "The certificate number is written at the bottom of the certificate, next to the QR code. To test this preliminary version: try the number",
+    placeholder_code: "ZM-2026-0001",
+    step1_title: "A unique number per certificate",
+    step1_text: "Each graduate is registered under a unique serial number, linked to their name and course.",
+    step2_title: "QR code on the certificate",
+    step2_text: "Any employer or institution can scan the code and verify within seconds from this page.",
+    step3_title: "A forgery-proof registry",
+    step3_text: "A paper certificate not registered with us has no value — verification is done from the registry only.",
+    footer: "© 2026 Zouhair Mahrez — Bayt Al-Wiqaya · The training certificates issued here are private training completion certificates, not state diplomas",
+    valid_status: "Certificate registered with us",
+    demo_tag: "Demo sample",
+    demo_note: "This is only an example showing what real verification will look like.",
+    label_name: "Name",
+    label_course: "Course",
+    label_hours: "Number of hours",
+    label_date: "Completion date",
+    label_code: "Certificate number",
+    label_status: "Status",
+    invalid_status: "We could not find this number",
+    invalid_text: "Make sure the number is entered exactly as it appears on the certificate. If you are sure of the number and it does not appear, contact us on WhatsApp — it may be a printing error or a certificate not issued by us."
+  },
+  darija: {
+    page_title: "التحقق من شهادة | زهير محرز",
+    meta_desc: "تحقق من صحة شهادات إتمام الدورات الصادرة عن زهير محرز — بيت الوقاية، برقم الشهادة أو رمز QR.",
+    logo_name: "زهير محرز",
+    back: "→ الرجوع للرئيسية",
+    eyebrow: "سجل الشهادات الرسمي",
+    h1_prefix: "التحقق من ",
+    h1_grad: "شهادة إتمام",
+    lead: "كل شهادة صادرة عن دورات زهير محرز — بيت الوقاية مسجلة عندنا برقم فريد. دخّل رقم الشهادة (ولا امسح رمز QR اللي عليها) باش تتأكد بلي هي أصلية وباسم صاحبها.",
+    verify_button: "تحقق",
+    hint: "رقم الشهادة مكتوب أسفل الشهادة بجانب رمز QR. للتجربة في هاد النسخة الأولية: جرّب الرقم",
+    placeholder_code: "ZM-2026-0001",
+    step1_title: "رقم فريد لكل شهادة",
+    step1_text: "كل خريج كيتسجل برقم تسلسلي ما كيتعاودش، مرتبط باسمه ودورته.",
+    step2_title: "رمز QR على الشهادة",
+    step2_text: "أي مشغّل ولا مؤسسة يقدر يمسح الرمز ويتحقق في ثواني من هاد الصفحة.",
+    step3_title: "سجل محمي من التزوير",
+    step3_text: "الشهادة الورقية بلا تسجيل عندنا ما عندها قيمة — التحقق كيتم من السجل فقط.",
+    footer: "© 2026 زهير محرز — بيت الوقاية · شهادات التكوين الصادرة هنا هي شهادات إتمام تكوين خاص، وليست دبلومات دولة",
+    valid_status: "شهادة مسجلة عندنا",
+    demo_tag: "نموذج تجريبي",
+    demo_note: "هادا غير مثال كيوري كيفاش غادي يبان التحقق الحقيقي.",
+    label_name: "الاسم",
+    label_course: "الدورة",
+    label_hours: "عدد الساعات",
+    label_date: "تاريخ الإتمام",
+    label_code: "رقم الشهادة",
+    label_status: "الحالة",
+    invalid_status: "ما لقيناش هاد الرقم",
+    invalid_text: "تأكد من كتابة الرقم كيف ما هو في الشهادة. إلا كنت متأكد من الرقم وما ظهرش، تواصل معنا في واتساب — يقدر يكون خطأ في الطباعة ولا الشهادة غير صادرة عنا."
+  }
+};
+var currentLang = 'ar';
+function t(key){ return I18N[currentLang][key]; }
+function applyLang(lang){
+  if(!I18N[lang]){ lang = 'ar'; }
+  currentLang = lang;
+  try{ localStorage.setItem('site_lang', lang); }catch(e){}
+  document.documentElement.lang = (lang === 'darija') ? 'ar' : lang;
+  document.documentElement.dir = (lang === 'ar' || lang === 'darija') ? 'rtl' : 'ltr';
+  var els = document.querySelectorAll('[data-i18n]');
+  for(var i = 0; i < els.length; i++){ var k = els[i].getAttribute('data-i18n'); if(t(k) !== undefined){ els[i].textContent = t(k); } }
+  var ph = document.querySelectorAll('[data-i18n-placeholder]');
+  for(var j = 0; j < ph.length; j++){ var pk = ph[j].getAttribute('data-i18n-placeholder'); if(t(pk) !== undefined){ ph[j].setAttribute('placeholder', t(pk)); } }
+  var meta = document.querySelector('meta[name="description"]');
+  if(meta){ meta.setAttribute('content', t('meta_desc')); }
+  var btns = document.querySelectorAll('[data-lang]');
+  for(var b = 0; b < btns.length; b++){ btns[b].classList.toggle('active', btns[b].getAttribute('data-lang') === lang); }
+  var box = document.getElementById('resultBox');
+  if(box && box.classList.contains('show')){ check(document.getElementById('codeInput').value); }
+}
 function normalize(code){ return (code||"").trim().toUpperCase().replace(/\s+/g,""); }
 function check(code){
   var box=document.getElementById('resultBox');
   var rec=REGISTRY[normalize(code)];
   box.className='result show '+(rec?'ok':'bad');
   if(rec){
-    box.innerHTML='<div class="status">✓ شهادة مسجلة عندنا</div>'+
-      (rec.demo?'<p style="margin-top:6px"><span class="demo-tag">نموذج تجريبي</span> هادا غير مثال كيوري كيفاش غادي يبان التحقق الحقيقي.</p>':'')+
+    box.innerHTML='<div class="status">✓ '+t('valid_status')+'</div>'+
+      (rec.demo?'<p style="margin-top:6px"><span class="demo-tag">'+t('demo_tag')+'</span> '+t('demo_note')+'</p>':'')+
       '<table>'+
-      '<tr><td>الاسم</td><td><b>'+rec.name+'</b></td></tr>'+
-      '<tr><td>الدورة</td><td>'+rec.course+'</td></tr>'+
-      '<tr><td>عدد الساعات</td><td>'+rec.hours+'</td></tr>'+
-      '<tr><td>تاريخ الإتمام</td><td>'+rec.date+'</td></tr>'+
-      '<tr><td>رقم الشهادة</td><td dir="ltr" style="text-align:right">'+normalize(code)+'</td></tr>'+
-      '<tr><td>الحالة</td><td>'+rec.status+'</td></tr></table>';
+      '<tr><td>'+t('label_name')+'</td><td><b>'+rec.name+'</b></td></tr>'+
+      '<tr><td>'+t('label_course')+'</td><td>'+rec.course+'</td></tr>'+
+      '<tr><td>'+t('label_hours')+'</td><td>'+rec.hours+'</td></tr>'+
+      '<tr><td>'+t('label_date')+'</td><td>'+rec.date+'</td></tr>'+
+      '<tr><td>'+t('label_code')+'</td><td dir="ltr" style="text-align:right">'+normalize(code)+'</td></tr>'+
+      '<tr><td>'+t('label_status')+'</td><td>'+rec.status+'</td></tr></table>';
   } else {
-    box.innerHTML='<div class="status">✗ ما لقيناش هاد الرقم</div><p style="margin-top:6px;color:var(--muted)">تأكد من كتابة الرقم كيف ما هو في الشهادة. إلا كنت متأكد من الرقم وما ظهرش، تواصل معنا في واتساب — يقدر يكون خطأ في الطباعة ولا الشهادة غير صادرة عنا.</p>';
+    box.innerHTML='<div class="status">✗ '+t('invalid_status')+'</div><p style="margin-top:6px;color:var(--muted)">'+t('invalid_text')+'</p>';
   }
 }
 document.getElementById('verifyForm').addEventListener('submit',function(e){
   e.preventDefault();
   check(document.getElementById('codeInput').value);
 });
+var langBtns = document.querySelectorAll('[data-lang]');
+for(var lb = 0; lb < langBtns.length; lb++){
+  langBtns[lb].addEventListener('click', function(e){
+    applyLang(e.currentTarget.getAttribute('data-lang'));
+  });
+}
+var storedLang = null;
+try{ storedLang = localStorage.getItem('site_lang'); }catch(e){}
+var defaultLang = 'ar';
+try{ if(Intl.DateTimeFormat().resolvedOptions().timeZone === 'Africa/Casablanca'){ defaultLang = 'darija'; } }catch(e){}
+applyLang(storedLang || defaultLang);
 var q=new URLSearchParams(location.search).get('code');
 if(q){ document.getElementById('codeInput').value=q; check(q); }
 </script>

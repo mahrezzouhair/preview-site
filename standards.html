@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>منهجنا ومعاييرنا | زهير محرز</title>
-<meta name="description" content="كيف كنبنّيو دوراتنا: مواءمة منهجية مع معايير الممارسة والسلامة المنشورة من منظمة الصحة العالمية وWFAS، بشفافية كاملة.">
+<meta name="description" content="كيف نبني دوراتنا: مواءمة منهجية مع معايير الممارسة والسلامة المنشورة من منظمة الصحة العالمية وWFAS، بشفافية كاملة.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -20,6 +20,10 @@ header{position:sticky;top:0;z-index:60;background:rgba(10,18,15,.95);backdrop-f
 .logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.15rem}
 .logo .mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--green));display:grid;place-items:center;color:#06280F}
 .back{color:#C9D6CE;font-weight:700}.back:hover{color:var(--neon)}
+.lang-switcher{display:flex;gap:6px;align-items:center}
+.lang-switcher button{background:transparent;border:1px solid #3A4F43;color:#C9D6CE;border-radius:999px;padding:4px 10px;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer}
+.lang-switcher button:hover{color:#fff}
+.lang-switcher button.active{background:var(--neon);color:#06280F;border-color:transparent}
 main{padding:60px 0 80px}
 .eyebrow{display:inline-block;font-weight:800;font-size:.85rem;color:var(--green);background:var(--green-soft);border:1px solid #CFEDD9;padding:4px 14px;border-radius:999px;margin-bottom:14px}
 h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:900;line-height:1.4;margin-bottom:12px}
@@ -48,72 +52,283 @@ footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;fon
 <body>
 <header>
   <div class="header-in">
-    <a class="logo" href="index.html"><span class="mark">ز</span> زهير محرز</a>
-    <a class="back" href="index.html">→ الرجوع للرئيسية</a>
+    <a class="logo" href="index.html"><span class="mark">ز</span> <span data-i18n="logo_name">زهير محرز</span></a>
+    <div class="lang-switcher" role="group" aria-label="Language">
+      <button type="button" data-lang="darija">الدارجة</button>
+      <button type="button" data-lang="ar" class="active">العربية الفصحى</button>
+      <button type="button" data-lang="fr">Français</button>
+      <button type="button" data-lang="en">English</button>
+    </div>
+    <a class="back" href="index.html" data-i18n="back_home">→ الرجوع إلى الرئيسية</a>
   </div>
 </header>
 <main>
   <div class="wrap">
-    <span class="eyebrow">شفافية كاملة</span>
-    <h1>منهجنا <span class="grad">ومعاييرنا</span></h1>
-    <p class="lead">هاد الصفحة كتوثّق كيفاش كنبنّيو دوراتنا وإلى أي مرجعيات كنرجعو. مبدأنا بسيط: ما كندّعيو حتى اعتماد ما عندناش — وكننشرو المعايير اللي كنلتزمو بها باش تقدر تحكم بنفسك.</p>
+    <span class="eyebrow" data-i18n="eyebrow">شفافية كاملة</span>
+    <h1><span data-i18n="h1_a">منهجنا</span> <span class="grad" data-i18n="h1_b">ومعاييرنا</span></h1>
+    <p class="lead" data-i18n="lead">توثّق هذه الصفحة كيفية بناء دوراتنا والمرجعيات التي نستند إليها. مبدؤنا بسيط: لا ندّعي أي اعتماد لا نملكه، وننشر المعايير التي نلتزم بها لكي تتمكن من الحكم بنفسك.</p>
 
-    <h2>إلى ماذا نوائم مناهجنا؟</h2>
+    <h2 data-i18n="h2_1">مع أي مرجعيات نوائم مناهجنا؟</h2>
     <div class="card" style="overflow-x:auto">
       <table>
-        <tr><th>المرجعية</th><th>شنو هي</th><th>كيف كنستعملوها</th></tr>
+        <tr><th data-i18n="th_ref">المرجعية</th><th data-i18n="th_what">ما هي</th><th data-i18n="th_how">كيف نستخدمها</th></tr>
         <tr>
-          <td>معايير ممارسة الطب اليوناني — WHO (2022)</td>
-          <td>وثيقة منظمة الصحة العالمية لمعايير الممارسة؛ الحجامة داخلة فيها ضمن العلاجات النظامية (Regimenal Therapies).</td>
-          <td>المرجع الرئيسي لمحاور السلامة والممارسة في دورة الحجامة.</td>
+          <td data-i18n="r1c1">معايير ممارسة الطب اليوناني — WHO (2022)</td>
+          <td data-i18n="r1c2">وثيقة منظمة الصحة العالمية لمعايير الممارسة؛ تُدرَج الحجامة فيها ضمن العلاجات النظامية (Regimenal Therapies).</td>
+          <td data-i18n="r1c3">المرجع الرئيسي لمحاور السلامة والممارسة في دورة الحجامة.</td>
         </tr>
         <tr>
-          <td>المعيار التقني للحجامة WFAS 006.9-2023</td>
-          <td>معيار الاتحاد العالمي لجمعيات الوخز بالإبر (WFAS) الخاص بالحجامة: النطاق، الإجراءات، والسلامة. WFAS عندو علاقات رسمية مع WHO منذ 1998.</td>
-          <td>مرجع إجراءات الحجامة وخرائط النقاط وبروتوكولات السلامة.</td>
+          <td data-i18n="r2c1">المعيار التقني للحجامة WFAS 006.9-2023</td>
+          <td data-i18n="r2c2">معيار الاتحاد العالمي لجمعيات الوخز بالإبر (WFAS) الخاص بالحجامة: النطاق والإجراءات والسلامة. تربط WFAS علاقات رسمية بمنظمة الصحة العالمية منذ عام 1998.</td>
+          <td data-i18n="r2c3">مرجع إجراءات الحجامة وخرائط النقاط وبروتوكولات السلامة.</td>
         </tr>
         <tr>
-          <td>معايير ممارسة وتكوين الوخز بالإبر — WHO (2020)</td>
-          <td>وثيقتا WHO لممارسة الوخز بالإبر وتكوينه (التكوين الكامل المرجعي: 1,568 ساعة).</td>
-          <td>مرجع بنية وسلامة دورة الوخز بالإبر — مع نشر ساعاتنا الحقيقية، بلا ادعاء ساعات التكوين الكامل.</td>
+          <td data-i18n="r3c1">معايير ممارسة الوخز بالإبر وتكوينه — WHO (2020)</td>
+          <td data-i18n="r3c2">وثيقتا WHO لممارسة الوخز بالإبر وتكوينه (التكوين الكامل المرجعي: 1,568 ساعة).</td>
+          <td data-i18n="r3c3">مرجع بنية دورة الوخز بالإبر وسلامتها، مع نشر ساعاتنا الحقيقية، دون ادعاء ساعات التكوين الكامل.</td>
         </tr>
         <tr>
-          <td>معايير Tuina — WHO</td>
-          <td>معايير WHO للعلاج اليدوي (توي نا): الإجراءات، السلامة، واحتياطات إصابات العظام والمفاصل.</td>
-          <td>مرجع السلامة والاحتياطات في دورة تقويم العظام.</td>
+          <td data-i18n="r4c1">معايير Tuina — WHO</td>
+          <td data-i18n="r4c2">معايير WHO للعلاج اليدوي (توي نا): الإجراءات والسلامة واحتياطات إصابات العظام والمفاصل.</td>
+          <td data-i18n="r4c3">مرجع السلامة والاحتياطات في دورة تقويم العظام.</td>
         </tr>
         <tr>
-          <td>مواصفات ISO للأجهزة</td>
-          <td>ISO 19611 (أجهزة الحجامة) وISO 5227 (ضوابط سلامة الأجهزة والتخلص من مخلفات الحجامة الدموية).</td>
-          <td>مرجع مواصفات المعدات والتعقيم في الدروس العملية.</td>
+          <td data-i18n="r5c1">مواصفات ISO للأجهزة</td>
+          <td data-i18n="r5c2">ISO 19611 (أجهزة الحجامة) وISO 5227 (ضوابط سلامة الأجهزة والتخلص من مخلفات الحجامة الدموية).</td>
+          <td data-i18n="r5c3">مرجع مواصفات المعدات والتعقيم في الدروس العملية.</td>
         </tr>
       </table>
-      <p class="doc" style="margin-top:12px">وثائق WHO منشورة مجاناً على who.int — المواءمة هي مراجعة منهجنا مقابلها وإغلاق الفجوات، وليست اعتماداً ولا تسجيلاً عند أي جهة.</p>
+      <p class="doc" style="margin-top:12px" data-i18n="doc">وثائق WHO منشورة مجاناً على who.int — المواءمة هي مراجعة منهجنا مقابلها وإغلاق الفجوات، وليست اعتماداً ولا تسجيلاً عند أي جهة.</p>
     </div>
 
-    <h2>المعايير اللي كنلتزمو بها في كل دورة</h2>
+    <h2 data-i18n="h2_2">المعايير التي نلتزم بها في كل دورة</h2>
     <div class="card">
       <ul class="checks">
-        <li><span><b>التعقيم أولاً:</b> كؤوس طبية لاستعمال واحد، بروتوكول تعقيم كامل، وتخلص آمن من مخلفات الحجامة الدموية.</span></li>
-        <li><span><b>الفرز قبل أي جلسة:</b> قائمة موانع واضحة (مميعات الدم، فقر الدم الحاد، الحمل، اضطرابات النزيف...) وعلامات خطر كتستوجب الإحالة لطبيب.</span></li>
-        <li><span><b>موافقة مستنيرة وتوثيق:</b> استمارة موافقة موقعة + بطاقة متابعة لكل حالة، كيف كنخدمو في المركز.</span></li>
-        <li><span><b>حدود واضحة للممارسة:</b> شنو داخل في اختصاص الممارس وشنو خارجو، ومتى كنحيلو — بلا ادعاءات علاجية خارج النطاق.</span></li>
-        <li><span><b>تقييم حقيقي:</b> الشهادة كتعطى بعد امتحان وتقييم عملي موثق، ماشي بمجرد إتمام المشاهدة.</span></li>
-        <li><span><b>ساعات حقيقية منشورة:</b> كل دورة معلنة بعدد ساعاتها الفعلي ومحاورها بالتفصيل قبل التسجيل.</span></li>
+        <li><span data-i18n="check1"><b>التعقيم أولاً:</b> كؤوس طبية للاستعمال الواحد، وبروتوكول تعقيم كامل، وتخلص آمن من مخلفات الحجامة الدموية.</span></li>
+        <li><span data-i18n="check2"><b>الفرز قبل أي جلسة:</b> قائمة موانع واضحة (مميعات الدم، فقر الدم الحاد، الحمل، اضطرابات النزيف...) وعلامات خطر تستوجب الإحالة إلى طبيب.</span></li>
+        <li><span data-i18n="check3"><b>موافقة مستنيرة وتوثيق:</b> استمارة موافقة موقعة + بطاقة متابعة لكل حالة، كما نعمل في المركز.</span></li>
+        <li><span data-i18n="check4"><b>حدود واضحة للممارسة:</b> ما يدخل في اختصاص الممارس وما يخرج عنه، ومتى نحيل الحالة، دون ادعاءات علاجية خارج النطاق.</span></li>
+        <li><span data-i18n="check5"><b>تقييم حقيقي:</b> تُمنح الشهادة بعد امتحان وتقييم عملي موثّق، لا بمجرد إتمام المشاهدة.</span></li>
+        <li><span data-i18n="check6"><b>ساعات حقيقية منشورة:</b> كل دورة معلنة بعدد ساعاتها الفعلي ومحاورها بالتفصيل قبل التسجيل.</span></li>
       </ul>
     </div>
 
     <div class="honest">
-      <h3>بصراحة — شنو ما كندّعيوش</h3>
-      <p>دوراتنا تكوين خاص من مركز بيت الوقاية، وشهاداتنا هي <b>شهادات إتمام تكوين</b> قابلة للتحقق من سجلّنا (برقم وQR)، وليست دبلومات دولة ولا تراخيص لمزاولة الطب. منظمة الصحة العالمية لا تعتمد الدورات الخاصة ولا تمنح شعارها لأي منها — ولهذا كنستعملو صياغة «مُعدّ بالمواءمة مع معايير...» فقط، وهي الصياغة الصحيحة والصادقة.</p>
+      <h3 data-i18n="honest_h">بصراحة: ما لا ندّعيه</h3>
+      <p data-i18n="honest_p">دوراتنا تكوين خاص من مركز بيت الوقاية، وشهاداتنا هي <b>شهادات إتمام تكوين</b> قابلة للتحقق من سجلّنا (برقم وQR)، وليست دبلومات دولة ولا تراخيص لمزاولة الطب. منظمة الصحة العالمية لا تعتمد الدورات الخاصة ولا تمنح شعارها لأي منها — ولهذا نستخدم صياغة «مُعدّ بالمواءمة مع معايير...» فقط، وهي الصياغة الصحيحة والصادقة.</p>
     </div>
 
     <div class="cta-row">
-      <a class="btn" href="index.html#courses">شوف الدورات</a>
-      <a class="btn dark" href="verify.html">التحقق من شهادة</a>
+      <a class="btn" href="index.html#courses" data-i18n="cta1">اطّلع على الدورات</a>
+      <a class="btn dark" href="verify.html" data-i18n="cta2">التحقق من شهادة</a>
     </div>
   </div>
 </main>
-<footer>© 2026 زهير محرز — بيت الوقاية · المحتوى تعليمي ولا يعوّض استشارة طبية</footer>
+<footer data-i18n="footer">© 2026 زهير محرز — بيت الوقاية · المحتوى تعليمي ولا يغني عن استشارة طبية</footer>
+<script>
+var I18N = {
+  ar: {
+    page_title: "منهجنا ومعاييرنا | زهير محرز",
+    meta_desc: "كيف نبني دوراتنا: مواءمة منهجية مع معايير الممارسة والسلامة المنشورة من منظمة الصحة العالمية وWFAS، بشفافية كاملة.",
+    logo_name: "زهير محرز",
+    back_home: "→ الرجوع إلى الرئيسية",
+    eyebrow: "شفافية كاملة",
+    h1_a: "منهجنا",
+    h1_b: "ومعاييرنا",
+    lead: "توثّق هذه الصفحة كيفية بناء دوراتنا والمرجعيات التي نستند إليها. مبدؤنا بسيط: لا ندّعي أي اعتماد لا نملكه، وننشر المعايير التي نلتزم بها لكي تتمكن من الحكم بنفسك.",
+    h2_1: "مع أي مرجعيات نوائم مناهجنا؟",
+    th_ref: "المرجعية",
+    th_what: "ما هي",
+    th_how: "كيف نستخدمها",
+    r1c1: "معايير ممارسة الطب اليوناني — WHO (2022)",
+    r1c2: "وثيقة منظمة الصحة العالمية لمعايير الممارسة؛ تُدرَج الحجامة فيها ضمن العلاجات النظامية (Regimenal Therapies).",
+    r1c3: "المرجع الرئيسي لمحاور السلامة والممارسة في دورة الحجامة.",
+    r2c1: "المعيار التقني للحجامة WFAS 006.9-2023",
+    r2c2: "معيار الاتحاد العالمي لجمعيات الوخز بالإبر (WFAS) الخاص بالحجامة: النطاق والإجراءات والسلامة. تربط WFAS علاقات رسمية بمنظمة الصحة العالمية منذ عام 1998.",
+    r2c3: "مرجع إجراءات الحجامة وخرائط النقاط وبروتوكولات السلامة.",
+    r3c1: "معايير ممارسة الوخز بالإبر وتكوينه — WHO (2020)",
+    r3c2: "وثيقتا WHO لممارسة الوخز بالإبر وتكوينه (التكوين الكامل المرجعي: 1,568 ساعة).",
+    r3c3: "مرجع بنية دورة الوخز بالإبر وسلامتها، مع نشر ساعاتنا الحقيقية، دون ادعاء ساعات التكوين الكامل.",
+    r4c1: "معايير Tuina — WHO",
+    r4c2: "معايير WHO للعلاج اليدوي (توي نا): الإجراءات والسلامة واحتياطات إصابات العظام والمفاصل.",
+    r4c3: "مرجع السلامة والاحتياطات في دورة تقويم العظام.",
+    r5c1: "مواصفات ISO للأجهزة",
+    r5c2: "ISO 19611 (أجهزة الحجامة) وISO 5227 (ضوابط سلامة الأجهزة والتخلص من مخلفات الحجامة الدموية).",
+    r5c3: "مرجع مواصفات المعدات والتعقيم في الدروس العملية.",
+    doc: "وثائق WHO منشورة مجاناً على who.int — المواءمة هي مراجعة منهجنا مقابلها وإغلاق الفجوات، وليست اعتماداً ولا تسجيلاً عند أي جهة.",
+    h2_2: "المعايير التي نلتزم بها في كل دورة",
+    check1: "<b>التعقيم أولاً:</b> كؤوس طبية للاستعمال الواحد، وبروتوكول تعقيم كامل، وتخلص آمن من مخلفات الحجامة الدموية.",
+    check2: "<b>الفرز قبل أي جلسة:</b> قائمة موانع واضحة (مميعات الدم، فقر الدم الحاد، الحمل، اضطرابات النزيف...) وعلامات خطر تستوجب الإحالة إلى طبيب.",
+    check3: "<b>موافقة مستنيرة وتوثيق:</b> استمارة موافقة موقعة + بطاقة متابعة لكل حالة، كما نعمل في المركز.",
+    check4: "<b>حدود واضحة للممارسة:</b> ما يدخل في اختصاص الممارس وما يخرج عنه، ومتى نحيل الحالة، دون ادعاءات علاجية خارج النطاق.",
+    check5: "<b>تقييم حقيقي:</b> تُمنح الشهادة بعد امتحان وتقييم عملي موثّق، لا بمجرد إتمام المشاهدة.",
+    check6: "<b>ساعات حقيقية منشورة:</b> كل دورة معلنة بعدد ساعاتها الفعلي ومحاورها بالتفصيل قبل التسجيل.",
+    honest_h: "بصراحة: ما لا ندّعيه",
+    honest_p: "دوراتنا تكوين خاص من مركز بيت الوقاية، وشهاداتنا هي <b>شهادات إتمام تكوين</b> قابلة للتحقق من سجلّنا (برقم وQR)، وليست دبلومات دولة ولا تراخيص لمزاولة الطب. منظمة الصحة العالمية لا تعتمد الدورات الخاصة ولا تمنح شعارها لأي منها — ولهذا نستخدم صياغة «مُعدّ بالمواءمة مع معايير...» فقط، وهي الصياغة الصحيحة والصادقة.",
+    cta1: "اطّلع على الدورات",
+    cta2: "التحقق من شهادة",
+    footer: "© 2026 زهير محرز — بيت الوقاية · المحتوى تعليمي ولا يغني عن استشارة طبية"
+  },
+  fr: {
+    page_title: "Notre méthode et nos standards | Zouhair Mahrez",
+    meta_desc: "Comment nous construisons nos formations : un alignement méthodique sur les normes de pratique et de sécurité publiées par l'Organisation mondiale de la Santé et la WFAS, en toute transparence.",
+    logo_name: "Zouhair Mahrez",
+    back_home: "← Retour à l'accueil",
+    eyebrow: "Transparence totale",
+    h1_a: "Notre méthode",
+    h1_b: "et nos standards",
+    lead: "Cette page documente la manière dont nous construisons nos formations et les référentiels sur lesquels nous nous appuyons. Notre principe est simple : nous ne revendiquons aucune accréditation que nous ne possédons pas, et nous publions les normes que nous respectons afin que vous puissiez juger par vous-même.",
+    h2_1: "Sur quels référentiels alignons-nous nos programmes ?",
+    th_ref: "Référentiel",
+    th_what: "Ce que c'est",
+    th_how: "Comment nous l'utilisons",
+    r1c1: "Normes de pratique de la médecine unani — OMS (2022)",
+    r1c2: "Document de l'Organisation mondiale de la Santé sur les normes de pratique ; la Hijama y figure parmi les thérapies régiménales (Regimenal Therapies).",
+    r1c3: "Référence principale pour les axes de sécurité et de pratique de la formation Hijama.",
+    r2c1: "Norme technique Hijama WFAS 006.9-2023",
+    r2c2: "Norme de la Fédération mondiale des sociétés d'acupuncture (WFAS) propre à la Hijama : champ d'application, procédures et sécurité. La WFAS entretient des relations officielles avec l'OMS depuis 1998.",
+    r2c3: "Référence pour les procédures de Hijama, les cartes de points et les protocoles de sécurité.",
+    r3c1: "Normes de pratique et de formation en Acupuncture chinoise — OMS (2020)",
+    r3c2: "Les deux documents de l'OMS sur la pratique et la formation en Acupuncture chinoise (formation complète de référence : 1 568 heures).",
+    r3c3: "Référence pour la structure et la sécurité de la formation en Acupuncture chinoise, avec la publication de nos heures réelles, sans revendiquer les heures de la formation complète.",
+    r4c1: "Normes Tuina — OMS",
+    r4c2: "Normes de l'OMS pour la thérapie manuelle (Tuina) : procédures, sécurité et précautions relatives aux lésions osseuses et articulaires.",
+    r4c3: "Référence de sécurité et de précautions pour la formation en Alignement osseux.",
+    r5c1: "Spécifications ISO pour les équipements",
+    r5c2: "ISO 19611 (appareils de Hijama) et ISO 5227 (contrôles de sécurité des appareils et élimination des déchets de la Hijama sanglante).",
+    r5c3: "Référence pour les spécifications des équipements et la stérilisation dans les leçons pratiques.",
+    doc: "Les documents de l'OMS sont publiés gratuitement sur who.int. L'alignement consiste à comparer notre programme à ces documents et à combler les écarts ; ce n'est ni une accréditation ni un enregistrement auprès d'aucune instance.",
+    h2_2: "Les normes que nous respectons dans chaque formation",
+    check1: "<b>La stérilisation d'abord :</b> ventouses médicales à usage unique, protocole de stérilisation complet et élimination sûre des déchets de la Hijama sanglante.",
+    check2: "<b>Le tri avant toute séance :</b> une liste claire de contre-indications (anticoagulants, anémie sévère, grossesse, troubles de la coagulation, etc.) et des signes de danger qui imposent une orientation vers un médecin.",
+    check3: "<b>Consentement éclairé et documentation :</b> un formulaire de consentement signé et une fiche de suivi pour chaque cas, comme nous travaillons au centre.",
+    check4: "<b>Des limites de pratique claires :</b> ce qui relève de la compétence du praticien et ce qui en sort, et quand orienter le cas, sans allégations thérapeutiques hors champ.",
+    check5: "<b>Une évaluation réelle :</b> le certificat est délivré après un examen et une évaluation pratique documentée, et non à la simple fin du visionnage.",
+    check6: "<b>Des heures réelles publiées :</b> chaque formation est annoncée avec son nombre réel d'heures et ses axes en détail avant l'inscription.",
+    honest_h: "En toute honnêteté — ce que nous ne revendiquons pas",
+    honest_p: "Nos formations sont une formation privée du centre Bayt Al-Wiqaya, et nos certificats sont des <b>certificats de fin de formation</b> vérifiables dans notre registre (par numéro et QR), et non des diplômes d'État ni des autorisations d'exercer la médecine. L'Organisation mondiale de la Santé n'accrédite pas les formations privées et n'accorde son logo à aucune d'entre elles — c'est pourquoi nous utilisons uniquement la formulation « élaboré en alignement avec les normes de... », qui est la formulation exacte et honnête.",
+    cta1: "Découvrir les formations",
+    cta2: "Vérifier un certificat",
+    footer: "© 2026 Zouhair Mahrez — Bayt Al-Wiqaya · Contenu éducatif, qui ne remplace pas un avis médical"
+  },
+  en: {
+    page_title: "Our Method and Standards | Zouhair Mahrez",
+    meta_desc: "How we build our courses: a methodical alignment with the practice and safety standards published by the World Health Organization and WFAS, in full transparency.",
+    logo_name: "Zouhair Mahrez",
+    back_home: "← Back to home",
+    eyebrow: "Full transparency",
+    h1_a: "Our method",
+    h1_b: "and standards",
+    lead: "This page documents how we build our courses and the references we rely on. Our principle is simple: we claim no accreditation we do not hold, and we publish the standards we follow so you can judge for yourself.",
+    h2_1: "Which references do we align our curricula with?",
+    th_ref: "Reference",
+    th_what: "What it is",
+    th_how: "How we use it",
+    r1c1: "Unani medicine practice standards — WHO (2022)",
+    r1c2: "World Health Organization document on practice standards; Hijama is included in it among the Regimenal Therapies.",
+    r1c3: "Main reference for the safety and practice modules of the Hijama course.",
+    r2c1: "WFAS technical standard for Hijama 006.9-2023",
+    r2c2: "World Federation of Acupuncture-Moxibustion Societies (WFAS) standard specific to Hijama: scope, procedures and safety. WFAS has had official relations with WHO since 1998.",
+    r2c3: "Reference for Hijama procedures, point maps and safety protocols.",
+    r3c1: "Chinese acupuncture practice and training standards — WHO (2020)",
+    r3c2: "WHO's two documents on Chinese acupuncture practice and training (reference full training: 1,568 hours).",
+    r3c3: "Reference for the structure and safety of the Chinese acupuncture course, with our real hours published, without claiming the full-training hours.",
+    r4c1: "Tuina standards — WHO",
+    r4c2: "WHO standards for manual therapy (Tuina): procedures, safety and precautions for bone and joint injuries.",
+    r4c3: "Safety and precautions reference for the Bone alignment course.",
+    r5c1: "ISO equipment specifications",
+    r5c2: "ISO 19611 (Hijama devices) and ISO 5227 (device safety controls and disposal of wet Hijama waste).",
+    r5c3: "Reference for equipment specifications and sterilisation in practical lessons.",
+    doc: "WHO documents are published free of charge on who.int. Alignment means reviewing our curriculum against them and closing the gaps; it is neither accreditation nor registration with any body.",
+    h2_2: "The standards we follow in every course",
+    check1: "<b>Sterilisation first:</b> single-use medical cups, a full sterilisation protocol, and safe disposal of wet Hijama waste.",
+    check2: "<b>Screening before any session:</b> a clear list of contraindications (blood thinners, severe anaemia, pregnancy, bleeding disorders, etc.) and danger signs that require referral to a doctor.",
+    check3: "<b>Informed consent and documentation:</b> a signed consent form and a follow-up card for every case, as we work at the centre.",
+    check4: "<b>Clear limits of practice:</b> what falls within the practitioner's scope and what falls outside it, and when to refer a case, with no therapeutic claims beyond that scope.",
+    check5: "<b>Real assessment:</b> the certificate is awarded after a documented exam and practical assessment, not merely on completing viewing.",
+    check6: "<b>Real published hours:</b> every course is advertised with its actual number of hours and its modules in detail before enrolment.",
+    honest_h: "Honestly — what we do not claim",
+    honest_p: "Our courses are private training from the Bayt Al-Wiqaya centre, and our certificates are <b>training completion certificates</b> verifiable in our register (by number and QR), not state diplomas and not licences to practise medicine. The World Health Organization does not accredit private courses and grants its logo to none of them — which is why we use only the wording “prepared in alignment with the standards of…”, which is the correct and honest wording.",
+    cta1: "Browse the courses",
+    cta2: "Verify a certificate",
+    footer: "© 2026 Zouhair Mahrez — Bayt Al-Wiqaya · Educational content, not a substitute for medical advice"
+  },
+  darija: {
+    page_title: "منهجنا ومعاييرنا | زهير محرز",
+    meta_desc: "كيف كنبنّيو دوراتنا: مواءمة منهجية مع معايير الممارسة والسلامة المنشورة من منظمة الصحة العالمية وWFAS، بشفافية كاملة.",
+    logo_name: "زهير محرز",
+    back_home: "→ الرجوع للرئيسية",
+    eyebrow: "شفافية كاملة",
+    h1_a: "منهجنا",
+    h1_b: "ومعاييرنا",
+    lead: "هاد الصفحة كتوثّق كيفاش كنبنّيو دوراتنا وإلى أي مرجعيات كنرجعو. مبدأنا بسيط: ما كندّعيو حتى اعتماد ما عندناش — وكننشرو المعايير اللي كنلتزمو بها باش تقدر تحكم بنفسك.",
+    h2_1: "إلى ماذا نوائم مناهجنا؟",
+    th_ref: "المرجعية",
+    th_what: "شنو هي",
+    th_how: "كيف كنستعملوها",
+    r1c1: "معايير ممارسة الطب اليوناني — WHO (2022)",
+    r1c2: "وثيقة منظمة الصحة العالمية لمعايير الممارسة؛ الحجامة داخلة فيها ضمن العلاجات النظامية (Regimenal Therapies).",
+    r1c3: "المرجع الرئيسي لمحاور السلامة والممارسة في دورة الحجامة.",
+    r2c1: "المعيار التقني للحجامة WFAS 006.9-2023",
+    r2c2: "معيار الاتحاد العالمي لجمعيات الوخز بالإبر (WFAS) الخاص بالحجامة: النطاق، الإجراءات، والسلامة. WFAS عندو علاقات رسمية مع WHO منذ 1998.",
+    r2c3: "مرجع إجراءات الحجامة وخرائط النقاط وبروتوكولات السلامة.",
+    r3c1: "معايير ممارسة وتكوين الوخز بالإبر — WHO (2020)",
+    r3c2: "وثيقتا WHO لممارسة الوخز بالإبر وتكوينه (التكوين الكامل المرجعي: 1,568 ساعة).",
+    r3c3: "مرجع بنية وسلامة دورة الوخز بالإبر — مع نشر ساعاتنا الحقيقية، بلا ادعاء ساعات التكوين الكامل.",
+    r4c1: "معايير Tuina — WHO",
+    r4c2: "معايير WHO للعلاج اليدوي (توي نا): الإجراءات، السلامة، واحتياطات إصابات العظام والمفاصل.",
+    r4c3: "مرجع السلامة والاحتياطات في دورة تقويم العظام.",
+    r5c1: "مواصفات ISO للأجهزة",
+    r5c2: "ISO 19611 (أجهزة الحجامة) وISO 5227 (ضوابط سلامة الأجهزة والتخلص من مخلفات الحجامة الدموية).",
+    r5c3: "مرجع مواصفات المعدات والتعقيم في الدروس العملية.",
+    doc: "وثائق WHO منشورة مجاناً على who.int — المواءمة هي مراجعة منهجنا مقابلها وإغلاق الفجوات، وليست اعتماداً ولا تسجيلاً عند أي جهة.",
+    h2_2: "المعايير اللي كنلتزمو بها في كل دورة",
+    check1: "<b>التعقيم أولاً:</b> كؤوس طبية لاستعمال واحد، بروتوكول تعقيم كامل، وتخلص آمن من مخلفات الحجامة الدموية.",
+    check2: "<b>الفرز قبل أي جلسة:</b> قائمة موانع واضحة (مميعات الدم، فقر الدم الحاد، الحمل، اضطرابات النزيف...) وعلامات خطر كتستوجب الإحالة لطبيب.",
+    check3: "<b>موافقة مستنيرة وتوثيق:</b> استمارة موافقة موقعة + بطاقة متابعة لكل حالة، كيف كنخدمو في المركز.",
+    check4: "<b>حدود واضحة للممارسة:</b> شنو داخل في اختصاص الممارس وشنو خارجو، ومتى كنحيلو — بلا ادعاءات علاجية خارج النطاق.",
+    check5: "<b>تقييم حقيقي:</b> الشهادة كتعطى بعد امتحان وتقييم عملي موثق، ماشي بمجرد إتمام المشاهدة.",
+    check6: "<b>ساعات حقيقية منشورة:</b> كل دورة معلنة بعدد ساعاتها الفعلي ومحاورها بالتفصيل قبل التسجيل.",
+    honest_h: "بصراحة — شنو ما كندّعيوش",
+    honest_p: "دوراتنا تكوين خاص من مركز بيت الوقاية، وشهاداتنا هي <b>شهادات إتمام تكوين</b> قابلة للتحقق من سجلّنا (برقم وQR)، وليست دبلومات دولة ولا تراخيص لمزاولة الطب. منظمة الصحة العالمية لا تعتمد الدورات الخاصة ولا تمنح شعارها لأي منها — ولهذا كنستعملو صياغة «مُعدّ بالمواءمة مع معايير...» فقط، وهي الصياغة الصحيحة والصادقة.",
+    cta1: "شوف الدورات",
+    cta2: "التحقق من شهادة",
+    footer: "© 2026 زهير محرز — بيت الوقاية · المحتوى تعليمي ولا يعوّض استشارة طبية"
+  }
+};
+function applyLang(lang) {
+  if (!I18N[lang]) lang = "ar";
+  try { localStorage.setItem("site_lang", lang); } catch (e) {}
+  document.documentElement.lang = (lang === "darija" ? "ar" : lang);
+  document.documentElement.dir = (lang === "ar" || lang === "darija" ? "rtl" : "ltr");
+  document.title = I18N[lang].page_title;
+  var meta = document.querySelector('meta[name="description"]');
+  if (meta) meta.setAttribute("content", I18N[lang].meta_desc);
+  var els = document.querySelectorAll("[data-i18n]");
+  for (var i = 0; i < els.length; i++) {
+    var v = I18N[lang][els[i].getAttribute("data-i18n")];
+    if (v !== undefined) els[i].innerHTML = v;
+  }
+  var btns = document.querySelectorAll("[data-lang]");
+  for (var j = 0; j < btns.length; j++) {
+    btns[j].classList.toggle("active", btns[j].getAttribute("data-lang") === lang);
+  }
+}
+(function () {
+  var btns = document.querySelectorAll("[data-lang]");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function (ev) {
+      applyLang(ev.currentTarget.getAttribute("data-lang"));
+    });
+  }
+  var saved = null;
+  try { saved = localStorage.getItem("site_lang"); } catch (e) {}
+  var defaultLang = "ar";
+  try {
+    if (Intl.DateTimeFormat().resolvedOptions().timeZone === "Africa/Casablanca") defaultLang = "darija";
+  } catch (e) {}
+  applyLang(saved && I18N[saved] ? saved : defaultLang);
+})();
+</script>
 </body>
 </html>
