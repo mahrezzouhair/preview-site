@@ -21,10 +21,21 @@ header{position:sticky;top:0;z-index:60;background:rgba(10,18,15,.95);backdrop-f
 .logo .mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--green));display:grid;place-items:center;color:#06280F}
 .back{color:#C9D6CE;font-weight:700}
 .back:hover{color:var(--neon)}
-.lang-switch{display:flex;align-items:center;gap:6px;color:#C9D6CE;font-weight:700;font-size:.9rem}
-.lang-switch button{background:transparent;color:#C9D6CE;border:1px solid transparent;border-radius:999px;padding:6px 10px;font-size:.9rem}
-.lang-switch button:hover{background:rgba(255,255,255,.08);color:#fff}
-.lang-switch button.active{color:#fff;border-color:var(--neon)}
+.lang-menu-wrap{position:relative}
+.lang-btn{display:flex;align-items:center;gap:6px;background:#122019;color:#C9D6CE;border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:7px 12px;font-size:.9rem;line-height:1}
+.lang-btn:hover{background:rgba(255,255,255,.08);color:#fff}
+.lang-menu-wrap.open .lang-btn{border-color:var(--neon);color:#fff}
+.lang-btn svg{flex:none}
+.lang-btn .lang-code{font-weight:800;letter-spacing:.02em}
+.lang-btn .lang-caret{font-size:.7rem;color:#C9D6CE}
+.lang-dropdown{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);z-index:70;display:none;min-width:190px;max-width:calc(100vw - 40px);background:#122019;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:6px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.lang-menu-wrap.open .lang-dropdown{display:block}
+.lang-item{display:flex;align-items:center;gap:10px;width:100%;background:transparent;color:#C9D6CE;border:0;border-radius:10px;padding:9px 12px;font-size:.95rem;text-align:start}
+.lang-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.lang-item.active{color:var(--neon)}
+.lang-item .code{font-weight:800;min-width:26px}
+.lang-item.active::after{content:'✓';margin-inline-start:auto;font-weight:900}
+@media(max-width:520px){.lang-btn{padding:6px 10px}.lang-dropdown{min-width:170px}}
 main{padding:64px 0 90px}
 .eyebrow{display:inline-block;font-weight:800;font-size:.85rem;color:var(--green);background:var(--green-soft);border:1px solid #CFEDD9;padding:4px 14px;border-radius:999px;margin-bottom:14px}
 h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:900;line-height:1.4;margin-bottom:10px}
@@ -61,7 +72,7 @@ footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;fon
 <header>
   <div class="header-in">
     <a class="logo" href="index.html"><span class="mark">ز</span> <span data-i18n="logo_name">زهير محرز</span></a>
-    <div class="lang-switch"><button type="button" data-lang="darija">الدارجة</button><span>|</span><button type="button" data-lang="ar">العربية الفصحى</button><span>|</span><button type="button" data-lang="fr">Français</button><span>|</span><button type="button" data-lang="en">English</button></div>
+    <div class="lang-menu-wrap"><button type="button" class="lang-btn" aria-haspopup="true" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-code">DA</span><span class="lang-caret">▾</span></button><div class="lang-dropdown"><button type="button" class="lang-item" data-lang="darija"><span class="code">DA</span><span>الدارجة</span></button><button type="button" class="lang-item" data-lang="ar"><span class="code">AR</span><span>العربية الفصحى</span></button><button type="button" class="lang-item" data-lang="fr"><span class="code">FR</span><span>Français</span></button><button type="button" class="lang-item" data-lang="en"><span class="code">EN</span><span>English</span></button></div></div>
     <a class="back" href="index.html" data-i18n="back">→ الرجوع للرئيسية</a>
   </div>
 </header>
@@ -281,6 +292,38 @@ try{ storedLang = localStorage.getItem('site_lang'); }catch(e){}
 var defaultLang = 'ar';
 try{ if(Intl.DateTimeFormat().resolvedOptions().timeZone === 'Africa/Casablanca'){ defaultLang = 'darija'; } }catch(e){}
 applyLang(storedLang || defaultLang);
+// Language selector UI only: the dropdown items above still carry data-lang,
+// so the existing listeners (applyLang + localStorage + dir/lang handling)
+// run first; these handlers only update the button label and close the menu.
+var LANG_CODES = {darija: 'DA', ar: 'AR', fr: 'FR', en: 'EN'};
+var langWrap = document.querySelector('.lang-menu-wrap');
+var langBtn = document.querySelector('.lang-btn');
+var langCodeEl = document.querySelector('.lang-btn .lang-code');
+function updateLangButton(){ if(langCodeEl){ langCodeEl.textContent = LANG_CODES[currentLang] || 'AR'; } }
+function closeLangMenu(){
+  if(langWrap){ langWrap.classList.remove('open'); }
+  if(langBtn){ langBtn.setAttribute('aria-expanded', 'false'); }
+}
+if(langBtn && langWrap){
+  langBtn.addEventListener('click', function(){
+    var isOpen = langWrap.classList.toggle('open');
+    langBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  document.addEventListener('click', function(e){
+    if(!langWrap.contains(e.target)){ closeLangMenu(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ closeLangMenu(); }
+  });
+  var langItems = langWrap.querySelectorAll('[data-lang]');
+  for(var li = 0; li < langItems.length; li++){
+    langItems[li].addEventListener('click', function(){
+      updateLangButton();
+      closeLangMenu();
+    });
+  }
+}
+updateLangButton();
 var q=new URLSearchParams(location.search).get('code');
 if(q){ document.getElementById('codeInput').value=q; check(q); }
 </script>

@@ -164,21 +164,32 @@ footer a:hover{color:var(--neon)}
   section{padding:60px 0}
   .course{padding:32px 24px}
 }
-/* Language switcher */
-.lang-bar{background:#07100C;border-bottom:1px solid #1C3325}
-.lang-in{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:7px 0}
-.lang-label{color:#9DB4A6;font-size:.85rem;font-weight:700}
-.lang-switch{display:flex;align-items:center;gap:6px}
-.lang-switch button{background:transparent;border:1px solid #2C4A38;color:#C9D6CE;border-radius:999px;padding:3px 13px;font-family:inherit;font-weight:800;font-size:.85rem;cursor:pointer}
-.lang-switch button.active{background:var(--neon);border-color:var(--neon);color:#06280F}
-.lang-sep{color:#33503F}
+/* Language selector (globe button + dropdown) */
+.lang-top{background:#07100C;border-bottom:1px solid #1C3325}
+.lang-top-in{display:flex;align-items:center;justify-content:flex-end;padding:7px 0}
+.lang-select{position:relative}
+.lang-btn{display:inline-flex;align-items:center;gap:6px;background:#0E1A14;border:1px solid #2C4A38;color:#E7F3EB;border-radius:999px;padding:5px 12px;font-family:inherit;font-weight:800;font-size:.85rem;cursor:pointer;line-height:1.4}
+.lang-btn:hover,.lang-select.open .lang-btn{border-color:var(--neon);color:#fff}
+.lang-btn svg{flex-shrink:0}
+.lang-code{letter-spacing:.5px}
+.lang-caret{font-size:.7rem;color:#9DB4A6;transition:transform .2s}
+.lang-select.open .lang-caret{transform:rotate(180deg)}
+.lang-menu{display:none;position:absolute;top:calc(100% + 6px);inset-inline-end:0;min-width:190px;max-width:calc(100vw - 32px);background:#0E1A14;border:1px solid #2C4A38;border-radius:14px;padding:6px;box-shadow:0 16px 40px rgba(0,0,0,.45);z-index:80}
+.lang-select.open .lang-menu{display:block}
+.lang-item{display:flex;align-items:center;gap:10px;width:100%;background:transparent;border:0;border-radius:10px;padding:9px 12px;font-family:inherit;font-size:.9rem;font-weight:700;color:#C9D6CE;cursor:pointer;text-align:start}
+.lang-item:hover{background:#1B2E23;color:#fff}
+.lang-item.active{background:rgba(30,215,96,.14);color:var(--neon)}
+.lang-item-code{font-weight:900;font-size:.8rem;letter-spacing:.5px;min-width:24px}
+.lang-item-name{flex:1}
+.lang-item .check{visibility:hidden;color:var(--neon);font-weight:900}
+.lang-item.active .check{visibility:visible}
 html[dir="ltr"] .faq-q{text-align:left}
 @media(max-width:560px){.pillars,.tools-grid,.foot-grid{grid-template-columns:1fr}.chip-a{right:6px}.chip-b{left:6px}}
 </style>
 </head>
 <body>
 
-<div class="lang-bar"><div class="wrap lang-in"><span class="lang-label" data-i18n="lang_label">اللغة:</span><span class="lang-switch"><button type="button" data-lang="darija" aria-pressed="false">الدارجة</button><span class="lang-sep">|</span><button type="button" data-lang="ar" class="active" aria-pressed="true">العربية الفصحى</button><span class="lang-sep">|</span><button type="button" data-lang="fr" aria-pressed="false">Français</button><span class="lang-sep">|</span><button type="button" data-lang="en" aria-pressed="false">English</button></span></div></div>
+<div class="lang-top"><div class="wrap lang-top-in"><div class="lang-select" id="langSelect"><button type="button" class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z"/></svg><span class="lang-code" id="langCode">AR</span><span class="lang-caret" aria-hidden="true">⌄</span></button><div class="lang-menu" id="langMenu" role="menu"><button type="button" class="lang-item" role="menuitem" data-lang="darija" aria-pressed="false"><span class="lang-item-code">DA</span><span class="lang-item-name">الدارجة</span><span class="check" aria-hidden="true">✓</span></button><button type="button" class="lang-item" role="menuitem" data-lang="ar" aria-pressed="false"><span class="lang-item-code">AR</span><span class="lang-item-name">العربية الفصحى</span><span class="check" aria-hidden="true">✓</span></button><button type="button" class="lang-item" role="menuitem" data-lang="fr" aria-pressed="false"><span class="lang-item-code">FR</span><span class="lang-item-name">Français</span><span class="check" aria-hidden="true">✓</span></button><button type="button" class="lang-item" role="menuitem" data-lang="en" aria-pressed="false"><span class="lang-item-code">EN</span><span class="lang-item-name">English</span><span class="check" aria-hidden="true">✓</span></button></div></div></div></div>
 
 <header id="header">
   <div class="wrap header-in">
@@ -1046,6 +1057,39 @@ document.querySelectorAll("[data-lang]").forEach(function(b){
   var def="ar";
   try{ if(Intl.DateTimeFormat().resolvedOptions().timeZone==="Africa/Casablanca") def="darija"; }catch(e){}
   applyLang(saved||def);
+})();
+</script>
+<script>
+// Language dropdown UI: toggles the menu and syncs the button code label.
+// Switching itself still runs through the existing applyLang() machinery above
+// (the menu items keep data-lang, so the existing click handler fires first).
+(function(){
+  var sel=document.getElementById("langSelect");
+  var btn=document.getElementById("langBtn");
+  var menu=document.getElementById("langMenu");
+  var codeEl=document.getElementById("langCode");
+  if(!sel||!btn||!menu||!codeEl) return;
+  var CODES={darija:"DA",ar:"AR",fr:"FR",en:"EN"};
+  function closeMenu(){ sel.classList.remove("open"); btn.setAttribute("aria-expanded","false"); }
+  function syncCode(){
+    var active=menu.querySelector(".lang-item.active");
+    var lang=active?active.getAttribute("data-lang"):"ar";
+    codeEl.textContent=CODES[lang]||"AR";
+  }
+  btn.addEventListener("click", function(){
+    var open=sel.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open?"true":"false");
+  });
+  menu.querySelectorAll(".lang-item").forEach(function(item){
+    item.addEventListener("click", function(){ closeMenu(); syncCode(); });
+  });
+  document.addEventListener("click", function(e){
+    if(!sel.contains(e.target)) closeMenu();
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key==="Escape" && sel.classList.contains("open")){ closeMenu(); btn.focus(); }
+  });
+  syncCode();
 })();
 </script>
 </body>

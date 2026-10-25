@@ -20,9 +20,20 @@ header{position:sticky;top:0;z-index:60;background:rgba(10,18,15,.95);backdrop-f
 .logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.15rem}
 .logo .mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--green));display:grid;place-items:center;color:#06280F}
 .back{color:#C9D6CE;font-weight:700}.back:hover{color:var(--neon)}
-.lang{display:flex;gap:6px;align-items:center}
-.lang button{border:1.5px solid #3A4A42;background:transparent;color:#C9D6CE;border-radius:999px;padding:6px 14px;font-family:inherit;font-weight:800;font-size:.85rem;cursor:pointer}
-.lang button.on{background:var(--neon);border-color:var(--neon);color:#06280F}
+.lang-menu{position:relative}
+.lang-btn{display:inline-flex;align-items:center;gap:7px;border:1.5px solid #3A4A42;background:#14201A;color:#C9D6CE;border-radius:999px;padding:7px 13px;font-family:inherit;font-weight:800;font-size:.85rem;cursor:pointer}
+.lang-btn:hover{border-color:var(--neon);color:#fff}
+.lang-btn.open{border-color:var(--neon);color:var(--neon)}
+.lang-btn svg{flex:none}
+.lang-code{letter-spacing:.02em}
+.lang-dropdown{display:none;position:absolute;top:calc(100% + 8px);inset-inline-end:0;z-index:70;min-width:190px;max-width:min(250px,calc(100vw - 40px));background:#14201A;border:1.5px solid #3A4A42;border-radius:16px;padding:6px;box-shadow:0 14px 34px rgba(0,0,0,.45)}
+.lang-dropdown.open{display:block}
+.lang-dropdown button{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:transparent;border:none;border-radius:10px;padding:9px 12px;font-family:inherit;font-size:.9rem;font-weight:700;color:#C9D6CE;cursor:pointer;text-align:start}
+.lang-dropdown button:hover{background:rgba(30,215,96,.12);color:#fff}
+.lang-dropdown button.on{background:rgba(30,215,96,.16);color:var(--neon)}
+.lang-dropdown .lang-item-code{font-weight:900;margin-inline-end:8px}
+.lang-dropdown .lang-check{visibility:hidden;font-weight:900}
+.lang-dropdown button.on .lang-check{visibility:visible}
 main{padding:56px 0 80px}
 .eyebrow{display:inline-block;font-weight:800;font-size:.85rem;color:var(--green);background:var(--green-soft);border:1px solid #CFEDD9;padding:4px 14px;border-radius:999px;margin-bottom:14px}
 h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:900;line-height:1.4;margin-bottom:10px}
@@ -58,15 +69,21 @@ table.foods th{background:#F4FAF5;font-weight:900}
 .search:focus{outline:none;border-color:var(--green)}
 .disclaimer{margin-top:34px;border:1.5px solid #EBD9A0;background:#FFFBEF;border-radius:20px;padding:20px 24px;font-size:.93rem}
 footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;font-size:.88rem}
-@media(max-width:640px){.grid{grid-template-columns:1fr}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.lang-btn{padding:6px 11px}.lang-dropdown{min-width:170px}}
 </style>
 </head>
 <body>
 <header>
   <div class="header-in">
     <a class="logo" href="index.html"><span class="mark">ز</span> <span data-i18n="logo_name">زهير محرز</span></a>
-    <div class="lang" role="group" aria-label="Language">
-      <button data-lang="darija" onclick="setLang('darija')">الدارجة</button><button data-lang="ar" onclick="setLang('ar')">العربية الفصحى</button><button data-lang="fr" onclick="setLang('fr')">Français</button><button data-lang="en" onclick="setLang('en')">English</button>
+    <div class="lang-menu" id="lang-menu">
+      <button type="button" class="lang-btn" id="lang-btn" aria-haspopup="true" aria-expanded="false" onclick="toggleLangMenu(event)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-code" id="lang-code">AR</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="lang-dropdown" id="lang-dropdown" role="menu" aria-label="Language">
+        <button type="button" role="menuitem" data-lang="darija" onclick="pickLang('darija')"><span><span class="lang-item-code">DA</span>الدارجة</span><span class="lang-check">✓</span></button>
+        <button type="button" role="menuitem" data-lang="ar" onclick="pickLang('ar')"><span><span class="lang-item-code">AR</span>العربية الفصحى</span><span class="lang-check">✓</span></button>
+        <button type="button" role="menuitem" data-lang="fr" onclick="pickLang('fr')"><span><span class="lang-item-code">FR</span>Français</span><span class="lang-check">✓</span></button>
+        <button type="button" role="menuitem" data-lang="en" onclick="pickLang('en')"><span><span class="lang-item-code">EN</span>English</span><span class="lang-check">✓</span></button>
+      </div>
     </div>
     <a class="back" href="index.html" data-i18n="back_home">→ الرجوع للرئيسية</a>
   </div>
@@ -210,10 +227,16 @@ function applyLang(lang){CUR_LANG=lang;document.documentElement.lang=(lang==='da
 document.querySelectorAll('[data-i18n]').forEach(function(el){el.textContent=t(el.getAttribute('data-i18n'))});
 document.querySelectorAll('[data-i18n-ph]').forEach(function(el){el.placeholder=t(el.getAttribute('data-i18n-ph'))});
 document.title=t('page_title');var md=document.querySelector('meta[name="description"]');if(md)md.content=t('meta_desc');
-document.querySelectorAll('.lang button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===lang)});
+var langCode=document.getElementById('lang-code');if(langCode)langCode.textContent=(lang==='darija'?'DA':lang.toUpperCase());
+document.querySelectorAll('.lang-dropdown [data-lang]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===lang)});
 try{localStorage.setItem('site_lang',lang)}catch(e){}
 if(typeof renderFoods==='function')renderFoods()}
 function setLang(lang){applyLang(lang)}
+function closeLangMenu(){var m=document.getElementById('lang-dropdown'),b=document.getElementById('lang-btn');if(m)m.classList.remove('open');if(b){b.classList.remove('open');b.setAttribute('aria-expanded','false')}}
+function toggleLangMenu(e){if(e)e.stopPropagation();var m=document.getElementById('lang-dropdown'),b=document.getElementById('lang-btn');if(!m)return;var open=!m.classList.contains('open');m.classList.toggle('open',open);if(b){b.classList.toggle('open',open);b.setAttribute('aria-expanded',open?'true':'false')}}
+function pickLang(lang){setLang(lang);closeLangMenu()}
+document.addEventListener('click',function(e){var wrap=document.getElementById('lang-menu');if(wrap&&!wrap.contains(e.target))closeLangMenu()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLangMenu()});
 try{var saved=localStorage.getItem('site_lang');if(saved&&(saved==='ar'||saved==='fr'||saved==='en'||saved==='darija'))CUR_LANG=saved;else{try{if(Intl.DateTimeFormat().resolvedOptions().timeZone==='Africa/Casablanca')CUR_LANG='darija'}catch(e2){}}}catch(e){}
 function seg(id){var el=document.getElementById(id);var btns=el.querySelectorAll('button');btns.forEach(function(b){b.addEventListener('click',function(){btns.forEach(function(x){x.classList.remove('on')});b.classList.add('on');if(id==='cal-sport'){toggleSport();}})});return function(){return el.querySelector('button.on').dataset.v}}
 var getSex=seg('cal-sex'),getGoal=seg('cal-goal'),getSport=seg('cal-sport');

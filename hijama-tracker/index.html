@@ -61,16 +61,28 @@ th{background:#F4FAF5;font-weight:900}
 .dz button:hover{border-color:var(--green);color:var(--green)}
 .dz button.on{background:var(--dark);color:#fff;border-color:var(--dark)}
 footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-size:.85rem}
-.langbar{background:#0A120F;color:#A9BFAF;text-align:center;padding:8px 12px;font-size:.9rem;font-weight:700}
-.langbar button{background:none;border:none;color:#A9BFAF;font-weight:800;padding:2px 8px}
-.langbar button.on{color:#1ED760;text-decoration:underline}
+.langbar{background:#0A120F;color:#A9BFAF;padding:8px 12px;display:flex;justify-content:flex-start}
+.langwrap{position:relative}
+.langbtn{background:#122019;border:1.5px solid #2E4A38;color:#E9F9EF;font-weight:800;font-size:.9rem;border-radius:999px;padding:5px 12px;display:inline-flex;align-items:center;gap:7px;line-height:1.4}
+.langbtn svg{flex:none}
+.langbtn #lang-code{color:#1ED760;letter-spacing:.02em}
+.langbtn:hover,.langbtn[aria-expanded="true"]{border-color:#1ED760}
+.langmenu{display:none;position:absolute;top:calc(100% + 6px);inset-inline-start:0;z-index:60;background:#122019;border:1.5px solid #2E4A38;border-radius:14px;padding:6px;min-width:190px;width:max-content;max-width:min(230px,calc(100vw - 24px));box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.langmenu.open{display:block}
+.langmenu button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;border-radius:10px;color:#E9F9EF;font-weight:700;font-size:.92rem;padding:9px 10px;text-align:start}
+.langmenu button:hover{background:rgba(30,215,96,.12)}
+.langmenu button.on{color:#1ED760;background:rgba(30,215,96,.12)}
+.langmenu .lc{color:#1ED760;font-weight:900;font-size:.82rem;flex:none}
+.langmenu .ln{flex:1}
+.langmenu .ck{flex:none;visibility:hidden}
+.langmenu button.on .ck{visibility:visible}
 html[dir="ltr"] th,html[dir="ltr"] td{text-align:left}
 html[dir="ltr"] .card ul{padding-right:0;padding-left:18px}
 @media(max-width:640px){.grid{grid-template-columns:1fr}.bdg{width:23px;height:23px;font-size:9px}}
 </style>
 </head>
 <body>
-<div class="langbar" id="lang-switch"><span data-i18n="lang_label">اللغة</span>: <button data-lang="darija" onclick="setLang('darija')">الدارجة</button> | <button data-lang="ar" class="on" onclick="setLang('ar')">العربية الفصحى</button> | <button data-lang="fr" onclick="setLang('fr')">Français</button> | <button data-lang="en" onclick="setLang('en')">English</button></div>
+<div class="langbar"><div class="langwrap" id="lang-switch"><button type="button" class="langbtn" id="lang-btn" aria-haspopup="true" aria-expanded="false" onclick="toggleLangMenu()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1ED760" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.9 5.7 3.9 9S14.5 18.4 12 21c-2.5-2.6-3.9-5.7-3.9-9S9.5 5.6 12 3z"/></svg><span id="lang-code">AR</span></button><div class="langmenu" id="lang-menu"><button type="button" data-lang="darija" onclick="setLang('darija');closeLangMenu()"><span class="lc" dir="ltr">DA</span><span class="ln">الدارجة</span><span class="ck">✓</span></button><button type="button" data-lang="ar" class="on" onclick="setLang('ar');closeLangMenu()"><span class="lc" dir="ltr">AR</span><span class="ln">العربية الفصحى</span><span class="ck">✓</span></button><button type="button" data-lang="fr" onclick="setLang('fr');closeLangMenu()"><span class="lc" dir="ltr">FR</span><span class="ln">Français</span><span class="ck">✓</span></button><button type="button" data-lang="en" onclick="setLang('en');closeLangMenu()"><span class="lc" dir="ltr">EN</span><span class="ln">English</span><span class="ck">✓</span></button></div></div></div>
 <header>
   <div class="hin">
     <div class="logo"><span class="mark">ح</span> <span data-i18n="app_name">متتبع الحجامة الاحترافي</span></div>
@@ -240,8 +252,13 @@ function applyLang(lang,rerender){CUR=lang;document.documentElement.lang=(lang==
 document.querySelectorAll('[data-i18n]').forEach(function(el){var v=t(el.getAttribute('data-i18n'));if(el.hasAttribute('data-i18n-html')){el.innerHTML=v}else{el.textContent=v}});
 document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){el.placeholder=t(el.getAttribute('data-i18n-placeholder'))});
 document.querySelectorAll('#lang-switch [data-lang]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===lang)});
+var lc=document.getElementById('lang-code');if(lc){lc.textContent=(lang==='darija')?'DA':(lang==='fr')?'FR':(lang==='en')?'EN':'AR'}
 if(rerender){try{renderClients();renderClientOptions();renderRecords();drawMap();renderDiseases()}catch(e){}}}
 function setLang(lang){try{localStorage.setItem('site_lang',lang)}catch(e){}applyLang(lang,true)}
+function closeLangMenu(){var m=document.getElementById('lang-menu');if(m)m.classList.remove('open');var b=document.getElementById('lang-btn');if(b)b.setAttribute('aria-expanded','false')}
+function toggleLangMenu(){var m=document.getElementById('lang-menu');if(!m)return;var open=m.classList.toggle('open');var b=document.getElementById('lang-btn');if(b)b.setAttribute('aria-expanded',open?'true':'false')}
+document.addEventListener('click',function(e){if(!e.target.closest||!e.target.closest('#lang-switch'))closeLangMenu()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLangMenu()});
 applyLang(CUR,false);
 
 var LS={lic:'ht2_lic',clients:'ht2_clients',sessions:'ht2_sessions',pin:'ht2_pin'};

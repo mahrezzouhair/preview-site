@@ -20,10 +20,20 @@ header{position:sticky;top:0;z-index:60;background:rgba(10,18,15,.95);backdrop-f
 .logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.15rem}
 .logo .mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--green));display:grid;place-items:center;color:#06280F}
 .back{color:#C9D6CE;font-weight:700}.back:hover{color:var(--neon)}
-.lang-switcher{display:flex;gap:6px;align-items:center}
-.lang-switcher button{background:transparent;border:1px solid #3A4F43;color:#C9D6CE;border-radius:999px;padding:4px 10px;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer}
-.lang-switcher button:hover{color:#fff}
-.lang-switcher button.active{background:var(--neon);color:#06280F;border-color:transparent}
+.lang-picker{position:relative}
+.lang-btn{display:flex;align-items:center;gap:6px;background:#16241D;border:1px solid #3A4F43;color:#C9D6CE;border-radius:999px;padding:5px 11px;font:inherit;font-size:.85rem;font-weight:800;cursor:pointer}
+.lang-btn svg{width:17px;height:17px;flex-shrink:0}
+.lang-btn:hover{color:#fff;border-color:var(--neon)}
+.lang-btn.open{color:#fff;border-color:var(--neon);box-shadow:0 0 0 1px var(--neon)}
+.lang-menu{position:absolute;top:calc(100% + 8px);inset-inline-end:0;z-index:70;min-width:190px;max-width:calc(100vw - 32px);background:#122019;border:1px solid #3A4F43;border-radius:14px;padding:6px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.lang-menu[hidden]{display:none}
+.lang-menu button{display:flex;align-items:center;gap:10px;width:100%;background:transparent;border:0;color:#C9D6CE;border-radius:10px;padding:9px 10px;font:inherit;font-size:.9rem;font-weight:700;cursor:pointer;text-align:start}
+.lang-menu button:hover{background:#1E332A;color:#fff}
+.lang-menu button.active{background:rgba(30,215,96,.15);color:var(--neon)}
+.lang-menu .code{font-size:.78rem;font-weight:900;color:var(--neon);min-width:22px}
+.lang-menu .name{flex:1}
+.lang-menu .tick{visibility:hidden;color:var(--neon);font-weight:900}
+.lang-menu button.active .tick{visibility:visible}
 main{padding:60px 0 80px}
 .eyebrow{display:inline-block;font-weight:800;font-size:.85rem;color:var(--green);background:var(--green-soft);border:1px solid #CFEDD9;padding:4px 14px;border-radius:999px;margin-bottom:14px}
 h1{font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:900;line-height:1.4;margin-bottom:12px}
@@ -53,11 +63,17 @@ footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;fon
 <header>
   <div class="header-in">
     <a class="logo" href="index.html"><span class="mark">ز</span> <span data-i18n="logo_name">زهير محرز</span></a>
-    <div class="lang-switcher" role="group" aria-label="Language">
-      <button type="button" data-lang="darija">الدارجة</button>
-      <button type="button" data-lang="ar" class="active">العربية الفصحى</button>
-      <button type="button" data-lang="fr">Français</button>
-      <button type="button" data-lang="en">English</button>
+    <div class="lang-picker">
+      <button type="button" class="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Language">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z"/></svg>
+        <span class="lang-code">AR</span>
+      </button>
+      <div class="lang-menu" role="menu" hidden>
+        <button type="button" role="menuitem" data-lang="darija"><span class="code">DA</span><span class="name">الدارجة</span><span class="tick">✓</span></button>
+        <button type="button" role="menuitem" data-lang="ar" class="active"><span class="code">AR</span><span class="name">العربية الفصحى</span><span class="tick">✓</span></button>
+        <button type="button" role="menuitem" data-lang="fr"><span class="code">FR</span><span class="name">Français</span><span class="tick">✓</span></button>
+        <button type="button" role="menuitem" data-lang="en"><span class="code">EN</span><span class="name">English</span><span class="tick">✓</span></button>
+      </div>
     </div>
     <a class="back" href="index.html" data-i18n="back_home">→ الرجوع إلى الرئيسية</a>
   </div>
@@ -313,14 +329,38 @@ function applyLang(lang) {
   for (var j = 0; j < btns.length; j++) {
     btns[j].classList.toggle("active", btns[j].getAttribute("data-lang") === lang);
   }
+  var codeEl = document.querySelector(".lang-code");
+  var codes = { darija: "DA", ar: "AR", fr: "FR", en: "EN" };
+  if (codeEl) codeEl.textContent = codes[lang] || "AR";
 }
 (function () {
+  var picker = document.querySelector(".lang-picker");
+  var toggle = picker ? picker.querySelector(".lang-btn") : null;
+  var menu = picker ? picker.querySelector(".lang-menu") : null;
+  function setMenu(open) {
+    if (!menu || !toggle) return;
+    if (open) menu.removeAttribute("hidden"); else menu.setAttribute("hidden", "");
+    toggle.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  }
   var btns = document.querySelectorAll("[data-lang]");
   for (var i = 0; i < btns.length; i++) {
     btns[i].addEventListener("click", function (ev) {
       applyLang(ev.currentTarget.getAttribute("data-lang"));
+      setMenu(false);
     });
   }
+  if (toggle) {
+    toggle.addEventListener("click", function () {
+      setMenu(menu.hasAttribute("hidden"));
+    });
+  }
+  document.addEventListener("click", function (ev) {
+    if (picker && !picker.contains(ev.target)) setMenu(false);
+  });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape") setMenu(false);
+  });
   var saved = null;
   try { saved = localStorage.getItem("site_lang"); } catch (e) {}
   var defaultLang = "ar";
