@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>لوحة تحكم متتبع الحجامة</title>
+<!--
+  صفحة مخفية: لا تربطها من أي صفحة أخرى ولا تضفها لأي خريطة موقع.
+  غير مفهرسة (noindex) ومخصصة للدعم فقط.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+:root{--dark:#0A120F;--card:#12241A;--line:#1E3A2A;--neon:#1ED760;--green:#22C55E;--ink:#E9F9EF;--muted:#9DB8A6;--warn:#EBD9A0;--red:#FF6B6B}
+*{box-sizing:border-box}
+body{font-family:'Cairo',system-ui,sans-serif;background:var(--dark);color:var(--ink);margin:0;line-height:1.8}
+.wrap{max-width:1060px;margin:0 auto;padding:22px 18px 70px}
+h1{font-size:1.4rem;margin:0 0 4px}
+h2{font-size:1.15rem;margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin-bottom:16px}
+label{font-weight:700;font-size:.95rem}
+input,select,textarea{font-family:inherit;font-size:1rem;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;width:100%;background:#0A120F;color:var(--ink)}
+textarea{direction:ltr;text-align:left}
+button{background:var(--neon);color:#06280F;border:none;font-weight:800;padding:10px 20px;border-radius:999px;cursor:pointer;font-size:1rem}
+button.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+button.red{background:var(--red);color:#fff}
+button:disabled{opacity:.5}
+.note{font-size:.88rem;color:var(--muted)}
+.warn{background:#2A2410;border:1.5px solid var(--warn);border-radius:12px;padding:10px 14px}
+.err{color:var(--red);font-weight:700}
+.ok{color:var(--neon);font-weight:700}
+.grid{display:grid;gap:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}
+th{color:var(--neon)}
+.badge{display:inline-block;border-radius:999px;padding:1px 12px;font-weight:800;font-size:.85rem}
+.badge.active{background:#123B22;color:var(--neon)}
+.badge.revoked{background:#3B1212;color:var(--red)}
+.badge.trial{background:#2A2410;color:#F0D060}
+.codebox{background:#0A120F;border:1.5px solid var(--neon);border-radius:12px;padding:12px 14px;word-break:break-all;direction:ltr;text-align:left;font-size:.9rem}
+.stat{display:inline-block;background:#0A120F;border:1px solid var(--line);border-radius:14px;padding:10px 18px;margin:4px}
+.stat b{font-size:1.4rem;color:var(--neon);display:block}
+.mono{font-family:ui-monospace,monospace;direction:ltr;text-align:left}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="row" style="justify-content:space-between">
+    <div>
+      <h1>🛡️ لوحة تحكم متتبع الحجامة</h1>
+      <div class="note">خاص بالدعم فقط — توليد الأكواد، سجل الأكواد، وإدارة الحسابات.</div>
+    </div>
+    <div class="row" id="topbar" style="display:none">
+      <span id="whoami" class="note"></span>
+      <button class="ghost" id="logout-btn">خروج</button>
+    </div>
+  </div>
+
+  <div id="not-configured" class="card warn" style="display:none">
+    <b>Firebase غير مهيأ بعد.</b><br>
+    هاد الصفحة كتحتاج إعداد Firebase (مشروع + بيانات الاتصال) قبل ما تخدم.
+    راجع <span class="mono">dashboard-README.md</span> لخطوات الإعداد. حتى حاجة ما غادي تتكسر هنا —
+    الصفحة كتوقف في هاد الرسالة حتى يتم الإعداد.
+  </div>
+
+  <div id="auth-view" class="card" style="display:none">
+    <h2>الدخول</h2>
+    <div class="grid">
+      <div><label>البريد الإلكتروني</label><input id="auth-email" type="email" dir="ltr" style="text-align:left"></div>
+      <div><label>كلمة السر</label><input id="auth-pass" type="password"></div>
+      <div class="row">
+        <button id="login-btn">دخول</button>
+        <button class="ghost" id="register-btn">إنشاء حساب جديد</button>
+        <span id="auth-msg" class="note"></span>
+      </div>
+      <div class="note">الحسابات الجديدة كتاخد دور «قيد الانتظار» حتى يوافق عليها الأدمن من قسم إدارة الحسابات.</div>
+    </div>
+  </div>
+
+  <div id="pending-view" class="card" style="display:none">
+    <h2>⏳ الحساب قيد الانتظار</h2>
+    <p>حسابك تسجل، ولكن باقي ما توافق عليه من طرف الأدمن. ملي يتوافق عليك غادي تقدر تدخل للوحة.</p>
+    <div class="row">
+      <button class="ghost" id="create-profile-btn">إنشاء ملف الانتظار (إلا ما كانش موجود)</button>
+      <span id="pending-msg" class="note"></span>
+    </div>
+  </div>
+
+  <div id="dash-view" style="display:none">
+    <div class="card">
+      <h2>🔑 ملف المفتاح</h2>
+      <p class="note">توليد الأكواد كيحتاج المفتاح الخاص. المفتاح كيتحمل في ذاكرة المتصفح فقط وقت الاستعمال — ما كيتخزنش في الصفحة ولا في قاعدة البيانات. بلا مفتاح، باقي أقسام اللوحة كتخدم للقراءة فقط.</p>
+      <div class="grid">
+        <div><label>حمّل ملف المفتاح (admin-key.json)</label><input type="file" id="key-file" accept=".json"></div>
+        <div id="key-status" class="note">ما تحمل حتى مفتاح بعد.</div>
+      </div>
+    </div>
+
+    <div class="card" id="issue-card">
+      <h2>توليد كود تفعيل</h2>
+      <div class="grid">
+        <div><label>اسم المركز / الزبون</label><input id="c-name" placeholder="مثال: مركز النور للحجامة"></div>
+        <div><label>رقم الجهاز (من نافذة التفعيل عند الزبون)</label><input id="c-device" dir="ltr" style="text-align:left" placeholder="hw-… أو uuid-…"></div>
+        <div><label>الخطة</label>
+          <select id="c-plan">
+            <option value="trial">تجريبي — 7 أيام (من أول تفعيل)</option>
+            <option value="sub3">اشتراك — 3 أشهر (90 يوم)</option>
+            <option value="sub6">اشتراك — 6 أشهر (180 يوم)</option>
+            <option value="sub12">اشتراك — سنة (365 يوم)</option>
+            <option value="lifetime">شراء مرة واحدة — مدى الحياة (مع التحديثات)</option>
+          </select>
+        </div>
+        <div class="row"><button id="gen-code">توليد الكود</button><span id="code-msg" class="note"></span></div>
+        <div id="code-out-wrap" style="display:none">
+          <div class="warn" style="margin-bottom:10px"><b>⚠️ الكود غادي يبان هنا مرة وحدة فقط.</b> من بعد ما تسجّل، ما كيتخزنش الكود الكامل أبداً — كيتخزن غير بصمتو (hash). نسخو دابا وصيفطو للزبون.</div>
+          <div class="codebox" id="out-code"></div>
+          <div class="row" style="margin-top:10px"><button class="ghost" id="copy-code">نسخ الكود</button><span id="code-payload" class="note"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="stats-card">
+      <h2>📊 إحصائيات</h2>
+      <div id="stats" class="row"></div>
+    </div>
+
+    <div class="card" id="registry-card">
+      <h2>📋 سجل الأكواد</h2>
+      <div class="row" style="margin-bottom:12px">
+        <div style="flex:1;min-width:180px"><input id="search-name" placeholder="بحث بالاسم…"></div>
+        <div><select id="filter-status">
+          <option value="all">كل الحالات</option>
+          <option value="active">فعال</option>
+          <option value="revoked">ملغي</option>
+        </select></div>
+        <div><select id="filter-plan">
+          <option value="all">كل الخطط</option>
+          <option value="trial">تجريبي</option>
+          <option value="sub3">3 أشهر</option>
+          <option value="sub6">6 أشهر</option>
+          <option value="sub12">سنة</option>
+          <option value="lifetime">مدى الحياة</option>
+        </select></div>
+        <button class="ghost" id="refresh-btn">تحديث</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>الاسم</th><th>الخطة</th><th>الجهاز</th><th>الحالة</th><th>تاريخ الإصدار</th><th>أصدره</th><th></th></tr></thead>
+          <tbody id="registry-body"></tbody>
+        </table>
+      </div>
+      <div class="note" style="margin-top:10px">الأكواد الكاملة ما كتبانش هنا أبداً — السجل كيحتفظ غير ببصماتها. التجديد = إصدار كود جديد (من قسم التوليد).</div>
+    </div>
+
+    <div class="card" id="users-card" style="display:none">
+      <h2>👥 إدارة الحسابات (أدمن فقط)</h2>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>البريد</th><th>الدور</th><th>تبديل الدور</th></tr></thead>
+          <tbody id="users-body"></tbody>
+        </table>
+      </div>
+      <div class="note" style="margin-top:10px">ما تقدرش تبدل دور حسابك انت. الأدمن هو اللي كيوافق على الحسابات المعلقة بتبديل دورها لمساعد.</div>
+    </div>
+
+    <div class="card" id="activity-card">
+      <h2>📝 سجل النشاط</h2>
+      <div id="activity-list" class="grid"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- pure crypto (WebCrypto). No DOM access in this section, so the same
+// logic can be tested outside a browser. Ed25519 is deterministic: a signature
+// made here verifies with the desktop app's Node crypto, and vice versa.
+var PLANS = { trial: 7, sub3: 90, sub6: 180, sub12: 365, lifetime: null };
+function utf8(s) { return new TextEncoder().encode(s); }
+function b64urlEncode(bytes) {
+  var bin = '';
+  var b = new Uint8Array(bytes);
+  for (var i = 0; i < b.length; i++) bin += String.fromCharCode(b[i]);
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function b64urlDecode(s) {
+  var t = s.replace(/-/g, '+').replace(/_/g, '/');
+  while (t.length % 4) t += '=';
+  var bin = atob(t);
+  var out = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+function hex(bytes) {
+  return Array.prototype.map.call(new Uint8Array(bytes), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+}
+async function sha256hex(s) {
+  return hex(await crypto.subtle.digest('SHA-256', utf8(s)));
+}
+async function importPriv(jwk) {
+  return crypto.subtle.importKey('jwk', jwk, { name: 'Ed25519' }, false, ['sign']);
+}
+async function importPub(jwk) {
+  return crypto.subtle.importKey('jwk', jwk, { name: 'Ed25519' }, false, ['verify']);
+}
+async function issueCode(privKey, o) {
+  var payload = { n: String(o.n).trim(), d: String(o.d).trim(), p: o.p, dur: PLANS[o.p] };
+  if (!payload.n) throw new Error('الاسم مطلوب');
+  if (!PLANS.hasOwnProperty(o.p)) throw new Error('الخطة غير معروفة');
+  var seg = b64urlEncode(utf8(JSON.stringify(payload)));
+  var sig = await crypto.subtle.sign('Ed25519', privKey, utf8(seg));
+  return seg + '.' + b64urlEncode(sig);
+}
+async function verifyCode(pubKey, code) {
+  var parts = String(code || '').trim().split('.');
+  if (parts.length !== 2) throw new Error('صيغة الكود غير صحيحة');
+  var payload = JSON.parse(new TextDecoder().decode(b64urlDecode(parts[0])));
+  var ok = await crypto.subtle.verify('Ed25519', pubKey, b64urlDecode(parts[1]), utf8(parts[0]));
+  if (!ok) throw new Error('توقيع الكود غير صحيح');
+  return payload;
+}
+async function buildStatus(privKey, revokedCodes, extensions) {
+  var revoked = [];
+  for (var i = 0; i < revokedCodes.length; i++) revoked.push(await sha256hex(revokedCodes[i]));
+  var ext = {};
+  for (var j = 0; j < extensions.length; j++) ext[await sha256hex(extensions[j][0])] = extensions[j][1];
+  var data = { revoked: revoked, extensions: ext };
+  var sig = await crypto.subtle.sign('Ed25519', privKey, utf8(JSON.stringify(data)));
+  return JSON.stringify({ data: data, sig: b64urlEncode(sig) }, null, 2);
+}
+if (typeof window !== 'undefined') { window.TrackerAdmin = { PLANS: PLANS, issueCode: issueCode, verifyCode: verifyCode, buildStatus: buildStatus, sha256hex: sha256hex }; }
+</script>
+
+<script>
+// ---- Firebase config ----
+// TO BE FILLED by the parent agent when the Firebase project exists:
+// replace the placeholder below with the project's config object, e.g.
+//   apiKey: "…", authDomain: "….firebaseapp.com", projectId: "…",
+//   storageBucket: "….appspot.com", messagingSenderId: "…", appId: "…"
+// Until then the page shows the "not configured" state and never crashes.
+var FIREBASE_CONFIGURED = false;
+var firebaseConfig = null;
+try { firebaseConfig = {
+  apiKey: "AIzaSyClqrivuAchdsapjqcvwQnUq6Wz2po6_kg",
+  authDomain: "hijama-tracker.firebaseapp.com",
+  projectId: "hijama-tracker",
+  storageBucket: "hijama-tracker.firebasestorage.app",
+  messagingSenderId: "862559400219",
+  appId: "1:862559400219:web:7302f2cee9f80fb5e263be"
+}; FIREBASE_CONFIGURED = !!(firebaseConfig && firebaseConfig.apiKey); } catch (e) { FIREBASE_CONFIGURED = false; }
+</script>
+
+<script>
+// ---- Dashboard UI (browser only; Firebase calls happen only when configured) ----
+(function () {
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function planLabel(p) { return { trial: 'تجريبي', sub3: '3 أشهر', sub6: '6 أشهر', sub12: 'سنة', lifetime: 'مدى الحياة' }[p] || p; }
+  function statusLabel(s) { return { active: 'فعال', revoked: 'ملغي', expired: 'منتهي' }[s] || s; }
+  function fmtDate(ts) {
+    if (!ts) return '…';
+    try { return ts.toDate().toLocaleDateString(); } catch (e) { return '…'; }
+  }
+  function showView(id) {
+    ['not-configured', 'auth-view', 'pending-view', 'dash-view'].forEach(function (v) { $(v).style.display = (v === id) ? '' : 'none'; });
+  }
+
+  if (!FIREBASE_CONFIGURED || typeof firebase === 'undefined') {
+    showView('not-configured');
+    return;
+  }
+  firebase.initializeApp(firebaseConfig);
+  var auth = firebase.auth();
+  var db = firebase.firestore();
+  var currentUser = null, currentRole = null, privKey = null;
+  var lastCodes = [];
+
+  function applyRoleUI() {
+    // Issue + registry + stats + activity: admin AND assistant.
+    // Users management: ADMIN ONLY. Revoke/extend buttons: ADMIN ONLY
+    // (they are rendered per row only when currentRole === 'admin').
+    $('users-card').style.display = (currentRole === 'admin') ? '' : 'none';
+    $('whoami').textContent = currentUser.email + ' — ' + (currentRole === 'admin' ? 'أدمن' : 'مساعد');
+    $('topbar').style.display = '';
+  }
+
+  async function loadRegistry() {
+    var snap = await db.collection('codes').orderBy('issuedAt', 'desc').limit(100).get();
+    lastCodes = [];
+    snap.forEach(function (doc) { var d = doc.data(); d._hash = doc.id; lastCodes.push(d); });
+    renderRegistry();
+    renderStats();
+  }
+  function renderStats() {
+    var total = lastCodes.length;
+    var active = lastCodes.filter(function (c) { return c.status === 'active'; }).length;
+    var revoked = lastCodes.filter(function (c) { return c.status === 'revoked'; }).length;
+    var trials = lastCodes.filter(function (c) { return c.plan === 'trial'; }).length;
+    var byPlan = {};
+    lastCodes.forEach(function (c) { byPlan[c.plan] = (byPlan[c.plan] || 0) + 1; });
+    $('stats').innerHTML =
+      '<span class="stat"><b>' + total + '</b> مجموع الأكواد</span>' +
+      '<span class="stat"><b>' + active + '</b> فعالة</span>' +
+      '<span class="stat"><b>' + revoked + '</b> ملغاة</span>' +
+      '<span class="stat"><b>' + trials + '</b> تجريبية</span>' +
+      Object.keys(byPlan).map(function (p) { return '<span class="stat"><b>' + byPlan[p] + '</b> ' + planLabel(p) + '</span>'; }).join('');
+  }
+  function renderRegistry() {
+    var q = ($('search-name').value || '').trim().toLowerCase();
+    var fs = $('filter-status').value, fp = $('filter-plan').value;
+    var rows = lastCodes.filter(function (c) {
+      if (q && String(c.name || '').toLowerCase().indexOf(q) === -1) return false;
+      if (fs !== 'all' && c.status !== fs) return false;
+      if (fp !== 'all' && c.plan !== fp) return false;
+      return true;
+    });
+    $('registry-body').innerHTML = rows.map(function (c) {
+      var actions = '';
+      if (currentRole === 'admin') {
+        actions = '<button class="ghost" data-act="extend" data-hash="' + esc(c._hash) + '" data-name="' + esc(c.name) + '">تمديد</button> ' +
+          (c.status === 'active' ? '<button class="red" data-act="revoke" data-hash="' + esc(c._hash) + '" data-name="' + esc(c.name) + '">إلغاء</button>' : '');
+      }
+      return '<tr><td>' + esc(c.name) + '</td><td>' + planLabel(c.plan) + '</td>' +
+        '<td class="mono">' + esc(String(c.deviceId || '').slice(0, 24)) + '</td>' +
+        '<td><span class="badge ' + (c.status === 'active' ? 'active' : 'revoked') + '">' + statusLabel(c.status) + '</span></td>' +
+        '<td>' + fmtDate(c.issuedAt) + '</td><td>' + esc(c.issuedByEmail) + '</td><td>' + actions + '</td></tr>';
+    }).join('') || '<tr><td colspan="7" class="note">ما كاين حتى كود مطابق.</td></tr>';
+    $('registry-body').querySelectorAll('[data-act]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (btn.getAttribute('data-act') === 'revoke') onRevoke(btn.getAttribute('data-hash'), btn.getAttribute('data-name'));
+        else onExtend(btn.getAttribute('data-hash'), btn.getAttribute('data-name'));
+      });
+    });
+  }
+  async function logActivity(action, target) {
+    await db.collection('activity').add({
+      by: currentUser.uid, byEmail: currentUser.email, action: action, target: target,
+      at: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }
+  async function onRevoke(hash, name) {
+    if (currentRole !== 'admin') return;
+    if (!confirm('متأكد؟ غادي يتلغى الكود ديال «' + name + '» نهائياً.')) return;
+    var batch = db.batch();
+    batch.update(db.collection('codes').doc(hash), { status: 'revoked' });
+    batch.set(db.collection('status').doc(hash), { status: 'revoked' }, { merge: true });
+    await batch.commit();
+    await logActivity('revoke', name);
+    await loadRegistry(); await loadActivity();
+  }
+  async function onExtend(hash, name) {
+    if (currentRole !== 'admin') return;
+    var date = prompt('تاريخ الانتهاء الجديد (YYYY-MM-DD) للكود ديال «' + name + '»:');
+    if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+    var iso = new Date(date + 'T00:00:00Z').toISOString();
+    await db.collection('status').doc(hash).set({ status: 'active', expiresAt: iso }, { merge: true });
+    await logActivity('extend', name + ' حتى ' + date);
+    await loadRegistry(); await loadActivity();
+  }
+  async function loadUsers() {
+    if (currentRole !== 'admin') return;
+    var snap = await db.collection('users').orderBy('email').get();
+    $('users-body').innerHTML = '';
+    snap.forEach(function (doc) {
+      var d = doc.data(), isMe = doc.id === currentUser.uid;
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + esc(d.email) + '</td><td>' + esc(d.role) + '</td><td></td>';
+      var sel = document.createElement('select');
+      sel.innerHTML = '<option value="assistant">مساعد</option><option value="pending">قيد الانتظار</option>';
+      sel.value = (d.role === 'assistant' || d.role === 'pending') ? d.role : 'assistant';
+      sel.disabled = isMe;
+      sel.addEventListener('change', async function () {
+        if (isMe) return;
+        await db.collection('users').doc(doc.id).update({ role: sel.value });
+        await logActivity('role-change', d.email + ' → ' + sel.value);
+        await loadUsers(); await loadActivity();
+      });
+      tr.children[2].appendChild(sel);
+      if (isMe) { var s = document.createElement('span'); s.className = 'note'; s.textContent = ' (حسابك — ما تقدرش تبدل دورك)'; tr.children[2].appendChild(s); }
+      $('users-body').appendChild(tr);
+    });
+  }
+  async function loadActivity() {
+    var snap = await db.collection('activity').orderBy('at', 'desc').limit(50).get();
+    var rows = [];
+    snap.forEach(function (doc) {
+      var d = doc.data();
+      rows.push('<div>• <b>' + esc(d.byEmail) + '</b> — ' + esc(d.action) + ' — ' + esc(d.target) + ' <span class="note">(' + fmtDate(d.at) + ')</span></div>');
+    });
+    $('activity-list').innerHTML = rows.join('') || '<div class="note">ما كاين حتى نشاط بعد.</div>';
+  }
+  async function loadAll() { await loadRegistry(); await loadActivity(); if (currentRole === 'admin') await loadUsers(); }
+
+  async function onAuth(user) {
+    if (!user) { currentUser = null; currentRole = null; $('topbar').style.display = 'none'; showView('auth-view'); return; }
+    currentUser = user;
+    try {
+      var snap = await db.collection('users').doc(user.uid).get();
+      if (!snap.exists) { showView('pending-view'); return; }
+      currentRole = snap.data().role;
+      if (currentRole === 'pending') { showView('pending-view'); return; }
+      if (currentRole !== 'admin' && currentRole !== 'assistant') { showView('pending-view'); return; }
+      applyRoleUI();
+      showView('dash-view');
+      await loadAll();
+    } catch (e) { showView('pending-view'); }
+  }
+  auth.onAuthStateChanged(onAuth);
+
+  $('login-btn').addEventListener('click', async function () {
+    try {
+      await auth.signInWithEmailAndPassword($('auth-email').value.trim(), $('auth-pass').value);
+      $('auth-msg').textContent = '';
+    } catch (e) { $('auth-msg').innerHTML = '<span class="err">خطأ في الدخول: ' + esc(e.message) + '</span>'; }
+  });
+  $('register-btn').addEventListener('click', async function () {
+    try {
+      var cred = await auth.createUserWithEmailAndPassword($('auth-email').value.trim(), $('auth-pass').value);
+      await db.collection('users').doc(cred.user.uid).set({
+        email: cred.user.email, role: 'pending', createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      $('auth-msg').innerHTML = '<span class="ok">تم إنشاء الحساب — في انتظار موافقة الأدمن.</span>';
+    } catch (e) { $('auth-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
+  });
+  $('create-profile-btn').addEventListener('click', async function () {
+    try {
+      await db.collection('users').doc(currentUser.uid).set({
+        email: currentUser.email, role: 'pending', createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      $('pending-msg').innerHTML = '<span class="ok">تم إنشاء ملف الانتظار.</span>';
+    } catch (e) { $('pending-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
+  });
+  $('logout-btn').addEventListener('click', function () { auth.signOut(); });
+
+  $('key-file').addEventListener('change', async function (ev) {
+    var f = ev.target.files[0];
+    if (!f) return;
+    try {
+      var obj = JSON.parse(await f.text());
+      if (!obj.privateKeyJwk || !obj.publicKeyJwk) throw new Error('الملف ما فيهش مفاتيح JWK');
+      privKey = await importPriv(obj.privateKeyJwk);
+      $('key-status').innerHTML = '<span class="ok">تم تحميل المفتاح ✓ — واجد لتوليد الأكواد.</span>';
+    } catch (e) { $('key-status').innerHTML = '<span class="err">خطأ: ' + e.message + '</span>'; }
+  });
+  $('gen-code').addEventListener('click', async function () {
+    if (!privKey) { $('code-msg').innerHTML = '<span class="err">حمّل ملف المفتاح أولاً.</span>'; return; }
+    try {
+      var name = $('c-name').value, device = $('c-device').value, plan = $('c-plan').value;
+      var code = await window.TrackerAdmin.issueCode(privKey, { n: name, d: device, p: plan });
+      var hash = await window.TrackerAdmin.sha256hex(code);
+      var batch = db.batch();
+      batch.set(db.collection('codes').doc(hash), {
+        name: name, plan: plan, durationDays: window.TrackerAdmin.PLANS[plan], deviceId: device,
+        status: 'active', issuedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        issuedBy: currentUser.uid, issuedByEmail: currentUser.email
+      });
+      batch.set(db.collection('status').doc(hash), { status: 'active' });
+      await batch.commit();
+      await logActivity('issue', name + ' (' + planLabel(plan) + ')');
+      $('out-code').textContent = code;
+      $('code-payload').textContent = 'الاسم: ' + name + ' | الخطة: ' + planLabel(plan) + ' | المدة: ' + (window.TrackerAdmin.PLANS[plan] === null ? 'مدى الحياة' : window.TrackerAdmin.PLANS[plan] + ' يوم');
+      $('code-out-wrap').style.display = '';
+      $('code-msg').innerHTML = '<span class="ok">تم ✓ — نسخ الكود دابا قبل ما يختفي.</span>';
+      await loadRegistry(); await loadActivity();
+    } catch (e) { $('code-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
+  });
+  $('copy-code').addEventListener('click', async function () {
+    try { await navigator.clipboard.writeText($('out-code').textContent); $('copy-code').textContent = 'تنسخ ✓'; setTimeout(function () { $('copy-code').textContent = 'نسخ الكود'; }, 1500); } catch (e) {}
+  });
+  $('search-name').addEventListener('input', renderRegistry);
+  $('filter-status').addEventListener('change', renderRegistry);
+  $('filter-plan').addEventListener('change', renderRegistry);
+  $('refresh-btn').addEventListener('click', loadAll);
+})();
+</script>
+</body>
+</html>
