@@ -221,7 +221,7 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
 <footer>متتبّع الحجامة الاحترافي — منتج من زهير محرز / بيت الوقاية · البيانات ديالك كتبقى عندك، في جهازك</footer>
 
 <script>
-var APP_VERSION='2.2.6';
+var APP_VERSION='2.2.7';
 var LS={lic:'ht2_lic',clients:'ht2_clients',sessions:'ht2_sessions',pin:'ht2_pin'};
 function load(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
@@ -360,10 +360,12 @@ if(b)b.classList.toggle('on',!!activeChoice&&activeChoice.type==='both');
 renderDiseases()}
 function isSel(id){if(selected[id])return true;var base=id.split('/')[0];return !!selected[base]}
 function setView(v){view=v;['back','front','face','limbs'].forEach(function(x){document.getElementById('v-'+x).classList.toggle('on',x===v)});drawMap()}
+var LOWER_WAIST={'32':37.44,'33':38.3,'34':37.4,'35':38.34};
+function isLowerDup(p){return view==='back'&&!!activeChoice&&(activeChoice.type==='preventive'||activeChoice.type==='both')&&LOWER_WAIST[p[0]]===p[2]}
 function drawMap(){var st=document.getElementById('mapstage');
 st.classList.toggle('wide',view==='limbs');
 document.getElementById('show-all-btn').style.display=onlySel?'':'none';
-var shown=HOT[view].filter(function(p){return !onlySel||isSel(p[0])});
+var shown=HOT[view].filter(function(p){return (!onlySel||isSel(p[0]))&&!isLowerDup(p)});
 var badges=shown.map(function(p){var sel=isSel(p[0]);
 var diam=p[3]*1.2,fs=(diam*(p[0].length<=2?0.42:0.33)).toFixed(2);
 return '<button class="hot'+(sel?' sel':'')+(SUNNAH.indexOf(p[0])>-1?' prop':'')+'" style="left:'+p[1]+'%;top:'+p[2]+'%;width:'+diam+'%;font-size:'+fs+'cqw" onclick="togglePt(\''+p[0]+'\')" aria-label="موضع '+p[0]+'">'+esc(p[0])+'</button>'}).join('');
