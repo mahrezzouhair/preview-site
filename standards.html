@@ -31,6 +31,7 @@ header{position:sticky;top:0;z-index:60;background:rgba(10,18,15,.95);backdrop-f
 .lang-menu button:hover{background:#1E332A;color:#fff}
 .lang-menu button.active{background:rgba(30,215,96,.15);color:var(--neon)}
 .lang-menu .code{font-size:.78rem;font-weight:900;color:var(--neon);min-width:22px}
+.lang-menu .flag{width:22px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0}
 .lang-menu .name{flex:1}
 .lang-menu .tick{visibility:hidden;color:var(--neon);font-weight:900}
 .lang-menu button.active .tick{visibility:visible}
@@ -69,10 +70,10 @@ footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;fon
         <span class="lang-code">AR</span>
       </button>
       <div class="lang-menu" role="menu" hidden>
-        <button type="button" role="menuitem" data-lang="darija"><span class="flag" aria-hidden="true">🇲🇦</span><span class="code">DA</span><span class="name">الدارجة المغربية</span><span class="tick">✓</span></button>
-        <button type="button" role="menuitem" data-lang="ar" class="active"><span class="flag" aria-hidden="true">🇸🇦</span><span class="code">AR</span><span class="name">العربية</span><span class="tick">✓</span></button>
-        <button type="button" role="menuitem" data-lang="fr"><span class="flag" aria-hidden="true">🇫🇷</span><span class="code">FR</span><span class="name">Français</span><span class="tick">✓</span></button>
-        <button type="button" role="menuitem" data-lang="en"><span class="flag" aria-hidden="true">🇬🇧</span><span class="code">EN</span><span class="name">English</span><span class="tick">✓</span></button>
+        <button type="button" role="menuitem" data-lang="darija"><img class="flag" src="assets/flags/ma.png" alt="" aria-hidden="true"><span class="code">DA</span><span class="name">الدارجة المغربية</span><span class="tick">✓</span></button>
+        <button type="button" role="menuitem" data-lang="ar" class="active"><img class="flag" src="assets/flags/sa.png" alt="" aria-hidden="true"><span class="code">AR</span><span class="name">العربية</span><span class="tick">✓</span></button>
+        <button type="button" role="menuitem" data-lang="fr"><img class="flag" src="assets/flags/fr.png" alt="" aria-hidden="true"><span class="code">FR</span><span class="name">Français</span><span class="tick">✓</span></button>
+        <button type="button" role="menuitem" data-lang="en"><img class="flag" src="assets/flags/gb.png" alt="" aria-hidden="true"><span class="code">EN</span><span class="name">English</span><span class="tick">✓</span></button>
       </div>
     </div>
     <a class="back" href="index.html" data-i18n="back_home">→ الرجوع إلى الرئيسية</a>
