@@ -153,6 +153,7 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
           <button class="btn dark" onclick="applyPreventive()">🛡️ الحجامة الوقائية</button>
           <button class="btn dark" onclick="toggleAI()">🤖 المساعد الذكي</button>
           <button class="btn ghost" onclick="clearSelection()">مسح الاختيار</button>
+          <button class="btn" id="show-all-btn" style="display:none" onclick="showAllPts()">👁️ إظهار كل النقط</button>
         </div>
         <div id="ai-panel" style="display:none;margin-bottom:16px;border:1.5px dashed var(--green);border-radius:16px;padding:16px">
           <b>🤖 المساعد الذكي — اختار مرض/حالة الزبون وغادي تتحدد المواضع تلقائياً</b>
@@ -218,7 +219,7 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
 <footer>متتبّع الحجامة الاحترافي — منتج من زهير محرز / بيت الوقاية · البيانات ديالك كتبقى عندك، في جهازك</footer>
 
 <script>
-var APP_VERSION='2.1.2';
+var APP_VERSION='2.1.3';
 var LS={lic:'ht2_lic',clients:'ht2_clients',sessions:'ht2_sessions',pin:'ht2_pin'};
 function load(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
@@ -349,25 +350,30 @@ if(!tb.innerHTML)tb.innerHTML='<tr><td colspan="6">ما كاين حتى زبون
 function renderClientOptions(){var sel=document.getElementById('s-client');var cs=load(LS.clients,[]);
 sel.innerHTML=cs.length?cs.map(function(c){return '<option value="'+c.id+'">'+esc(c.name)+'</option>'}).join(''):'<option value="">— زيد زبون أولاً —</option>'}
 // ================= map & selection =================
-var view='back',selected={};
+var view='back',selected={},onlySel=false;
 function isSel(id){if(selected[id])return true;var base=id.split('/')[0];return !!selected[base]}
 function setView(v){view=v;['back','front','face','limbs'].forEach(function(x){document.getElementById('v-'+x).classList.toggle('on',x===v)});drawMap()}
 function drawMap(){var st=document.getElementById('mapstage');
 st.classList.toggle('wide',view==='limbs');
-var badges=HOT[view].map(function(p){var sel=isSel(p[0]);
+document.getElementById('show-all-btn').style.display=onlySel?'':'none';
+var shown=HOT[view].filter(function(p){return !onlySel||isSel(p[0])});
+var badges=shown.map(function(p){var sel=isSel(p[0]);
 return '<button class="hot'+(sel?' sel':'')+'" style="left:'+p[1]+'%;top:'+p[2]+'%;width:'+p[3]+'%" onclick="togglePt(\''+p[0]+'\')" aria-label="موضع '+p[0]+'"></button>'}).join('');
-st.innerHTML='<img src="assets/map2-'+view+'.jpg" alt="خريطة المواضع">'+badges;
+var note=(onlySel&&!shown.length)?'<p class="note" style="text-align:center">ما كاين حتى موضع مختار في هاد العرض — بدّل العرض (ظهر/أمام/وجه/أطراف) باش تشوف النقط المختارة.</p>':'';
+st.innerHTML='<img src="assets/map2-'+view+'.jpg" alt="خريطة المواضع">'+badges+note;
 renderPtList()}
-function togglePt(id){if(selected[id])delete selected[id];else selected[id]=1;drawMap()}
+function togglePt(id){if(selected[id])delete selected[id];else selected[id]=1;
+if(!Object.keys(selected).length)onlySel=false;drawMap()}
+function showAllPts(){onlySel=false;drawMap()}
 function renderPtList(){var ids=Object.keys(selected);
 ids.sort(function(a,b){return (parseFloat(a)||999)-(parseFloat(b)||999)});
 document.getElementById('pt-count').textContent=ids.length;
 document.getElementById('pt-list').innerHTML=ids.length?ids.map(function(i){return '<span class="ptag">موضع '+esc(i)+'</span>'}).join(' '):'<span class="note">ما اخترتي حتى موضع — ضغط على الأرقام في الخريطة، ولا استعمل السنة/الوقائية/المساعد الذكي.</span>'}
-function selectMany(ids,note){selected={};ids.forEach(function(i){selected[i]=1});drawMap();
+function selectMany(ids,note){selected={};ids.forEach(function(i){selected[i]=1});onlySel=true;drawMap();
 if(note!==undefined)document.getElementById('ai-out').innerHTML=note?('<p class="note" style="background:var(--soft);border-radius:10px;padding:10px 12px">'+esc(note)+'</p>'):''}
 function applySunnah(){selectMany(SUNNAH)}
 function applyPreventive(){selectMany(PREVENTIVE)}
-function clearSelection(){selected={};drawMap();document.getElementById('ai-out').innerHTML=''}
+function clearSelection(){selected={};onlySel=false;drawMap();document.getElementById('ai-out').innerHTML=''}
 // ================= smart assistant =================
 function toggleAI(){var el=document.getElementById('ai-panel');el.style.display=el.style.display==='none'?'':'none'}
 function renderDiseases(){var q=(document.getElementById('dz-q').value||'').trim();
@@ -375,13 +381,13 @@ var el=document.getElementById('dz-list');
 el.innerHTML=DISEASES.filter(function(d){return !q||d[0].indexOf(q)>-1}).map(function(d,i){
 return '<button onclick="pickDisease('+DISEASES.indexOf(d)+')">'+esc(d[0])+'</button>'}).join('')||'<span class="note">ما لقينا حتى حالة بهاد الاسم.</span>'}
 function pickDisease(i){var d=DISEASES[i];selectMany(d[1],d[2]);
-document.getElementById('ai-out').innerHTML='<p style="font-weight:800">✓ '+esc(d[0])+' — تحددات '+d[1].length+' مواضع في الخريطة (بدّل العرض: ظهر/أمام/وجه باش تشوفهم كاملين).</p>'+(d[2]?'<p class="note" style="background:var(--soft);border-radius:10px;padding:10px 12px;margin-top:6px">'+esc(d[2])+'</p>':'')}
+document.getElementById('ai-out').innerHTML='<p style="font-weight:800">✓ '+esc(d[0])+' — تحددات '+d[1].length+' مواضع، ومعروضة غير هي في الخريطة (بدّل العرض: ظهر/أمام/وجه/أطراف باش تشوفهم كاملين؛ لزيادة موضع من خبرتك ضغط على «إظهار كل النقط»).</p>'+(d[2]?'<p class="note" style="background:var(--soft);border-radius:10px;padding:10px 12px;margin-top:6px">'+esc(d[2])+'</p>':'')}
 // ================= sessions =================
 document.getElementById('s-date').value=new Date().toISOString().slice(0,10);
 function saveSession(){var cid=+document.getElementById('s-client').value;if(!cid){alert('اختار الزبون');return}
 var pts=Object.keys(selected);if(!pts.length){alert('اختار موضع واحد على الأقل');return}
 var ss=load(LS.sessions,[]);ss.push({id:Date.now(),client:cid,date:document.getElementById('s-date').value,type:document.getElementById('s-type').value,dur:document.getElementById('s-dur').value,points:pts,notes:document.getElementById('s-notes').value.trim(),after:document.getElementById('s-after').checked,consent:document.getElementById('s-consent').checked});
-save(LS.sessions,ss);selected={};drawMap();document.getElementById('s-notes').value='';
+save(LS.sessions,ss);selected={};onlySel=false;drawMap();document.getElementById('s-notes').value='';
 document.getElementById('s-msg').textContent='تسجلات الجلسة ✓';renderRecords();renderClients()}
 function delSession(id){save(LS.sessions,load(LS.sessions,[]).filter(function(s){return s.id!==id}));renderRecords();renderClients()}
 function renderRecords(){var cs=load(LS.clients,[]);var byId={};cs.forEach(function(c){byId[c.id]=c.name});
