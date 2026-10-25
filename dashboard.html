@@ -43,6 +43,7 @@ th{color:var(--neon)}
 .badge.active{background:#123B22;color:var(--neon)}
 .badge.revoked{background:#3B1212;color:var(--red)}
 .badge.trial{background:#2A2410;color:#F0D060}
+.badge.pending{background:#2A2410;color:#F0D060}
 .codebox{background:#0A120F;border:1.5px solid var(--neon);border-radius:12px;padding:12px 14px;word-break:break-all;direction:ltr;text-align:left;font-size:.9rem}
 .stat{display:inline-block;background:#0A120F;border:1px solid var(--line);border-radius:14px;padding:10px 18px;margin:4px}
 .stat b{font-size:1.4rem;color:var(--neon);display:block}
@@ -102,6 +103,7 @@ th{color:var(--neon)}
       <button data-page="registry">📋 سجل الأكواد</button>
       <button data-page="users" id="nav-users">👥 إدارة الحسابات</button>
       <button data-page="activity">📝 سجل النشاط</button>
+      <button data-page="courses">🎓 الدورات والتفعيل</button>
     </div>
     <div class="card" id="key-card">
       <h2>🔑 ملف المفتاح</h2>
@@ -191,6 +193,48 @@ th{color:var(--neon)}
     <div class="card" id="activity-card">
       <h2>📝 سجل النشاط</h2>
       <div id="activity-list" class="grid"></div>
+    </div>
+
+    <div class="card" id="courses-card">
+      <h2>🎓 الدورات والتفعيل</h2>
+      <p class="note">تسجيل طلبات الالتحاق بالدورات وطرق تفعيلها — الموافقة والرفض عند الأدمن فقط (نموذج الدورات: الدفع بالتحويل البنكي والتفعيل اليدوي من طرفك).</p>
+      <div class="grid">
+        <div><label>اسم المتدرب</label><input id="e-name" placeholder="مثال: أحمد العلوي"></div>
+        <div><label>البريد (اختياري)</label><input id="e-email" type="email" dir="ltr" style="text-align:left"></div>
+        <div><label>الدورة</label><input id="e-course" list="course-list" placeholder="دورة الحجامة">
+          <datalist id="course-list">
+            <option value="دورة الحجامة"></option>
+            <option value="أطلس خرائط الحجامة"></option>
+            <option value="دورة تقويم العظام"></option>
+          </datalist>
+        </div>
+        <div><label>طريقة التفعيل</label>
+          <select id="e-method">
+            <option value="bank">تحويل بنكي</option>
+            <option value="code">كود تفعيل</option>
+            <option value="manual">تفعيل يدوي</option>
+            <option value="other">أخرى</option>
+          </select>
+        </div>
+        <div><label>مرجع (رقم التحويل أو الكود — اختياري)</label><input id="e-ref" dir="ltr" style="text-align:left"></div>
+        <div class="row"><button id="add-enroll-btn">تسجيل الطلب</button><span id="enroll-msg" class="note"></span></div>
+      </div>
+      <div class="row" style="margin:18px 0 12px">
+        <div style="flex:1;min-width:180px"><input id="search-enroll" placeholder="بحث بالاسم أو الدورة…"></div>
+        <div><select id="filter-enroll-status">
+          <option value="all">كل الحالات</option>
+          <option value="pending">قيد الانتظار</option>
+          <option value="approved">موافق عليه</option>
+          <option value="rejected">مرفوض</option>
+        </select></div>
+        <button class="ghost" id="refresh-enroll-btn">تحديث</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>المتدرب</th><th>الدورة</th><th>طريقة التفعيل</th><th>الحالة</th><th>التاريخ</th><th>سجله</th><th></th></tr></thead>
+          <tbody id="enroll-body"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -301,11 +345,11 @@ try { firebaseConfig = {
 
   // ---- Pages: one function per page, switched by the nav bar ----
   var currentPage = 'home';
-  var PAGE_CARDS = { home: ['stats-card'], generate: ['key-card', 'issue-card'], registry: ['registry-card'], users: ['users-card'], activity: ['activity-card'] };
+  var PAGE_CARDS = { home: ['stats-card'], generate: ['key-card', 'issue-card'], registry: ['registry-card'], users: ['users-card'], activity: ['activity-card'], courses: ['courses-card'] };
   function showPage(page) {
     if (page === 'users' && currentRole !== 'admin') page = 'home';
     currentPage = page;
-    ['key-card', 'issue-card', 'stats-card', 'registry-card', 'users-card', 'activity-card'].forEach(function (id) { $(id).style.display = 'none'; });
+    ['key-card', 'issue-card', 'stats-card', 'registry-card', 'users-card', 'activity-card', 'courses-card'].forEach(function (id) { $(id).style.display = 'none'; });
     PAGE_CARDS[page].forEach(function (id) { $(id).style.display = ''; });
     document.querySelectorAll('#dash-nav button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-page') === page); });
     $('nav-users').style.display = (currentRole === 'admin') ? '' : 'none';
@@ -429,7 +473,49 @@ try { firebaseConfig = {
     });
     $('activity-list').innerHTML = rows.join('') || '<div class="note">ما كاين حتى نشاط بعد.</div>';
   }
-  async function loadAll() { await loadRegistry(); await loadActivity(); if (currentRole === 'admin') await loadUsers(); }
+  var lastEnroll = [];
+  function courseStatusLabel(s) { return { pending: 'قيد الانتظار', approved: 'موافق عليه', rejected: 'مرفوض' }[s] || s; }
+  function methodLabel(m) { return { bank: 'تحويل بنكي', code: 'كود تفعيل', manual: 'تفعيل يدوي', other: 'أخرى' }[m] || m; }
+  async function loadCourses() {
+    var snap = await db.collection('course-enrollments').orderBy('createdAt', 'desc').limit(100).get();
+    lastEnroll = [];
+    snap.forEach(function (doc) { var d = doc.data(); d._id = doc.id; lastEnroll.push(d); });
+    renderCourses();
+  }
+  function renderCourses() {
+    var q = ($('search-enroll').value || '').trim().toLowerCase();
+    var fs = $('filter-enroll-status').value;
+    var rows = lastEnroll.filter(function (e) {
+      if (q && String(e.name || '').toLowerCase().indexOf(q) === -1 && String(e.course || '').toLowerCase().indexOf(q) === -1) return false;
+      if (fs !== 'all' && e.status !== fs) return false;
+      return true;
+    });
+    $('enroll-body').innerHTML = rows.map(function (e) {
+      var actions = '';
+      if (currentRole === 'admin') {
+        actions = (e.status !== 'approved' ? '<button class="ghost" data-eact="approve" data-id="' + esc(e._id) + '" data-name="' + esc(e.name) + '">موافقة</button> ' : '') +
+          (e.status !== 'rejected' ? '<button class="red" data-eact="reject" data-id="' + esc(e._id) + '" data-name="' + esc(e.name) + '">رفض</button>' : '');
+      }
+      var badge = e.status === 'approved' ? 'active' : (e.status === 'rejected' ? 'revoked' : 'pending');
+      return '<tr><td>' + esc(e.name) + '</td><td>' + esc(e.course) + '</td><td>' + methodLabel(e.method) + '</td>' +
+        '<td><span class="badge ' + badge + '">' + courseStatusLabel(e.status) + '</span></td>' +
+        '<td>' + fmtDate(e.createdAt) + '</td><td>' + esc(e.byEmail) + '</td><td>' + actions + '</td></tr>';
+    }).join('') || '<tr><td colspan="7" class="note">ما كاين حتى طلب مطابق.</td></tr>';
+    $('enroll-body').querySelectorAll('[data-eact]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (btn.getAttribute('data-eact') === 'approve') onEnrollDecide(btn.getAttribute('data-id'), btn.getAttribute('data-name'), 'approved');
+        else onEnrollDecide(btn.getAttribute('data-id'), btn.getAttribute('data-name'), 'rejected');
+      });
+    });
+  }
+  async function onEnrollDecide(id, name, status) {
+    if (currentRole !== 'admin') return;
+    if (!confirm((status === 'approved' ? 'توافق على التحاق «' : 'ترفض التحاق «') + name + '»؟')) return;
+    await db.collection('course-enrollments').doc(id).update({ status: status });
+    await logActivity(status === 'approved' ? 'enroll-approve' : 'enroll-reject', name);
+    await loadCourses(); await loadActivity();
+  }
+  async function loadAll() { await loadRegistry(); await loadActivity(); if (currentRole === 'admin') await loadUsers(); await loadCourses(); }
 
   async function onAuth(user) {
     if (!user) { currentUser = null; currentRole = null; $('topbar').style.display = 'none'; showView('auth-view'); return; }
@@ -530,6 +616,25 @@ try { firebaseConfig = {
   $('copy-code').addEventListener('click', async function () {
     try { await navigator.clipboard.writeText($('out-code').textContent); $('copy-code').textContent = 'تنسخ ✓'; setTimeout(function () { $('copy-code').textContent = 'نسخ الكود'; }, 1500); } catch (e) {}
   });
+  $('add-enroll-btn').addEventListener('click', async function () {
+    var name = $('e-name').value.trim(), course = $('e-course').value.trim();
+    if (!name || !course) { $('enroll-msg').innerHTML = '<span class="err">دخل اسم المتدرب واسم الدورة.</span>'; return; }
+    try {
+      await db.collection('course-enrollments').add({
+        name: name, email: $('e-email').value.trim(), course: course, method: $('e-method').value,
+        ref: $('e-ref').value.trim(), status: 'pending',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        by: currentUser.uid, byEmail: currentUser.email
+      });
+      await logActivity('enroll-add', name + ' — ' + course + ' (قيد الانتظار)');
+      $('enroll-msg').innerHTML = '<span class="ok">تم ✓ — الطلب تسجل بقيد الانتظار. الموافقة عند الأدمن من نفس الصفحة.</span>';
+      $('e-name').value = ''; $('e-email').value = ''; $('e-course').value = ''; $('e-ref').value = '';
+      await loadCourses(); await loadActivity();
+    } catch (e) { $('enroll-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
+  });
+  $('search-enroll').addEventListener('input', renderCourses);
+  $('filter-enroll-status').addEventListener('change', renderCourses);
+  $('refresh-enroll-btn').addEventListener('click', loadCourses);
   $('search-name').addEventListener('input', renderRegistry);
   $('filter-status').addEventListener('change', renderRegistry);
   $('filter-plan').addEventListener('change', renderRegistry);
