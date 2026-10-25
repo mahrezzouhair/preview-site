@@ -152,6 +152,7 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
           <button class="btn dark" id="btn-sunnah" onclick="applySunnah()">☪️ حجامة السنة (المواضع النبوية)</button>
           <button class="btn dark" id="btn-preventive" onclick="applyPreventive()">🛡️ الحجامة الوقائية</button>
+          <button class="btn dark" id="btn-both" onclick="applyBoth()">☪️🛡️ نقاط السنة والوقائية معاً</button>
           <button class="btn dark" onclick="toggleAI()">🤖 المساعد الذكي</button>
           <button class="btn ghost" onclick="clearSelection()">مسح الاختيار</button>
           <button class="btn" id="show-all-btn" style="display:none" onclick="showAllPts()">👁️ إظهار كل النقط</button>
@@ -220,7 +221,7 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
 <footer>متتبّع الحجامة الاحترافي — منتج من زهير محرز / بيت الوقاية · البيانات ديالك كتبقى عندك، في جهازك</footer>
 
 <script>
-var APP_VERSION='2.2.5';
+var APP_VERSION='2.2.6';
 var LS={lic:'ht2_lic',clients:'ht2_clients',sessions:'ht2_sessions',pin:'ht2_pin'};
 function load(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
@@ -352,9 +353,10 @@ function renderClientOptions(){var sel=document.getElementById('s-client');var c
 sel.innerHTML=cs.length?cs.map(function(c){return '<option value="'+c.id+'">'+esc(c.name)+'</option>'}).join(''):'<option value="">— زيد زبون أولاً —</option>'}
 // ================= map & selection =================
 var view='back',selected={},onlySel=false,activeChoice=null;
-function syncChoiceUI(){var s=document.getElementById('btn-sunnah'),p=document.getElementById('btn-preventive');
+function syncChoiceUI(){var s=document.getElementById('btn-sunnah'),p=document.getElementById('btn-preventive'),b=document.getElementById('btn-both');
 if(s)s.classList.toggle('on',!!activeChoice&&activeChoice.type==='sunnah');
 if(p)p.classList.toggle('on',!!activeChoice&&activeChoice.type==='preventive');
+if(b)b.classList.toggle('on',!!activeChoice&&activeChoice.type==='both');
 renderDiseases()}
 function isSel(id){if(selected[id])return true;var base=id.split('/')[0];return !!selected[base]}
 function setView(v){view=v;['back','front','face','limbs'].forEach(function(x){document.getElementById('v-'+x).classList.toggle('on',x===v)});drawMap()}
@@ -379,6 +381,7 @@ function selectMany(ids,note){selected={};ids.forEach(function(i){selected[i]=1}
 if(note!==undefined)document.getElementById('ai-out').innerHTML=note?('<p class="note" style="background:var(--soft);border-radius:10px;padding:10px 12px">'+esc(note)+'</p>'):''}
 function applySunnah(){activeChoice={type:'sunnah'};selectMany(SUNNAH)}
 function applyPreventive(){activeChoice={type:'preventive'};selectMany(PREVENTIVE)}
+function applyBoth(){activeChoice={type:'both'};selectMany(SUNNAH.concat(PREVENTIVE.filter(function(p){return SUNNAH.indexOf(p)<0})))}
 function clearSelection(){selected={};onlySel=false;activeChoice=null;drawMap();syncChoiceUI();document.getElementById('ai-out').innerHTML=''}
 // ================= smart assistant =================
 function toggleAI(){var el=document.getElementById('ai-panel');el.style.display=el.style.display==='none'?'':'none'}
