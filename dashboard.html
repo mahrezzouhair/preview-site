@@ -47,6 +47,9 @@ th{color:var(--neon)}
 .stat{display:inline-block;background:#0A120F;border:1px solid var(--line);border-radius:14px;padding:10px 18px;margin:4px}
 .stat b{font-size:1.4rem;color:var(--neon);display:block}
 .mono{font-family:ui-monospace,monospace;direction:ltr;text-align:left}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.nav button{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.nav button.on{background:var(--neon);color:#06280F;border-color:var(--neon)}
 </style>
 </head>
 <body>
@@ -93,7 +96,14 @@ th{color:var(--neon)}
   </div>
 
   <div id="dash-view" style="display:none">
-    <div class="card">
+    <div class="nav" id="dash-nav">
+      <button data-page="home" class="on">🏠 الرئيسية</button>
+      <button data-page="generate">🔑 توليد كود</button>
+      <button data-page="registry">📋 سجل الأكواد</button>
+      <button data-page="users" id="nav-users">👥 إدارة الحسابات</button>
+      <button data-page="activity">📝 سجل النشاط</button>
+    </div>
+    <div class="card" id="key-card">
       <h2>🔑 ملف المفتاح</h2>
       <p class="note">توليد الأكواد كيحتاج المفتاح الخاص. المفتاح كيتحمل في ذاكرة المتصفح فقط وقت الاستعمال — ما كيتخزنش في الصفحة ولا في قاعدة البيانات. بلا مفتاح، باقي أقسام اللوحة كتخدم للقراءة فقط.</p>
       <div class="grid">
@@ -280,13 +290,29 @@ try { firebaseConfig = {
   var currentUser = null, currentRole = null, privKey = null;
   var lastCodes = [];
 
+  // ---- Pages: one function per page, switched by the nav bar ----
+  var currentPage = 'home';
+  var PAGE_CARDS = { home: ['stats-card'], generate: ['key-card', 'issue-card'], registry: ['registry-card'], users: ['users-card'], activity: ['activity-card'] };
+  function showPage(page) {
+    if (page === 'users' && currentRole !== 'admin') page = 'home';
+    currentPage = page;
+    ['key-card', 'issue-card', 'stats-card', 'registry-card', 'users-card', 'activity-card'].forEach(function (id) { $(id).style.display = 'none'; });
+    PAGE_CARDS[page].forEach(function (id) { $(id).style.display = ''; });
+    document.querySelectorAll('#dash-nav button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-page') === page); });
+    $('nav-users').style.display = (currentRole === 'admin') ? '' : 'none';
+  }
+  document.querySelectorAll('#dash-nav button').forEach(function (b) {
+    b.addEventListener('click', function () { showPage(b.getAttribute('data-page')); });
+  });
+
   function applyRoleUI() {
     // Issue + registry + stats + activity: admin AND assistant.
     // Users management: ADMIN ONLY. Revoke/extend buttons: ADMIN ONLY
     // (they are rendered per row only when currentRole === 'admin').
-    $('users-card').style.display = (currentRole === 'admin') ? '' : 'none';
+    // Page visibility is re-applied here so the role never leaks a page.
     $('whoami').textContent = currentUser.email + ' — ' + (currentRole === 'admin' ? 'أدمن' : 'مساعد');
     $('topbar').style.display = '';
+    showPage(currentPage);
   }
 
   async function loadRegistry() {
