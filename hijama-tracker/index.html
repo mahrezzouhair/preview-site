@@ -45,13 +45,13 @@ th{background:#F4FAF5;font-weight:900}
 .seg{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
 .seg button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 20px;font-weight:800}
 .seg button.on{background:var(--neon);border-color:var(--neon)}
-.mapstage{position:relative;max-width:430px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;container-type:inline-size}
+.mapstage{position:relative;max-width:480px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;container-type:inline-size}
 .mapstage img{width:100%;display:block}
 .bdg{position:absolute;transform:translate(-50%,-50%);width:27px;height:27px;border-radius:50%;border:2px solid #fff;background:rgba(20,32,26,.55);color:#fff;font-size:10.5px;font-weight:900;display:grid;place-items:center;cursor:pointer;box-shadow:0 1px 5px rgba(0,0,0,.35);transition:.15s;padding:0;line-height:1}
 .bdg:hover{background:var(--green);transform:translate(-50%,-50%) scale(1.15)}
 .bdg.sel{background:var(--neon);color:#06280F;border-color:#0B3D1E;transform:translate(-50%,-50%) scale(1.18)}
 .bdg.small{font-size:8.5px}
-.mapstage.wide{max-width:760px}
+.mapstage.wide{max-width:840px}
 .hot{position:absolute;transform:translate(-50%,-50%);aspect-ratio:1;height:auto;border-radius:50%;border:2px solid #B8C4CC;background:rgb(135,200,235);color:#0A120F;font-weight:800;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-shadow:0 1px 5px rgba(0,0,0,.3);transition:.15s}
 .hot:hover{border-color:var(--neon)}
 .hot.prop{background:#2ECC71}
@@ -220,7 +220,7 @@ footer{background:var(--dark);color:#A9BFAF;padding:18px;text-align:center;font-
 <footer>متتبّع الحجامة الاحترافي — منتج من زهير محرز / بيت الوقاية · البيانات ديالك كتبقى عندك، في جهازك</footer>
 
 <script>
-var APP_VERSION='2.2.2';
+var APP_VERSION='2.2.3';
 var LS={lic:'ht2_lic',clients:'ht2_clients',sessions:'ht2_sessions',pin:'ht2_pin'};
 function load(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
