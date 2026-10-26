@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>مقال — زهير محرز</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#0A120F;--neon:#1ED760}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--dark);color:#E7F3EB;line-height:1.9}
+a{color:var(--neon);text-decoration:none}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.logo{font-weight:900;font-size:1.15rem;color:#fff}
+article{padding:10px 0 60px}
+article h1{font-size:1.9rem;line-height:1.5;margin:8px 0}
+.meta{color:#7C9A88;font-size:.9rem;margin-bottom:18px}
+.cover{width:100%;border-radius:16px;margin:0 0 22px;display:block}
+.body h2{font-size:1.4rem;margin:26px 0 8px;color:#fff}
+.body h3{font-size:1.2rem;margin:22px 0 6px;color:#fff}
+.body p{margin:0 0 14px}
+.body ul,.body ol{margin:0 0 14px;padding-inline-start:22px}
+.body li{margin-bottom:6px}
+.body blockquote{border-inline-start:3px solid var(--neon);margin:16px 0;padding:4px 16px;color:#9DB8A8}
+.body img{max-width:100%;border-radius:12px}
+.status{color:#9DB8A8;padding:40px 0;text-align:center}
+.foot{border-top:1px solid #1C3325;padding:20px 0 40px;color:#7C9A88;font-size:.85rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="logo">زهير محرز</span>
+    <a href="articles.html">← كل المقالات</a>
+  </div>
+  <div id="status" class="status">جار تحميل المقال…</div>
+  <article id="art" style="display:none">
+    <h1 id="title"></h1>
+    <div class="meta" id="meta"></div>
+    <img id="cover" class="cover" style="display:none" alt="">
+    <div class="body" id="body"></div>
+  </article>
+  <div class="foot">© 2026 زهير محرز — المحتوى تعليمي ولا يعوّض استشارة طبية</div>
+</div>
+<script>
+(function(){
+var OWNER='mahrezzouhair', REPO='preview-site', BRANCH='main', BASE='https://mahrezzouhair.github.io/preview-site';
+var status=document.getElementById('status');
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function parseFM(text){
+  var m=text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if(!m) return {data:{},body:text};
+  var data={};
+  m[1].split(/\r?\n/).forEach(function(line){
+    var i=line.indexOf(':'); if(i<0) return;
+    data[line.slice(0,i).trim()]=line.slice(i+1).trim().replace(/^['"]|['"]$/g,'');
+  });
+  return {data:data,body:m[2]};
+}
+function inline(s){
+  s=esc(s);
+  s=s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img src="$2" alt="$1">');
+  s=s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+  s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  s=s.replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>');
+  return s;
+}
+/* محوّل Markdown صغير (بلا مكتبات — باش الصفحة تبقى خفيفة): عناوين، قوائم، روابط، صور، عريض، مائل، اقتباس */
+function md(src){
+  var lines=src.replace(/\r\n?/g,'\n').split('\n'), out=[], i=0;
+  function flushPara(buf){ if(buf.length) out.push('<p>'+inline(buf.join(' '))+'</p>'); }
+  var buf=[];
+  while(i<lines.length){
+    var ln=lines[i];
+    if(/^#{1,3}\s/.test(ln)){ flushPara(buf); buf=[];
+      var lvl=ln.match(/^#+/)[0].length;
+      out.push('<h'+(lvl+1)+'>'+inline(ln.replace(/^#+\s*/,''))+'</h'+(lvl+1)+'>'); i++; continue; }
+    if(/^\s*[-*]\s+/.test(ln)){ flushPara(buf); buf=[];
+      var items=[];
+      while(i<lines.length && /^\s*[-*]\s+/.test(lines[i])){ items.push('<li>'+inline(lines[i].replace(/^\s*[-*]\s+/,''))+'</li>'); i++; }
+      out.push('<ul>'+items.join('')+'</ul>'); continue; }
+    if(/^\s*\d+[.)]\s+/.test(ln)){ flushPara(buf); buf=[];
+      var items2=[];
+      while(i<lines.length && /^\s*\d+[.)]\s+/.test(lines[i])){ items2.push('<li>'+inline(lines[i].replace(/^\s*\d+[.)]\s+/ ,''))+'</li>'); i++; }
+      out.push('<ol>'+items2.join('')+'</ol>'); continue; }
+    if(/^>\s?/.test(ln)){ flushPara(buf); buf=[];
+      var q=[];
+      while(i<lines.length && /^>\s?/.test(lines[i])){ q.push(lines[i].replace(/^>\s?/,'')); i++; }
+      out.push('<blockquote>'+inline(q.join(' '))+'</blockquote>'); continue; }
+    if(ln.trim()===''){ flushPara(buf); buf=[]; i++; continue; }
+    buf.push(ln.trim()); i++;
+  }
+  flushPara(buf);
+  return out.join('\n');
+}
+var slug=new URLSearchParams(location.search).get('slug')||'';
+if(!slug || slug.indexOf('/')>=0 || slug.indexOf('\\')>=0 || slug.indexOf('..')>=0){
+  status.innerHTML='المقال غير موجود. <a href="articles.html">ارجع للمقالات</a>'; return;
+}
+fetch('https://raw.githubusercontent.com/'+OWNER+'/'+REPO+'/'+BRANCH+'/content/articles/'+encodeURIComponent(slug)+'.md')
+.then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.text(); })
+.then(function(t){
+  var p=parseFM(t);
+  document.title=(p.data.title||slug)+' — زهير محرز';
+  document.getElementById('title').textContent=p.data.title||slug;
+  var meta=[];
+  if(p.data.date){ var dt=new Date(p.data.date); meta.push(isNaN(dt)?p.data.date:dt.toLocaleDateString('ar-MA',{year:'numeric',month:'long',day:'numeric'})); }
+  document.getElementById('meta').textContent=meta.join(' · ');
+  if(p.data.cover){
+    var cv=p.data.cover.indexOf('http')===0 ? p.data.cover : BASE+p.data.cover;
+    var img=document.getElementById('cover'); img.src=cv; img.style.display='block';
+  }
+  document.getElementById('body').innerHTML=md(p.body);
+  status.style.display='none';
+  document.getElementById('art').style.display='block';
+})
+.catch(function(){ status.innerHTML='المقال غير موجود أو تعذر تحميله. <a href="articles.html">ارجع للمقالات</a>'; });
+})();
+</script>
+</body>
+</html>

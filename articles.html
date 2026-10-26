@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>المقالات — زهير محرز</title>
+<meta name="description" content="مقالات زهير محرز في الصحة والتغذية.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#0A120F;--neon:#1ED760;--green:#2ECC71}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--dark);color:#E7F3EB}
+a{color:var(--neon);text-decoration:none}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.logo{font-weight:900;font-size:1.15rem;color:#fff}
+h1{font-size:2rem;margin:8px 0 4px}
+.sub{color:#9DB8A8;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-bottom:60px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.card{background:#101E16;border:1px solid #1C3325;border-radius:16px;overflow:hidden;display:block;color:#E7F3EB}
+.card img{width:100%;height:170px;object-fit:cover;display:block}
+.card-body{padding:16px}
+.card h2{margin:0 0 6px;font-size:1.15rem;color:#fff}
+.card p{margin:0;color:#9DB8A8;font-size:.95rem}
+.meta{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:.82rem;color:#7C9A88}
+.badge{background:#1B2E23;border:1px solid #2C4A38;border-radius:999px;padding:2px 10px;font-weight:800;color:#fff}
+.status{color:#9DB8A8;padding:30px 0;text-align:center}
+.foot{border-top:1px solid #1C3325;padding:20px 0 40px;color:#7C9A88;font-size:.85rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="logo">زهير محرز</span>
+    <a href="index.html">← الرئيسية</a>
+  </div>
+  <h1>المقالات</h1>
+  <p class="sub">مقالات في الصحة والتغذية، بالدارجة — كتكتب وتنشر من لوحة التحكم.</p>
+  <div id="status" class="status">جار تحميل المقالات…</div>
+  <div id="list" class="grid"></div>
+  <div class="foot">© 2026 زهير محرز — المحتوى تعليمي ولا يعوّض استشارة طبية</div>
+</div>
+<script>
+(function(){
+var OWNER='mahrezzouhair', REPO='preview-site', BASE='https://mahrezzouhair.github.io/preview-site';
+var LANG_LABEL={darija:'الدارجة',ar:'العربية',fr:'Français',en:'English'};
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function parseFM(text){
+  var m=text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if(!m) return {data:{},body:text};
+  var data={};
+  m[1].split(/\r?\n/).forEach(function(line){
+    var i=line.indexOf(':'); if(i<0) return;
+    var k=line.slice(0,i).trim(), v=line.slice(i+1).trim().replace(/^['"]|['"]$/g,'');
+    data[k]=v;
+  });
+  return {data:data,body:m[2]};
+}
+function fmtDate(d){
+  if(!d) return '';
+  var dt=new Date(d); if(isNaN(dt)) return esc(d);
+  return dt.toLocaleDateString('ar-MA',{year:'numeric',month:'long',day:'numeric'});
+}
+var status=document.getElementById('status'), list=document.getElementById('list');
+fetch('https://api.github.com/repos/'+OWNER+'/'+REPO+'/contents/content/articles')
+.then(function(r){ if(!r.ok) throw new Error('api '+r.status); return r.json(); })
+.then(function(files){
+  var mds=(Array.isArray(files)?files:[]).filter(function(f){ return f.type==='file' && /\.md$/i.test(f.name); });
+  if(!mds.length){ status.textContent='لا توجد مقالات بعد — أول مقال غادي يبان هنا.'; return; }
+  return Promise.all(mds.map(function(f){
+    return fetch(f.download_url).then(function(r){ return r.text(); }).then(function(t){
+      var p=parseFM(t), slug=f.name.replace(/\.md$/i,'');
+      return {slug:slug,title:p.data.title||slug,date:p.data.date||'',lang:p.data.lang||'',excerpt:p.data.excerpt||'',cover:p.data.cover||''};
+    });
+  })).then(function(arts){
+    arts.sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); });
+    status.style.display='none';
+    list.innerHTML=arts.map(function(a){
+      var cover=a.cover ? (a.cover.indexOf('http')===0 ? a.cover : BASE+a.cover) : '';
+      var href='article.html?slug='+encodeURIComponent(a.slug);
+      return '<a class="card" href="'+href+'">'
+        +(cover?'<img src="'+esc(cover)+'" alt="">':'')
+        +'<div class="card-body"><h2>'+esc(a.title)+'</h2>'
+        +(a.excerpt?'<p>'+esc(a.excerpt)+'</p>':'')
+        +'<div class="meta">'+(a.lang?'<span class="badge">'+esc(LANG_LABEL[a.lang]||a.lang)+'</span>':'')
+        +'<span>'+fmtDate(a.date)+'</span></div></div></a>';
+    }).join('');
+  });
+})
+.catch(function(){ status.textContent='تعذر تحميل المقالات الآن. حاول من بعد.'; });
+})();
+</script>
+</body>
+</html>

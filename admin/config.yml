@@ -1,0 +1,25 @@
+# Sveltia CMS — لوحة تحكم محتوى موقع زهير محرز (خاصة، بلا رابط من الموقع)
+# الدخول: بحساب GitHub ديال مالك المستودع فقط (توكن شخصي للمستخدم الوحيد).
+backend:
+  name: github
+  repo: mahrezzouhair/preview-site
+  branch: main
+site_url: https://mahrezzouhair.github.io/preview-site/
+publish_mode: editorial_workflow
+media_folder: assets/uploads
+public_folder: /assets/uploads
+collections:
+  - name: articles
+    label: المقالات
+    folder: content/articles
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - {label: العنوان, name: title, widget: string}
+      - {label: التاريخ, name: date, widget: datetime}
+      - {label: اللغة, name: lang, widget: select, options: [{label: الدارجة, value: darija}, {label: العربية, value: ar}, {label: Français, value: fr}, {label: English, value: en}], default: darija}
+      - {label: ملخص, name: excerpt, widget: text, required: false}
+      - {label: صورة الغلاف, name: cover, widget: image, required: false}
+      - {label: النص, name: body, widget: markdown}
