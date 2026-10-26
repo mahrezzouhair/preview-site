@@ -86,6 +86,10 @@ th{color:var(--neon)}
         <button class="ghost" id="register-btn">إنشاء حساب جديد</button>
         <span id="auth-msg" class="note"></span>
       </div>
+      <div class="row">
+        <button class="ghost" id="forgot-btn">نسيت كلمة السر؟</button>
+        <span class="note">يصلك رابط إعادة التعيين على بريدك (للحسابات المسجلة بالبريد وكلمة السر فقط).</span>
+      </div>
       <div class="note">تحصل الحسابات الجديدة على دور «قيد الانتظار» حتى يوافق عليها المدير من قسم إدارة الحسابات.</div>
     </div>
   </div>
@@ -680,6 +684,22 @@ try { firebaseConfig = {
       await auth.signInWithEmailAndPassword($('auth-email').value.trim(), $('auth-pass').value);
       $('auth-msg').textContent = '';
     } catch (e) { $('auth-msg').innerHTML = '<span class="err">خطأ في الدخول: ' + esc(e.message) + '</span>'; }
+  });
+  function resetErr(e) {
+    if (e.code === 'auth/invalid-email') return 'البريد الإلكتروني غير صحيح.';
+    if (e.code === 'auth/user-not-found') return 'هذا البريد غير مسجل في لوحة التحكم.';
+    if (e.code === 'auth/too-many-requests') return 'محاولات كثيرة — انتظر قليلاً ثم أعد المحاولة.';
+    if (e.code === 'auth/network-request-failed') return 'مشكلة في الاتصال — تحقق من الإنترنت وأعد المحاولة.';
+    return e.message;
+  }
+  $('forgot-btn').addEventListener('click', async function () {
+    var email = $('auth-email').value.trim();
+    if (!email) { $('auth-msg').innerHTML = '<span class="err">أدخل بريدك الإلكتروني أولاً، ثم اضغط «نسيت كلمة السر؟».</span>'; return; }
+    try {
+      auth.languageCode = 'ar';
+      await auth.sendPasswordResetEmail(email);
+      $('auth-msg').innerHTML = '<span class="ok">إذا كان هذا البريد مسجلاً، سيصله رابط إعادة تعيين كلمة السر — تحقق من صندوق الوارد (والرسائل غير المرغوب فيها).</span>';
+    } catch (e) { $('auth-msg').innerHTML = '<span class="err">خطأ: ' + esc(resetErr(e)) + '</span>'; }
   });
   $('register-btn').addEventListener('click', async function () {
     try {

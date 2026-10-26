@@ -63,6 +63,7 @@ button.gbtn svg{width:20px;height:20px;flex:none}
       <label>كلمة السر</label>
       <input type="password" id="l-pass" placeholder="••••••••">
       <button class="primary" id="btn-login">دخول</button>
+      <div style="text-align:center;margin-top:10px"><button class="ghost" id="btn-forgot">نسيت كلمة السر؟</button></div>
     </div>
     <div id="form-signup" style="display:none">
       <div class="alert">⚠️ تنبيه مهم: الاسم الكامل خاصو يكون صحيح وبالعربية، حيت هو اللي غادي يبان في الشهادة ديالك. تأكد منو مزيان قبل ما تكمل.</div>
@@ -139,6 +140,15 @@ $('btn-login').addEventListener('click', async function(){
   if (!email || !pass) { showMsg('أدخل الإيميل وكلمة السر.'); return; }
   try { await auth.signInWithEmailAndPassword(email, pass); }
   catch (e) { showMsg(errText(e)); }
+});
+$('btn-forgot').addEventListener('click', async function(){
+  var email = $('l-email').value.trim();
+  if (!email) { showMsg('دخل الإيميل ديالك أولاً، من بعد ضغط على «نسيت كلمة السر؟».'); return; }
+  try {
+    auth.languageCode = 'ar';
+    await auth.sendPasswordResetEmail(email);
+    showMsg('إلا كان هاد الإيميل مسجل عندنا، غادي يوصلو رابط إعادة تعيين كلمة السر — قلب في صندوق الوارد (وحتى السبام).', true);
+  } catch (e) { showMsg(errText(e)); }
 });
 $('btn-signup').addEventListener('click', async function(){
   var name = $('s-name').value.trim(), email = $('s-email').value.trim(), pass = $('s-pass').value;
