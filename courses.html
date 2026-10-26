@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>الدورات — زهير محرز</title>
+<meta name="description" content="دورات زهير محرز: الحجامة وخرائطها، تقويم العظام، والوخز بالإبر الصينية — تكوين تطبيقي بالدارجة مع شهادة مختومة إلكترونياً.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+:root{--dark:#0A120F;--neon:#1ED760}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--dark);color:#E7F3EB;line-height:1.8}
+a{color:var(--neon);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:12px;flex-wrap:wrap}
+.logo{font-weight:900;font-size:1.15rem;color:#fff}
+.logo .mark{display:inline-block;background:var(--neon);color:#06280F;border-radius:8px;padding:0 8px;margin-left:6px}
+nav.main{display:flex;gap:18px;flex-wrap:wrap}
+nav.main a{color:#C9D6CE;font-weight:700}
+nav.main a.active,nav.main a:hover{color:#fff}
+.btn{display:inline-block;padding:10px 22px;border-radius:999px;background:var(--neon);color:#06280F;font-weight:900;border:0;font-family:inherit;cursor:pointer}
+.btn:hover{filter:brightness(1.05)}
+.hero{padding:44px 0 10px;text-align:center}
+.hero h1{font-size:2.2rem;margin:0 0 8px}
+.hero p{color:#9DB8A8;max-width:640px;margin:0 auto 8px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:30px 0 16px}
+.card{background:#101E16;border:1px solid #1C3325;border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.card img{width:100%;height:210px;object-fit:cover;display:block}
+.card .body{padding:20px;display:flex;flex-direction:column;flex:1}
+.card h2{font-size:1.35rem;margin:0 0 8px}
+.card .desc{color:#C9D6CE;margin:0 0 10px;flex:1}
+.meta{color:#9DB8A8;font-size:.92rem;margin:0 0 10px}
+.who{border:1px solid #2C4A38;background:#0E1A14;border-radius:12px;padding:10px 12px;font-weight:700;margin:0 0 8px}
+.cert{border:1px solid #D9A441;background:#241A06;border-radius:12px;padding:10px 12px;font-weight:700;margin:0 0 14px}
+button.primary{width:100%;padding:13px;border:0;border-radius:999px;background:var(--neon);color:#06280F;font-family:inherit;font-weight:900;font-size:1.02rem;cursor:pointer}
+button.primary:disabled{opacity:.6}
+.msg{margin-top:10px;font-weight:700;min-height:1.5em}
+.msg .err{color:#FF7A7A}
+.note{color:#9DB8A8;text-align:center;margin:0 0 8px}
+.foot{border-top:1px solid #1C3325;padding:20px 0 40px;color:#7C9A88;font-size:.85rem;text-align:center}
+@media(max-width:960px){.grid{grid-template-columns:1fr}nav.main{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="logo" href="index.html"><span class="mark">ز</span>زهير محرز</a>
+    <nav class="main">
+      <a href="index.html">الرئيسية</a>
+      <a href="tools.html">الأدوات</a>
+      <a href="courses.html" class="active">الدورات</a>
+      <a href="verify.html">تحقق من شهادة</a>
+      <a href="register.html">دخول</a>
+    </nav>
+    <a class="btn" href="#courses-list">التسجيل في دورة أو الدخول</a>
+  </div>
+
+  <div class="hero">
+    <h1>الدورات</h1>
+    <p>تكوين تطبيقي بالدارجة، من ممارس وباحث — فيديوهات تطبيقية من المركز، تقييم حقيقي، وشهادة إتمام مختومة إلكترونياً وقابلة للتحقق.</p>
+    <p>التسجيل مفتوح — والتفعيل كيتم يدوياً من طرف زهير بعد التأكد من التحويل البنكي.</p>
+  </div>
+
+  <div class="grid" id="courses-list">
+    <article class="card">
+      <img src="assets/course-hijama.jpg" alt="دورة الحجامة وخرائطها">
+      <div class="body">
+        <h2>دورة الحجامة وخرائطها</h2>
+        <p class="desc">تكوين كامل: من التشريح التطبيقي والسلامة والتعقيم، للفرز والموانع، لخرائط النقاط، للحجامتين الجافة والدموية، حتى التوثيق المهني — فيديوهات تطبيقية من المركز.</p>
+        <p class="meta">9 وحدات • ~35 درس • 6-8 ساعات • بالدارجة</p>
+        <p class="who">🌿 بمواءمة مع معايير WHO في السلامة والتعقيم</p>
+        <p class="cert">🔒 شهادة إتمام مختومة إلكترونياً — رقم تسلسلي + QR قابل للتحقق</p>
+        <button class="primary enroll" data-course="hijama">التسجيل في الدورة</button>
+        <div class="msg"></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="assets/course-bone.jpg" alt="دورة تقويم العظام">
+      <div class="body">
+        <h2>دورة تقويم العظام</h2>
+        <p class="desc">تكوين تطبيقي في تقويم العظام: التشخيص الدقيق، تقييم القوام والحركة، والتقنيات اليدوية — فيديوهات تطبيقية بالدارجة من المركز.</p>
+        <p class="meta">فيديوهات تطبيقية • بالدارجة • تقييم عملي</p>
+        <p class="who">🌿 تكوين بمعايير سلامة مهنية</p>
+        <p class="cert">🔒 شهادة إتمام مختومة إلكترونياً — رقم تسلسلي + QR قابل للتحقق</p>
+        <button class="primary enroll" data-course="bone">التسجيل في الدورة</button>
+        <div class="msg"></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="assets/course-acu.jpg" alt="دورة الوخز بالإبر الصينية">
+      <div class="body">
+        <h2>دورة الوخز بالإبر الصينية وخرائطها</h2>
+        <p class="desc">تكوين في الوخز بالإبر الصينية وخرائطها: أساسيات الوخز، خرائط النقاط، والتطبيق الآمن — فيديوهات تطبيقية بالدارجة.</p>
+        <p class="meta">خرائط النقاط • فيديوهات تطبيقية • بالدارجة</p>
+        <p class="who">🌿 بمواءمة مع معايير الممارسة الآمنة (WHO)</p>
+        <p class="cert">🔒 شهادة إتمام مختومة إلكترونياً — رقم تسلسلي + QR قابل للتحقق</p>
+        <button class="primary enroll" data-course="acu">التسجيل في الدورة</button>
+        <div class="msg"></div>
+      </div>
+    </article>
+  </div>
+
+  <p class="note">التفعيل كيتم يدوياً من طرف زهير بعد التأكد من التحويل البنكي — غادي نتواصلو معاك لإتمامه. الثمن وموعد انطلاق الدورات غادي نعلنوهم قريباً.</p>
+  <div class="foot">© 2026 زهير محرز — المحتوى تعليمي ولا يعوّض استشارة طبية</div>
+</div>
+<script>
+(function(){
+var firebaseConfig = {
+  apiKey: "AIzaSyClqrivuAchdsapjqcvwQnUq6Wz2po6_kg",
+  authDomain: "hijama-tracker.firebaseapp.com",
+  projectId: "hijama-tracker",
+  storageBucket: "hijama-tracker.firebasestorage.app",
+  messagingSenderId: "862559400219",
+  appId: "1:862559400219:web:7302f2cee9f80fb5e263be"
+};
+firebase.initializeApp(firebaseConfig);
+var auth = firebase.auth(), db = firebase.firestore();
+var COURSES = { hijama: 'الحجامة', bone: 'تقويم العظام', acu: 'الوخز بالإبر الصينية' };
+async function findEnrollment(cid) {
+  var snap = await db.collection('course-enrollments').where('uid', '==', auth.currentUser.uid).get();
+  var found = null;
+  snap.forEach(function (d) {
+    var o = d.data();
+    if (o.courseId === cid && o.status !== 'rejected' && !found) found = o;
+  });
+  return found;
+}
+async function enroll(cid, btn, msgEl) {
+  var user = auth.currentUser;
+  if (!user) {
+    try { localStorage.setItem('pendingCourse', cid); } catch (e) {}
+    window.location.href = 'register.html';
+    return;
+  }
+  btn.disabled = true;
+  msgEl.innerHTML = 'جاري تسجيل طلبك...';
+  try {
+    var nameDoc = await db.collection('users').doc(user.uid).get();
+    var userName = (nameDoc.exists && nameDoc.data().name) ? nameDoc.data().name : user.email;
+    var existing = await findEnrollment(cid);
+    if (!existing) {
+      await db.collection('course-enrollments').add({
+        name: userName, email: user.email, course: COURSES[cid], courseId: cid,
+        method: 'bank', status: 'pending', uid: user.uid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+    window.location.href = 'my-courses.html?show=confirm&course=' + cid;
+  } catch (e) {
+    msgEl.innerHTML = '<span class="err">خطأ: ' + e.message + '</span>';
+    btn.disabled = false;
+  }
+}
+document.querySelectorAll('.enroll').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    enroll(btn.getAttribute('data-course'), btn, btn.parentElement.querySelector('.msg'));
+  });
+});
+})();
+</script>
+</body>
+</html>

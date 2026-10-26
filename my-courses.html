@@ -222,21 +222,61 @@ $('btn-request').addEventListener('click', async function(){
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     // Confirmation page: show the customer exactly what was recorded.
-    $('cf-name').textContent = userName || currentUser.email;
-    $('cf-email').textContent = currentUser.email;
-    $('cf-course').textContent = course;
-    $('req-msg').innerHTML = '';
-    $('main').style.display = 'none';
-    $('confirm-view').style.display = '';
+    showConfirmation(userName || currentUser.email, currentUser.email, course);
   } catch (e) {
     $('req-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>';
   }
 });
+function showConfirmation(name, email, course){
+  $('cf-name').textContent = name;
+  $('cf-email').textContent = email;
+  $('cf-course').textContent = course;
+  $('req-msg').innerHTML = '';
+  $('main').style.display = 'none';
+  $('confirm-view').style.display = '';
+}
 $('btn-confirm-back').addEventListener('click', async function(){
   $('confirm-view').style.display = 'none';
   $('main').style.display = '';
   await loadAll();
 });
+// Deep links from the courses page / registration resume:
+// ?course=X preselects the course; ?show=confirm shows the confirmation
+// page for an existing enrollment; ?auto=1 creates it first if missing.
+function courseNameOf(cid){
+  return { hijama: 'الحجامة', bone: 'تقويم العظام', acu: 'الوخز بالإبر الصينية' }[cid] || '';
+}
+function courseSelectValue(cid){
+  return { hijama: 'hijama|الحجامة', bone: 'bone|تقويم العظام', acu: 'acu|الوخز بالإبر الصينية' }[cid] || '';
+}
+async function handleDeepLink(){
+  var params = new URLSearchParams(window.location.search);
+  var cid = params.get('course');
+  if (!cid || !courseSelectValue(cid)) return;
+  $('req-course').value = courseSelectValue(cid);
+  var show = params.get('show'), auto = params.get('auto');
+  if (show !== 'confirm' && auto !== '1') return;
+  var existing = enrollments.filter(function (e) { return courseIdOf(e) === cid && e.status !== 'rejected'; })[0];
+  if (!existing && auto === '1') {
+    try {
+      await db.collection('course-enrollments').add({
+        name: userName || currentUser.email, email: currentUser.email, course: courseNameOf(cid), courseId: cid,
+        method: 'bank', status: 'pending', uid: currentUser.uid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      await loadAll();
+      existing = enrollments.filter(function (e) { return courseIdOf(e) === cid && e.status !== 'rejected'; })[0];
+    } catch (e) {
+      $('req-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>';
+      return;
+    }
+  }
+  if (existing) {
+    showConfirmation(existing.name || userName || currentUser.email, existing.email || currentUser.email, existing.course);
+    try { localStorage.removeItem('pendingCourse'); } catch (e) {}
+    if (auto === '1') { try { history.replaceState(null, '', 'my-courses.html?course=' + cid); } catch (e) {} }
+  }
+}
 auth.onAuthStateChanged(function(user){
   currentUser = user;
   if (!user) { $('need-login').style.display = ''; $('main').style.display = 'none'; return; }
@@ -245,7 +285,7 @@ auth.onAuthStateChanged(function(user){
   $('auth-link').textContent = 'خروج';
   $('auth-link').href = '#';
   $('auth-link').onclick = function (ev) { ev.preventDefault(); auth.signOut(); };
-  loadAll().catch(function (e) { $('enroll-list').innerHTML = '<div class="card"><p class="note">خطأ في التحميل: ' + esc(e.message) + '</p></div>'; });
+  loadAll().then(function () { handleDeepLink(); }).catch(function (e) { $('enroll-list').innerHTML = '<div class="card"><p class="note">خطأ في التحميل: ' + esc(e.message) + '</p></div>'; });
 });
 })();
 </script>

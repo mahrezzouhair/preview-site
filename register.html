@@ -88,7 +88,8 @@ button.gbtn svg{width:20px;height:20px;flex:none}
     <h1>مرحباً 👋</h1>
     <p class="note" id="who"></p>
     <p class="note">دوراتك وتقدمك كاينين في «دوراتي». التفعيل كيتم يدوياً من طرف زهير بعد التأكد من التحويل البنكي.</p>
-    <a href="my-courses.html"><button class="primary" style="margin-top:6px">دوراتي ←</button></a>
+    <p class="note" id="done-resume-note" style="display:none">عندك تسجيل معلق في دورة — كمّل من هنا.</p>
+    <a href="my-courses.html" id="done-link"><button class="primary" style="margin-top:6px" id="done-btn">دوراتي ←</button></a>
     <div style="text-align:center;margin-top:14px"><button class="ghost" id="btn-logout">خروج</button></div>
   </div>
   <div class="foot">© 2026 زهير محرز — المحتوى تعليمي ولا يعوّض استشارة طبية</div>
@@ -168,8 +169,31 @@ $('btn-save-name').addEventListener('click', async function(){
     $('name-card').style.display = 'none';
     $('done-card').style.display = '';
     $('who').textContent = 'دخلت بـ ' + user.email;
+    updateDoneCard();
   } catch (e) { $('g-msg').innerHTML = '<span class="err">' + errText(e) + '</span>'; }
 });
+// Resume a course enrollment started on courses.html: after login, the
+// done card points at my-courses with the course preselected (?auto=1
+// creates the enrollment if missing, then shows the confirmation page).
+(function () {
+  try {
+    var pc = new URLSearchParams(window.location.search).get('course');
+    if (pc && ['hijama', 'bone', 'acu'].indexOf(pc) >= 0) localStorage.setItem('pendingCourse', pc);
+  } catch (e) {}
+})();
+function updateDoneCard(){
+  var pc = null;
+  try { pc = localStorage.getItem('pendingCourse'); } catch (e) {}
+  if (pc && ['hijama', 'bone', 'acu'].indexOf(pc) >= 0) {
+    $('done-link').href = 'my-courses.html?course=' + pc + '&auto=1';
+    $('done-btn').textContent = 'إتمام التسجيل في الدورة ←';
+    $('done-resume-note').style.display = '';
+  } else {
+    $('done-link').href = 'my-courses.html';
+    $('done-btn').textContent = 'دوراتي ←';
+    $('done-resume-note').style.display = 'none';
+  }
+}
 $('btn-logout').addEventListener('click', function(){ auth.signOut(); });
 auth.onAuthStateChanged(async function(user){
   if (user) {
@@ -183,6 +207,7 @@ auth.onAuthStateChanged(async function(user){
         $('name-card').style.display = 'none';
         $('done-card').style.display = '';
         $('who').textContent = 'دخلت بـ ' + user.email;
+        updateDoneCard();
       } else {
         $('done-card').style.display = 'none';
         $('name-card').style.display = '';
@@ -192,6 +217,7 @@ auth.onAuthStateChanged(async function(user){
       $('auth-card').style.display = 'none';
       $('done-card').style.display = '';
       $('who').textContent = 'دخلت بـ ' + user.email;
+      updateDoneCard();
     }
   } else {
     $('auth-card').style.display = '';
