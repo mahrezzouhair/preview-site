@@ -141,13 +141,15 @@ async function render(){
   var html = '';
   for (var i = 0; i < enrollments.length; i++) {
     var e = enrollments[i], cid = courseIdOf(e);
+    // Only hijama has progress tracking; other courses have no progress
+    // entry, so `done` is undefined for them — treat it as null (no crash).
     var done = progressMap[cid];
-    var pct = (done === null) ? null : Math.round(done.length / UNITS.length * 100);
+    var pct = (done == null) ? null : Math.round(done.length / UNITS.length * 100);
     html += '<div class="card"><h2>' + esc(e.course) + ' <span class="badge ' + esc(e.status) + '">' + statusLabel(e.status) + '</span></h2>';
     if (e.status === 'pending') html += '<p class="note">طلبك بقيد الانتظار — ملي يتم التفعيل غادي تتفتح ليك الدورة هنا.</p>';
     if (e.status === 'rejected') html += '<p class="note">هاد الطلب ترفض — تواصل معانا إلا كان شي خطأ.</p>';
     if (cid === 'hijama') {
-      html += '<p class="note">تقدمك: <b>' + (pct === null ? '—' : pct + '%') + '</b> (' + (done === null ? '؟' : done.length) + ' من ' + UNITS.length + ' وحدات)</p>';
+      html += '<p class="note">تقدمك: <b>' + (pct === null ? '—' : pct + '%') + '</b> (' + (done == null ? '؟' : done.length) + ' من ' + UNITS.length + ' وحدات)</p>';
       html += '<div class="bar"><div style="width:' + (pct === null ? 0 : pct) + '%"></div></div>';
       if (e.status === 'approved' && done !== null) {
         html += UNITS.map(function (u, idx) {
@@ -208,7 +210,9 @@ async function loadAll(){
     var cid = courseIdOf(enrollments[i]);
     if (cid === 'hijama' && !(cid in progressMap)) progressMap[cid] = await loadProgress(cid);
   }
-  render();
+  // Awaited on purpose: render() is async, so an un-awaited render failure
+  // used to vanish silently and leave an empty list with no error message.
+  await render();
 }
 $('btn-request').addEventListener('click', async function(){
   var parts = $('req-course').value.split('|'), cid = parts[0], course = parts[1];
@@ -238,7 +242,8 @@ function showConfirmation(name, email, course){
 $('btn-confirm-back').addEventListener('click', async function(){
   $('confirm-view').style.display = 'none';
   $('main').style.display = '';
-  await loadAll();
+  try { await loadAll(); }
+  catch (e) { $('enroll-list').innerHTML = '<div class="card"><p class="note">خطأ في التحميل: ' + esc(e.message) + '</p></div>'; }
 });
 // Deep links from the courses page / registration resume:
 // ?course=X preselects the course; ?show=confirm shows the confirmation
