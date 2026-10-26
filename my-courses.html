@@ -85,7 +85,7 @@ select,input{padding:11px 13px;border-radius:12px;border:1px solid #2C4A38;backg
         <div><span>الحالة</span><span class="badge pending">قيد الانتظار</span></div>
       </div>
       <p class="note">التفعيل كيتم يدوياً من طرف أحد المدربين في المركز بعد التأكد من الأداء — غادي نتواصلو معاك لإتمامه.</p>
-      <button class="primary" id="btn-confirm-back">رجوع لدوراتي ←</button>
+      <a id="btn-confirm-pay" href="payment.html"><button class="primary">إتمام الدفع ←</button></a> <button class="ghost" id="btn-confirm-back">رجوع لدوراتي ←</button>
     </div>
   </div>
   <div class="foot">© 2026 زهير محرز — جميع الحقوق محفوظة ·</div>
@@ -146,7 +146,7 @@ async function render(){
     var done = progressMap[cid];
     var pct = (done == null) ? null : Math.round(done.length / UNITS.length * 100);
     html += '<div class="card"><h2>' + esc(e.course) + ' <span class="badge ' + esc(e.status) + '">' + statusLabel(e.status) + '</span></h2>';
-    if (e.status === 'pending') html += '<p class="note">طلبك بقيد الانتظار — ملي يتم التفعيل غادي تتفتح ليك الدورة هنا.</p>';
+    if (e.status === 'pending') html += '<p class="note">طلبك بقيد الانتظار — ملي يتم التفعيل غادي تتفتح ليك الدورة هنا.</p><p><a href="payment.html?course=' + cid + '"><button class="primary" type="button">إتمام الدفع ←</button></a></p>';
     if (e.status === 'rejected') html += '<p class="note">هاد الطلب ترفض — تواصل معانا إلا كان شي خطأ.</p>';
     if (cid === 'hijama') {
       html += '<p class="note">تقدمك: <b>' + (pct === null ? '—' : pct + '%') + '</b> (' + (done == null ? '؟' : done.length) + ' من ' + UNITS.length + ' وحدات)</p>';
@@ -226,12 +226,13 @@ $('btn-request').addEventListener('click', async function(){
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     // Confirmation page: show the customer exactly what was recorded.
-    showConfirmation(userName || currentUser.email, currentUser.email, course);
+    showConfirmation(userName || currentUser.email, currentUser.email, course, cid);
   } catch (e) {
     $('req-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>';
   }
 });
-function showConfirmation(name, email, course){
+function showConfirmation(name, email, course, cid){
+  if (cid) $('btn-confirm-pay').href = 'payment.html?course=' + cid;
   $('cf-name').textContent = name;
   $('cf-email').textContent = email;
   $('cf-course').textContent = course;
@@ -277,7 +278,7 @@ async function handleDeepLink(){
     }
   }
   if (existing) {
-    showConfirmation(existing.name || userName || currentUser.email, existing.email || currentUser.email, existing.course);
+    showConfirmation(existing.name || userName || currentUser.email, existing.email || currentUser.email, existing.course, cid);
     try { localStorage.removeItem('pendingCourse'); } catch (e) {}
     if (auto === '1') { try { history.replaceState(null, '', 'my-courses.html?course=' + cid); } catch (e) {} }
   }

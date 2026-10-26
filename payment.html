@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>الدفع والتفعيل — زهير محرز</title>
+<meta name="description" content="ادفع ثمن الدورة بتحويل بنكي: من CIH التفعيل ف الحين، ومن أي بنك آخر حتى يوصل التحويل.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#0A120F;--neon:#1ED760}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--dark);color:#E7F3EB;line-height:1.8}
+a{color:var(--neon);text-decoration:none}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:12px;flex-wrap:wrap}
+.logo{font-weight:900;font-size:1.15rem;color:#fff}
+.logo .mark{display:inline-block;background:var(--neon);color:#06280F;border-radius:8px;padding:0 8px;margin-left:6px}
+nav.main{display:flex;gap:18px;flex-wrap:wrap}
+nav.main a{color:#C9D6CE;font-weight:700}
+nav.main a.active,nav.main a:hover{color:#fff}
+.hero{padding:36px 0 6px;text-align:center}
+.hero h1{font-size:2.1rem;margin:0 0 8px}
+.hero p{color:#9DB8A8;max-width:660px;margin:0 auto 8px}
+.hero .highlight{color:#fff;font-weight:800}
+.card{background:#101E16;border:1px solid #1C3325;border-radius:20px;padding:22px;margin:20px 0}
+.card h2{font-size:1.3rem;margin:0 0 14px}
+.step{display:flex;gap:12px;align-items:flex-start;margin:0 0 12px}
+.step .num{width:34px;height:34px;border-radius:50%;background:var(--neon);color:#06280F;font-weight:900;display:grid;place-items:center;flex-shrink:0;margin-top:2px}
+.step p{margin:0;color:#C9D6CE}
+.step p b{color:#fff}
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.banks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.opt{background:#0E1A14;border:1px solid #1C3325;border-radius:16px;padding:16px;cursor:pointer;text-align:center;font-family:inherit;color:#E7F3EB;width:100%}
+.opt:hover{border-color:#2C4A38}
+.opt.selected{border-color:var(--neon);box-shadow:0 0 0 2px rgba(30,215,96,.35)}
+.opt .cname{font-weight:900;font-size:1.05rem}
+.opt .cmeta{color:#9DB8A8;font-size:.9rem}
+.logo-tile{background:#fff;border-radius:12px;padding:10px;height:68px;display:grid;place-items:center;margin-bottom:10px}
+.logo-tile img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.logo-tile .generic{font-size:1.8rem}
+.badge{display:inline-block;border-radius:999px;padding:2px 12px;font-weight:900;font-size:.82rem;margin-top:6px}
+.badge.instant{background:#D9A441;color:#241A06}
+.badge.delayed{background:#1C3325;color:#9DB8A8}
+.timing{color:#C9D6CE;font-size:.92rem;margin:6px 0 0}
+.summary{background:#0E1A14;border:1px solid #2C4A38;border-radius:18px;padding:20px;margin:20px 0}
+.summary .row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid #1C3325}
+.summary .row:first-child{border-top:0}
+.summary .row span{color:#9DB8A8}
+.summary .row b{text-align:left}
+.wa{display:block;text-align:center;background:#25D366;color:#06280F;font-weight:900;border-radius:999px;padding:15px;font-size:1.12rem;margin:16px 0 8px}
+.wa:hover{filter:brightness(1.05)}
+.note{color:#9DB8A8;font-size:.95rem;text-align:center;margin:0 0 8px}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.trust div{background:#101E16;border:1px solid #1C3325;border-radius:16px;padding:14px;text-align:center;font-weight:700;font-size:.95rem}
+.faq{margin:20px 0}
+.faq h3{margin:0 0 6px;font-size:1.05rem}
+.faq p{margin:0 0 16px;color:#C9D6CE}
+.foot{border-top:1px solid #1C3325;padding:20px 0 40px;color:#7C9A88;font-size:.85rem;text-align:center}
+@media(max-width:720px){.pick{grid-template-columns:1fr}.trust{grid-template-columns:1fr}nav.main{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="logo" href="index.html"><span class="mark">ز</span>زهير محرز</a>
+    <nav class="main">
+      <a href="index.html">الرئيسية</a>
+      <a href="courses.html">الدورات</a>
+      <a href="my-courses.html">دوراتي</a>
+      <a href="register.html">دخول</a>
+    </nav>
+  </div>
+
+  <div class="hero">
+    <h1>الدفع والتفعيل</h1>
+    <p>حوّل ثمن الدورة من البنك ديالك، وصيفط الإيصال عبر واتساب — <span class="highlight">من CIH التفعيل ف الحين، ومن أي بنك آخر حتى يوصل التحويل.</span></p>
+  </div>
+
+  <div class="card">
+    <h2>كيفاش كيتم الدفع؟</h2>
+    <div class="step"><div class="num">1</div><p><b>اختار الدورة والبنك ديالك</b> من الأسفل.</p></div>
+    <div class="step"><div class="num">2</div><p><b>اضغط زر واتساب</b> — غادي يوصلك <b>RIB</b> وتأكيد الثمن من المدرب.</p></div>
+    <div class="step"><div class="num">3</div><p><b>حوّل المبلغ</b> من تطبيق البنك ديالك أو من الوكالة.</p></div>
+    <div class="step"><div class="num">4</div><p><b>صيفط صورة الإيصال</b> في نفس محادثة واتساب.</p></div>
+    <div class="step"><div class="num">5</div><p><b>التفعيل:</b> من CIH ف الحين بعد التأكد من التوصل، ومن بنك آخر مباشرة بعد وصول التحويل.</p></div>
+    <p class="note" style="text-align:right;margin-top:12px">⚠️ ما تحوّل حتى تتوصل بـRIB والثمن في واتساب — هاكا كنتفاداو الأخطاء.</p>
+  </div>
+
+  <div class="card">
+    <h2>1 — اختار الدورة</h2>
+    <div class="pick" id="course-pick">
+      <button class="opt course-btn" data-course="hijama"><div class="cname">دورة الحجامة وخرائطها</div><div class="cmeta">9 وحدات • ~35 درس • 6-8 ساعات</div></button>
+      <button class="opt course-btn" data-course="bone"><div class="cname">دورة تقويم العظام</div><div class="cmeta">فيديوهات تطبيقية • تقييم عملي</div></button>
+      <button class="opt course-btn" data-course="acu"><div class="cname">دورة الوخز بالإبر الصينية</div><div class="cmeta">خرائط النقاط • فيديوهات تطبيقية</div></button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2 — اختار البنك ديالك</h2>
+    <div class="banks" id="bank-pick">
+      <button class="opt bank-btn" data-bank="cih">
+        <div class="logo-tile"><img src="assets/banks/cih.png" alt="شعار CIH Bank"></div>
+        <div class="cname">CIH Bank</div>
+        <div><span class="badge instant">⚡ تفعيل ف الحين</span></div>
+        <p class="timing">تحويل من CIH → التفعيل ف الحين بعد التأكد من التوصل</p>
+      </button>
+      <button class="opt bank-btn" data-bank="attijariwafa">
+        <div class="logo-tile"><img src="assets/banks/attijariwafa.png" alt="شعار التجاري وفا بنك"></div>
+        <div class="cname">التجاري وفا بنك</div>
+        <div><span class="badge delayed">تفعيل حتى يوصل التحويل</span></div>
+        <p class="timing">تحويل من التجاري وفا بنك → التفعيل بعد وصول التحويل</p>
+      </button>
+      <button class="opt bank-btn" data-bank="bp">
+        <div class="logo-tile"><img src="assets/banks/banque-populaire.png" alt="شعار البنك الشعبي"></div>
+        <div class="cname">البنك الشعبي</div>
+        <div><span class="badge delayed">تفعيل حتى يوصل التحويل</span></div>
+        <p class="timing">تحويل من البنك الشعبي → التفعيل بعد وصول التحويل</p>
+      </button>
+      <button class="opt bank-btn" data-bank="boa">
+        <div class="logo-tile"><img src="assets/banks/bank-of-africa.png" alt="شعار بنك إفريقيا"></div>
+        <div class="cname">بنك إفريقيا</div>
+        <div><span class="badge delayed">تفعيل حتى يوصل التحويل</span></div>
+        <p class="timing">تحويل من بنك إفريقيا → التفعيل بعد وصول التحويل</p>
+      </button>
+      <button class="opt bank-btn" data-bank="other">
+        <div class="logo-tile"><span class="generic">🏦</span></div>
+        <div class="cname">بنك آخر</div>
+        <div><span class="badge delayed">تفعيل حتى يوصل التحويل</span></div>
+        <p class="timing">أي بنك آخر في المغرب → التفعيل بعد وصول التحويل</p>
+      </button>
+    </div>
+  </div>
+
+  <div class="summary">
+    <h2 style="margin-top:0">ملخص الدفع</h2>
+    <div class="row"><span>الدورة</span><b id="sum-course">— اختار دورة من الأعلى —</b></div>
+    <div class="row"><span>البنك ديالك</span><b id="sum-bank">— اختار بنك من الأعلى —</b></div>
+    <div class="row"><span>التفعيل</span><b id="sum-activation">—</b></div>
+    <div class="row"><span>الثمن</span><b>غادي يتأكد ليك في واتساب قبل ما تحوّل</b></div>
+    <a class="wa" id="wa-btn" href="https://wa.me/212664651301" target="_blank" rel="noopener">إتمام الدفع عبر واتساب ←</a>
+    <p class="note">الرسالة غادي تكون جاهزة بالدورة والبنك اللي اختاريتيهم — صيفطها، وغادي يوصلك RIB والثمن.</p>
+  </div>
+
+  <div class="trust">
+    <div>🔒 شهادة إتمام مختومة إلكترونياً — بشراكة مع بيت الوقاية</div>
+    <div>👨‍🏫 تفعيل يدوي من طرف أحد المدربين في المركز</div>
+    <div>🎥 دورات بالدارجة — فيديوهات تطبيقية من المركز</div>
+  </div>
+
+  <div class="card faq">
+    <h2>أسئلة شائعة</h2>
+    <h3>علاش التفعيل من CIH فوري ومن بنك آخر لا؟</h3>
+    <p>حيت التحويل من CIH لحساب CIH كيوصل ف الحين، بينما التحويل من بنك آخر كياخد وقت باش يوصل — والتفعيل كيتم مباشرة بعد التأكد من وصول الأداء.</p>
+    <h3>كيفاش نعرف بلي الدورة تفعلات؟</h3>
+    <p>غادي تبان ليك في صفحة «دوراتي» بحالة «مفعّلة» وغادي تتفتح ليك الدروس.</p>
+    <h3>شنو ندير إلا وقع خطأ في التحويل؟</h3>
+    <p>تواصل معانا فوراً في واتساب بالإيصال، وغادي نعاونوك.</p>
+  </div>
+
+  <div class="foot">© 2026 زهير محرز — جميع الحقوق محفوظة ·</div>
+</div>
+<script>
+(function(){
+var COURSES = {
+  hijama: 'الحجامة',
+  bone: 'تقويم العظام',
+  acu: 'الوخز بالإبر الصينية'
+};
+var BANKS = {
+  cih: { name: 'CIH Bank', instant: true },
+  attijariwafa: { name: 'التجاري وفا بنك', instant: false },
+  bp: { name: 'البنك الشعبي', instant: false },
+  boa: { name: 'بنك إفريقيا', instant: false },
+  other: { name: 'بنك آخر', instant: false }
+};
+var state = { course: null, bank: null };
+function $(id){ return document.getElementById(id); }
+function render(){
+  $('sum-course').textContent = state.course ? COURSES[state.course] : '— اختار دورة من الأعلى —';
+  $('sum-bank').textContent = state.bank ? BANKS[state.bank].name : '— اختار بنك من الأعلى —';
+  if (state.bank) {
+    $('sum-activation').textContent = BANKS[state.bank].instant
+      ? '⚡ ف الحين — ملي يوصّلنا الإيصال، التفعيل كيتم ف الحين'
+      : 'حتى يوصل التحويل — التفعيل كيتم مباشرة بعد التأكد من وصول الأداء';
+  } else {
+    $('sum-activation').textContent = '—';
+  }
+  var msg;
+  if (state.course && state.bank) {
+    msg = 'سلام، بغيت نخلص دورة ' + COURSES[state.course] + '، البنك ديالي هو ' + BANKS[state.bank].name + '، صيفط ليا RIB والثمن عافاك.';
+  } else if (state.course) {
+    msg = 'سلام، بغيت نخلص دورة ' + COURSES[state.course] + '، صيفط ليا معلومات الدفع عافاك.';
+  } else {
+    msg = 'سلام، بغيت نخلص دورة، صيفط ليا معلومات الدفع عافاك.';
+  }
+  $('wa-btn').href = 'https://wa.me/212664651301?text=' + encodeURIComponent(msg);
+}
+function bind(selector, key){
+  document.querySelectorAll(selector).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll(selector).forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      state[key] = btn.getAttribute(key === 'course' ? 'data-course' : 'data-bank');
+      render();
+    });
+  });
+}
+bind('.course-btn', 'course');
+bind('.bank-btn', 'bank');
+var params = new URLSearchParams(window.location.search);
+var c = params.get('course'), b = params.get('bank');
+if (c && COURSES[c]) {
+  var cb = document.querySelector('.course-btn[data-course="' + c + '"]');
+  if (cb) { cb.classList.add('selected'); state.course = c; }
+}
+if (b && BANKS[b]) {
+  var bb = document.querySelector('.bank-btn[data-bank="' + b + '"]');
+  if (bb) { bb.classList.add('selected'); state.bank = b; }
+}
+render();
+})();
+</script>
+</body>
+</html>
