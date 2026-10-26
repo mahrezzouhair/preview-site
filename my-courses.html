@@ -36,6 +36,8 @@ h2{font-size:1.25rem;margin:0 0 10px}
 button.primary{padding:12px 26px;border:0;border-radius:999px;background:var(--neon);color:#06280F;font-family:inherit;font-weight:900;font-size:1rem;cursor:pointer}
 button.ghost{background:transparent;border:1px solid #2C4A38;color:#E7F3EB;border-radius:999px;padding:9px 18px;font-family:inherit;font-weight:800;cursor:pointer}
 select,input{padding:11px 13px;border-radius:12px;border:1px solid #2C4A38;background:#0A120F;color:#fff;font-family:inherit;font-size:1rem}
+.info>div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid #1C3325}
+.info>div>span{color:#9DB8A8}
 .msg{margin-top:12px;font-weight:700}
 .msg .err{color:#FF7A7A}
 .msg .ok{color:var(--neon)}
@@ -69,6 +71,21 @@ select,input{padding:11px 13px;border-radius:12px;border:1px solid #2C4A38;backg
         <button class="primary" id="btn-request">طلب الالتحاق</button>
       </div>
       <div class="msg" id="req-msg"></div>
+    </div>
+  </div>
+  <div id="confirm-view" style="display:none">
+    <div class="card">
+      <h1>✓ تم استلام طلبك</h1>
+      <p class="note">هادي هي المعلومات اللي تسجلات — تأكد منها:</p>
+      <div class="info">
+        <div><span>الاسم الكامل</span><b id="cf-name"></b></div>
+        <div><span>الإيميل</span><b id="cf-email" dir="ltr"></b></div>
+        <div><span>الدورة</span><b id="cf-course"></b></div>
+        <div><span>طريقة الدفع</span><b>تحويل بنكي</b></div>
+        <div><span>الحالة</span><span class="badge pending">قيد الانتظار</span></div>
+      </div>
+      <p class="note">التفعيل كيتم يدوياً من طرف زهير بعد التأكد من التحويل البنكي — غادي نتواصلو معاك لإتمامه.</p>
+      <button class="primary" id="btn-confirm-back">رجوع لدوراتي ←</button>
     </div>
   </div>
   <div class="foot">© 2026 زهير محرز — المحتوى تعليمي ولا يعوّض استشارة طبية</div>
@@ -139,7 +156,7 @@ async function render(){
         }).join('');
         html += '<p class="note">علّم على الوحدات اللي ساليتيها — التقدم كيتحفظ تلقائياً. (فيديوهات الدروس غادي تجي من بعد؛ البنية واجدة.)</p>';
       } else if (e.status === 'approved') {
-        html += '<p class="note">تعذر تحميل التقدم — القواعد الجديدة (v4) ما تنشراتش بعد في Firestore.</p>';
+        html += '<p class="note">تعذر تحميل التقدم — حاول من بعد شوية.</p>';
       } else {
         html += UNITS.map(function (u) {
           return '<div class="unit locked"><span>🔒</span><span>' + esc(u) + '</span></div>';
@@ -165,7 +182,7 @@ async function render(){
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
       } catch (err) {
-        alert('ما تسجلش التقدم — القواعد الجديدة (v4) ما تنشراتش بعد في Firestore.');
+        alert('ما تسجلش التقدم — حاول من بعد شوية.');
       }
       render();
     });
@@ -204,11 +221,21 @@ $('btn-request').addEventListener('click', async function(){
       method: 'bank', status: 'pending', uid: currentUser.uid,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    $('req-msg').innerHTML = '<span class="ok">تم ✓ — طلبك تسجل بقيد الانتظار. غادي نتواصلو معاك لإتمام التفعيل (تحويل بنكي).</span>';
-    await loadAll();
+    // Confirmation page: show the customer exactly what was recorded.
+    $('cf-name').textContent = userName || currentUser.email;
+    $('cf-email').textContent = currentUser.email;
+    $('cf-course').textContent = course;
+    $('req-msg').innerHTML = '';
+    $('main').style.display = 'none';
+    $('confirm-view').style.display = '';
   } catch (e) {
     $('req-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>';
   }
+});
+$('btn-confirm-back').addEventListener('click', async function(){
+  $('confirm-view').style.display = 'none';
+  $('main').style.display = '';
+  await loadAll();
 });
 auth.onAuthStateChanged(function(user){
   currentUser = user;
