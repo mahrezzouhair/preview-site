@@ -103,6 +103,7 @@ th{color:var(--neon)}
     <div class="nav" id="dash-nav">
       <button data-page="home" class="on">🏠 الرئيسية</button>
       <button data-page="generate">🔑 توليد كود</button>
+      <button data-page="trial" id="nav-trial">🧪 الكود التجريبي</button>
       <button data-page="registry">📋 سجل الأكواد</button>
       <button data-page="users" id="nav-users">👥 إدارة الحسابات</button>
       <button data-page="activity">📝 سجل النشاط</button>
@@ -122,7 +123,7 @@ th{color:var(--neon)}
       <h2>توليد كود تفعيل</h2>
       <div class="grid">
         <div><label>اسم المركز / الزبون</label><input id="c-name" placeholder="مثال: مركز النور للحجامة"></div>
-        <div><label>رقم الجهاز (من نافذة التفعيل لدى الزبون)</label><input id="c-device" dir="ltr" style="text-align:left" placeholder="hw-… أو uuid-…"></div>
+        <div><label>رقم الجهاز (اختياري — للأكواد القديمة المربوطة بجهاز فقط؛ الأكواد الجديدة بلا رقم جهاز)</label><input id="c-device" dir="ltr" style="text-align:left" placeholder="hw-… أو uuid-… (اختياري)"></div>
         <div><label>الخطة</label>
           <select id="c-plan">
             <option value="trial">تجريبي — 7 أيام (من أول تفعيل)</option>
@@ -138,6 +139,17 @@ th{color:var(--neon)}
           <div class="codebox" id="out-code"></div>
           <div class="row" style="margin-top:10px"><button class="ghost" id="copy-code">نسخ الكود</button><span id="code-payload" class="note"></span></div>
         </div>
+      </div>
+    </div>
+
+    <div class="card" id="trial-card">
+      <h2>🧪 الكود التجريبي المشترك</h2>
+      <p class="note">كود واحد لكل الزبناء المحتملين: يخدم لأي جهاز جديد بلا موافقة، 7 أيام من أول تفعيل على داك الجهاز، وما يعاودش يتستعمل أبداً في نفس الجهاز.</p>
+      <div class="grid">
+        <div><label>الكود التجريبي الحالي</label><div class="codebox" id="trial-current">لم يُولَّد أي كود تجريبي بعد.</div></div>
+        <div id="trial-meta" class="note"></div>
+        <div class="row"><button id="gen-trial">توليد كود تجريبي جديد (تدوير)</button><button class="ghost" id="copy-trial">نسخ الكود</button><span id="trial-msg" class="note"></span></div>
+        <p class="note">⚠️ التدوير يبدّل الكود المنشور: شارك الجديد مع الزبناء المحتملين. الكود القديم يوقف للأجهزة الجديدة المتصلة فقط عندما تُنشر قائمة الحالة — الأجهزة اللي بلا أنترنت تقبل أي كود موقّع صحيح، لكن كل جهاز يبقى محصوراً في 7 أيام وتجربة واحدة.</p>
       </div>
     </div>
 
@@ -295,13 +307,35 @@ async function importPriv(jwk) {
 async function importPub(jwk) {
   return crypto.subtle.importKey('jwk', jwk, { name: 'Ed25519' }, false, ['verify']);
 }
-async function issueCode(privKey, o) {
-  var payload = { n: String(o.n).trim(), d: String(o.d).trim(), p: o.p, dur: PLANS[o.p] };
-  if (!payload.n) throw new Error('الاسم مطلوب');
-  if (!PLANS.hasOwnProperty(o.p)) throw new Error('الخطة غير معروفة');
-  var seg = b64urlEncode(utf8(JSON.stringify(payload)));
+var CODE_ID_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+function randomCodeId(prefix) {
+  var bytes = new Uint8Array(12);
+  crypto.getRandomValues(bytes);
+  var id = prefix;
+  for (var i = 0; i < bytes.length; i++) id += CODE_ID_CHARS[bytes[i] % CODE_ID_CHARS.length];
+  return id;
+}
+function payloadString(o) {
+  if (o.t === 'trial') return JSON.stringify({ t: 'trial', tid: o.tid, dur: o.dur });
+  if (o.d !== undefined) return JSON.stringify({ n: o.n, d: o.d, p: o.p, dur: o.dur });
+  return JSON.stringify({ n: o.n, p: o.p, dur: o.dur, cid: o.cid });
+}
+async function signPayload(privKey, payload) {
+  var seg = b64urlEncode(utf8(payloadString(payload)));
   var sig = await crypto.subtle.sign('Ed25519', privKey, utf8(seg));
   return seg + '.' + b64urlEncode(sig);
+}
+async function issueCode(privKey, o) {
+  if (!o.n || !String(o.n).trim()) throw new Error('الاسم مطلوب');
+  if (!PLANS.hasOwnProperty(o.p)) throw new Error('الخطة غير معروفة');
+  var dur = PLANS[o.p];
+  var payload = (o.d !== undefined && String(o.d).trim())
+    ? { n: String(o.n).trim(), d: String(o.d).trim(), p: o.p, dur: dur }
+    : { n: String(o.n).trim(), p: o.p, dur: dur, cid: randomCodeId('C') };
+  return signPayload(privKey, payload);
+}
+async function issueTrialCode(privKey) {
+  return signPayload(privKey, { t: 'trial', tid: randomCodeId('T'), dur: 7 });
 }
 async function verifyCode(pubKey, code) {
   var parts = String(code || '').trim().split('.');
@@ -311,16 +345,17 @@ async function verifyCode(pubKey, code) {
   if (!ok) throw new Error('توقيع الكود غير صحيح');
   return payload;
 }
-async function buildStatus(privKey, revokedCodes, extensions) {
+async function buildStatus(privKey, revokedCodes, extensions, trialId) {
   var revoked = [];
   for (var i = 0; i < revokedCodes.length; i++) revoked.push(await sha256hex(revokedCodes[i]));
   var ext = {};
   for (var j = 0; j < extensions.length; j++) ext[await sha256hex(extensions[j][0])] = extensions[j][1];
   var data = { revoked: revoked, extensions: ext };
+  if (trialId) data.trialId = trialId;
   var sig = await crypto.subtle.sign('Ed25519', privKey, utf8(JSON.stringify(data)));
   return JSON.stringify({ data: data, sig: b64urlEncode(sig) }, null, 2);
 }
-if (typeof window !== 'undefined') { window.TrackerAdmin = { PLANS: PLANS, issueCode: issueCode, verifyCode: verifyCode, buildStatus: buildStatus, sha256hex: sha256hex }; }
+if (typeof window !== 'undefined') { window.TrackerAdmin = { PLANS: PLANS, issueCode: issueCode, issueTrialCode: issueTrialCode, verifyCode: verifyCode, buildStatus: buildStatus, sha256hex: sha256hex }; }
 </script>
 
 <script>
@@ -369,15 +404,17 @@ try { firebaseConfig = {
 
   // ---- Pages: one function per page, switched by the nav bar ----
   var currentPage = 'home';
-  var PAGE_CARDS = { home: ['stats-card'], generate: ['key-card', 'issue-card'], registry: ['registry-card'], users: ['users-card'], activity: ['activity-card'], courses: ['courses-card'], learners: ['learners-card'] };
+  var PAGE_CARDS = { home: ['stats-card'], generate: ['key-card', 'issue-card'], trial: ['key-card', 'trial-card'], registry: ['registry-card'], users: ['users-card'], activity: ['activity-card'], courses: ['courses-card'], learners: ['learners-card'] };
   function showPage(page) {
-    if ((page === 'users' || page === 'learners') && currentRole !== 'admin') page = 'home';
+    if ((page === 'users' || page === 'learners' || page === 'trial') && currentRole !== 'admin') page = 'home';
     currentPage = page;
-    ['key-card', 'issue-card', 'stats-card', 'registry-card', 'users-card', 'activity-card', 'courses-card', 'learners-card'].forEach(function (id) { $(id).style.display = 'none'; });
+    ['key-card', 'issue-card', 'trial-card', 'stats-card', 'registry-card', 'users-card', 'activity-card', 'courses-card', 'learners-card'].forEach(function (id) { $(id).style.display = 'none'; });
     PAGE_CARDS[page].forEach(function (id) { $(id).style.display = ''; });
     document.querySelectorAll('#dash-nav button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-page') === page); });
     $('nav-users').style.display = (currentRole === 'admin') ? '' : 'none';
     $('nav-learners').style.display = (currentRole === 'admin') ? '' : 'none';
+    $('nav-trial').style.display = (currentRole === 'admin') ? '' : 'none';
+    if (page === 'trial') loadTrial();
   }
   document.querySelectorAll('#dash-nav button').forEach(function (b) {
     b.addEventListener('click', function () { showPage(b.getAttribute('data-page')); });
@@ -699,12 +736,13 @@ try { firebaseConfig = {
   $('gen-code').addEventListener('click', async function () {
     if (!privKey) { $('code-msg').innerHTML = '<span class="err">حمّل ملف المفتاح أولاً.</span>'; return; }
     try {
-      var name = $('c-name').value, device = $('c-device').value, plan = $('c-plan').value;
-      var code = await window.TrackerAdmin.issueCode(privKey, { n: name, d: device, p: plan });
+      var name = $('c-name').value, device = $('c-device').value.trim(), plan = $('c-plan').value;
+      var o = { n: name, p: plan }; if (device) o.d = device;
+      var code = await window.TrackerAdmin.issueCode(privKey, o);
       var hash = await window.TrackerAdmin.sha256hex(code);
       var batch = db.batch();
       batch.set(db.collection('codes').doc(hash), {
-        name: name, plan: plan, durationDays: window.TrackerAdmin.PLANS[plan], deviceId: device,
+        name: name, plan: plan, durationDays: window.TrackerAdmin.PLANS[plan], deviceId: device || 'أول جهاز يفعّله',
         status: 'active', issuedAt: firebase.firestore.FieldValue.serverTimestamp(),
         issuedBy: currentUser.uid, issuedByEmail: currentUser.email
       });
@@ -720,6 +758,46 @@ try { firebaseConfig = {
   });
   $('copy-code').addEventListener('click', async function () {
     try { await navigator.clipboard.writeText($('out-code').textContent); $('copy-code').textContent = 'تنسخ ✓'; setTimeout(function () { $('copy-code').textContent = 'نسخ الكود'; }, 1500); } catch (e) {}
+  });
+  async function loadTrial() {
+    try {
+      var doc = await db.collection('trial').doc('current').get();
+      if (doc.exists) {
+        var d = doc.data();
+        $('trial-current').textContent = d.code || '—';
+        $('trial-meta').textContent = 'معرف التجربة: ' + (d.tid || '—') + (d.createdAt ? ' — أُنشئ: ' + fmtDate(d.createdAt) : '') + (d.createdByEmail ? ' — بواسطة: ' + d.createdByEmail : '');
+      } else {
+        $('trial-current').textContent = 'لم يُولَّد أي كود تجريبي بعد.';
+        $('trial-meta').textContent = '';
+      }
+    } catch (e) { $('trial-msg').innerHTML = '<span class="err">تعذر قراءة الكود التجريبي: ' + esc(e.message) + '</span>'; }
+  }
+  $('gen-trial').addEventListener('click', async function () {
+    if (currentRole !== 'admin') { $('trial-msg').innerHTML = '<span class="err">التدوير للمدير فقط.</span>'; return; }
+    if (!privKey) { $('trial-msg').innerHTML = '<span class="err">حمّل ملف المفتاح أولاً (من صفحة توليد كود).</span>'; return; }
+    try {
+      var code = await window.TrackerAdmin.issueTrialCode(privKey);
+      var tid = JSON.parse(new TextDecoder().decode(b64urlDecode(code.split('.')[0]))).tid;
+      await db.collection('trial').doc('current').set({
+        code: code, tid: tid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdBy: currentUser.uid, createdByEmail: currentUser.email
+      });
+      await logActivity('trial-rotate', 'كود تجريبي جديد (' + tid + ')');
+      $('trial-current').textContent = code;
+      $('trial-meta').textContent = 'معرف التجربة: ' + tid + ' — أُنشئ الآن';
+      $('trial-msg').innerHTML = '<span class="ok">تم ✓ — شارك الكود الجديد مع الزبناء المحتملين.</span>';
+      await loadActivity();
+    } catch (e) { $('trial-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
+  });
+  $('copy-trial').addEventListener('click', async function () {
+    try {
+      var t = $('trial-current').textContent;
+      if (!t || t.indexOf('لم يُولَّد') === 0) return;
+      await navigator.clipboard.writeText(t);
+      $('copy-trial').textContent = 'تنسخ ✓';
+      setTimeout(function () { $('copy-trial').textContent = 'نسخ الكود'; }, 1500);
+    } catch (e) {}
   });
   $('add-enroll-btn').addEventListener('click', async function () {
     var name = $('e-name').value.trim(), course = $('e-course').value.trim();
