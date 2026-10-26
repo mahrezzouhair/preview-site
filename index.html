@@ -43,7 +43,7 @@ header.scrolled{box-shadow:0 6px 24px rgba(0,0,0,.35)}
 .logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:1.15rem}
 .logo .mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--green));display:grid;place-items:center;color:#06280F;font-size:1.1rem}
 nav.main{display:flex;gap:4px}
-nav.main a{color:#C9D6CE;font-weight:700;padding:8px 14px;border-radius:999px;transition:.2s;font-size:.95rem}
+nav.main a{color:#C9D6CE;font-weight:700;padding:8px 12px;border-radius:999px;transition:.2s;font-size:.95rem}
 nav.main a:hover, nav.main a.active{background:#1B2E23;color:#fff}
 .header-cta{display:flex;align-items:center;gap:10px}
 .burger{display:none;background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer;line-height:1}
@@ -164,6 +164,13 @@ footer a:hover{color:var(--neon)}
   section{padding:60px 0}
   .course{padding:32px 24px}
 }
+/* Header collapses to burger menu below 1200px so the 7-link nav never wraps */
+@media(max-width:1200px){
+  nav.main{display:none;position:absolute;top:100%;right:0;left:0;background:var(--dark);flex-direction:column;padding:14px 20px 20px;border-top:1px solid #1C3325}
+  nav.main.open{display:flex}
+  .burger{display:block}
+  .header-cta .btn{display:none}
+}
 /* Language selector (globe button + dropdown) */
 .lang-select{position:relative}
 .lang-btn{display:inline-flex;align-items:center;gap:6px;background:#0E1A14;border:1px solid #2C4A38;color:#E7F3EB;border-radius:999px;padding:5px 12px;font-family:inherit;font-weight:800;font-size:.85rem;cursor:pointer;line-height:1.4}
@@ -195,6 +202,7 @@ html[dir="ltr"] .faq-q{text-align:left}
       <a href="#" class="active" data-i18n="nav_home">الرئيسية</a>
       <a href="#tools" data-i18n="nav_tools">الأدوات</a>
       <a href="courses.html" data-i18n="nav_courses">الدورات</a>
+      <a href="centers.html" data-i18n="nav_centers">أصحاب المراكز</a>
       <a href="#contact" data-i18n="nav_contact">تواصل</a>
       <a href="verify.html" data-i18n="nav_verify">تحقق من شهادة</a>
       <a href="register.html" data-i18n="nav_login">دخول</a>
@@ -439,6 +447,7 @@ nav_home: "الرئيسية",
 nav_about: "من أنا",
 nav_tools: "الأدوات",
 nav_courses: "الدورات",
+nav_centers: "أصحاب المراكز",
 nav_faq: "الأسئلة",
 nav_contact: "تواصل",
 header_cta_whatsapp: "تواصل عبر واتساب",
@@ -592,6 +601,7 @@ nav_home: "الرئيسية",
 nav_about: "شكون أنا",
 nav_tools: "الأدوات",
 nav_courses: "الدورات",
+nav_centers: "أصحاب المراكز",
 nav_faq: "الأسئلة",
 nav_contact: "تواصل",
 header_cta_whatsapp: "تواصل في واتساب",
@@ -745,6 +755,7 @@ nav_home: "Accueil",
 nav_about: "Qui suis-je",
 nav_tools: "Outils",
 nav_courses: "Formations",
+nav_centers: "Pour les centres",
 nav_faq: "Questions",
 nav_contact: "Contact",
 header_cta_whatsapp: "Contact sur WhatsApp",
@@ -898,6 +909,7 @@ nav_home: "Home",
 nav_about: "About me",
 nav_tools: "Tools",
 nav_courses: "Courses",
+nav_centers: "For centers",
 nav_faq: "Questions",
 nav_contact: "Contact",
 header_cta_whatsapp: "Contact on WhatsApp",
