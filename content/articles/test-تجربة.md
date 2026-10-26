@@ -1,6 +1,6 @@
 ---
 title: test تجربة
-date: ''
+date: 2026-10-26T11:25:00.000Z
 lang: darija
 excerpt: منكمنم منكم نكمنكمن منكمن منمنكمن خنخ خ ننك نك نخ نك ن كخن كن ن ن
 cover: /assets/uploads/94d3d5d96cbd44111866080ae34ea6bb~tplv-tiktokx-cropcenter_1080_1080.jpeg
