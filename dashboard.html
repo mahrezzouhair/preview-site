@@ -104,6 +104,7 @@ th{color:var(--neon)}
       <button data-page="users" id="nav-users">👥 إدارة الحسابات</button>
       <button data-page="activity">📝 سجل النشاط</button>
       <button data-page="courses">🎓 الدورات والتفعيل</button>
+      <button data-page="learners" id="nav-learners">📈 المتعلمون والتقدم</button>
     </div>
     <div class="card" id="key-card">
       <h2>🔑 ملف المفتاح</h2>
@@ -236,6 +237,20 @@ th{color:var(--neon)}
         </table>
       </div>
     </div>
+    <div class="card" id="learners-card" style="display:none">
+      <h2>📈 المتعلمون والتقدم (للمدير فقط)</h2>
+      <p class="note">كل المسجلين في الدورات وفين وصلو بالبورسونتاج — التقدم كيتسجل من صفحة «دوراتي» عند المتعلم. (عمود التقدم كيخدم بعد نشر قواعد Firestore v4.)</p>
+      <div class="row" style="margin-bottom:12px">
+        <div style="flex:1;min-width:180px"><input id="search-learner" placeholder="بحث بالاسم أو الإيميل…"></div>
+        <button class="ghost" id="refresh-learner-btn">تحديث</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>المتعلم</th><th>الإيميل</th><th>الدورة</th><th>الحالة</th><th>التقدم</th><th>آخر نشاط</th></tr></thead>
+          <tbody id="learner-body"></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -345,14 +360,15 @@ try { firebaseConfig = {
 
   // ---- Pages: one function per page, switched by the nav bar ----
   var currentPage = 'home';
-  var PAGE_CARDS = { home: ['stats-card'], generate: ['key-card', 'issue-card'], registry: ['registry-card'], users: ['users-card'], activity: ['activity-card'], courses: ['courses-card'] };
+  var PAGE_CARDS = { home: ['stats-card'], generate: ['key-card', 'issue-card'], registry: ['registry-card'], users: ['users-card'], activity: ['activity-card'], courses: ['courses-card'], learners: ['learners-card'] };
   function showPage(page) {
-    if (page === 'users' && currentRole !== 'admin') page = 'home';
+    if ((page === 'users' || page === 'learners') && currentRole !== 'admin') page = 'home';
     currentPage = page;
-    ['key-card', 'issue-card', 'stats-card', 'registry-card', 'users-card', 'activity-card', 'courses-card'].forEach(function (id) { $(id).style.display = 'none'; });
+    ['key-card', 'issue-card', 'stats-card', 'registry-card', 'users-card', 'activity-card', 'courses-card', 'learners-card'].forEach(function (id) { $(id).style.display = 'none'; });
     PAGE_CARDS[page].forEach(function (id) { $(id).style.display = ''; });
     document.querySelectorAll('#dash-nav button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-page') === page); });
     $('nav-users').style.display = (currentRole === 'admin') ? '' : 'none';
+    $('nav-learners').style.display = (currentRole === 'admin') ? '' : 'none';
   }
   document.querySelectorAll('#dash-nav button').forEach(function (b) {
     b.addEventListener('click', function () { showPage(b.getAttribute('data-page')); });
@@ -515,7 +531,43 @@ try { firebaseConfig = {
     await logActivity(status === 'approved' ? 'enroll-approve' : 'enroll-reject', name);
     await loadCourses(); await loadActivity();
   }
-  async function loadAll() { await loadRegistry(); await loadActivity(); if (currentRole === 'admin') await loadUsers(); await loadCourses(); }
+  var lastLearners = [], lastProgress = {};
+  function courseIdOfEnroll(e) {
+    if (e.courseId) return e.courseId;
+    if (e.course === 'الحجامة' || e.course === 'دورة الحجامة') return 'hijama';
+    if (e.course === 'تقويم العظام' || e.course === 'دورة تقويم العظام') return 'bone';
+    if (e.course === 'الوخز بالإبر الصينية') return 'acu';
+    return 'other';
+  }
+  async function loadLearners() {
+    var snap = await db.collection('course-enrollments').orderBy('createdAt', 'desc').limit(100).get();
+    lastLearners = [];
+    snap.forEach(function (doc) { var d = doc.data(); d._id = doc.id; lastLearners.push(d); });
+    lastProgress = {};
+    try {
+      var psnap = await db.collection('progress').limit(200).get();
+      psnap.forEach(function (doc) { var p = doc.data(); lastProgress[p.uid + '|' + p.courseId] = p; });
+    } catch (e) { /* قواعد v4 ما تنشراتش بعد — التقدم غادي يبان «—» */ }
+    renderLearners();
+  }
+  function renderLearners() {
+    var q = ($('search-learner').value || '').trim().toLowerCase();
+    var rows = lastLearners.filter(function (e) {
+      if (!q) return true;
+      return String(e.name || '').toLowerCase().indexOf(q) >= 0 || String(e.email || '').toLowerCase().indexOf(q) >= 0;
+    });
+    $('learner-body').innerHTML = rows.map(function (e) {
+      var key = (e.uid || '') + '|' + courseIdOfEnroll(e);
+      var p = lastProgress[key];
+      var pct = p ? p.percent : null;
+      var bar = pct === null ? '—' : '<div style="height:10px;background:#0A120F;border:1px solid #2C4A38;border-radius:999px;overflow:hidden;min-width:110px"><div style="height:100%;background:#1ED760;width:' + pct + '%"></div></div> ' + pct + '%';
+      var last = (p && p.updatedAt) ? fmtDate(p.updatedAt) : '—';
+      var badge = e.status === 'approved' ? 'active' : (e.status === 'rejected' ? 'revoked' : 'pending');
+      return '<tr><td>' + esc(e.name) + '</td><td dir="ltr" style="text-align:left">' + esc(e.email) + '</td><td>' + esc(e.course) + '</td>' +
+        '<td><span class="badge ' + badge + '">' + courseStatusLabel(e.status) + '</span></td><td>' + bar + '</td><td>' + last + '</td></tr>';
+    }).join('') || '<tr><td colspan="6" class="note">لا يوجد أي مسجل مطابق.</td></tr>';
+  }
+  async function loadAll() { await loadRegistry(); await loadActivity(); if (currentRole === 'admin') await loadUsers(); await loadCourses(); if (currentRole === 'admin') await loadLearners(); }
 
   async function onAuth(user) {
     if (!user) { currentUser = null; currentRole = null; $('topbar').style.display = 'none'; showView('auth-view'); return; }
@@ -632,6 +684,8 @@ try { firebaseConfig = {
       await loadCourses(); await loadActivity();
     } catch (e) { $('enroll-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
   });
+  $('search-learner').addEventListener('input', renderLearners);
+  $('refresh-learner-btn').addEventListener('click', loadLearners);
   $('search-enroll').addEventListener('input', renderCourses);
   $('filter-enroll-status').addEventListener('change', renderCourses);
   $('refresh-enroll-btn').addEventListener('click', loadCourses);

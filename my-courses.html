@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>دوراتي — زهير محرز</title>
+<meta name="description" content="دوراتك، تقدمك، وطلبات الالتحاق.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+:root{--dark:#0A120F;--neon:#1ED760}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--dark);color:#E7F3EB;line-height:1.8}
+a{color:var(--neon);text-decoration:none}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.logo{font-weight:900;font-size:1.15rem;color:#fff}
+.card{background:#101E16;border:1px solid #1C3325;border-radius:18px;padding:22px;margin:16px 0 40px}
+h1{font-size:1.6rem;margin:0 0 4px}
+h2{font-size:1.25rem;margin:0 0 10px}
+.note{color:#9DB8A8;font-size:.95rem;margin:0 0 12px}
+.badge{display:inline-block;border-radius:999px;padding:2px 12px;font-weight:800;font-size:.85rem}
+.badge.pending{background:#3A2E0A;color:#FFD97A}
+.badge.approved{background:#0E2E1A;color:#7CFFAB}
+.badge.rejected{background:#3A1212;color:#FF9A9A}
+.bar{height:12px;background:#0A120F;border:1px solid #2C4A38;border-radius:999px;overflow:hidden;margin:8px 0}
+.bar > div{height:100%;background:var(--neon);width:0%;transition:width .3s}
+.unit{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid #1C3325}
+.unit input{width:20px;height:20px;margin-top:4px;accent-color:var(--neon)}
+.unit.locked{opacity:.6}
+button.primary{padding:12px 26px;border:0;border-radius:999px;background:var(--neon);color:#06280F;font-family:inherit;font-weight:900;font-size:1rem;cursor:pointer}
+button.ghost{background:transparent;border:1px solid #2C4A38;color:#E7F3EB;border-radius:999px;padding:9px 18px;font-family:inherit;font-weight:800;cursor:pointer}
+select,input{padding:11px 13px;border-radius:12px;border:1px solid #2C4A38;background:#0A120F;color:#fff;font-family:inherit;font-size:1rem}
+.msg{margin-top:12px;font-weight:700}
+.msg .err{color:#FF7A7A}
+.msg .ok{color:var(--neon)}
+.foot{border-top:1px solid #1C3325;padding:20px 0 40px;color:#7C9A88;font-size:.85rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="logo">زهير محرز</span>
+    <span><a href="index.html">الرئيسية</a> · <a href="register.html" id="auth-link">دخول</a></span>
+  </div>
+  <div class="card" id="need-login" style="display:none">
+    <h1>خاصك تدخل أولا</h1>
+    <p class="note">دوراتك وتقدمك كيبانو غير بعد الدخول بحسابك.</p>
+    <a href="register.html"><button class="primary">دخول / تسجيل</button></a>
+  </div>
+  <div id="main" style="display:none">
+    <h1>دوراتي</h1>
+    <p class="note" id="who"></p>
+    <div id="enroll-list"></div>
+    <div class="card">
+      <h2>طلب الالتحاق بدورة</h2>
+      <p class="note">اختار الدورة واطلب الالتحاق — الطلب كيمشي بقيد الانتظار، والتفعيل كيتم يدوياً من طرف زهير بعد التأكد من التحويل البنكي (غادي نتواصلو معاك لإتمامه).</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <select id="req-course">
+          <option value="hijama|الحجامة">دورة الحجامة وخرائط الحجامة</option>
+          <option value="bone|تقويم العظام">دورة تقويم العظام</option>
+          <option value="acu|الوخز بالإبر الصينية">دورة الوخز بالإبر الصينية وخرائطها</option>
+        </select>
+        <button class="primary" id="btn-request">طلب الالتحاق</button>
+      </div>
+      <div class="msg" id="req-msg"></div>
+    </div>
+  </div>
+  <div class="foot">© 2026 زهير محرز — المحتوى تعليمي ولا يعوّض استشارة طبية</div>
+</div>
+<script>
+(function(){
+var firebaseConfig = {
+  apiKey: "<redacted>",
+  authDomain: "hijama-tracker.firebaseapp.com",
+  projectId: "hijama-tracker",
+  storageBucket: "hijama-tracker.firebasestorage.app",
+  messagingSenderId: "862559400219",
+  appId: "1:862559400219:web:7302f2cee9f80fb5e263be"
+};
+firebase.initializeApp(firebaseConfig);
+var auth = firebase.auth(), db = firebase.firestore();
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function statusLabel(s){ return { pending: 'قيد الانتظار', approved: 'مفعّلة', rejected: 'مرفوضة' }[s] || s; }
+/* منهج دورة الحجامة المعتمد (9 وحدات) — العناوين فقط؛ الفيديوهات غادي تجي من بعد */
+var UNITS = [
+  'الوحدة 0 — مدخل وحدود الممارسة 🎁 (درس مجاني)',
+  'الوحدة 1 — أساسيات علمية وتشريح تطبيقي',
+  'الوحدة 2 — السلامة والتعقيم قبل كل شيء ⭐',
+  'الوحدة 3 — الفرز والموانع: شكون نخدمو وشكون لا',
+  'الوحدة 4 — خرائط نقاط الحجامة 🎁 (درس مجاني)',
+  'الوحدة 5 — الحجامة الجافة',
+  'الوحدة 6 — الحجامة الدموية: الجلسة الكاملة',
+  'الوحدة 7 — ما بعد الجلسة والتوثيق المهني',
+  'الوحدة 8 — من متدرب إلى ممارس'
+];
+var currentUser = null, userName = '', enrollments = [], progressMap = {};
+function progressKey(courseId){ return currentUser.uid + '_' + courseId; }
+function courseIdOf(e){
+  if (e.courseId) return e.courseId;
+  if (e.course === 'الحجامة') return 'hijama';
+  if (e.course === 'تقويم العظام') return 'bone';
+  if (e.course === 'الوخز بالإبر الصينية') return 'acu';
+  return 'other';
+}
+async function loadProgress(courseId){
+  try {
+    var doc = await db.collection('progress').doc(progressKey(courseId)).get();
+    return doc.exists ? (doc.data().doneUnits || []) : [];
+  } catch (e) { return null; }
+}
+async function render(){
+  var wrap = $('enroll-list');
+  if (!enrollments.length) {
+    wrap.innerHTML = '<div class="card"><p class="note">ما عندك حتى طلب التحاق بعد — اختار دورة من الأسفل واطلب الالتحاق.</p></div>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < enrollments.length; i++) {
+    var e = enrollments[i], cid = courseIdOf(e);
+    var done = progressMap[cid];
+    var pct = (done === null) ? null : Math.round(done.length / UNITS.length * 100);
+    html += '<div class="card"><h2>' + esc(e.course) + ' <span class="badge ' + esc(e.status) + '">' + statusLabel(e.status) + '</span></h2>';
+    if (e.status === 'pending') html += '<p class="note">طلبك بقيد الانتظار — ملي يتم التفعيل غادي تتفتح ليك الدورة هنا.</p>';
+    if (e.status === 'rejected') html += '<p class="note">هاد الطلب ترفض — تواصل معانا إلا كان شي خطأ.</p>';
+    if (cid === 'hijama') {
+      html += '<p class="note">تقدمك: <b>' + (pct === null ? '—' : pct + '%') + '</b> (' + (done === null ? '؟' : done.length) + ' من ' + UNITS.length + ' وحدات)</p>';
+      html += '<div class="bar"><div style="width:' + (pct === null ? 0 : pct) + '%"></div></div>';
+      if (e.status === 'approved' && done !== null) {
+        html += UNITS.map(function (u, idx) {
+          var checked = done.indexOf(idx) >= 0 ? 'checked' : '';
+          return '<label class="unit"><input type="checkbox" data-unit="' + idx + '" data-cid="' + cid + '" ' + checked + '><span>' + esc(u) + '</span></label>';
+        }).join('');
+        html += '<p class="note">علّم على الوحدات اللي ساليتيها — التقدم كيتحفظ تلقائياً. (فيديوهات الدروس غادي تجي من بعد؛ البنية واجدة.)</p>';
+      } else if (e.status === 'approved') {
+        html += '<p class="note">تعذر تحميل التقدم — القواعد الجديدة (v4) ما تنشراتش بعد في Firestore.</p>';
+      } else {
+        html += UNITS.map(function (u) {
+          return '<div class="unit locked"><span>🔒</span><span>' + esc(u) + '</span></div>';
+        }).join('');
+      }
+    } else {
+      html += '<p class="note">محتوى هاد الدورة مازال في طور الإعداد — غادي يبان هنا ملي يوجد.</p>';
+    }
+    html += '</div>';
+  }
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('input[type="checkbox"][data-unit]').forEach(function (box) {
+    box.addEventListener('change', async function () {
+      var cid = box.getAttribute('data-cid'), idx = parseInt(box.getAttribute('data-unit'), 10);
+      var done = progressMap[cid] || [];
+      if (box.checked) { if (done.indexOf(idx) === -1) done.push(idx); }
+      else { done = done.filter(function (d) { return d !== idx; }); }
+      progressMap[cid] = done;
+      try {
+        await db.collection('progress').doc(progressKey(cid)).set({
+          uid: currentUser.uid, courseId: cid, doneUnits: done,
+          percent: Math.round(done.length / UNITS.length * 100),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+      } catch (err) {
+        alert('ما تسجلش التقدم — القواعد الجديدة (v4) ما تنشراتش بعد في Firestore.');
+      }
+      render();
+    });
+  });
+}
+async function loadAll(){
+  var email = currentUser.email, uid = currentUser.uid;
+  var byEmail = await db.collection('course-enrollments').where('email', '==', email).get();
+  var byUid = await db.collection('course-enrollments').where('uid', '==', uid).get();
+  var map = {};
+  byEmail.forEach(function (d) { var o = d.data(); o._id = d.id; map[d.id] = o; });
+  byUid.forEach(function (d) { var o = d.data(); o._id = d.id; map[d.id] = o; });
+  enrollments = Object.keys(map).map(function (k) { return map[k]; });
+  enrollments.sort(function (a, b) {
+    var ta = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+    var tb = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+    return tb - ta;
+  });
+  var nameDoc = await db.collection('users').doc(uid).get();
+  if (nameDoc.exists && nameDoc.data().name) userName = nameDoc.data().name;
+  progressMap = {};
+  for (var i = 0; i < enrollments.length; i++) {
+    var cid = courseIdOf(enrollments[i]);
+    if (cid === 'hijama' && !(cid in progressMap)) progressMap[cid] = await loadProgress(cid);
+  }
+  render();
+}
+$('btn-request').addEventListener('click', async function(){
+  var parts = $('req-course').value.split('|'), cid = parts[0], course = parts[1];
+  if (enrollments.some(function (e) { return courseIdOf(e) === cid && e.status !== 'rejected'; })) {
+    $('req-msg').innerHTML = '<span class="err">عندك أصلاً طلب (أو تفعيل) لهاد الدورة.</span>'; return;
+  }
+  try {
+    await db.collection('course-enrollments').add({
+      name: userName || currentUser.email, email: currentUser.email, course: course, courseId: cid,
+      method: 'bank', status: 'pending', uid: currentUser.uid,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    $('req-msg').innerHTML = '<span class="ok">تم ✓ — طلبك تسجل بقيد الانتظار. غادي نتواصلو معاك لإتمام التفعيل (تحويل بنكي).</span>';
+    await loadAll();
+  } catch (e) {
+    $('req-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>';
+  }
+});
+auth.onAuthStateChanged(function(user){
+  currentUser = user;
+  if (!user) { $('need-login').style.display = ''; $('main').style.display = 'none'; return; }
+  $('need-login').style.display = 'none'; $('main').style.display = '';
+  $('who').textContent = 'دخلت بـ ' + user.email;
+  $('auth-link').textContent = 'خروج';
+  $('auth-link').href = '#';
+  $('auth-link').onclick = function (ev) { ev.preventDefault(); auth.signOut(); };
+  loadAll().catch(function (e) { $('enroll-list').innerHTML = '<div class="card"><p class="note">خطأ في التحميل: ' + esc(e.message) + '</p></div>'; });
+});
+})();
+</script>
+</body>
+</html>

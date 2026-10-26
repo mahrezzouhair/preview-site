@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>التسجيل / الدخول — زهير محرز</title>
+<meta name="description" content="أنشئ حسابك أو ادخل لحسابك لمتابعة دورات زهير محرز.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+:root{--dark:#0A120F;--neon:#1ED760}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--dark);color:#E7F3EB;line-height:1.8}
+a{color:var(--neon);text-decoration:none}
+.wrap{max-width:520px;margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.logo{font-weight:900;font-size:1.15rem;color:#fff}
+.card{background:#101E16;border:1px solid #1C3325;border-radius:18px;padding:26px;margin:20px 0 50px}
+h1{font-size:1.6rem;margin:0 0 6px}
+.note{color:#9DB8A8;font-size:.95rem;margin:0 0 18px}
+.tabs{display:flex;gap:8px;margin-bottom:18px}
+.tabs button{flex:1;padding:10px;border-radius:999px;border:1px solid #2C4A38;background:transparent;color:#E7F3EB;font-family:inherit;font-weight:800;cursor:pointer}
+.tabs button.on{background:var(--neon);color:#06280F;border-color:var(--neon)}
+label{display:block;font-weight:700;margin:12px 0 4px}
+input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #2C4A38;background:#0A120F;color:#fff;font-family:inherit;font-size:1rem}
+button.primary{width:100%;margin-top:18px;padding:13px;border:0;border-radius:999px;background:var(--neon);color:#06280F;font-family:inherit;font-weight:900;font-size:1.05rem;cursor:pointer}
+button.ghost{background:transparent;border:1px solid #2C4A38;color:#E7F3EB;border-radius:999px;padding:10px 20px;font-family:inherit;font-weight:800;cursor:pointer}
+.msg{margin-top:14px;font-weight:700}
+.msg .err{color:#FF7A7A}
+.msg .ok{color:var(--neon)}
+.foot{border-top:1px solid #1C3325;padding:20px 0 40px;color:#7C9A88;font-size:.85rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="logo">زهير محرز</span>
+    <a href="index.html">← الرئيسية</a>
+  </div>
+  <div class="card" id="auth-card">
+    <h1>التسجيل / الدخول</h1>
+    <p class="note">حساب واحد لدوراتك: سجّل الآن، ومن بعد تفعيل الدورة (تحويل بنكي، يدوياً من طرف زهير) غادي تبان ليك في «دوراتي».</p>
+    <div class="tabs">
+      <button id="tab-login" class="on">دخول</button>
+      <button id="tab-signup">تسجيل جديد</button>
+    </div>
+    <div id="form-login">
+      <label>الإيميل</label>
+      <input type="email" id="l-email" placeholder="name@email.com" dir="ltr" style="text-align:left">
+      <label>كلمة السر</label>
+      <input type="password" id="l-pass" placeholder="••••••••">
+      <button class="primary" id="btn-login">دخول</button>
+    </div>
+    <div id="form-signup" style="display:none">
+      <label>الاسم الكامل</label>
+      <input type="text" id="s-name" placeholder="مثال: أحمد العلوي">
+      <label>الإيميل</label>
+      <input type="email" id="s-email" placeholder="name@email.com" dir="ltr" style="text-align:left">
+      <label>كلمة السر (6 حروف على الأقل)</label>
+      <input type="password" id="s-pass" placeholder="••••••••">
+      <button class="primary" id="btn-signup">إنشاء الحساب</button>
+    </div>
+    <div class="msg" id="msg"></div>
+  </div>
+  <div class="card" id="done-card" style="display:none">
+    <h1>مرحباً 👋</h1>
+    <p class="note" id="who"></p>
+    <p class="note">دوراتك وتقدمك كاينين في «دوراتي». التفعيل كيتم يدوياً من طرف زهير بعد التأكد من التحويل البنكي.</p>
+    <a href="my-courses.html"><button class="primary" style="margin-top:6px">دوراتي ←</button></a>
+    <div style="text-align:center;margin-top:14px"><button class="ghost" id="btn-logout">خروج</button></div>
+  </div>
+  <div class="foot">© 2026 زهير محرز — المحتوى تعليمي ولا يعوّض استشارة طبية</div>
+</div>
+<script>
+(function(){
+var firebaseConfig = {
+  apiKey: "<redacted>",
+  authDomain: "hijama-tracker.firebaseapp.com",
+  projectId: "hijama-tracker",
+  storageBucket: "hijama-tracker.firebasestorage.app",
+  messagingSenderId: "862559400219",
+  appId: "1:862559400219:web:7302f2cee9f80fb5e263be"
+};
+firebase.initializeApp(firebaseConfig);
+var auth = firebase.auth(), db = firebase.firestore();
+function $(id){ return document.getElementById(id); }
+function showMsg(html, ok){
+  $('msg').innerHTML = '<span class="' + (ok ? 'ok' : 'err') + '">' + html + '</span>';
+}
+function errText(e){
+  var map = {
+    'auth/email-already-in-use': 'هاد الإيميل مسجل من قبل — دخل بيه من تبويب الدخول.',
+    'auth/weak-password': 'كلمة السر خاصها 6 حروف على الأقل.',
+    'auth/invalid-email': 'الإيميل غير صحيح.',
+    'auth/user-not-found': 'الإيميل أو كلمة السر غير صحيحة.',
+    'auth/wrong-password': 'الإيميل أو كلمة السر غير صحيحة.',
+    'auth/invalid-credential': 'الإيميل أو كلمة السر غير صحيحة.',
+    'auth/too-many-requests': 'محاولات كثيرة — حاول من بعد شوية.',
+    'auth/network-request-failed': 'مشكل في الاتصال — تحقق من الأنترنت وحاول من جديد.'
+  };
+  return map[e.code] || 'خطأ: ' + (e.message || 'غير معروف');
+}
+$('tab-login').addEventListener('click', function(){
+  $('tab-login').classList.add('on'); $('tab-signup').classList.remove('on');
+  $('form-login').style.display = ''; $('form-signup').style.display = 'none'; $('msg').innerHTML = '';
+});
+$('tab-signup').addEventListener('click', function(){
+  $('tab-signup').classList.add('on'); $('tab-login').classList.remove('on');
+  $('form-signup').style.display = ''; $('form-login').style.display = 'none'; $('msg').innerHTML = '';
+});
+$('btn-login').addEventListener('click', async function(){
+  var email = $('l-email').value.trim(), pass = $('l-pass').value;
+  if (!email || !pass) { showMsg('أدخل الإيميل وكلمة السر.'); return; }
+  try { await auth.signInWithEmailAndPassword(email, pass); }
+  catch (e) { showMsg(errText(e)); }
+});
+$('btn-signup').addEventListener('click', async function(){
+  var name = $('s-name').value.trim(), email = $('s-email').value.trim(), pass = $('s-pass').value;
+  if (!name || !email || !pass) { showMsg('عمّر كل الخانات.'); return; }
+  try {
+    var cred = await auth.createUserWithEmailAndPassword(email, pass);
+    await db.collection('users').doc(cred.user.uid).set({
+      email: email, name: name, role: 'pending',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    showMsg('حسابك تسجل ✓ — دابا طلب الالتحاق بالدورة من «دوراتي».', true);
+  } catch (e) { showMsg(errText(e)); }
+});
+$('btn-logout').addEventListener('click', function(){ auth.signOut(); });
+auth.onAuthStateChanged(function(user){
+  if (user) {
+    $('auth-card').style.display = 'none';
+    $('done-card').style.display = '';
+    $('who').textContent = 'دخلت بـ ' + user.email;
+  } else {
+    $('auth-card').style.display = '';
+    $('done-card').style.display = 'none';
+  }
+});
+})();
+</script>
+</body>
+</html>
