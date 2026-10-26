@@ -4,51 +4,58 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>لأصحاب المراكز — زهير محرز</title>
-<meta name="description" content="برامج وأدوات مدفوعة للمراكز: متتبع الحجامة وبرنامج إدارة المركز، من داخل بيت الوقاية.">
+<title>المساعد الذكي — خاص بمراكز الحجامة | زهير محرز</title>
+<meta name="description" content="المساعد الذكي: أداة احترافية لمراكز الحجامة — خرائط نقاط تفاعلية، مساعد ذكي، وتوثيق كامل للجلسات، 100% محلي وبلا أنترنت.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--dark:#0A120F;--neon:#1ED760}
+:root{--paper:#F7F5F0;--card:#FFFFFF;--ink:#16211C;--muted:#5C6B62;--green:#0B3D2E;--green2:#14563F;--gold:#B9975B;--line:#E6DFD0}
 *{box-sizing:border-box}
-body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--dark);color:#E7F3EB;line-height:1.8}
-a{color:var(--neon);text-decoration:none}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.8}
+a{color:var(--green2);text-decoration:none}
 .wrap{max-width:980px;margin:0 auto;padding:0 20px}
 .top{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:12px;flex-wrap:wrap}
-.logo{font-weight:900;font-size:1.15rem;color:#fff}
-.logo .mark{display:inline-block;background:var(--neon);color:#06280F;border-radius:8px;padding:0 8px;margin-left:6px}
+.logo{font-weight:900;font-size:1.15rem;color:var(--ink)}
+.logo .mark{display:inline-block;background:var(--green);color:#fff;border-radius:8px;padding:0 8px;margin-left:6px}
 nav.main{display:flex;gap:18px;flex-wrap:wrap}
-nav.main a{color:#C9D6CE;font-weight:700}
-nav.main a.active,nav.main a:hover{color:#fff}
-.hero{padding:36px 0 6px;text-align:center}
-.hero h1{font-size:2.1rem;margin:0 0 8px}
-.hero p{color:#9DB8A8;max-width:680px;margin:0 auto 8px}
-.hero .highlight{color:#fff;font-weight:800}
-.card{background:#101E16;border:1px solid #1C3325;border-radius:20px;padding:22px;margin:20px 0}
-.card h2{font-size:1.4rem;margin:0 0 6px}
-.card .tag{display:inline-block;background:#1C3325;color:#9DB8A8;border-radius:999px;padding:2px 12px;font-weight:800;font-size:.85rem;margin-bottom:10px}
-.card ul{margin:8px 0;color:#C9D6CE;padding-right:20px}
-.card li{margin-bottom:6px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}
-.grid .card{margin:0}
-.wa{display:inline-block;background:#25D366;color:#06280F;font-weight:900;border-radius:999px;padding:12px 26px;margin-top:10px;cursor:pointer;border:0;font-family:inherit;font-size:1rem}
-.wa:hover{filter:brightness(1.05)}
+nav.main a{color:var(--muted);font-weight:700}
+nav.main a:hover{color:var(--ink)}
+.hero{text-align:center;padding:44px 0 10px}
+.badge{display:inline-block;background:#EFE7D3;color:#6B5A2E;border-radius:999px;padding:4px 16px;font-weight:800;font-size:.9rem}
+.hero h1{font-size:2.7rem;margin:12px 0 8px}
+.hero p{color:var(--muted);max-width:700px;margin:0 auto 8px;font-size:1.1rem}
+.hero p b{color:var(--ink)}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0 8px}
+.btn{display:inline-block;border-radius:999px;padding:14px 30px;font-weight:900;font-size:1.05rem;font-family:inherit;cursor:pointer;border:0}
+.btn-gold{background:var(--gold);color:#241E0E}
+.btn-green{background:var(--green);color:#fff}
+.note{color:var(--muted);font-size:.95rem;text-align:center;margin:0}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0}
+.strip div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center;font-weight:800;font-size:.95rem}
+h2.section{font-size:1.6rem;margin:32px 0 4px}
+.sec-note{color:var(--muted);margin:0 0 8px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0 8px}
+.feat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 2px 12px rgba(20,30,25,.05)}
+.feat h3{margin:0 0 6px;font-size:1.1rem}
+.feat p{margin:0;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;margin:20px 0;box-shadow:0 2px 12px rgba(20,30,25,.05)}
+.card h2{font-size:1.4rem;margin:0 0 12px}
 .step{display:flex;gap:12px;align-items:flex-start;margin:0 0 12px}
-.step .num{width:34px;height:34px;border-radius:50%;background:var(--neon);color:#06280F;font-weight:900;display:grid;place-items:center;flex-shrink:0;margin-top:2px}
-.step p{margin:0;color:#C9D6CE}
-.step p b{color:#fff}
-.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
-.trust div{background:#101E16;border:1px solid #1C3325;border-radius:16px;padding:14px;text-align:center;font-weight:700;font-size:.95rem}
+.step .num{width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;font-weight:900;display:grid;place-items:center;flex-shrink:0;margin-top:2px}
+.step p{margin:0;color:var(--muted)}
+.step p b{color:var(--ink)}
+.screen{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;margin:22px 0;box-shadow:0 2px 12px rgba(20,30,25,.05)}
+.screen h3{margin:0 0 6px;font-size:1.3rem}
+.screen p{margin:0 0 14px;color:var(--muted)}
+.screen img{width:100%;border-radius:14px;border:1px solid var(--line);display:block}
+.soon{background:var(--green);color:#EAF3EC;border-radius:20px;padding:26px;margin:22px 0;text-align:center}
+.soon h2{color:#fff;margin:0 0 6px;font-size:1.4rem}
+.soon p{margin:0;color:#C4D8CC}
 .faq h3{margin:0 0 6px;font-size:1.05rem}
-.faq p{margin:0 0 16px;color:#C9D6CE}
-.note{color:#9DB8A8;font-size:.95rem}
-.shot{background:#101E16;border:1px solid #1C3325;border-radius:20px;padding:22px;margin:20px 0}
-.shot h3{margin:0 0 4px;font-size:1.25rem}
-.shot img{width:100%;border-radius:14px;border:1px solid #2C4A38;display:block}
-.shot .cap{color:#9DB8A8;text-align:center;margin:10px 0 14px;font-size:.95rem}
-.foot{border-top:1px solid #1C3325;padding:20px 0 40px;color:#7C9A88;font-size:.85rem;text-align:center}
-@media(max-width:720px){.grid{grid-template-columns:1fr}.trust{grid-template-columns:1fr}nav.main{display:none}}
+.faq p{margin:0 0 16px;color:var(--muted)}
+.foot{border-top:1px solid var(--line);padding:20px 0 40px;color:#8A948C;font-size:.85rem;text-align:center}
+@media(max-width:720px){.features,.strip{grid-template-columns:1fr}nav.main{display:none}.hero h1{font-size:2.1rem}}
 </style>
 </head>
 <body>
@@ -64,84 +71,100 @@ nav.main a.active,nav.main a:hover{color:#fff}
   </div>
 
   <div class="hero">
-    <h1>لأصحاب المراكز</h1>
-    <p>برامج وأدوات مدفوعة، <span class="highlight">مصاوبة من داخل المركز ومجرّبة فيه</span> — للمراكز اللي بغات تنظم خدمتها وتزيد احترافيتها.</p>
-  </div>
-
-  <div class="grid">
-    <div class="card">
-      <span class="tag">للممارسين والمراكز</span>
-      <h2>📍 متتبع الحجامة</h2>
-      <p class="note">خرائط نقاط تفاعلية ومساعد ذكي للممارس، خدام 100% بلا أنترنت.</p>
-      <ul>
-        <li>خريطة نقاط تفاعلية كاملة للجسم</li>
-        <li>مساعد ذكي: الحالة الصحية → النقاط المناسبة</li>
-        <li>نقاط السنة والنقاط الوقائية جاهزة</li>
-        <li>قفل PIN ونسخ احتياطي مشفّر</li>
-        <li>بيانات الزبناء كتبقى عندك في جهازك فقط</li>
-      </ul>
-      <p class="note">التفعيل: ترخيص بالاسم + كود، لجهاز واحد.</p>
-      <button class="wa" data-wa="متتبع الحجامة">اطلب المتتبع عبر واتساب ←</button>
+    <span class="badge">خاص بمراكز الحجامة</span>
+    <h1>المساعد الذكي</h1>
+    <p>أداة احترافية لمراكز الحجامة: <b>خرائط نقاط تفاعلية، مساعد ذكي يقترح النقاط حسب الحالة، وتوثيق كامل للجلسات</b> — وكلشي محلي على جهازك، بلا أنترنت.</p>
+    <div class="cta-row">
+      <a class="btn btn-gold" href="assets/centers/almusaid-demo.zip" download>⬇ تحميل نسخة العرض</a>
+      <button class="btn btn-green" data-wa="المساعد الذكي">اطلب الترخيص الرسمي عبر واتساب ←</button>
     </div>
-
-    <div class="card">
-      <span class="tag">إدارة المركز</span>
-      <h2>🗂️ برنامج المركز</h2>
-      <p class="note">نظّم زبنائك وحمياتهم وحصصهم من بلاصة واحدة.</p>
-      <ul>
-        <li>بطاقات الزبناء مع تنبيهات طبية مهمة</li>
-        <li>سجل الحصص وتتبع الوزن والتقدم</li>
-        <li>مولد حميات حسب الهدف والحساسية</li>
-        <li>بطاقة زبون قابلة للطباعة</li>
-        <li>خدام محلياً على جهاز المركز</li>
-      </ul>
-      <p class="note">التسليم والإعداد كيتم بعد التأكد من الأداء.</p>
-      <button class="wa" data-wa="برنامج المركز">اطلب البرنامج عبر واتساب ←</button>
-    </div>
+    <p class="note">نسخة العرض كاملة للتجربة (ملف ZIP حوالي 460KB — فك الضغط وافتح index.html). الترخيص الرسمي بالاسم والكود بعد الطلب.</p>
   </div>
 
-  <div class="shot">
-    <h3>واجهة برنامج المركز وطريقة العمل</h3>
-    <p class="cap">صور حقيقية من داخل البرنامج — واجهة ملفات الزبناء والبحث السريع.</p>
-    <img src="assets/centers/markaz-ui.png" alt="واجهة برنامج المركز - ملفات الزبناء">
-    <div class="step" style="margin-top:16px"><div class="num">1</div><p><b>أنشئ ملف الزبون:</b> الاسم، الهاتف، العمر، والموانع الصحية.</p></div>
-    <div class="step"><div class="num">2</div><p><b>سجّل كل حصة</b> وتابع الوزن والتقدم من نفس الملف.</p></div>
-    <div class="step"><div class="num">3</div><p><b>ولّد الحمية</b> من مولد الحميات حسب الهدف والحساسية.</p></div>
-    <div class="step"><div class="num">4</div><p><b>اطبع بطاقة الزبون</b> وسلمها ليه.</p></div>
+  <div class="strip">
+    <div>📴 100% محلي</div>
+    <div>🔒 ترخيص بالاسم</div>
+    <div>🗂️ توثيق كامل للجلسات</div>
+    <div>⚡ خدام بلا أنترنت</div>
   </div>
 
-  <div class="shot">
-    <h3>واجهة المتتبع وطريقة العمل</h3>
-    <p class="cap">صور حقيقية من داخل المتتبع — تسجيل جلسة وخريطة النقاط التفاعلية.</p>
-    <img src="assets/centers/tracker-map.jpg" alt="واجهة متتبع الحجامة - تسجيل جلسة وخريطة النقاط">
-    <div class="step" style="margin-top:16px"><div class="num">1</div><p><b>فعّل النسخة</b> بالاسم والكود (ترخيص لجهاز واحد).</p></div>
-    <div class="step"><div class="num">2</div><p><b>أنشئ العميل وسجّل جلسة جديدة:</b> النوع، المدة، والملاحظات.</p></div>
-    <div class="step"><div class="num">3</div><p><b>اختار النقاط من الخريطة التفاعلية،</b> أو من المساعد الذكي حسب الحالة.</p></div>
-    <div class="step"><div class="num">4</div><p><b>وثّق الجلسة</b> وراجعها في سجل الجلسات.</p></div>
+  <h2 class="section">شنو كيدير المساعد الذكي؟</h2>
+  <p class="sec-note">ستة مميزات عملية، مصاوبة من داخل مركز حقيقي.</p>
+  <div class="features">
+    <div class="feat"><h3>🗺️ خريطة نقاط تفاعلية</h3><p>154 نقطة على خرائط الظهر والأمام والوجه والأطراف — اختار باللمس مباشرة على الخريطة.</p></div>
+    <div class="feat"><h3>🤖 المساعد الذكي</h3><p>اختار الحالة الصحية، وهو يقترح النقاط المناسبة — 72 حالة جاهزة.</p></div>
+    <div class="feat"><h3>☪️ نقاط السنة والوقائية</h3><p>مجموعات جاهزة بضغطة واحدة: نقاط السنة، الوقائية، أو معاً.</p></div>
+    <div class="feat"><h3>🗂️ توثيق كامل</h3><p>ملفات العملاء، سجل الجلسات، والموافقة المستنيرة قبل كل جلسة.</p></div>
+    <div class="feat"><h3>🔒 حماية قوية</h3><p>قفل PIN، نسخ احتياطية مشفّرة (AES-GCM)، وبيانات محلية 100%.</p></div>
+    <div class="feat"><h3>📴 بلا أنترنت</h3><p>الأداة كلها خدامة محلياً — من التحميل حتى التفعيل والاستعمال اليومي.</p></div>
   </div>
 
   <div class="card">
-    <h2>كيفاش كيتم الطلب؟</h2>
-    <div class="step"><div class="num">1</div><p><b>تواصل معانا عبر واتساب</b> واختار المنتج اللي بغيتيه.</p></div>
-    <div class="step"><div class="num">2</div><p><b>تأكيد الثمن والأداء</b> — الأداء بتحويل بنكي، والتفاصيل كاملة في <a href="payment.html">صفحة الدفع</a> (من CIH التفعيل ف الحين، ومن بنك آخر حتى يوصل التحويل).</p></div>
-    <div class="step"><div class="num">3</div><p><b>التفعيل والتسليم</b> — المتتبع بكود ترخيص، والبرنامج مع مرافقة في الإعداد.</p></div>
-    <p class="note">الأثمنة كتتأكد عبر واتساب حسب المنتج — ما كاين حتى أداء أوتوماتيكي في الموقع.</p>
+    <h2>كيفاش كتخدم؟</h2>
+    <div class="step"><div class="num">1</div><p><b>حمّل نسخة العرض</b> — ملف ZIP صغير، فك الضغط وافتح index.html.</p></div>
+    <div class="step"><div class="num">2</div><p><b>فعّل بالاسم والكود</b> — للتجربة أي كود بصيغة HT-XXXX-XXXX، والرسمي بعد الطلب.</p></div>
+    <div class="step"><div class="num">3</div><p><b>سجّل العملاء والجلسات</b> — من الخريطة التفاعلية أو من المساعد الذكي.</p></div>
+    <div class="step"><div class="num">4</div><p><b>وثّق وراجع</b> — كل جلسة محفوظة في السجل، ونسخك الاحتياطية مشفّرة.</p></div>
   </div>
 
-  <div class="trust">
-    <div>🤝 بشراكة مع بيت الوقاية</div>
-    <div>🔒 بياناتك كتبقى عندك في جهازك</div>
-    <div>👨‍🏫 دعم ومرافقة من المركز</div>
+  <h2 class="section">المعايير التي نعمل بها</h2>
+  <p class="sec-note">قبل ما تكون أداة، هي التزام مهني.</p>
+  <div class="features">
+    <div class="feat"><h3>🛡️ السلامة أولاً</h3><p>فرز الموانع والموافقة المستنيرة قبل كل جلسة، بمواءمة مع معايير WHO في السلامة والتعقيم.</p></div>
+    <div class="feat"><h3>🔒 خصوصية مطلقة</h3><p>بياناتك لا تغادر جهازك أبداً — تخزين محلي فقط، بلا خوادم ولا تتبع.</p></div>
+    <div class="feat"><h3>📖 محتوى مهني منضبط</h3><p>خرائط ونقاط مهنية، بعيد عن الخرافة والادعاءات غير المثبتة.</p></div>
+    <div class="feat"><h3>🗂️ توثيق وشفافية</h3><p>كل جلسة موثقة: العميل، النوع، النقاط، الملاحظات، والموافقة — مرجع مهني كامل.</p></div>
+  </div>
+  <p class="note" style="margin-top:10px"><a href="standards.html">اقرأ منهجنا ومعاييرنا كاملة ←</a></p>
+
+  <h2 class="section">جولة داخل التطبيق — صفحة بصفحة</h2>
+  <p class="sec-note">صور حقيقية من داخل التطبيق، صفحة بصفحة.</p>
+
+  <div class="screen">
+    <h3>1 — التفعيل</h3>
+    <p>أدخل اسم المركز أو الممارس وكود الترخيص. الترخيص مرتبط بالاسم، لجهاز واحد، والاسم يظهر أعلى نسختك.</p>
+    <img src="assets/centers/screen-activation.jpg" alt="صفحة التفعيل في المساعد الذكي">
+  </div>
+
+  <div class="screen">
+    <h3>2 — العملاء</h3>
+    <p>أنشئ ملف كل عميل: الاسم الكامل، الهاتف، العمر، الجنس، موانع وكلمات انتباه (مميعات الدم، سكري، ضغط...)، وملاحظات — وابحث في القائمة بسرعة.</p>
+    <img src="assets/centers/screen-clients.jpg" alt="صفحة العملاء في المساعد الذكي">
+  </div>
+
+  <div class="screen">
+    <h3>3 — جلسة جديدة</h3>
+    <p>سجّل الجلسة: العميل، التاريخ، نوع الحجامة، المدة، والملاحظات، مع الموافقة المستنيرة — ثم اختر النقاط من الخريطة التفاعلية، أو بضغطة واحدة من نقاط السنة، الوقائية، أو المساعد الذكي.</p>
+    <img src="assets/centers/screen-session.jpg" alt="صفحة جلسة جديدة وخريطة النقاط في المساعد الذكي">
+  </div>
+
+  <div class="screen">
+    <h3>4 — سجل الجلسات</h3>
+    <p>جدول كامل لكل الجلسات: التاريخ، العميل، النوع، المواضع، والملاحظات — مرجعك لتاريخ المركز ومتابعة كل عميل.</p>
+    <img src="assets/centers/screen-records.jpg" alt="صفحة سجل الجلسات في المساعد الذكي">
+  </div>
+
+  <div class="screen">
+    <h3>5 — الإعدادات والحماية</h3>
+    <p>الترخيص والإصدار (v2.2.7) مع التحقق من التحديثات، قفل PIN عند كل فتح، نسخ احتياطية مشفّرة (AES-GCM) مع تصدير واستيراد — وبياناتك تبقى محلية دائماً.</p>
+    <img src="assets/centers/screen-settings.jpg" alt="صفحة الإعدادات والحماية في المساعد الذكي">
+  </div>
+
+  <div class="soon">
+    <h2>برامج أخرى للمراكز — قريباً ⏳</h2>
+    <p>كنصاوبو أدوات جديدة لأصحاب المراكز، وغادي نعلنو عليها هنا منين توجد.</p>
   </div>
 
   <div class="card faq">
     <h2>أسئلة شائعة</h2>
-    <h3>واش البرامج خدامة بلا أنترنت؟</h3>
-    <p>نعم — المتتبع خدام 100% محلياً، وبرنامج المركز خدام على جهاز المركز.</p>
-    <h3>واش نقدر نستعمل المتتبع في أكثر من جهاز؟</h3>
-    <p>الترخيص الواحد مخصص لجهاز واحد وبالاسم ديالك أو ديال المركز.</p>
+    <h3>شنو الفرق بين نسخة العرض والترخيص الرسمي؟</h3>
+    <p>نسخة العرض للتجربة: أي كود بصيغة HT-XXXX-XXXX يُقبل فيها. الترخيص الرسمي كود خاص باسم مركزك، يُصدر يدوياً بعد الطلب والأداء.</p>
+    <h3>واش الأداة خدامة بلا أنترنت؟</h3>
+    <p>نعم، 100% محلية على جهازك — والنسخة المحمّلة خدامة من ملف مباشرة.</p>
+    <h3>واش نقدر نستعملها في أكثر من جهاز؟</h3>
+    <p>الترخيص الواحد لجهاز واحد بالاسم.</p>
     <h3>كيفاش نخلّص؟</h3>
-    <p>بتحويل بنكي — شوف <a href="payment.html">صفحة الدفع</a> للخطوات والتفعيل حسب البنك ديالك.</p>
+    <p>بتحويل بنكي — شوف <a href="payment.html">صفحة الدفع</a> (من CIH التفعيل ف الحين، ومن بنك آخر حتى يوصل التحويل).</p>
   </div>
 
   <div class="foot">© 2026 زهير محرز — جميع الحقوق محفوظة ·</div>
@@ -150,7 +173,7 @@ nav.main a.active,nav.main a:hover{color:#fff}
 (function(){
 document.querySelectorAll('[data-wa]').forEach(function (btn) {
   btn.addEventListener('click', function () {
-    var msg = 'سلام، بغيت معلومات على ' + btn.getAttribute('data-wa') + ' لأصحاب المراكز، والثمن وطريقة التفعيل عافاك.';
+    var msg = 'سلام، بغيت نطلب الترخيص الرسمي ديال ' + btn.getAttribute('data-wa') + '، والثمن وطريقة التفعيل عافاك.';
     window.open('https://wa.me/212664651301?text=' + encodeURIComponent(msg), '_blank');
   });
 });
