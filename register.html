@@ -30,6 +30,10 @@ label{display:block;font-weight:700;margin:12px 0 4px}
 input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #2C4A38;background:#0A120F;color:#fff;font-family:inherit;font-size:1rem}
 button.primary{width:100%;margin-top:18px;padding:13px;border:0;border-radius:999px;background:var(--neon);color:#06280F;font-family:inherit;font-weight:900;font-size:1.05rem;cursor:pointer}
 button.ghost{background:transparent;border:1px solid #2C4A38;color:#E7F3EB;border-radius:999px;padding:10px 20px;font-family:inherit;font-weight:800;cursor:pointer}
+button.gbtn{width:100%;padding:13px;border:1px solid #D8E4DC;border-radius:999px;background:#fff;color:#1F2A23;font-family:inherit;font-weight:900;font-size:1.05rem;cursor:pointer}
+.or{display:flex;align-items:center;gap:10px;color:#7C9A88;font-size:.85rem;margin:16px 0 4px}
+.or:before,.or:after{content:"";flex:1;height:1px;background:#1C3325}
+.alert{border:1px solid #D9A441;background:#241A06;border-radius:12px;padding:12px 14px;font-weight:800;font-size:.95rem;margin:0 0 14px}
 .msg{margin-top:14px;font-weight:700}
 .msg .err{color:#FF7A7A}
 .msg .ok{color:var(--neon)}
@@ -45,6 +49,8 @@ button.ghost{background:transparent;border:1px solid #2C4A38;color:#E7F3EB;borde
   <div class="card" id="auth-card">
     <h1>التسجيل / الدخول</h1>
     <p class="note">حساب واحد لدوراتك: سجّل الآن، ومن بعد تفعيل الدورة (تحويل بنكي، يدوياً من طرف زهير) غادي تبان ليك في «دوراتي».</p>
+    <button class="gbtn" id="btn-google">تسجيل سريع عبر Google</button>
+    <div class="or">أو بالإيميل</div>
     <div class="tabs">
       <button id="tab-login" class="on">دخول</button>
       <button id="tab-signup">تسجيل جديد</button>
@@ -57,6 +63,7 @@ button.ghost{background:transparent;border:1px solid #2C4A38;color:#E7F3EB;borde
       <button class="primary" id="btn-login">دخول</button>
     </div>
     <div id="form-signup" style="display:none">
+      <div class="alert">⚠️ تنبيه مهم: الاسم الكامل خاصو يكون صحيح وبالعربية، حيت هو اللي غادي يبان في الشهادة ديالك. تأكد منو مزيان قبل ما تكمل.</div>
       <label>الاسم الكامل</label>
       <input type="text" id="s-name" placeholder="مثال: أحمد العلوي">
       <label>الإيميل</label>
@@ -66,6 +73,14 @@ button.ghost{background:transparent;border:1px solid #2C4A38;color:#E7F3EB;borde
       <button class="primary" id="btn-signup">إنشاء الحساب</button>
     </div>
     <div class="msg" id="msg"></div>
+  </div>
+  <div class="card" id="name-card" style="display:none">
+    <h1>خطوة أخيرة: اسمك للشهادة</h1>
+    <div class="alert">⚠️ تنبيه مهم: الاسم الكامل خاصو يكون صحيح وبالعربية، حيت هو اللي غادي يبان في الشهادة ديالك. تأكد منو مزيان قبل ما تحفظ.</div>
+    <label>الاسم الكامل بالعربية</label>
+    <input type="text" id="g-name" placeholder="مثال: أحمد العلوي">
+    <button class="primary" id="btn-save-name">حفظ الاسم وإكمال التسجيل</button>
+    <div class="msg" id="g-msg"></div>
   </div>
   <div class="card" id="done-card" style="display:none">
     <h1>مرحباً 👋</h1>
@@ -101,7 +116,10 @@ function errText(e){
     'auth/wrong-password': 'الإيميل أو كلمة السر غير صحيحة.',
     'auth/invalid-credential': 'الإيميل أو كلمة السر غير صحيحة.',
     'auth/too-many-requests': 'محاولات كثيرة — حاول من بعد شوية.',
-    'auth/network-request-failed': 'مشكل في الاتصال — تحقق من الأنترنت وحاول من جديد.'
+    'auth/network-request-failed': 'مشكل في الاتصال — تحقق من الأنترنت وحاول من جديد.',
+    'auth/operation-not-allowed': 'تسجيل Google ما زال ما تفعلش في المشروع — حاول بالإيميل.',
+    'auth/popup-closed-by-user': 'تسدات نافذة Google قبل ما تكمل — حاول من جديد.',
+    'auth/cancelled-popup-request': 'نافذة Google تلغات — حاول من جديد.'
   };
   return map[e.code] || 'خطأ: ' + (e.message || 'غير معروف');
 }
@@ -131,15 +149,52 @@ $('btn-signup').addEventListener('click', async function(){
     showMsg('حسابك تسجل ✓ — دابا طلب الالتحاق بالدورة من «دوراتي».', true);
   } catch (e) { showMsg(errText(e)); }
 });
-$('btn-logout').addEventListener('click', function(){ auth.signOut(); });
-auth.onAuthStateChanged(function(user){
-  if (user) {
-    $('auth-card').style.display = 'none';
+$('btn-google').addEventListener('click', async function(){
+  try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+  catch (e) { showMsg(errText(e)); }
+});
+$('btn-save-name').addEventListener('click', async function(){
+  var user = auth.currentUser;
+  var name = $('g-name').value.trim();
+  if (!user) { $('g-msg').innerHTML = '<span class="err">انقطع الدخول — دخل من جديد.</span>'; return; }
+  if (!name) { $('g-msg').innerHTML = '<span class="err">كتب الاسم الكامل بالعربية.</span>'; return; }
+  try {
+    await db.collection('users').doc(user.uid).set({
+      email: user.email, name: name, role: 'pending',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    $('name-card').style.display = 'none';
     $('done-card').style.display = '';
     $('who').textContent = 'دخلت بـ ' + user.email;
+  } catch (e) { $('g-msg').innerHTML = '<span class="err">' + errText(e) + '</span>'; }
+});
+$('btn-logout').addEventListener('click', function(){ auth.signOut(); });
+auth.onAuthStateChanged(async function(user){
+  if (user) {
+    // First-time Google users have no users doc yet: they must confirm
+    // their full Arabic name (certificate name) before anything else.
+    // Existing docs (incl. admin/assistant) are NEVER overwritten here.
+    try {
+      var doc = await db.collection('users').doc(user.uid).get();
+      $('auth-card').style.display = 'none';
+      if (doc.exists) {
+        $('name-card').style.display = 'none';
+        $('done-card').style.display = '';
+        $('who').textContent = 'دخلت بـ ' + user.email;
+      } else {
+        $('done-card').style.display = 'none';
+        $('name-card').style.display = '';
+        if (user.displayName) $('g-name').value = user.displayName;
+      }
+    } catch (e) {
+      $('auth-card').style.display = 'none';
+      $('done-card').style.display = '';
+      $('who').textContent = 'دخلت بـ ' + user.email;
+    }
   } else {
     $('auth-card').style.display = '';
     $('done-card').style.display = 'none';
+    $('name-card').style.display = 'none';
   }
 });
 })();
