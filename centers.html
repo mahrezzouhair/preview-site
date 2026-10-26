@@ -26,6 +26,10 @@ nav.main a:hover{color:var(--ink)}
 .hero h1{font-size:2.7rem;margin:12px 0 8px}
 .hero p{color:var(--muted);max-width:700px;margin:0 auto 8px;font-size:1.1rem}
 .hero p b{color:var(--ink)}
+.title-row{display:flex;align-items:center;justify-content:center;gap:14px}
+.app-icon{width:64px;height:64px;border-radius:16px;box-shadow:0 2px 10px rgba(20,30,25,.18);flex-shrink:0}
+.hero-banner{margin:18px 0 4px}
+.hero-banner img{width:100%;border-radius:20px;border:1px solid var(--line);display:block;box-shadow:0 4px 20px rgba(20,30,25,.10)}
 .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0 8px}
 .btn{display:inline-block;border-radius:999px;padding:14px 30px;font-weight:900;font-size:1.05rem;font-family:inherit;cursor:pointer;border:0}
 .btn-gold{background:var(--gold);color:#241E0E}
@@ -55,7 +59,7 @@ h2.section{font-size:1.6rem;margin:32px 0 4px}
 .faq h3{margin:0 0 6px;font-size:1.05rem}
 .faq p{margin:0 0 16px;color:var(--muted)}
 .foot{border-top:1px solid var(--line);padding:20px 0 40px;color:#8A948C;font-size:.85rem;text-align:center}
-@media(max-width:720px){.features,.strip{grid-template-columns:1fr}nav.main{display:none}.hero h1{font-size:2.1rem}}
+@media(max-width:720px){.features,.strip{grid-template-columns:1fr}nav.main{display:none}.hero h1{font-size:2.1rem}.app-icon{width:52px;height:52px}}
 </style>
 </head>
 <body>
@@ -72,8 +76,9 @@ h2.section{font-size:1.6rem;margin:32px 0 4px}
 
   <div class="hero">
     <span class="badge">خاص بمراكز الحجامة</span>
-    <h1>المساعد الذكي</h1>
+    <div class="title-row"><img class="app-icon" src="assets/centers/app-icon.png" alt="أيقونة تطبيق المساعد الذكي"><h1>المساعد الذكي</h1></div>
     <p>أداة احترافية لمراكز الحجامة: <b>خرائط نقاط تفاعلية، مساعد ذكي يقترح النقاط حسب الحالة، وتوثيق كامل للجلسات</b> — وكلشي محلي على جهازك، بلا أنترنت.</p>
+    <div class="hero-banner"><img src="assets/centers/hero-room.jpg" alt="غرفة حجامة احترافية — روبوت المساعد الذكي يشير إلى خريطة نقاط الحجامة على الجسم"></div>
     <div class="cta-row">
       <a class="btn btn-gold" href="assets/centers/almusaid-demo.zip" download>⬇ تحميل نسخة العرض</a>
       <button class="btn btn-green" data-wa="المساعد الذكي">اطلب الترخيص الرسمي عبر واتساب ←</button>
