@@ -51,6 +51,9 @@ th{color:var(--neon)}
 .nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .nav button{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
 .nav button.on{background:var(--neon);color:#06280F;border-color:var(--neon)}
+.ltabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.ltabs button{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.ltabs button.on{background:var(--neon);color:#06280F;border-color:var(--neon)}
 </style>
 </head>
 <body>
@@ -239,7 +242,13 @@ th{color:var(--neon)}
     </div>
     <div class="card" id="learners-card" style="display:none">
       <h2>📈 المتعلمون والتقدم (للمدير فقط)</h2>
-      <p class="note">كل المسجلين في الدورات وفين وصلو بالبورسونتاج — التقدم كيتسجل من صفحة «دوراتي» عند المتعلم. (عمود التقدم كيخدم بعد نشر قواعد Firestore v4.)</p>
+      <p class="note">كل مجموعة بوحدها: تسجيلات الموقع، المسجلون في الدورات، اللي سالاو الدورة، وحسابات الأدمين. التقدم كيتسجل من صفحة «دوراتي» عند المتعلم.</p>
+      <div class="ltabs" id="learner-tabs">
+        <button data-ltab="enrolled" class="on">المسجلون في الدورات</button>
+        <button data-ltab="site">تسجيلات الموقع</button>
+        <button data-ltab="done">اللي سالاو الدورة</button>
+        <button data-ltab="admins">حسابات الأدمين</button>
+      </div>
       <div class="row" style="margin-bottom:12px">
         <div style="flex:1;min-width:180px"><input id="search-learner" placeholder="بحث بالاسم أو الإيميل…"></div>
         <button class="ghost" id="refresh-learner-btn">تحديث</button>
@@ -457,9 +466,12 @@ try { firebaseConfig = {
     await logActivity('extend', name + ' حتى ' + date);
     await loadRegistry(); await loadActivity();
   }
+  var lastUsers = [];
   async function loadUsers() {
     if (currentRole !== 'admin') return;
     var snap = await db.collection('users').orderBy('email').get();
+    lastUsers = [];
+    snap.forEach(function (doc) { var d = doc.data(); d._id = doc.id; lastUsers.push(d); });
     $('users-body').innerHTML = '';
     snap.forEach(function (doc) {
       var d = doc.data(), isMe = doc.id === currentUser.uid;
@@ -531,7 +543,7 @@ try { firebaseConfig = {
     await logActivity(status === 'approved' ? 'enroll-approve' : 'enroll-reject', name);
     await loadCourses(); await loadActivity();
   }
-  var lastLearners = [], lastProgress = {};
+  var lastLearners = [], lastProgress = {}, learnerTab = 'enrolled';
   function courseIdOfEnroll(e) {
     if (e.courseId) return e.courseId;
     if (e.course === 'الحجامة' || e.course === 'دورة الحجامة') return 'hijama';
@@ -547,25 +559,66 @@ try { firebaseConfig = {
     try {
       var psnap = await db.collection('progress').limit(200).get();
       psnap.forEach(function (doc) { var p = doc.data(); lastProgress[p.uid + '|' + p.courseId] = p; });
-    } catch (e) { /* قواعد v4 ما تنشراتش بعد — التقدم غادي يبان «—» */ }
+    } catch (e) { /* تعذر قراءة التقدم — غادي يبان «—» */ }
     renderLearners();
   }
+  function enrollProgress(e) {
+    var p = lastProgress[(e.uid || '') + '|' + courseIdOfEnroll(e)];
+    return p ? p.percent : null;
+  }
+  function isDoneEnroll(e) { return enrollProgress(e) === 100; }
   function renderLearners() {
     var q = ($('search-learner').value || '').trim().toLowerCase();
-    var rows = lastLearners.filter(function (e) {
+    function match(e) {
       if (!q) return true;
       return String(e.name || '').toLowerCase().indexOf(q) >= 0 || String(e.email || '').toLowerCase().indexOf(q) >= 0;
+    }
+    // Disjoint groups, keyed per person (uid or email): a completer leaves
+    // the enrollees list, a site signup has no enrollment at all.
+    var enrolledKeys = {}, doneKeys = {};
+    lastLearners.forEach(function (e) { enrolledKeys[e.uid || e.email] = true; if (isDoneEnroll(e)) doneKeys[e.uid || e.email] = true; });
+    function isStaff(u) { return u.role === 'admin' || u.role === 'assistant'; }
+    var enrolled = lastLearners.filter(function (e) { return !isDoneEnroll(e) && match(e); });
+    var done = lastLearners.filter(function (e) { return isDoneEnroll(e) && match(e); });
+    var site = lastUsers.filter(function (u) {
+      return !isStaff(u) && !enrolledKeys[u._id] && !enrolledKeys[u.email] && match(u);
     });
-    $('learner-body').innerHTML = rows.map(function (e) {
-      var key = (e.uid || '') + '|' + courseIdOfEnroll(e);
-      var p = lastProgress[key];
-      var pct = p ? p.percent : null;
+    var admins = lastUsers.filter(function (u) { return isStaff(u) && match(u); });
+    var counts = {
+      enrolled: lastLearners.filter(function (e) { return !isDoneEnroll(e); }).length,
+      site: lastUsers.filter(function (u) { return !isStaff(u) && !enrolledKeys[u._id] && !enrolledKeys[u.email]; }).length,
+      done: lastLearners.filter(isDoneEnroll).length,
+      admins: lastUsers.filter(isStaff).length
+    };
+    var labels = { enrolled: 'المسجلون في الدورات', site: 'تسجيلات الموقع', done: 'اللي سالاو الدورة', admins: 'حسابات الأدمين' };
+    $('learner-tabs').querySelectorAll('button').forEach(function (b) {
+      var t = b.getAttribute('data-ltab');
+      b.textContent = labels[t] + ' (' + counts[t] + ')';
+      b.classList.toggle('on', t === learnerTab);
+    });
+    function enrollRow(e) {
+      var pct = enrollProgress(e);
       var bar = pct === null ? '—' : '<div style="height:10px;background:#0A120F;border:1px solid #2C4A38;border-radius:999px;overflow:hidden;min-width:110px"><div style="height:100%;background:#1ED760;width:' + pct + '%"></div></div> ' + pct + '%';
+      var p = lastProgress[(e.uid || '') + '|' + courseIdOfEnroll(e)];
       var last = (p && p.updatedAt) ? fmtDate(p.updatedAt) : '—';
       var badge = e.status === 'approved' ? 'active' : (e.status === 'rejected' ? 'revoked' : 'pending');
       return '<tr><td>' + esc(e.name) + '</td><td dir="ltr" style="text-align:left">' + esc(e.email) + '</td><td>' + esc(e.course) + '</td>' +
         '<td><span class="badge ' + badge + '">' + courseStatusLabel(e.status) + '</span></td><td>' + bar + '</td><td>' + last + '</td></tr>';
-    }).join('') || '<tr><td colspan="6" class="note">لا يوجد أي مسجل مطابق.</td></tr>';
+    }
+    var html = '';
+    if (learnerTab === 'enrolled') html = enrolled.map(enrollRow).join('');
+    else if (learnerTab === 'done') html = done.map(enrollRow).join('');
+    else if (learnerTab === 'site') html = site.map(function (u) {
+      return '<tr><td>' + esc(u.name || '—') + '</td><td dir="ltr" style="text-align:left">' + esc(u.email) + '</td><td>—</td>' +
+        '<td><span class="badge pending">مسجل في الموقع</span></td><td>—</td><td>' + fmtDate(u.createdAt) + '</td></tr>';
+    }).join('');
+    else if (learnerTab === 'admins') html = admins.map(function (u) {
+      var badge = u.role === 'admin' ? 'active' : 'pending';
+      var label = u.role === 'admin' ? 'مدير' : 'مساعد';
+      return '<tr><td>' + esc(u.name || '—') + '</td><td dir="ltr" style="text-align:left">' + esc(u.email) + '</td><td>—</td>' +
+        '<td><span class="badge ' + badge + '">' + label + '</span></td><td>—</td><td>—</td></tr>';
+    }).join('');
+    $('learner-body').innerHTML = html || '<tr><td colspan="6" class="note">لا يوجد أي مسجل مطابق.</td></tr>';
   }
   async function loadAll() { await loadRegistry(); await loadActivity(); if (currentRole === 'admin') await loadUsers(); await loadCourses(); if (currentRole === 'admin') await loadLearners(); }
 
@@ -685,6 +738,9 @@ try { firebaseConfig = {
     } catch (e) { $('enroll-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
   });
   $('search-learner').addEventListener('input', renderLearners);
+  $('learner-tabs').querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () { learnerTab = b.getAttribute('data-ltab'); renderLearners(); });
+  });
   $('refresh-learner-btn').addEventListener('click', loadLearners);
   $('search-enroll').addEventListener('input', renderCourses);
   $('filter-enroll-status').addEventListener('change', renderCourses);
