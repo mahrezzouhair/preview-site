@@ -1,12 +1,12 @@
 {
-  "version": "3.0.0",
-  "setupUrl": "https://github.com/mahrezzouhair/preview-site/releases/download/v3.0.0/-.-3.0.0-setup.exe",
-  "setupSize": 115696479,
-  "setupSha256": "bff961210cbcd3e102d1e8422855d277aff37dbe1efdbda65cac0384ab536fd5",
-  "notes": "النسخة 3.0.0: واجهة تفعيل جديدة لأصحاب المراكز، زر الخروج لإلغاء التفعيل، وإلغاء الأكواد التجريبية القديمة، مع إصلاحات في فحص الترخيص.",
+  "version": "3.0.1",
+  "setupUrl": "https://github.com/mahrezzouhair/preview-site/releases/download/v3.0.1/-.-3.0.1-setup.exe",
+  "setupSize": 115704325,
+  "setupSha256": "adfcdbadbfd40295c9b509845ee69beef265770751a5bebf47232c4173ef7599",
+  "notes": "النسخة 3.0.1: نافذة تفعيل مترجمة بالكامل (العربية والفرنسية والإنجليزية) مع زر تبديل اللغة، قائمة النقر باليمين للنسخ واللصق، وكتلة دعم كاملة في نافذة التفعيل، وتنظيف الدارجة من واجهة التطبيق.",
   "notes_i18n": {
-    "ar": "النسخة 3.0.0: واجهة تفعيل جديدة لأصحاب المراكز، زر الخروج لإلغاء التفعيل، وإلغاء الأكواد التجريبية القديمة، مع إصلاحات في فحص الترخيص.",
-    "fr": "Version 3.0.0 : nouvel écran d'activation pour les centres, bouton Quitter pour annuler l'activation, annulation des anciens codes d'essai et corrections de la vérification de licence.",
-    "en": "Version 3.0.0: new activation screen for centers, Exit button to cancel activation, cancellation of old trial codes, and license-check fixes."
+    "ar": "النسخة 3.0.1: نافذة تفعيل مترجمة بالكامل (العربية والفرنسية والإنجليزية) مع زر تبديل اللغة، قائمة النقر باليمين للنسخ واللصق، وكتلة دعم كاملة في نافذة التفعيل، وتنظيف الدارجة من واجهة التطبيق.",
+    "fr": "Version 3.0.1 : écran d'activation entièrement traduit (arabe, français, anglais) avec sélecteur de langue, menu clic droit pour copier-coller, bloc d'assistance complet dans la fenêtre d'activation, et suppression de la darija de l'interface.",
+    "en": "Version 3.0.1: fully translated activation window (Arabic, French, English) with a language switcher, right-click menu for copy and paste, a complete support block in the activation window, and Darija removed from the app interface."
   }
 }
