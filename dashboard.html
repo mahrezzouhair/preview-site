@@ -54,6 +54,12 @@ th{color:var(--neon)}
 .ltabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .ltabs button{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
 .ltabs button.on{background:var(--neon);color:#06280F;border-color:var(--neon)}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:99;padding:16px}
+.modal{background:#0A120F;border:1.5px solid var(--line);border-radius:18px;padding:22px;max-width:560px;width:100%;max-height:85vh;overflow:auto}
+.modal h3{margin:0 0 12px}
+.modal .kv{display:grid;grid-template-columns:150px 1fr;gap:8px 12px;margin:12px 0}
+.modal .kv .mono{word-break:break-all}
+.modal .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 </style>
 </head>
 <body>
@@ -180,7 +186,7 @@ th{color:var(--neon)}
           <option value="sub12">سنة</option>
           <option value="lifetime">مدى الحياة</option>
         </select></div>
-        <button class="ghost" id="refresh-btn">تحديث</button> <button class="red" id="revoke-all-btn">إلغاء جميع الأكواد الفعالة</button> <button class="ghost" id="export-revoked-btn">تصدير لائحة الملغاة (للنشر)</button>
+        <button class="ghost" id="refresh-btn">تحديث</button> <button class="red" id="revoke-all-btn">إلغاء جميع الأكواد الفعالة</button> <button class="ghost" id="export-revoked-btn">تصدير لائحة الملغاة (للنشر)</button> <button class="ghost" id="export-extensions-btn">تصدير التمديدات (للنشر)</button>
       </div>
       <div style="overflow-x:auto">
         <table>
@@ -467,7 +473,8 @@ try { firebaseConfig = {
     $('registry-body').innerHTML = rows.map(function (c) {
       var actions = '';
       if (currentRole === 'admin') {
-        actions = '<button class="ghost" data-act="extend" data-hash="' + esc(c._hash) + '" data-name="' + esc(c.name) + '">تمديد</button> ' +
+        actions = '<button class="ghost" data-act="info" data-hash="' + esc(c._hash) + '" data-name="' + esc(c.name) + '">معلومات</button> ' +
+          '<button class="ghost" data-act="extend" data-hash="' + esc(c._hash) + '" data-name="' + esc(c.name) + '">تمديد</button> ' +
           (c.status === 'active' ? '<button class="red" data-act="revoke" data-hash="' + esc(c._hash) + '" data-name="' + esc(c.name) + '">إلغاء</button>' : '');
       }
       return '<tr><td>' + esc(c.name) + '</td><td>' + (c.country ? esc(c.country) : '—') + '</td><td>' + planLabel(c.plan) + '</td>' +
@@ -477,7 +484,9 @@ try { firebaseConfig = {
     }).join('') || '<tr><td colspan="8" class="note">لا يوجد أي كود مطابق.</td></tr>';
     $('registry-body').querySelectorAll('[data-act]').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        if (btn.getAttribute('data-act') === 'revoke') onRevoke(btn.getAttribute('data-hash'), btn.getAttribute('data-name'));
+        var act = btn.getAttribute('data-act');
+        if (act === 'revoke') onRevoke(btn.getAttribute('data-hash'), btn.getAttribute('data-name'));
+        else if (act === 'info') onInfo(btn.getAttribute('data-hash'));
         else onExtend(btn.getAttribute('data-hash'), btn.getAttribute('data-name'));
       });
     });
@@ -527,14 +536,100 @@ try { firebaseConfig = {
     a.click();
     URL.revokeObjectURL(a.href);
   });
+  $('export-extensions-btn').addEventListener('click', async function () {
+    if (currentRole !== 'admin') return;
+    var snap = await db.collection('status').get();
+    var ext = {};
+    snap.forEach(function (doc) {
+      var d = doc.data();
+      if (d.status !== 'revoked' && d.expiresAt) {
+        var e = d.expiresAt;
+        ext[doc.id] = (e.toDate ? e.toDate().toISOString() : new Date(e).toISOString());
+      }
+    });
+    if (!Object.keys(ext).length) { alert('لا يوجد أي تمديد مسجل.'); return; }
+    var blob = new Blob([JSON.stringify(ext, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'extensions.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+  function ensureModal() {
+    var ov = $('modal-ov');
+    if (ov) return ov;
+    ov = document.createElement('div');
+    ov.id = 'modal-ov'; ov.className = 'modal-ov'; ov.style.display = 'none';
+    ov.innerHTML = '<div class="modal"><div id="modal-body"></div><div class="row"><button id="modal-close">إغلاق</button></div></div>';
+    document.body.appendChild(ov);
+    $('modal-close').addEventListener('click', function () { ov.style.display = 'none'; });
+    ov.addEventListener('click', function (ev) { if (ev.target === ov) ov.style.display = 'none'; });
+    return ov;
+  }
+  function showModal(html) {
+    var ov = ensureModal();
+    $('modal-body').innerHTML = html;
+    ov.style.display = 'flex';
+  }
+  function fmtDay(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function addMonths(d, m) {
+    var y = d.getFullYear(), mo = d.getMonth() + m, day = d.getDate();
+    var last = new Date(y, mo + 1, 0).getDate();
+    return new Date(y, mo, Math.min(day, last));
+  }
+  async function onInfo(hash) {
+    var c = lastCodes.filter(function (x) { return x._hash === hash; })[0];
+    if (!c) return;
+    var ext = '';
+    try {
+      var sdoc = await db.collection('status').doc(hash).get();
+      if (sdoc.exists && sdoc.data().expiresAt) {
+        var e = sdoc.data().expiresAt;
+        ext = fmtDay(new Date(e.toDate ? e.toDate() : e));
+      }
+    } catch (e) { /* status doc unreadable: omit */ }
+    var dur = (c.durationDays === null || c.durationDays === undefined) ? 'مدى الحياة' : c.durationDays + ' يوم';
+    var device = (c.deviceId === 'أول جهاز يفعّله') ? 'أول جهاز يفعّله (التطبيق لا يرسل رقم الجهاز إلى الداشبورد)' : esc(String(c.deviceId || ''));
+    showModal('<h3>معلومات الاشتراك — ' + esc(c.name) + '</h3><div class="kv">' +
+      '<b>الاسم</b><span>' + esc(c.name) + '</span>' +
+      '<b>البلد</b><span>' + (c.country ? esc(c.country) : '—') + '</span>' +
+      '<b>الخطة</b><span>' + planLabel(c.plan) + '</span>' +
+      '<b>المدة</b><span>' + dur + '</span>' +
+      '<b>الحالة</b><span>' + statusLabel(c.status) + '</span>' +
+      '<b>تاريخ الإصدار</b><span>' + fmtDate(c.issuedAt) + '</span>' +
+      '<b>أصدره</b><span>' + esc(c.issuedByEmail || '') + '</span>' +
+      '<b>الجهاز</b><span>' + device + '</span>' +
+      '<b>بصمة الكود</b><span class="mono">' + esc(c._hash) + '</span>' +
+      '<b>التمديد المسجل حتى</b><span>' + (ext || 'لا يوجد') + '</span></div>' +
+      '<p class="note">الكود الكامل لا يُخزَّن هنا أبداً — السجل يحتفظ ببصمته فقط. إلا نسى عميل كوده، خاص تكون محتافظ بالكود من وقت التوليد (انسخ الكود الآن قبل أن يختفي)؛ وإلا ضاع الكود، الحل هو إصدار كود بديل من صفحة توليد كود.</p>');
+  }
   async function onExtend(hash, name) {
     if (currentRole !== 'admin') return;
-    var date = prompt('تاريخ الانتهاء الجديد (YYYY-MM-DD) للكود الخاص بـ «' + name + '»:');
-    if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
-    var iso = new Date(date + 'T00:00:00Z').toISOString();
-    await db.collection('status').doc(hash).set({ status: 'active', expiresAt: iso }, { merge: true });
-    await logActivity('extend', name + ' حتى ' + date);
-    await loadRegistry(); await loadActivity();
+    var today = new Date();
+    var opts = [
+      { label: 'إضافة 3 أشهر', months: 3 },
+      { label: 'إضافة 6 أشهر', months: 6 },
+      { label: 'إضافة سنة كاملة', months: 12 }
+    ];
+    var btns = opts.map(function (o) {
+      var d = fmtDay(addMonths(today, o.months));
+      return '<button data-months="' + o.months + '" data-date="' + d + '">' + o.label + ' (حتى ' + d + ')</button>';
+    }).join(' ');
+    showModal('<h3>تمديد الاشتراك — ' + esc(name) + '</h3>' +
+      '<p class="note">التمديد الجديد يبدأ من اليوم. اختر المدة، وسيُسجَّل تاريخ الانتهاء الجديد. بعد التمديد، صدّر التمديدات من أعلى السجل وأرسلها للنشر باش يبان التمديد في التطبيق.</p>' +
+      '<div class="row">' + btns + '</div>');
+    ensureModal().querySelectorAll('[data-months]').forEach(function (b) {
+      b.addEventListener('click', async function () {
+        var date = b.getAttribute('data-date');
+        var iso = new Date(date + 'T00:00:00Z').toISOString();
+        await db.collection('status').doc(hash).set({ status: 'active', expiresAt: iso }, { merge: true });
+        await logActivity('extend', name + ' حتى ' + date + ' (' + b.textContent.split('(')[0].trim() + ')');
+        ensureModal().style.display = 'none';
+        await loadRegistry(); await loadActivity();
+      });
+    });
   }
   var lastUsers = [];
   async function loadUsers() {
