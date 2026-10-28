@@ -127,7 +127,6 @@ th{color:var(--neon)}
       <h2>توليد كود تفعيل</h2>
       <div class="grid">
         <div><label>اسم المركز / الزبون</label><input id="c-name" placeholder="مثال: مركز النور للحجامة"></div>
-        <div><label>رقم الجهاز (اختياري — للأكواد القديمة المربوطة بجهاز فقط؛ الأكواد الجديدة بلا رقم جهاز)</label><input id="c-device" dir="ltr" style="text-align:left" placeholder="hw-… أو uuid-… (اختياري)"></div>
         <div><label>الخطة</label>
           <select id="c-plan">
             <option value="trial">تجريبي — 7 أيام (من أول تفعيل)</option>
@@ -322,7 +321,6 @@ function randomCodeId(prefix) {
 }
 function payloadString(o) {
   if (o.t === 'trial') return JSON.stringify({ t: 'trial', tid: o.tid, dur: o.dur });
-  if (o.d !== undefined) return JSON.stringify({ n: o.n, d: o.d, p: o.p, dur: o.dur });
   return JSON.stringify({ n: o.n, p: o.p, dur: o.dur, cid: o.cid });
 }
 async function signPayload(privKey, payload) {
@@ -334,9 +332,7 @@ async function issueCode(privKey, o) {
   if (!o.n || !String(o.n).trim()) throw new Error('الاسم مطلوب');
   if (!PLANS.hasOwnProperty(o.p)) throw new Error('الخطة غير معروفة');
   var dur = PLANS[o.p];
-  var payload = (o.d !== undefined && String(o.d).trim())
-    ? { n: String(o.n).trim(), d: String(o.d).trim(), p: o.p, dur: dur }
-    : { n: String(o.n).trim(), p: o.p, dur: dur, cid: randomCodeId('C') };
+  var payload = { n: String(o.n).trim(), p: o.p, dur: dur, cid: randomCodeId('C') };
   return signPayload(privKey, payload);
 }
 async function issueTrialCode(privKey) {
@@ -788,13 +784,13 @@ try { firebaseConfig = {
   $('gen-code').addEventListener('click', async function () {
     if (!privKey) { $('code-msg').innerHTML = '<span class="err">حمّل ملف المفتاح أولاً.</span>'; return; }
     try {
-      var name = $('c-name').value, device = $('c-device').value.trim(), plan = $('c-plan').value;
-      var o = { n: name, p: plan }; if (device) o.d = device;
+      var name = $('c-name').value, plan = $('c-plan').value;
+      var o = { n: name, p: plan };
       var code = await window.TrackerAdmin.issueCode(privKey, o);
       var hash = await window.TrackerAdmin.sha256hex(code);
       var batch = db.batch();
       batch.set(db.collection('codes').doc(hash), {
-        name: name, plan: plan, durationDays: window.TrackerAdmin.PLANS[plan], deviceId: device || 'أول جهاز يفعّله',
+        name: name, plan: plan, durationDays: window.TrackerAdmin.PLANS[plan], deviceId: 'أول جهاز يفعّله',
         status: 'active', issuedAt: firebase.firestore.FieldValue.serverTimestamp(),
         issuedBy: currentUser.uid, issuedByEmail: currentUser.email
       });
