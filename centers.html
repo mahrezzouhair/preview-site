@@ -53,6 +53,23 @@ h2.section{font-size:1.6rem;margin:32px 0 4px}
 .screen h3{margin:0 0 6px;font-size:1.3rem}
 .screen p{margin:0 0 14px;color:var(--muted)}
 .screen img{width:100%;border-radius:14px;border:1px solid var(--line);display:block}
+
+.tour-slider{position:relative;margin:22px 0}
+.tour-viewport{overflow:hidden;border-radius:20px;border:1px solid var(--line);background:var(--card);box-shadow:0 2px 12px rgba(20,30,25,.05);touch-action:pan-y;user-select:none}
+.tour-track{display:flex;transition:transform .45s ease}
+.tour-slide{flex:0 0 100%;box-sizing:border-box;padding:22px}
+.tour-slide img{width:100%;border-radius:14px;border:1px solid var(--line);display:block}
+.tour-slide figcaption{margin-top:14px}
+.tour-slide figcaption strong{display:block;font-size:1.25rem;margin-bottom:6px}
+.tour-slide figcaption span{color:var(--muted)}
+.tour-arrow{position:absolute;top:42%;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:26px;line-height:1;box-shadow:0 2px 10px rgba(0,0,0,.12);z-index:2}
+.tour-prev{right:12px}
+.tour-next{left:12px}
+.tour-dots{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.tour-dots button{width:10px;height:10px;border-radius:50%;border:0;background:#cbd5cf;cursor:pointer;padding:0}
+.tour-dots button.on{background:#10b981;width:26px;border-radius:999px}
+.tour-count{text-align:center;color:var(--muted);margin-top:8px;font-size:.9rem}
+@media (prefers-reduced-motion:reduce){.tour-track{transition:none}}
 .soon{background:var(--green);color:#EAF3EC;border-radius:20px;padding:26px;margin:22px 0;text-align:center}
 .soon h2{color:#fff;margin:0 0 6px;font-size:1.4rem}
 .soon p{margin:0;color:#C4D8CC}
@@ -125,41 +142,70 @@ h2.section{font-size:1.6rem;margin:32px 0 4px}
   <h2 class="section">جولة داخل التطبيق — صفحة بصفحة</h2>
   <p class="sec-note">صور حقيقية من داخل التطبيق، صفحة بصفحة.</p>
 
-  <div class="screen">
-    <h3>1 — التفعيل</h3>
-    <p>أدخل اسم المركز أو الممارس وكود الترخيص. الترخيص مرتبط بالاسم، لجهاز واحد، والاسم يظهر أعلى نسختك.</p>
-    <img src="assets/centers/screen-activation.png" alt="صفحة التفعيل في المساعد الذكي">
+  <div class="tour-slider" dir="rtl">
+    <div class="tour-viewport">
+      <div class="tour-track">
+      <figure class="tour-slide">
+        <img src="assets/centers/screen-activation.png" alt="صفحة التفعيل في المساعد الذكي" draggable="false" decoding="async">
+        <figcaption><strong>1 — التفعيل</strong><span>أدخل اسم المركز أو الممارس وكود الترخيص. الترخيص مرتبط بالاسم، لجهاز واحد، والاسم يظهر أعلى نسختك.</span></figcaption>
+      </figure>
+      <figure class="tour-slide">
+        <img src="assets/centers/screen-clients.png" alt="صفحة العملاء في المساعد الذكي" draggable="false" decoding="async" loading="lazy">
+        <figcaption><strong>2 — العملاء</strong><span>أنشئ ملف كل عميل: الاسم الكامل، الهاتف، العمر، الجنس، موانع وكلمات انتباه (مميعات الدم، سكري، ضغط...)، وملاحظات — وابحث في القائمة بالاسم أو الهاتف، وعدّل أي ملف بضغطة.</span></figcaption>
+      </figure>
+      <figure class="tour-slide">
+        <img src="assets/centers/screen-session.png" alt="صفحة جلسة جديدة وخريطة النقاط في المساعد الذكي" draggable="false" decoding="async" loading="lazy">
+        <figcaption><strong>3 — جلسة جديدة</strong><span>سجّل الجلسة: العميل، التاريخ، نوع الحجامة، المدة، والملاحظات، مع الموافقة المستنيرة — ثم اختر النقاط من الخريطة التفاعلية، أو بضغطة واحدة من نقاط السنة، الوقائية، أو المساعد الذكي (حتى 3 حالات)، وزيد أي موضع يدوياً برقمه.</span></figcaption>
+      </figure>
+      <figure class="tour-slide">
+        <img src="assets/centers/screen-records.png" alt="صفحة سجل الجلسات في المساعد الذكي" draggable="false" decoding="async" loading="lazy">
+        <figcaption><strong>4 — سجل الجلسات</strong><span>جدول كامل لكل الجلسات: التاريخ، العميل، النوع، المواضع، والملاحظات — مع ورقة جلسة للطباعة لكل جلسة، مرجعك لتاريخ المركز ومتابعة كل عميل.</span></figcaption>
+      </figure>
+      <figure class="tour-slide">
+        <img src="assets/centers/screen-settings.png" alt="صفحة الإعدادات والحماية في المساعد الذكي" draggable="false" decoding="async" loading="lazy">
+        <figcaption><strong>5 — الإعدادات والحماية</strong><span>الترخيص والإصدار مع التحقق من التحديثات، قفل PIN عند كل فتح، نسخ احتياطية مشفّرة (AES-GCM) مع تصدير واستيراد — وبياناتك تبقى محلية دائماً.</span></figcaption>
+      </figure>
+      <figure class="tour-slide">
+        <img src="assets/centers/screen-support.png" alt="صفحة الدعم في المساعد الذكي" draggable="false" decoding="async" loading="lazy">
+        <figcaption><strong>6 — الدعم</strong><span>تواصل معنا مباشرة من داخل التطبيق: واتساب، هاتف، بريد إلكتروني، ونسخة التطبيق — باش الدعم يكون سريع ودقيق.</span></figcaption>
+      </figure>
+      </div>
+    </div>
+    <button type="button" class="tour-arrow tour-prev" aria-label="الصورة السابقة">&#8250;</button>
+    <button type="button" class="tour-arrow tour-next" aria-label="الصورة التالية">&#8249;</button>
+    <div class="tour-dots"><button type="button" aria-label="الصورة 1"></button><button type="button" aria-label="الصورة 2"></button><button type="button" aria-label="الصورة 3"></button><button type="button" aria-label="الصورة 4"></button><button type="button" aria-label="الصورة 5"></button><button type="button" aria-label="الصورة 6"></button></div>
+    <div class="tour-count">1 / 6</div>
   </div>
 
-  <div class="screen">
-    <h3>2 — العملاء</h3>
-    <p>أنشئ ملف كل عميل: الاسم الكامل، الهاتف، العمر، الجنس، موانع وكلمات انتباه (مميعات الدم، سكري، ضغط...)، وملاحظات — وابحث في القائمة بالاسم أو الهاتف، وعدّل أي ملف بضغطة.</p>
-    <img src="assets/centers/screen-clients.png" alt="صفحة العملاء في المساعد الذكي">
-  </div>
-
-  <div class="screen">
-    <h3>3 — جلسة جديدة</h3>
-    <p>سجّل الجلسة: العميل، التاريخ، نوع الحجامة، المدة، والملاحظات، مع الموافقة المستنيرة — ثم اختر النقاط من الخريطة التفاعلية، أو بضغطة واحدة من نقاط السنة، الوقائية، أو المساعد الذكي (حتى 3 حالات)، وزيد أي موضع يدوياً برقمه.</p>
-    <img src="assets/centers/screen-session.png" alt="صفحة جلسة جديدة وخريطة النقاط في المساعد الذكي">
-  </div>
-
-  <div class="screen">
-    <h3>4 — سجل الجلسات</h3>
-    <p>جدول كامل لكل الجلسات: التاريخ، العميل، النوع، المواضع، والملاحظات — مع ورقة جلسة للطباعة لكل جلسة، مرجعك لتاريخ المركز ومتابعة كل عميل.</p>
-    <img src="assets/centers/screen-records.png" alt="صفحة سجل الجلسات في المساعد الذكي">
-  </div>
-
-  <div class="screen">
-    <h3>5 — الإعدادات والحماية</h3>
-    <p>الترخيص والإصدار مع التحقق من التحديثات، قفل PIN عند كل فتح، نسخ احتياطية مشفّرة (AES-GCM) مع تصدير واستيراد — وبياناتك تبقى محلية دائماً.</p>
-    <img src="assets/centers/screen-settings.png" alt="صفحة الإعدادات والحماية في المساعد الذكي">
-  </div>
-
-  <div class="screen">
-    <h3>6 — الدعم</h3>
-    <p>تواصل معنا مباشرة من داخل التطبيق: واتساب، هاتف، بريد إلكتروني، ونسخة التطبيق — باش الدعم يكون سريع ودقيق.</p>
-    <img src="assets/centers/screen-support.png" alt="صفحة الدعم في المساعد الذكي">
-  </div>
+<script>
+(function(){
+  var s=document.querySelector('.tour-slider'); if(!s) return;
+  var track=s.querySelector('.tour-track');
+  var dots=s.querySelectorAll('.tour-dots button');
+  var count=s.querySelector('.tour-count');
+  var n=s.querySelectorAll('.tour-slide').length, i=0;
+  function go(k){ i=((k%n)+n)%n; track.style.transform='translateX('+(i*100)+'%)';
+    dots.forEach(function(d,j){ d.classList.toggle('on', j===i); });
+    if(count) count.textContent=(i+1)+' / '+n; }
+  s.querySelector('.tour-next').addEventListener('click', function(){ go(i+1); });
+  s.querySelector('.tour-prev').addEventListener('click', function(){ go(i-1); });
+  dots.forEach(function(d,j){ d.addEventListener('click', function(){ go(j); }); });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowLeft') go(i+1);
+    if(e.key==='ArrowRight') go(i-1);
+  });
+  var x0=null;
+  function start(e){ x0=(e.touches?e.touches[0].clientX:e.clientX); }
+  function end(e){ if(x0===null) return; var x=(e.changedTouches?e.changedTouches[0].clientX:e.clientX); var dx=x-x0; x0=null;
+    if(dx<-40) go(i+1); else if(dx>40) go(i-1); }
+  var vp=s.querySelector('.tour-viewport');
+  vp.addEventListener('touchstart', start, {passive:true});
+  vp.addEventListener('touchend', end);
+  vp.addEventListener('mousedown', start);
+  vp.addEventListener('mouseup', end);
+  go(0);
+})();
+</script>
 
   <div class="soon">
     <h2>برامج أخرى للمراكز — قريباً ⏳</h2>
