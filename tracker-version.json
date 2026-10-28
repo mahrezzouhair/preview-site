@@ -1,13 +1,12 @@
 {
-  "version": "2.3.12",
-  "downloadUrl": "https://github.com/mahrezzouhair/preview-site/releases/download/v1.2.12/-.-1.2.12-win.zip",
-  "size": 111679276,
-  "sha256": "368b1245401d14b917d8ead306dbd600dcd57563bd33dca0e4e9eb9ea4a59c70",
-  "notes": "النسخة النهائية: التحقق من التحديثات من صفحة المراكز + زر تحميل مباشر",
+  "version": "3.0.0",
+  "setupUrl": "https://github.com/mahrezzouhair/preview-site/releases/download/v3.0.0/-.-3.0.0-setup.exe",
+  "setupSize": 115696479,
+  "setupSha256": "bff961210cbcd3e102d1e8422855d277aff37dbe1efdbda65cac0384ab536fd5",
+  "notes": "النسخة 3.0.0: واجهة تفعيل جديدة لأصحاب المراكز، زر الخروج لإلغاء التفعيل، وإلغاء الأكواد التجريبية القديمة، مع إصلاحات في فحص الترخيص.",
   "notes_i18n": {
-    "ar": "النسخة النهائية: التحقق من التحديثات من صفحة المراكز + زر تحميل مباشر",
-    "darija": "النسخة النهائية: التحقق من التحديثات من صفحة المراكز + زر تحميل مباشر",
-    "fr": "Version finale : vérification des mises à jour depuis la page Centres + bouton de téléchargement direct.",
-    "en": "Final version: update check from the Centers page + direct download button."
+    "ar": "النسخة 3.0.0: واجهة تفعيل جديدة لأصحاب المراكز، زر الخروج لإلغاء التفعيل، وإلغاء الأكواد التجريبية القديمة، مع إصلاحات في فحص الترخيص.",
+    "fr": "Version 3.0.0 : nouvel écran d'activation pour les centres, bouton Quitter pour annuler l'activation, annulation des anciens codes d'essai et corrections de la vérification de licence.",
+    "en": "Version 3.0.0: new activation screen for centers, Exit button to cancel activation, cancellation of old trial codes, and license-check fixes."
   }
 }
