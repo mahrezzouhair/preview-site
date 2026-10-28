@@ -58,11 +58,11 @@ h2.section{font-size:1.6rem;margin:32px 0 4px}
 .tour-viewport{overflow:hidden;border-radius:20px;border:1px solid var(--line);background:var(--card);box-shadow:0 2px 12px rgba(20,30,25,.05);touch-action:pan-y;user-select:none}
 .tour-track{display:flex;transition:transform .45s ease}
 .tour-slide{flex:0 0 100%;box-sizing:border-box;padding:22px}
-.tour-slide img{width:100%;border-radius:14px;border:1px solid var(--line);display:block}
+.tour-slide img{width:auto;max-width:100%;max-height:520px;margin:0 auto;border-radius:14px;border:1px solid var(--line);display:block}
 .tour-slide figcaption{margin-top:14px}
 .tour-slide figcaption strong{display:block;font-size:1.25rem;margin-bottom:6px}
 .tour-slide figcaption span{color:var(--muted)}
-.tour-arrow{position:absolute;top:42%;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:26px;line-height:1;box-shadow:0 2px 10px rgba(0,0,0,.12);z-index:2}
+.tour-arrow{position:absolute;top:42%;width:52px;height:52px;border-radius:50%;border:none;background:#1ED760;color:#fff;cursor:pointer;font-size:30px;font-weight:800;line-height:1;box-shadow:0 4px 16px rgba(0,0,0,.30);z-index:2}
 .tour-prev{right:12px}
 .tour-next{left:12px}
 .tour-dots{display:flex;gap:8px;justify-content:center;margin-top:14px}
@@ -150,31 +150,35 @@ h2.section{font-size:1.6rem;margin:32px 0 4px}
         <figcaption><strong>1 — التفعيل</strong><span>أدخل اسم المركز أو الممارس وكود الترخيص. الترخيص مرتبط بالاسم، لجهاز واحد، والاسم يظهر أعلى نسختك.</span></figcaption>
       </figure>
       <figure class="tour-slide">
-        <img src="assets/centers/screen-clients.png" alt="صفحة العملاء في المساعد الذكي" draggable="false" decoding="async" loading="lazy">
+        <img src="assets/centers/screen-clients.png" alt="صفحة العملاء في المساعد الذكي" draggable="false" decoding="async">
         <figcaption><strong>2 — العملاء</strong><span>أنشئ ملف كل عميل: الاسم الكامل، الهاتف، العمر، الجنس، موانع وكلمات انتباه (مميعات الدم، سكري، ضغط...)، وملاحظات — وابحث في القائمة بالاسم أو الهاتف، وعدّل أي ملف بضغطة.</span></figcaption>
       </figure>
       <figure class="tour-slide">
-        <img src="assets/centers/screen-session.png" alt="صفحة جلسة جديدة وخريطة النقاط في المساعد الذكي" draggable="false" decoding="async" loading="lazy">
-        <figcaption><strong>3 — جلسة جديدة</strong><span>سجّل الجلسة: العميل، التاريخ، نوع الحجامة، المدة، والملاحظات، مع الموافقة المستنيرة — ثم اختر النقاط من الخريطة التفاعلية، أو بضغطة واحدة من نقاط السنة، الوقائية، أو المساعد الذكي (حتى 3 حالات)، وزيد أي موضع يدوياً برقمه.</span></figcaption>
+        <img src="assets/centers/screen-session.png" alt="صفحة جلسة جديدة في المساعد الذكي" draggable="false" decoding="async">
+        <figcaption><strong>3 — جلسة جديدة</strong><span>سجّل الجلسة: العميل، التاريخ، نوع الحجامة، المدة، والملاحظات، مع الموافقة المستنيرة.</span></figcaption>
       </figure>
       <figure class="tour-slide">
-        <img src="assets/centers/screen-records.png" alt="صفحة سجل الجلسات في المساعد الذكي" draggable="false" decoding="async" loading="lazy">
-        <figcaption><strong>4 — سجل الجلسات</strong><span>جدول كامل لكل الجلسات: التاريخ، العميل، النوع، المواضع، والملاحظات — مع ورقة جلسة للطباعة لكل جلسة، مرجعك لتاريخ المركز ومتابعة كل عميل.</span></figcaption>
+        <img src="assets/centers/screen-map.png" alt="خريطة النقاط التفاعلية في المساعد الذكي" draggable="false" decoding="async">
+        <figcaption><strong>4 — خريطة النقاط التفاعلية</strong><span>اختر النقاط من الخريطة التفاعلية، أو بضغطة واحدة من نقاط السنة، الوقائية، أو المساعد الذكي (حتى 3 حالات)، وزيد أي موضع يدوياً برقمه.</span></figcaption>
       </figure>
       <figure class="tour-slide">
-        <img src="assets/centers/screen-settings.png" alt="صفحة الإعدادات والحماية في المساعد الذكي" draggable="false" decoding="async" loading="lazy">
-        <figcaption><strong>5 — الإعدادات والحماية</strong><span>الترخيص والإصدار مع التحقق من التحديثات، قفل PIN عند كل فتح، نسخ احتياطية مشفّرة (AES-GCM) مع تصدير واستيراد — وبياناتك تبقى محلية دائماً.</span></figcaption>
+        <img src="assets/centers/screen-records.png" alt="صفحة سجل الجلسات في المساعد الذكي" draggable="false" decoding="async">
+        <figcaption><strong>5 — سجل الجلسات</strong><span>جدول كامل لكل الجلسات: التاريخ، العميل، النوع، المواضع، والملاحظات — مع ورقة جلسة للطباعة لكل جلسة، مرجعك لتاريخ المركز ومتابعة كل عميل.</span></figcaption>
       </figure>
       <figure class="tour-slide">
-        <img src="assets/centers/screen-support.png" alt="صفحة الدعم في المساعد الذكي" draggable="false" decoding="async" loading="lazy">
-        <figcaption><strong>6 — الدعم</strong><span>تواصل معنا مباشرة من داخل التطبيق: واتساب، هاتف، بريد إلكتروني، ونسخة التطبيق — باش الدعم يكون سريع ودقيق.</span></figcaption>
+        <img src="assets/centers/screen-settings.png" alt="صفحة الإعدادات والحماية في المساعد الذكي" draggable="false" decoding="async">
+        <figcaption><strong>6 — الإعدادات والحماية</strong><span>الترخيص والإصدار مع التحقق من التحديثات، قفل PIN عند كل فتح، نسخ احتياطية مشفّرة (AES-GCM) مع تصدير واستيراد — وبياناتك تبقى محلية دائماً.</span></figcaption>
+      </figure>
+      <figure class="tour-slide">
+        <img src="assets/centers/screen-support.png" alt="صفحة الدعم في المساعد الذكي" draggable="false" decoding="async">
+        <figcaption><strong>7 — الدعم</strong><span>تواصل معنا مباشرة من داخل التطبيق: واتساب، هاتف، بريد إلكتروني، ونسخة التطبيق — باش الدعم يكون سريع ودقيق.</span></figcaption>
       </figure>
       </div>
     </div>
     <button type="button" class="tour-arrow tour-prev" aria-label="الصورة السابقة">&#8250;</button>
     <button type="button" class="tour-arrow tour-next" aria-label="الصورة التالية">&#8249;</button>
-    <div class="tour-dots"><button type="button" aria-label="الصورة 1"></button><button type="button" aria-label="الصورة 2"></button><button type="button" aria-label="الصورة 3"></button><button type="button" aria-label="الصورة 4"></button><button type="button" aria-label="الصورة 5"></button><button type="button" aria-label="الصورة 6"></button></div>
-    <div class="tour-count">1 / 6</div>
+    <div class="tour-dots"><button type="button" aria-label="الصورة 1"></button><button type="button" aria-label="الصورة 2"></button><button type="button" aria-label="الصورة 3"></button><button type="button" aria-label="الصورة 4"></button><button type="button" aria-label="الصورة 5"></button><button type="button" aria-label="الصورة 6"></button><button type="button" aria-label="الصورة 7"></button></div>
+    <div class="tour-count">1 / 7</div>
   </div>
 
 <script>
