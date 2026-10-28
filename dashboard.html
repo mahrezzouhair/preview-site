@@ -136,6 +136,7 @@ th{color:var(--neon)}
             <option value="lifetime">شراء مرة واحدة — مدى الحياة (مع التحديثات)</option>
           </select>
         </div>
+        <div><label>البلد (اختياري)</label><input id="c-country" placeholder="مثال: المغرب"></div>
         <div class="row"><button id="gen-code">توليد الكود</button><span id="code-msg" class="note"></span></div>
         <div id="code-out-wrap" style="display:none">
           <div class="warn" style="margin-bottom:10px"><b>⚠️ سيظهر الكود هنا مرة واحدة فقط.</b> بعد تسجيله، لا يُخزَّن الكود الكامل أبداً — تُخزَّن بصمته (hash) فقط. انسخه الآن وأرسله إلى الزبون.</div>
@@ -183,7 +184,7 @@ th{color:var(--neon)}
       </div>
       <div style="overflow-x:auto">
         <table>
-          <thead><tr><th>الاسم</th><th>الخطة</th><th>الجهاز</th><th>الحالة</th><th>تاريخ الإصدار</th><th>أصدره</th><th></th></tr></thead>
+          <thead><tr><th>الاسم</th><th>البلد</th><th>الخطة</th><th>الجهاز</th><th>الحالة</th><th>تاريخ الإصدار</th><th>أصدره</th><th></th></tr></thead>
           <tbody id="registry-body"></tbody>
         </table>
       </div>
@@ -469,11 +470,11 @@ try { firebaseConfig = {
         actions = '<button class="ghost" data-act="extend" data-hash="' + esc(c._hash) + '" data-name="' + esc(c.name) + '">تمديد</button> ' +
           (c.status === 'active' ? '<button class="red" data-act="revoke" data-hash="' + esc(c._hash) + '" data-name="' + esc(c.name) + '">إلغاء</button>' : '');
       }
-      return '<tr><td>' + esc(c.name) + '</td><td>' + planLabel(c.plan) + '</td>' +
+      return '<tr><td>' + esc(c.name) + '</td><td>' + (c.country ? esc(c.country) : '—') + '</td><td>' + planLabel(c.plan) + '</td>' +
         '<td class="mono">' + esc(String(c.deviceId || '').slice(0, 24)) + '</td>' +
         '<td><span class="badge ' + (c.status === 'active' ? 'active' : 'revoked') + '">' + statusLabel(c.status) + '</span></td>' +
         '<td>' + fmtDate(c.issuedAt) + '</td><td>' + esc(c.issuedByEmail) + '</td><td>' + actions + '</td></tr>';
-    }).join('') || '<tr><td colspan="7" class="note">لا يوجد أي كود مطابق.</td></tr>';
+    }).join('') || '<tr><td colspan="8" class="note">لا يوجد أي كود مطابق.</td></tr>';
     $('registry-body').querySelectorAll('[data-act]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         if (btn.getAttribute('data-act') === 'revoke') onRevoke(btn.getAttribute('data-hash'), btn.getAttribute('data-name'));
@@ -785,12 +786,13 @@ try { firebaseConfig = {
     if (!privKey) { $('code-msg').innerHTML = '<span class="err">حمّل ملف المفتاح أولاً.</span>'; return; }
     try {
       var name = $('c-name').value, plan = $('c-plan').value;
+      var country = ($('c-country').value || '').trim();
       var o = { n: name, p: plan };
       var code = await window.TrackerAdmin.issueCode(privKey, o);
       var hash = await window.TrackerAdmin.sha256hex(code);
       var batch = db.batch();
       batch.set(db.collection('codes').doc(hash), {
-        name: name, plan: plan, durationDays: window.TrackerAdmin.PLANS[plan], deviceId: 'أول جهاز يفعّله',
+        name: name, plan: plan, country: country, durationDays: window.TrackerAdmin.PLANS[plan], deviceId: 'أول جهاز يفعّله',
         status: 'active', issuedAt: firebase.firestore.FieldValue.serverTimestamp(),
         issuedBy: currentUser.uid, issuedByEmail: currentUser.email
       });
@@ -798,7 +800,7 @@ try { firebaseConfig = {
       await batch.commit();
       await logActivity('issue', name + ' (' + planLabel(plan) + ')');
       $('out-code').textContent = code;
-      $('code-payload').textContent = 'الاسم: ' + name + ' | الخطة: ' + planLabel(plan) + ' | المدة: ' + (window.TrackerAdmin.PLANS[plan] === null ? 'مدى الحياة' : window.TrackerAdmin.PLANS[plan] + ' يوم');
+      $('code-payload').textContent = 'الاسم: ' + name + ' | الخطة: ' + planLabel(plan) + ' | المدة: ' + (window.TrackerAdmin.PLANS[plan] === null ? 'مدى الحياة' : window.TrackerAdmin.PLANS[plan] + ' يوم') + (country ? ' | البلد: ' + country : '');
       $('code-out-wrap').style.display = '';
       $('code-msg').innerHTML = '<span class="ok">تم ✓ — انسخ الكود الآن قبل أن يختفي.</span>';
       await loadRegistry(); await loadActivity();
