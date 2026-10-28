@@ -180,7 +180,7 @@ th{color:var(--neon)}
           <option value="sub12">سنة</option>
           <option value="lifetime">مدى الحياة</option>
         </select></div>
-        <button class="ghost" id="refresh-btn">تحديث</button> <button class="red" id="revoke-all-btn">إلغاء جميع الأكواد الفعالة</button>
+        <button class="ghost" id="refresh-btn">تحديث</button> <button class="red" id="revoke-all-btn">إلغاء جميع الأكواد الفعالة</button> <button class="ghost" id="export-revoked-btn">تصدير لائحة الملغاة (للنشر)</button>
       </div>
       <div style="overflow-x:auto">
         <table>
@@ -420,6 +420,7 @@ try { firebaseConfig = {
     $('nav-learners').style.display = (currentRole === 'admin') ? '' : 'none';
     $('nav-trial').style.display = (currentRole === 'admin') ? '' : 'none';
     $('revoke-all-btn').style.display = (currentRole === 'admin') ? '' : 'none';
+    $('export-revoked-btn').style.display = (currentRole === 'admin') ? '' : 'none';
     if (page === 'trial') loadTrial();
   }
   document.querySelectorAll('#dash-nav button').forEach(function (b) {
@@ -517,6 +518,18 @@ try { firebaseConfig = {
     await loadRegistry(); await loadActivity();
   }
   $('revoke-all-btn').addEventListener('click', onRevokeAll);
+  $('export-revoked-btn').addEventListener('click', function () {
+    if (currentRole !== 'admin') return;
+    if (!lastCodes.length) { alert('السجل ما زال ما تحملش — عاود حاول من بعد ثواني.'); return; }
+    var hashes = lastCodes.filter(function (c) { return c.status === 'revoked'; }).map(function (c) { return c._hash; });
+    var text = '# revoked hashes exported from dashboard\n' + hashes.join('\n') + '\n';
+    var blob = new Blob([text], { type: 'text/plain' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'revoked-hashes.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
   async function onExtend(hash, name) {
     if (currentRole !== 'admin') return;
     var date = prompt('تاريخ الانتهاء الجديد (YYYY-MM-DD) للكود الخاص بـ «' + name + '»:');
