@@ -153,6 +153,7 @@ th{color:var(--neon)}
         <div><label>الكود التجريبي الحالي</label><div class="codebox" id="trial-current">لم يُولَّد أي كود تجريبي بعد.</div></div>
         <div id="trial-meta" class="note"></div>
         <div class="row"><button id="gen-trial">توليد كود تجريبي جديد (تدوير)</button><button class="ghost" id="copy-trial">نسخ الكود</button><span id="trial-msg" class="note"></span></div>
+        <div class="row"><input id="set-trial-code" placeholder="الصق الكود التجريبي الجديد هنا…" style="flex:1"><button id="set-trial">تعيين كود تجريبي موجود</button></div>
         <p class="note">⚠️ التدوير يبدّل الكود المنشور: شارك الجديد مع الزبناء المحتملين. الكود القديم يوقف للأجهزة الجديدة المتصلة فقط عندما تُنشر قائمة الحالة — الأجهزة اللي بلا أنترنت تقبل أي كود موقّع صحيح، لكن كل جهاز يبقى محصوراً في 7 أيام وتجربة واحدة.</p>
       </div>
     </div>
@@ -179,7 +180,7 @@ th{color:var(--neon)}
           <option value="sub12">سنة</option>
           <option value="lifetime">مدى الحياة</option>
         </select></div>
-        <button class="ghost" id="refresh-btn">تحديث</button>
+        <button class="ghost" id="refresh-btn">تحديث</button> <button class="red" id="revoke-all-btn">إلغاء جميع الأكواد الفعالة</button>
       </div>
       <div style="overflow-x:auto">
         <table>
@@ -418,6 +419,7 @@ try { firebaseConfig = {
     $('nav-users').style.display = (currentRole === 'admin') ? '' : 'none';
     $('nav-learners').style.display = (currentRole === 'admin') ? '' : 'none';
     $('nav-trial').style.display = (currentRole === 'admin') ? '' : 'none';
+    $('revoke-all-btn').style.display = (currentRole === 'admin') ? '' : 'none';
     if (page === 'trial') loadTrial();
   }
   document.querySelectorAll('#dash-nav button').forEach(function (b) {
@@ -498,6 +500,23 @@ try { firebaseConfig = {
     await logActivity('revoke', name);
     await loadRegistry(); await loadActivity();
   }
+  async function onRevokeAll() {
+    if (currentRole !== 'admin') return;
+    var actives = lastCodes.filter(function (c) { return c.status === 'active'; });
+    if (!actives.length) { alert('لا يوجد أي كود فعال.'); return; }
+    if (!confirm('هل أنت متأكد؟ سيُلغى ' + actives.length + ' كود فعال نهائياً (بما فيها التجريبية).')) return;
+    for (var i = 0; i < actives.length; i += 200) {
+      var batch = db.batch();
+      actives.slice(i, i + 200).forEach(function (c) {
+        batch.update(db.collection('codes').doc(c._hash), { status: 'revoked' });
+        batch.set(db.collection('status').doc(c._hash), { status: 'revoked' }, { merge: true });
+      });
+      await batch.commit();
+    }
+    await logActivity('revoke-all', actives.length + ' كود');
+    await loadRegistry(); await loadActivity();
+  }
+  $('revoke-all-btn').addEventListener('click', onRevokeAll);
   async function onExtend(hash, name) {
     if (currentRole !== 'admin') return;
     var date = prompt('تاريخ الانتهاء الجديد (YYYY-MM-DD) للكود الخاص بـ «' + name + '»:');
@@ -809,6 +828,25 @@ try { firebaseConfig = {
       $('trial-msg').innerHTML = '<span class="ok">تم ✓ — شارك الكود الجديد مع الزبناء المحتملين.</span>';
       await loadActivity();
     } catch (e) { $('trial-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>'; }
+  });
+  $('set-trial').addEventListener('click', async function () {
+    if (currentRole !== 'admin') { $('trial-msg').innerHTML = '<span class="err">للمدير فقط.</span>'; return; }
+    var code = ($('set-trial-code').value || '').trim();
+    if (!code) { $('trial-msg').innerHTML = '<span class="err">الصق الكود أولاً.</span>'; return; }
+    try {
+      var tid = JSON.parse(new TextDecoder().decode(b64urlDecode(code.split('.')[0]))).tid;
+      if (!tid || !/^T[A-Z0-9]{12}$/.test(tid)) throw new Error('bad-tid');
+      await db.collection('trial').doc('current').set({
+        code: code, tid: tid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdBy: currentUser.uid, createdByEmail: currentUser.email
+      });
+      await logActivity('trial-set', 'كود تجريبي معيّن (' + tid + ')');
+      $('trial-current').textContent = code;
+      $('trial-meta').textContent = 'معرف التجربة: ' + tid + ' — أُنشئ الآن';
+      $('trial-msg').innerHTML = '<span class="ok">تم ✓ — الكود الجديد هو الحالي الآن.</span>';
+      await loadActivity();
+    } catch (e) { $('trial-msg').innerHTML = '<span class="err">صيغة الكود غير صحيحة.</span>'; }
   });
   $('copy-trial').addEventListener('click', async function () {
     try {
