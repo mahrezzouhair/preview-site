@@ -407,7 +407,7 @@ try { firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
   var auth = firebase.auth();
   var db = firebase.firestore();
-  var currentUser = null, currentRole = null, privKey = null;
+  var currentUser = null, currentRole = null, privKey = null, keyJwk = null;
   var lastCodes = [];
 
   // ---- Pages: one function per page, switched by the nav bar ----
@@ -579,6 +579,43 @@ try { firebaseConfig = {
     var last = new Date(y, mo + 1, 0).getDate();
     return new Date(y, mo, Math.min(day, last));
   }
+  function b64u(bytes) {
+    var s = '';
+    for (var i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
+    return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function unb64u(str) {
+    str = str.replace(/-/g, '+').replace(/_/g, '/');
+    while (str.length % 4) str += '=';
+    var bin = atob(str);
+    var out = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+  async function vaultKey() {
+    if (!keyJwk || !keyJwk.x) return null;
+    var digest = await crypto.subtle.digest('SHA-256', unb64u(keyJwk.x));
+    return crypto.subtle.importKey('raw', digest, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']);
+  }
+  async function vaultEncrypt(code) {
+    try {
+      var k = await vaultKey();
+      if (!k) return null;
+      var iv = crypto.getRandomValues(new Uint8Array(12));
+      var ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, k, new TextEncoder().encode(code));
+      return b64u(iv) + ':' + b64u(new Uint8Array(ct));
+    } catch (e) { return null; }
+  }
+  async function vaultDecrypt(enc) {
+    try {
+      var k = await vaultKey();
+      if (!k) return null;
+      var parts = String(enc).split(':');
+      if (parts.length !== 2) return null;
+      var pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64u(parts[0]) }, k, unb64u(parts[1]));
+      return new TextDecoder().decode(pt);
+    } catch (e) { return null; }
+  }
   async function onInfo(hash) {
     var c = lastCodes.filter(function (x) { return x._hash === hash; })[0];
     if (!c) return;
@@ -592,6 +629,18 @@ try { firebaseConfig = {
     } catch (e) { /* status doc unreadable: omit */ }
     var dur = (c.durationDays === null || c.durationDays === undefined) ? 'مدى الحياة' : c.durationDays + ' يوم';
     var device = (c.deviceId === 'أول جهاز يفعّله') ? 'أول جهاز يفعّله (التطبيق لا يرسل رقم الجهاز إلى الداشبورد)' : esc(String(c.deviceId || ''));
+    var vaultHtml = '';
+    if (c.codeEnc) {
+      if (keyJwk) {
+        var dec = await vaultDecrypt(c.codeEnc);
+        if (dec) vaultHtml = '<div style="margin-top:12px"><label>الكود الكامل</label><div class="codebox" id="vault-code">' + esc(dec) + '</div><div class="row"><button id="vault-copy">نسخ الكود</button></div></div>';
+        else vaultHtml = '<p class="note">تعذر فك تشفير الكود — تأكد أن ملف المفتاح المحمّل هو نفس مفتاح التوقيع.</p>';
+      } else {
+        vaultHtml = '<p class="note">الكود محفوظ مشفّراً مع هاد الاشتراك. حمّل ملف المفتاح من صفحة توليد كود لعرضه ونسخه.</p>';
+      }
+    } else {
+      vaultHtml = '<p class="note">هاد الكود أُصدر قبل خاصية الحفظ المشفّر، وما كاينش نسخة منو هنا. الأكواد الجديدة غادي تتحفظ تلقائياً مع الاشتراك.</p>';
+    }
     showModal('<h3>معلومات الاشتراك — ' + esc(c.name) + '</h3><div class="kv">' +
       '<b>الاسم</b><span>' + esc(c.name) + '</span>' +
       '<b>البلد</b><span>' + (c.country ? esc(c.country) : '—') + '</span>' +
@@ -603,7 +652,12 @@ try { firebaseConfig = {
       '<b>الجهاز</b><span>' + device + '</span>' +
       '<b>بصمة الكود</b><span class="mono">' + esc(c._hash) + '</span>' +
       '<b>التمديد المسجل حتى</b><span>' + (ext || 'لا يوجد') + '</span></div>' +
-      '<p class="note">الكود الكامل لا يُخزَّن هنا أبداً — السجل يحتفظ ببصمته فقط. إلا نسى عميل كوده، خاص تكون محتافظ بالكود من وقت التوليد (انسخ الكود الآن قبل أن يختفي)؛ وإلا ضاع الكود، الحل هو إصدار كود بديل من صفحة توليد كود.</p>');
+      vaultHtml +
+      '<p class="note">الأكواد الجديدة كتتحفظ مشفّرة مع الاشتراك، وما كيقدر يفك تشفيرها غير اللي عندو ملف المفتاح. إلا ضاع كود قديم ما محفوظش، الحل هو إصدار كود بديل من صفحة توليد كود.</p>');
+    var vc = $('vault-copy');
+    if (vc) vc.addEventListener('click', async function () {
+      try { await navigator.clipboard.writeText($('vault-code').textContent); vc.textContent = 'تنسخ ✓'; setTimeout(function () { vc.textContent = 'نسخ الكود'; }, 1500); } catch (e) {}
+    });
   }
   async function onExtend(hash, name) {
     if (currentRole !== 'admin') return;
@@ -874,6 +928,7 @@ try { firebaseConfig = {
       var obj = JSON.parse(await f.text());
       if (!obj.privateKeyJwk || !obj.publicKeyJwk) throw new Error('الملف لا يحتوي على مفاتيح JWK');
       privKey = await importPriv(obj.privateKeyJwk);
+      keyJwk = obj.privateKeyJwk;
       $('key-status').innerHTML = '<span class="ok">تم تحميل المفتاح ✓ — جاهز لتوليد الأكواد.</span>';
     } catch (e) { $('key-status').innerHTML = '<span class="err">خطأ: ' + e.message + '</span>'; }
   });
@@ -885,12 +940,15 @@ try { firebaseConfig = {
       var o = { n: name, p: plan };
       var code = await window.TrackerAdmin.issueCode(privKey, o);
       var hash = await window.TrackerAdmin.sha256hex(code);
-      var batch = db.batch();
-      batch.set(db.collection('codes').doc(hash), {
+      var enc = await vaultEncrypt(code);
+      var doc = {
         name: name, plan: plan, country: country, durationDays: window.TrackerAdmin.PLANS[plan], deviceId: 'أول جهاز يفعّله',
         status: 'active', issuedAt: firebase.firestore.FieldValue.serverTimestamp(),
         issuedBy: currentUser.uid, issuedByEmail: currentUser.email
-      });
+      };
+      if (enc) doc.codeEnc = enc;
+      var batch = db.batch();
+      batch.set(db.collection('codes').doc(hash), doc);
       batch.set(db.collection('status').doc(hash), { status: 'active' });
       await batch.commit();
       await logActivity('issue', name + ' (' + planLabel(plan) + ')');
