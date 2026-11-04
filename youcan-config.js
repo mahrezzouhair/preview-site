@@ -17,7 +17,7 @@ var YOUCAN_CONFIG = {
 
   /* المفتاح العمومي لحساب YouCan Pay (كيبدا بـ pub_، ونسخة Sandbox
      كتبدا بـ pub_sandbox_). بلاصة المفتاح الحقيقي منين يتوفر. */
-  publicKey: 'PUB_SANDBOX_PLACEHOLDER',
+  publicKey: 'pub_sandbox_50d38880-486a-4f52-8d71-092ba',
 
   /* رابط دالة توليد الدفع (Firebase Function createPayment).
      خاوي = الدفع بالبطاقة ما مفعلش بعد. مثال منين تنشر الدالة:
