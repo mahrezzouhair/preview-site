@@ -5,14 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>الدفع والتفعيل — زهير محرز</title>
-<meta name="description" content="ادفع ثمن الدورة 499 درهم بالبطاقة مع تفعيل أوتوماتيكي، ولا بتحويل بنكي: من CIH التفعيل ف الحين، ومن أي بنك آخر حتى يوصل التحويل.">
+<meta name="description" content="ادفع ثمن الدورة 499 درهم بتحويل بنكي لـ CIH Bank: الـRIB والـIBAN ديال المدرب في الصفحة، وصيفط الإيصال عبر واتساب — من CIH التفعيل ف الحين، ومن أي بنك آخر حتى يوصل التحويل.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="youcan-config.js"></script>
 <style>
 :root{--dark:#0A120F;--neon:#1ED760}
 *{box-sizing:border-box}
@@ -49,6 +45,14 @@ nav.main a.active,nav.main a:hover{color:#fff}
 .badge.instant{background:#D9A441;color:#241A06}
 .badge.delayed{background:#1C3325;color:#9DB8A8}
 .timing{color:#C9D6CE;font-size:.92rem;margin:6px 0 0}
+.rib-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #1C3325;flex-wrap:wrap}
+.rib-row:first-of-type{border-top:0}
+.rib-row .lbl{color:#9DB8A8}
+.rib-row .val{font-weight:900;color:#fff;direction:ltr;text-align:left;word-break:break-all}
+.rib-row .val.amount{font-size:1.25rem;color:var(--neon)}
+.copy-btn{background:#1C3325;color:#E7F3EB;border:1px solid #2C4A38;border-radius:999px;padding:6px 14px;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;flex-shrink:0}
+.copy-btn:hover{border-color:var(--neon)}
+.copy-btn.done{background:var(--neon);color:#06280F;border-color:var(--neon)}
 .summary{background:#0E1A14;border:1px solid #2C4A38;border-radius:18px;padding:20px;margin:20px 0}
 .summary .row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid #1C3325}
 .summary .row:first-child{border-top:0}
@@ -56,9 +60,6 @@ nav.main a.active,nav.main a:hover{color:#fff}
 .summary .row b{text-align:left}
 .wa{display:block;text-align:center;background:#25D366;color:#06280F;font-weight:900;border-radius:999px;padding:15px;font-size:1.12rem;margin:16px 0 8px}
 .wa:hover{filter:brightness(1.05)}
-.cardpay{display:block;text-align:center;background:var(--neon);color:#06280F;font-weight:900;border-radius:999px;padding:15px;font-size:1.12rem;margin:16px 0 8px;border:0;width:100%;font-family:inherit;cursor:pointer;text-decoration:none}
-.cardpay:disabled{opacity:.6;cursor:default}
-#yp-form{margin:16px 0}
 .note{color:#9DB8A8;font-size:.95rem;text-align:center;margin:0 0 8px}
 .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
 .trust div{background:#101E16;border:1px solid #1C3325;border-radius:16px;padding:14px;text-align:center;font-weight:700;font-size:.95rem}
@@ -83,25 +84,15 @@ nav.main a.active,nav.main a:hover{color:#fff}
 
   <div class="hero">
     <h1>الدفع والتفعيل</h1>
-    <p>خلص بالبطاقة والتفعيل <span class="highlight">أوتوماتيكي</span>، ولا حوّل ثمن الدورة من البنك ديالك وصيفط الإيصال عبر واتساب — <span class="highlight">من CIH التفعيل ف الحين، ومن أي بنك آخر حتى يوصل التحويل.</span></p>
-  </div>
-
-  <div class="card">
-    <h2>طريقة الدفع</h2>
-    <div class="pick" id="method-pick" style="grid-template-columns:1fr 1fr">
-      <button class="opt method-btn selected" data-method="bank"><div class="cname">🏦 تحويل بنكي</div><div class="cmeta">تفعيل يدوي بعد التأكد من الأداء</div></button>
-      <button class="opt method-btn" data-method="card"><div class="cname">💳 خلص بالبطاقة</div><div class="cmeta">تفعيل أوتوماتيكي مباشرة بعد الخلاص</div></button>
-    </div>
+    <p>خلص ثمن الدورة <span class="highlight">بالتحويل البنكي</span> وصيفط الإيصال عبر واتساب — <span class="highlight">من CIH التفعيل ف الحين، ومن أي بنك آخر حتى يوصل التحويل.</span></p>
   </div>
 
   <div class="card" id="bank-steps">
     <h2>الدفع بالتحويل البنكي — كيفاش كيتم؟</h2>
     <div class="step"><div class="num">1</div><p><b>اختار الدورة والبنك ديالك</b> من الأسفل.</p></div>
-    <div class="step"><div class="num">2</div><p><b>اضغط زر واتساب</b> — غادي يوصلك <b>RIB</b> وتأكيد الثمن من المدرب.</p></div>
-    <div class="step"><div class="num">3</div><p><b>حوّل المبلغ</b> من تطبيق البنك ديالك أو من الوكالة.</p></div>
-    <div class="step"><div class="num">4</div><p><b>صيفط صورة الإيصال</b> في نفس محادثة واتساب.</p></div>
-    <div class="step"><div class="num">5</div><p><b>التفعيل:</b> من CIH ف الحين بعد التأكد من التوصل، ومن بنك آخر مباشرة بعد وصول التحويل.</p></div>
-    <p class="note" style="text-align:right;margin-top:12px">⚠️ ما تحوّل حتى تتوصل بـRIB والثمن في واتساب — هاكا كنتفاداو الأخطاء.</p>
+    <div class="step"><div class="num">2</div><p><b>حوّل 499 درهم</b> للـRIB اللي لتحت، من تطبيق البنك ديالك أو من الوكالة.</p></div>
+    <div class="step"><div class="num">3</div><p><b>صيفط صورة الإيصال</b> عبر واتساب — الزر اللي لتحت، والرسالة جاهزة بالدورة والمبلغ.</p></div>
+    <div class="step"><div class="num">4</div><p><b>التفعيل:</b> من CIH ف الحين بعد التأكد من التوصل، ومن بنك آخر مباشرة بعد وصول التحويل.</p></div>
   </div>
 
   <div class="card">
@@ -149,29 +140,14 @@ nav.main a.active,nav.main a:hover{color:#fff}
     </div>
   </div>
 
-  <div class="card" id="card-panel" style="display:none">
-    <h2>💳 خلص بالبطاقة — تفعيل أوتوماتيكي</h2>
-    <p class="note" style="text-align:right">تختار الدورة من الأعلى، تخلص بالبطاقة في نموذج أداء آمن، ومنين ينجح الخلاص <b style="color:#fff">الدورة كتفتح ليك نيشان في «دوراتي» بلا ما تسنى موافقة</b>، وكيوصلك إيميل تأكيد.</p>
-    <div class="summary" style="margin:20px 0 0">
-      <div class="row"><span>الدورة</span><b id="card-course">— اختار دورة من الأعلى —</b></div>
-      <div class="row"><span>الثمن</span><b id="card-price">499 درهم</b></div>
-      <div class="row"><span>التفعيل</span><b>⚡ أوتوماتيكي — مباشرة بعد نجاح الخلاص</b></div>
-    </div>
-    <div id="card-login-gate" style="display:none">
-      <p class="note">خاصك تدخل بحسابك أولا باش نربطو الخلاص بدورتك.</p>
-      <button class="cardpay" id="card-login-btn" type="button">دخول / تسجيل ←</button>
-    </div>
-    <div id="card-active-note" style="display:none">
-      <p class="note">✅ هاد الدورة مفعّلة أصلاً عندك.</p>
-      <a class="cardpay" href="my-courses.html">شوف دوراتي ←</a>
-    </div>
-    <div id="card-pay-zone" style="display:none">
-      <div id="yp-form"></div>
-      <button class="cardpay" id="card-start-btn" type="button">ابدأ الدفع بالبطاقة ←</button>
-      <button class="cardpay" id="card-confirm-btn" type="button" style="display:none">أكّد الخلاص ←</button>
-      <p class="note" id="card-msg"></p>
-    </div>
-    <p class="note" id="card-config-note" style="display:none">⏳ الدفع بالبطاقة مازال ما تفعلش — غادي يتفعل منين يتفتح حساب YouCan Pay ويتنشر السيرفر. حالياً، الدفع بالتحويل البنكي خدام عادي.</p>
+  <div class="card" id="rib-card">
+    <h2>🏦 معلومات التحويل البنكي</h2>
+    <div class="rib-row"><span class="lbl">المستفيد</span><span class="val">MONSIEUR ZOUHAIR MAHREZ</span></div>
+    <div class="rib-row"><span class="lbl">البنك</span><span class="val">CIH Bank</span></div>
+    <div class="rib-row"><span class="lbl">RIB</span><span class="val">230 780 4437427211001300 63</span><button class="copy-btn" type="button" data-copy="230780443742721100130063">نسخ RIB</button></div>
+    <div class="rib-row"><span class="lbl">IBAN</span><span class="val">MA64 2307 8044 3742 7211 0013 0063</span><button class="copy-btn" type="button" data-copy="MA64230780443742721100130063">نسخ IBAN</button></div>
+    <div class="rib-row"><span class="lbl">Code SWIFT</span><span class="val">CIHMMAMC</span></div>
+    <div class="rib-row"><span class="lbl">المبلغ</span><span class="val amount">499 درهم</span></div>
   </div>
 
   <div class="summary" id="bank-summary">
@@ -179,14 +155,14 @@ nav.main a.active,nav.main a:hover{color:#fff}
     <div class="row"><span>الدورة</span><b id="sum-course">— اختار دورة من الأعلى —</b></div>
     <div class="row"><span>البنك ديالك</span><b id="sum-bank">— اختار بنك من الأعلى —</b></div>
     <div class="row"><span>التفعيل</span><b id="sum-activation">—</b></div>
-    <div class="row"><span>الثمن</span><b>غادي يتأكد ليك في واتساب قبل ما تحوّل</b></div>
-    <a class="wa" id="wa-btn" href="https://wa.me/212664651301" target="_blank" rel="noopener">إتمام الدفع عبر واتساب ←</a>
-    <p class="note">الرسالة غادي تكون جاهزة بالدورة والبنك اللي اختاريتيهم — صيفطها، وغادي يوصلك RIB والثمن.</p>
+    <div class="row"><span>الثمن</span><b>499 درهم</b></div>
+    <a class="wa" id="wa-btn" href="https://wa.me/212664651301" target="_blank" rel="noopener">صيفط الإيصال عبر واتساب ←</a>
+    <p class="note">الرسالة غادي تكون جاهزة بالدورة والمبلغ — صيفطها مع صورة الإيصال.</p>
   </div>
 
   <div class="trust">
     <div>🔒 شهادة إتمام مختومة إلكترونياً — بشراكة مع بيت الوقاية</div>
-    <div>⚡ تفعيل أوتوماتيكي بالبطاقة • يدوي بالتحويل البنكي</div>
+    <div>⚡ تفعيل ف الحين من CIH • حتى يوصل التحويل من بنك آخر</div>
     <div>🎥 دورات بالدارجة — فيديوهات تطبيقية من المركز</div>
   </div>
 
@@ -194,8 +170,6 @@ nav.main a.active,nav.main a:hover{color:#fff}
     <h2>أسئلة شائعة</h2>
     <h3>علاش التفعيل من CIH فوري ومن بنك آخر لا؟</h3>
     <p>حيت التحويل من CIH لحساب CIH كيوصل ف الحين، بينما التحويل من بنك آخر كياخد وقت باش يوصل — والتفعيل كيتم مباشرة بعد التأكد من وصول الأداء.</p>
-    <h3>كيفاش كيتم التفعيل الأوتوماتيكي بالبطاقة؟</h3>
-    <p>تختار الدورة، تدخل بحسابك، تخلص بالبطاقة في نموذج آمن — ومنين ينجح الخلاص، السيرفر كيتأكد من الأداء وكيفتح ليك الدورة نيشان في «دوراتي» بلا موافقة يدوية، وكيوصلك إيميل تأكيد. إلا ما بانتش الدورة مباشرة، حدّث الصفحة من بعد دقيقة.</p>
     <h3>كيفاش نعرف بلي الدورة تفعلات؟</h3>
     <p>غادي تبان ليك في صفحة «دوراتي» بحالة «مفعّلة» وغادي تتفتح ليك الدروس.</p>
     <h3>شنو ندير إلا وقع خطأ في التحويل؟</h3>
@@ -218,7 +192,7 @@ var BANKS = {
   boa: { name: 'بنك إفريقيا', instant: false },
   other: { name: 'بنك آخر', instant: false }
 };
-var state = { course: null, bank: null, method: 'bank' };
+var state = { course: null, bank: null };
 function $(id){ return document.getElementById(id); }
 function render(){
   $('sum-course').textContent = state.course ? COURSES[state.course] : '— اختار دورة من الأعلى —';
@@ -232,22 +206,13 @@ function render(){
   }
   var msg;
   if (state.course && state.bank) {
-    msg = 'سلام، بغيت نخلص دورة ' + COURSES[state.course] + '، البنك ديالي هو ' + BANKS[state.bank].name + '، صيفط ليا RIB والثمن عافاك.';
+    msg = 'سلام، خلصت دورة ' + COURSES[state.course] + ' بالتحويل البنكي (499 درهم) من ' + BANKS[state.bank].name + '، وهاهي صورة الإيصال.';
   } else if (state.course) {
-    msg = 'سلام، بغيت نخلص دورة ' + COURSES[state.course] + '، صيفط ليا معلومات الدفع عافاك.';
+    msg = 'سلام، خلصت دورة ' + COURSES[state.course] + ' بالتحويل البنكي (499 درهم)، وهاهي صورة الإيصال.';
   } else {
-    msg = 'سلام، بغيت نخلص دورة، صيفط ليا معلومات الدفع عافاك.';
+    msg = 'سلام، بغيت نخلص دورة 499 درهم بالتحويل البنكي.';
   }
   $('wa-btn').href = 'https://wa.me/212664651301?text=' + encodeURIComponent(msg);
-  var isCard = state.method === 'card';
-  $('bank-steps').style.display = isCard ? 'none' : '';
-  $('bank-pick-card').style.display = isCard ? 'none' : '';
-  $('bank-summary').style.display = isCard ? 'none' : '';
-  $('card-panel').style.display = isCard ? '' : 'none';
-  $('card-course').textContent = state.course ? COURSES[state.course] : '— اختار دورة من الأعلى —';
-  $('card-price').textContent = (typeof YOUCAN_CONFIG !== 'undefined' && YOUCAN_CONFIG.prices && YOUCAN_CONFIG.prices[state.course])
-    ? YOUCAN_CONFIG.prices[state.course] + ' درهم' : '499 درهم';
-  if (isCard) syncCardPanel();
 }
 function bind(selector, key){
   document.querySelectorAll(selector).forEach(function (btn) {
@@ -259,152 +224,34 @@ function bind(selector, key){
     });
   });
 }
-/* --- الدفع بالبطاقة (YouCan Pay) ---
-   المسار كامل: المتعلم مسجل دخول → زر الدفع كيطلب رمز من دالة السيرفر
-   (createPayment) → نموذج yp.js كيتحمل غير ملي يتطلب (lazy) → تأكيد
-   الخلاص → التفعيل كيتم في السيرفر عبر Webhook بلا موافقة يدوية.
-   إلا كان الإعداد مازال PLACEHOLDER، الزر كيبيّن رسالة وما كيبدا
-   حتى أداء. مسار التحويل البنكي ما كيتمسش. */
-var firebaseConfig = {
-  apiKey: "AIzaSyClqrivuAchdsapjqcvwQnUq6Wz2po6_kg",
-  authDomain: "hijama-tracker.firebaseapp.com",
-  projectId: "hijama-tracker",
-  storageBucket: "hijama-tracker.firebasestorage.app",
-  messagingSenderId: "862559400219",
-  appId: "1:862559400219:web:7302f2cee9f80fb5e263be"
-};
-var cardUser = null, cardApproved = false, lastCheckedCourse = null;
-var ypPayment = null;
-try {
-  if (typeof firebase !== 'undefined' && !firebase.apps.length) firebase.initializeApp(firebaseConfig);
-} catch (e) {}
-function cardConfigured() {
-  return typeof YOUCAN_CONFIG !== 'undefined' && !!YOUCAN_CONFIG.functionUrl
-    && !!YOUCAN_CONFIG.publicKey && YOUCAN_CONFIG.publicKey.indexOf('PLACEHOLDER') === -1;
-}
-function syncCardPanel() {
-  if (!cardConfigured()) {
-    $('card-login-gate').style.display = 'none';
-    $('card-active-note').style.display = 'none';
-    $('card-pay-zone').style.display = 'none';
-    $('card-config-note').style.display = '';
-    return;
+function copyText(text, btn){
+  function done(){
+    var old = btn.textContent;
+    btn.textContent = '✓ تنسخ';
+    btn.classList.add('done');
+    setTimeout(function(){ btn.textContent = old; btn.classList.remove('done'); }, 2000);
   }
-  $('card-config-note').style.display = 'none';
-  if (!cardUser) {
-    $('card-login-gate').style.display = '';
-    $('card-active-note').style.display = 'none';
-    $('card-pay-zone').style.display = 'none';
-    return;
-  }
-  $('card-login-gate').style.display = 'none';
-  if (!state.course) {
-    $('card-active-note').style.display = 'none';
-    $('card-pay-zone').style.display = 'none';
-    return;
-  }
-  if (cardApproved) {
-    $('card-active-note').style.display = '';
-    $('card-pay-zone').style.display = 'none';
-    return;
-  }
-  $('card-active-note').style.display = 'none';
-  $('card-pay-zone').style.display = '';
-  if (lastCheckedCourse !== state.course) {
-    lastCheckedCourse = state.course;
-    checkCardApproved();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done, function(){ fallbackCopy(text, done); });
+  } else {
+    fallbackCopy(text, done);
   }
 }
-async function checkCardApproved() {
-  cardApproved = false;
-  try {
-    var snap = await firebase.firestore().collection('course-enrollments')
-      .where('uid', '==', cardUser.uid).where('courseId', '==', state.course).get();
-    snap.forEach(function (d) { if (d.data().status === 'approved') cardApproved = true; });
-  } catch (e) {
-    /* إلا فشل التحقق، كنخليو الدفع يمشي — السيرفر كيمنع التكرار (409). */
-  }
-  if (state.method === 'card') {
-    $('card-active-note').style.display = cardApproved ? '' : 'none';
-    $('card-pay-zone').style.display = cardApproved ? 'none' : '';
-  }
+function fallbackCopy(text, done){
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) {}
+  document.body.removeChild(ta);
 }
-function loadYpScript() {
-  return new Promise(function (resolve, reject) {
-    if (typeof yp !== 'undefined') return resolve();
-    var s = document.createElement('script');
-    s.src = 'https://youcanpay.com/yp.js';
-    s.onload = resolve;
-    s.onerror = function () { reject(new Error('تعذر تحميل نموذج الدفع')); };
-    document.head.appendChild(s);
-  });
-}
-async function startCardPayment() {
-  var msg = $('card-msg');
-  if (!state.course) { msg.textContent = 'اختار الدورة أولا من الأعلى.'; return; }
-  if (!cardUser) { msg.textContent = 'خاصك تدخل بحسابك أولا.'; return; }
-  var btn = $('card-start-btn');
-  btn.disabled = true;
-  msg.textContent = 'جاري تجهيز الدفع الآمن...';
-  try {
-    var token = await cardUser.getIdToken();
-    var r = await fetch(YOUCAN_CONFIG.functionUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-      body: JSON.stringify({ courseId: state.course })
-    });
-    var data = await r.json().catch(function () { return {}; });
-    if (r.status === 409) { cardApproved = true; syncCardPanel(); msg.textContent = ''; return; }
-    if (!r.ok || !data.tokenId) throw new Error((data && data.error) || 'تعذر تجهيز الدفع');
-    await loadYpScript();
-    var payment = yp(YOUCAN_CONFIG.publicKey, { locale: 'ar' })
-      .elements({ token: data.tokenId, container: '#yp-form', gateways: ['credit-card'] });
-    await payment.mount();
-    ypPayment = payment;
-    btn.style.display = 'none';
-    $('card-confirm-btn').style.display = '';
-    msg.textContent = 'عمّر بيانات البطاقة واضغط «أكّد الخلاص».';
-  } catch (e) {
-    msg.textContent = 'خطأ: ' + e.message;
-    btn.disabled = false;
-  }
-}
-async function confirmCardPayment() {
-  var msg = $('card-msg');
-  var btn = $('card-confirm-btn');
-  btn.disabled = true;
-  msg.textContent = 'جاري تأكيد الخلاص...';
-  try {
-    var result = await ypPayment.confirm();
-    if (result.status === 'succeeded') {
-      msg.textContent = '✓ تم الخلاص بنجاح! التفعيل كيتم أوتوماتيكياً — غادي تتحول لصفحة «دوراتي».';
-      setTimeout(function () { window.location.href = (typeof YOUCAN_CONFIG !== 'undefined' && YOUCAN_CONFIG.successPage) || 'my-courses.html'; }, 3000);
-    } else {
-      msg.textContent = 'تعذر الخلاص: ' + ((result.error && result.error.message) || 'حاول من جديد.');
-      btn.disabled = false;
-    }
-  } catch (e) {
-    msg.textContent = 'خطأ: ' + e.message;
-    btn.disabled = false;
-  }
-}
-$('card-login-btn').addEventListener('click', function () {
-  try { if (state.course) localStorage.setItem('pendingCardCourse', state.course); } catch (e) {}
-  window.location.href = 'register.html';
+document.querySelectorAll('.copy-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () { copyText(btn.getAttribute('data-copy'), btn); });
 });
-$('card-start-btn').addEventListener('click', startCardPayment);
-$('card-confirm-btn').addEventListener('click', confirmCardPayment);
-try {
-  if (typeof firebase !== 'undefined' && firebase.auth) {
-    firebase.auth().onAuthStateChanged(function (user) {
-      cardUser = user; cardApproved = false; lastCheckedCourse = null;
-      if (state.method === 'card') render();
-    });
-  }
-} catch (e) {}
 bind('.course-btn', 'course');
 bind('.bank-btn', 'bank');
-bind('.method-btn', 'method');
 var params = new URLSearchParams(window.location.search);
 var c = params.get('course'), b = params.get('bank');
 if (c && COURSES[c]) {
@@ -415,23 +262,6 @@ if (b && BANKS[b]) {
   var bb = document.querySelector('.bank-btn[data-bank="' + b + '"]');
   if (bb) { bb.classList.add('selected'); state.bank = b; }
 }
-var m = params.get('method');
-if (m === 'card') {
-  var mb = document.querySelector('.method-btn[data-method="card"]');
-  if (mb) { document.querySelectorAll('.method-btn').forEach(function (x) { x.classList.remove('selected'); }); mb.classList.add('selected'); state.method = 'card'; }
-}
-try {
-  var pc = localStorage.getItem('pendingCardCourse');
-  if (pc && COURSES[pc]) {
-    var pcb = document.querySelector('.course-btn[data-course="' + pc + '"]');
-    if (pcb) { document.querySelectorAll('.course-btn').forEach(function (x) { x.classList.remove('selected'); }); pcb.classList.add('selected'); state.course = pc; }
-    document.querySelectorAll('.method-btn').forEach(function (x) { x.classList.remove('selected'); });
-    var mb2 = document.querySelector('.method-btn[data-method="card"]');
-    if (mb2) mb2.classList.add('selected');
-    state.method = 'card';
-    localStorage.removeItem('pendingCardCourse');
-  }
-} catch (e) {}
 render();
 })();
 </script>
