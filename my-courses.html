@@ -85,6 +85,13 @@ select,input{padding:11px 13px;border-radius:12px;border:1px solid #2C4A38;backg
         <div><span>الحالة</span><span class="badge pending">قيد الانتظار</span></div>
       </div>
       <p class="note">التفعيل كيتم يدوياً من طرف أحد المدربين في المركز بعد التأكد من الأداء — غادي نتواصلو معاك لإتمامه.</p>
+      <p class="note" id="cf-name-hint"><button class="ghost" id="btn-edit-name" type="button" style="padding:4px 12px">✏️ تعديل الاسم</button> — إلا كان الاسم ماشي هو هاداك، صحّحو من هنا قبل ما تكمل الدفع.</p>
+      <div id="cf-name-edit" style="display:none;margin:4px 0 12px">
+        <input id="cf-name-input" type="text" placeholder="الاسم الكامل بالعربية" style="width:100%;margin-bottom:8px">
+        <button class="primary" id="btn-save-name" type="button">حفظ الاسم ✓</button>
+        <button class="ghost" id="btn-cancel-name" type="button">إلغاء</button>
+        <span id="cf-name-msg" class="note"></span>
+      </div>
       <a id="btn-confirm-pay" href="payment.html"><button class="primary">إتمام الدفع ←</button></a> <button class="ghost" id="btn-confirm-back">رجوع لدوراتي ←</button>
     </div>
   </div>
@@ -117,7 +124,7 @@ var UNITS = [
   'الوحدة 7 — ما بعد الجلسة والتوثيق المهني',
   'الوحدة 8 — من متدرب إلى ممارس'
 ];
-var currentUser = null, userName = '', enrollments = [], progressMap = {};
+var currentUser = null, userName = '', enrollments = [], progressMap = {}, currentEnr = null;
 function progressKey(courseId){ return currentUser.uid + '_' + courseId; }
 function courseIdOf(e){
   if (e.courseId) return e.courseId;
@@ -219,24 +226,36 @@ $('btn-request').addEventListener('click', async function(){
   if (enrollments.some(function (e) { return courseIdOf(e) === cid && e.status !== 'rejected'; })) {
     $('req-msg').innerHTML = '<span class="err">عندك أصلاً طلب (أو تفعيل) لهاد الدورة.</span>'; return;
   }
+  if (!userName) {
+    // No saved name yet: complete it first — never record the email as the name.
+    try { localStorage.setItem('pendingCourse', cid); } catch (e) {}
+    window.location.href = 'register.html';
+    return;
+  }
   try {
-    await db.collection('course-enrollments').add({
-      name: userName || currentUser.email, email: currentUser.email, course: course, courseId: cid,
+    var ref = await db.collection('course-enrollments').add({
+      name: userName, email: currentUser.email, course: course, courseId: cid,
       method: 'bank', status: 'pending', uid: currentUser.uid,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     // Confirmation page: show the customer exactly what was recorded.
-    showConfirmation(userName || currentUser.email, currentUser.email, course, cid);
+    showConfirmation(userName, currentUser.email, course, cid, { _id: ref.id, status: 'pending' });
   } catch (e) {
     $('req-msg').innerHTML = '<span class="err">خطأ: ' + esc(e.message) + '</span>';
   }
 });
-function showConfirmation(name, email, course, cid){
+function showConfirmation(name, email, course, cid, enr){
   if (cid) $('btn-confirm-pay').href = 'payment.html?course=' + cid;
   $('cf-name').textContent = name;
   $('cf-email').textContent = email;
   $('cf-course').textContent = course;
   $('req-msg').innerHTML = '';
+  // The name can be fixed here, before payment — pending enrollments only
+  // (approved ones are locked by the Firestore rules).
+  currentEnr = enr || null;
+  var canEdit = !!(enr && enr._id && enr.status === 'pending');
+  $('cf-name-hint').style.display = canEdit ? '' : 'none';
+  $('cf-name-edit').style.display = 'none';
   $('main').style.display = 'none';
   $('confirm-view').style.display = '';
 }
@@ -245,6 +264,38 @@ $('btn-confirm-back').addEventListener('click', async function(){
   $('main').style.display = '';
   try { await loadAll(); }
   catch (e) { $('enroll-list').innerHTML = '<div class="card"><p class="note">خطأ في التحميل: ' + esc(e.message) + '</p></div>'; }
+});
+$('btn-edit-name').addEventListener('click', function(){
+  $('cf-name-input').value = $('cf-name').textContent;
+  $('cf-name-edit').style.display = '';
+  $('cf-name-hint').style.display = 'none';
+  $('cf-name-msg').textContent = '';
+  $('cf-name-input').focus();
+});
+$('btn-cancel-name').addEventListener('click', function(){
+  $('cf-name-edit').style.display = 'none';
+  $('cf-name-hint').style.display = '';
+});
+$('btn-save-name').addEventListener('click', async function(){
+  var newName = $('cf-name-input').value.trim();
+  if (!newName) { $('cf-name-msg').textContent = 'كتب الاسم الكامل.'; return; }
+  if (!currentEnr || !currentEnr._id) return;
+  $('cf-name-msg').textContent = 'جاري الحفظ...';
+  try {
+    // Fix the name on the enrollment AND on the learner's account, so the
+    // next enrollment (and the certificate) use the right name too.
+    await db.collection('course-enrollments').doc(currentEnr._id).update({ name: newName });
+    await db.collection('users').doc(currentUser.uid).set({ name: newName }, { merge: true });
+    userName = newName;
+    currentEnr.name = newName;
+    $('cf-name').textContent = newName;
+    $('cf-name-edit').style.display = 'none';
+    $('cf-name-hint').style.display = '';
+    $('cf-name-msg').textContent = '';
+    await loadAll();
+  } catch (e) {
+    $('cf-name-msg').textContent = 'خطأ: ' + e.message;
+  }
 });
 // Deep links from the courses page / registration resume:
 // ?course=X preselects the course; ?show=confirm shows the confirmation
@@ -264,9 +315,15 @@ async function handleDeepLink(){
   if (show !== 'confirm' && auto !== '1') return;
   var existing = enrollments.filter(function (e) { return courseIdOf(e) === cid && e.status !== 'rejected'; })[0];
   if (!existing && auto === '1') {
+    if (!userName) {
+      // No saved name yet: complete it first — never record the email as the name.
+      try { localStorage.setItem('pendingCourse', cid); } catch (e) {}
+      window.location.href = 'register.html';
+      return;
+    }
     try {
       await db.collection('course-enrollments').add({
-        name: userName || currentUser.email, email: currentUser.email, course: courseNameOf(cid), courseId: cid,
+        name: userName, email: currentUser.email, course: courseNameOf(cid), courseId: cid,
         method: 'bank', status: 'pending', uid: currentUser.uid,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
@@ -278,7 +335,7 @@ async function handleDeepLink(){
     }
   }
   if (existing) {
-    showConfirmation(existing.name || userName || currentUser.email, existing.email || currentUser.email, existing.course, cid);
+    showConfirmation(existing.name || userName || currentUser.email, existing.email || currentUser.email, existing.course, cid, existing);
     try { localStorage.removeItem('pendingCourse'); } catch (e) {}
     if (auto === '1') { try { history.replaceState(null, '', 'my-courses.html?course=' + cid); } catch (e) {} }
   }

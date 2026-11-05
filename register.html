@@ -204,10 +204,17 @@ $('btn-save-name').addEventListener('click', async function(){
   if (!user) { $('g-msg').innerHTML = '<span class="err">انقطع الدخول — دخل من جديد.</span>'; return; }
   if (!name) { $('g-msg').innerHTML = '<span class="err">كتب الاسم الكامل بالعربية.</span>'; return; }
   try {
-    await db.collection('users').doc(user.uid).set({
-      email: user.email, name: name, role: 'pending',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    var udoc = await db.collection('users').doc(user.uid).get();
+    if (udoc.exists) {
+      // Merge only: an existing doc (e.g. the admin's) keeps its role,
+      // phone and original createdAt — only the missing name is added.
+      await db.collection('users').doc(user.uid).set({ name: name }, { merge: true });
+    } else {
+      await db.collection('users').doc(user.uid).set({
+        email: user.email, name: name, role: 'pending',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
     $('name-card').style.display = 'none';
     $('done-card').style.display = '';
     $('who').textContent = 'دخلت بـ ' + user.email;
@@ -239,13 +246,14 @@ function updateDoneCard(){
 $('btn-logout').addEventListener('click', function(){ auth.signOut(); });
 auth.onAuthStateChanged(async function(user){
   if (user) {
-    // First-time Google users have no users doc yet: they must confirm
-    // their full Arabic name (certificate name) before anything else.
-    // Existing docs (incl. admin/assistant) are NEVER overwritten here.
+    // A user with no saved name — first-time Google sign-up, or an older
+    // doc created without a name — must confirm their full Arabic name
+    // (certificate name) before anything else. A saved name goes straight
+    // to the done card; existing docs are NEVER overwritten wholesale.
     try {
       var doc = await db.collection('users').doc(user.uid).get();
       $('auth-card').style.display = 'none';
-      if (doc.exists) {
+      if (doc.exists && doc.data().name) {
         $('name-card').style.display = 'none';
         $('done-card').style.display = '';
         $('who').textContent = 'دخلت بـ ' + user.email;

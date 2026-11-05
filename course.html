@@ -225,7 +225,15 @@ btn.addEventListener('click', async function () {
   msgEl.innerHTML = 'جاري تسجيل طلبك...';
   try {
     var nameDoc = await db.collection('users').doc(user.uid).get();
-    var userName = (nameDoc.exists && nameDoc.data().name) ? nameDoc.data().name : user.email;
+    var userName = (nameDoc.exists && nameDoc.data().name) ? nameDoc.data().name : '';
+    if (!userName) {
+      // No saved name yet (e.g. Google sign-up): complete the name first —
+      // never record the email as the name. register.html shows the name
+      // card and sends the learner back here with the course preselected.
+      try { localStorage.setItem('pendingCourse', cid); } catch (e) {}
+      window.location.href = 'register.html';
+      return;
+    }
     var existing = await findEnrollment(cid);
     if (!existing) {
       await db.collection('course-enrollments').add({
