@@ -265,7 +265,7 @@ th{color:var(--neon)}
     </div>
     <div class="card" id="learners-card" style="display:none">
       <h2>📈 المتعلمون والتقدم (للمدير فقط)</h2>
-      <p class="note">كل مجموعة بوحدها: تسجيلات الموقع، المسجلون في الدورات، اللي سالاو الدورة، وحسابات الأدمين. التقدم كيتسجل من صفحة «دوراتي» عند المتعلم.</p>
+      <p class="note">كل مجموعة بوحدها: تسجيلات الموقع، المسجلون في الدورات، اللي سالاو الدورة، وحسابات الأدمين. التقدم كيتسجل من صفحة «دوراتي» عند المتعلم. تسجيلات الموقع = اللي تسجلو بلا دورة: فيها الهاتف وعدد الأيام منذ التسجيل وزر واتساب — اللي فات 3 أيام بلا دورة خاصو متابعة.</p>
       <div class="ltabs" id="learner-tabs">
         <button data-ltab="enrolled" class="on">المسجلون في الدورات</button>
         <button data-ltab="site">تسجيلات الموقع</button>
@@ -278,7 +278,7 @@ th{color:var(--neon)}
       </div>
       <div style="overflow-x:auto">
         <table>
-          <thead><tr><th>المتعلم</th><th>الإيميل</th><th>الدورة</th><th>الحالة</th><th>التقدم</th><th>آخر نشاط</th></tr></thead>
+          <thead><tr id="learner-head"><th>المتعلم</th><th>الإيميل</th><th>الدورة</th><th>الحالة</th><th>التقدم</th><th>آخر نشاط</th></tr></thead>
           <tbody id="learner-body"></tbody>
         </table>
       </div>
@@ -786,11 +786,14 @@ try { firebaseConfig = {
     return p ? p.percent : null;
   }
   function isDoneEnroll(e) { return enrollProgress(e) === 100; }
+  function tsOf(v) { if (!v) return 0; try { if (typeof v.toDate === 'function') return v.toDate().getTime(); } catch (e) {} var t = Date.parse(v); return isNaN(t) ? 0 : t; }
+  function daysSince(v) { var t = tsOf(v); if (!t) return null; return Math.max(0, Math.floor((Date.now() - t) / 86400000)); }
+  function waLink(p) { var d = String(p || '').replace(/\D/g, ''); if (d.charAt(0) === '0') d = '212' + d.slice(1); if (d.length !== 12 || d.indexOf('212') !== 0) return ''; return 'https://wa.me/' + d; }
   function renderLearners() {
     var q = ($('search-learner').value || '').trim().toLowerCase();
     function match(e) {
       if (!q) return true;
-      return String(e.name || '').toLowerCase().indexOf(q) >= 0 || String(e.email || '').toLowerCase().indexOf(q) >= 0;
+      return String(e.name || '').toLowerCase().indexOf(q) >= 0 || String(e.email || '').toLowerCase().indexOf(q) >= 0 || String(e.phone || '').indexOf(q) >= 0;
     }
     // Disjoint groups, keyed per person (uid or email): a completer leaves
     // the enrollees list, a site signup has no enrollment at all.
@@ -810,6 +813,13 @@ try { firebaseConfig = {
       admins: lastUsers.filter(isStaff).length
     };
     var labels = { enrolled: 'المسجلون في الدورات', site: 'تسجيلات الموقع', done: 'اللي سالاو الدورة', admins: 'حسابات الأدمين' };
+    var heads = {
+      enrolled: ['المتعلم', 'الإيميل', 'الدورة', 'الحالة', 'التقدم', 'آخر نشاط'],
+      done: ['المتعلم', 'الإيميل', 'الدورة', 'الحالة', 'التقدم', 'آخر نشاط'],
+      site: ['المتعلم', 'الإيميل', 'الهاتف', 'تاريخ التسجيل', 'الأيام', 'المتابعة'],
+      admins: ['المتعلم', 'الإيميل', 'الدورة', 'الحالة', 'التقدم', 'آخر نشاط']
+    };
+    $('learner-head').innerHTML = heads[learnerTab].map(function (h) { return '<th>' + h + '</th>'; }).join('');
     $('learner-tabs').querySelectorAll('button').forEach(function (b) {
       var t = b.getAttribute('data-ltab');
       b.textContent = labels[t] + ' (' + counts[t] + ')';
@@ -828,8 +838,14 @@ try { firebaseConfig = {
     if (learnerTab === 'enrolled') html = enrolled.map(enrollRow).join('');
     else if (learnerTab === 'done') html = done.map(enrollRow).join('');
     else if (learnerTab === 'site') html = site.map(function (u) {
-      return '<tr><td>' + esc(u.name || '—') + '</td><td dir="ltr" style="text-align:left">' + esc(u.email) + '</td><td>—</td>' +
-        '<td><span class="badge pending">مسجل في الموقع</span></td><td>—</td><td>' + fmtDate(u.createdAt) + '</td></tr>';
+      var days = daysSince(u.createdAt);
+      var wa = waLink(u.phone);
+      var follow = (days !== null && days >= 3)
+        ? '<span class="badge pending">خاصو متابعة</span>'
+        : '<span class="note">جديد</span>';
+      var waBtn = wa ? '<button class="ghost" onclick="window.open(\'' + wa + '\',\'_blank\')">واتساب</button>' : '—';
+      return '<tr><td>' + esc(u.name || '—') + '</td><td dir="ltr" style="text-align:left">' + esc(u.email) + '</td><td dir="ltr" style="text-align:left">' + esc(u.phone || '—') + '</td>' +
+        '<td>' + fmtDate(u.createdAt) + '</td><td>' + (days === null ? '—' : days + ' يوم') + '</td><td>' + follow + ' ' + waBtn + '</td></tr>';
     }).join('');
     else if (learnerTab === 'admins') html = admins.map(function (u) {
       var badge = u.role === 'admin' ? 'active' : 'pending';
