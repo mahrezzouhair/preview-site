@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>الدورة — زهير محرز</title>
+<meta name="description" content="دورة زهير محرز — تكوين تطبيقي بالدارجة مع شهادة إتمام مختومة إلكترونياً.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+:root{--dark:#0A120F;--neon:#1ED760}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--dark);color:#E7F3EB;line-height:1.8}
+a{color:var(--neon);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:12px;flex-wrap:wrap}
+.logo{font-weight:900;font-size:1.15rem;color:#fff}
+.logo .mark{display:inline-block;background:var(--neon);color:#06280F;border-radius:8px;padding:0 8px;margin-left:6px}
+nav.main{display:flex;gap:18px;flex-wrap:wrap}
+nav.main a{color:#C9D6CE;font-weight:700}
+nav.main a.active,nav.main a:hover{color:#fff}
+.btn{display:inline-block;padding:10px 22px;border-radius:999px;background:var(--neon);color:#06280F;font-weight:900;border:0;font-family:inherit;cursor:pointer}
+.btn:hover{filter:brightness(1.05)}
+.crumb{color:#9DB8A8;font-size:.92rem;padding:18px 0 0}
+.crumb a{color:#9DB8A8}
+.detail{display:grid;grid-template-columns:1fr 340px;gap:24px;padding:20px 0 30px;align-items:start}
+.hero-img{width:100%;height:340px;object-fit:cover;border-radius:20px;display:block}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 6px}
+.badges span{background:#101E16;border:1px solid #2C4A38;border-radius:999px;padding:4px 14px;font-weight:800;font-size:.9rem;color:#C9D6CE}
+h1{font-size:2rem;margin:0 0 10px;line-height:1.4}
+.desc{color:#C9D6CE;margin:0 0 12px;font-size:1.05rem}
+.meta{color:#9DB8A8;font-size:.95rem;margin:0 0 14px}
+.who{border:1px solid #2C4A38;background:#0E1A14;border-radius:12px;padding:10px 12px;font-weight:700;margin:0 0 14px}
+.cert{border:1px solid #D9A441;background:#241A06;border-radius:12px;padding:10px 12px;font-weight:700;margin:0 0 14px}
+.instructor{display:flex;gap:14px;align-items:center;background:#101E16;border:1px solid #1C3325;border-radius:16px;padding:14px;margin:0 0 20px}
+.instructor img{width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:50% 10%;background:#0E1A14;border:2px solid #2C4A38;flex-shrink:0}
+.instructor .iname{font-weight:900;font-size:1.1rem}
+.instructor .irole{color:#9DB8A8;font-size:.95rem}
+.section{margin:0 0 20px}
+.section h2{font-size:1.4rem;margin:0 0 12px}
+.unit{display:flex;gap:12px;align-items:center;justify-content:space-between;background:#101E16;border:1px solid #1C3325;border-radius:14px;padding:12px 16px;margin-bottom:10px}
+.unit .uname{font-weight:800}
+.unit .uinfo{color:#9DB8A8;font-size:.92rem;white-space:nowrap}
+.unit .free{color:#D9A441;font-weight:900;font-size:.85rem;white-space:nowrap}
+.topics{list-style:none;padding:0;margin:0}
+.topics li{background:#101E16;border:1px solid #1C3325;border-radius:14px;padding:12px 16px;margin-bottom:10px;font-weight:800}
+.topics li::before{content:"✓ ";color:var(--neon)}
+.assess{color:#9DB8A8;font-size:.95rem;margin-top:4px}
+.side{position:sticky;top:20px}
+.side-card{background:#101E16;border:1px solid #1C3325;border-radius:20px;overflow:hidden}
+.side-card img{width:100%;height:180px;object-fit:cover;display:block}
+.side-card .body{padding:20px}
+.price{font-size:1.7rem;font-weight:900;color:#fff}
+.price small{font-size:1rem;color:#9DB8A8;font-weight:700}
+button.primary{width:100%;padding:14px;border:0;border-radius:999px;background:var(--neon);color:#06280F;font-family:inherit;font-weight:900;font-size:1.08rem;cursor:pointer;margin:12px 0}
+button.primary:disabled{opacity:.6}
+.check{list-style:none;padding:0;margin:0}
+.check li{padding:6px 0;color:#C9D6CE;border-top:1px solid #1C3325}
+.check li:first-child{border-top:0}
+.check li::before{content:"✓ ";color:var(--neon);font-weight:900}
+.paynote{color:#9DB8A8;font-size:.92rem;text-align:center;margin:10px 0 0}
+.msg{margin-top:10px;font-weight:700;min-height:1.5em;text-align:center}
+.msg .err{color:#FF7A7A}
+.foot{border-top:1px solid #1C3325;padding:20px 0 40px;color:#7C9A88;font-size:.85rem;text-align:center}
+@media(max-width:960px){.detail{grid-template-columns:1fr}nav.main{display:none}.side{position:static}.hero-img{height:240px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="logo" href="index.html"><span class="mark">ز</span>زهير محرز</a>
+    <nav class="main">
+      <a href="index.html">الرئيسية</a>
+      <a href="tools.html">الأدوات</a>
+      <a href="courses.html" class="active">الدورات</a>
+      <a href="verify.html">تحقق من شهادة</a>
+      <a href="register.html">دخول</a>
+    </nav>
+    <a class="btn" href="#enroll">التسجيل في دورة أو الدخول</a>
+  </div>
+
+  <p class="crumb"><a href="index.html">الرئيسية</a> › <a href="courses.html">الدورات</a> › <span id="crumb-name">…</span></p>
+
+  <div class="detail">
+    <main>
+      <img class="hero-img" id="hero-img" src="" alt="">
+      <div class="badges"><span>بالدارجة</span><span>فيديوهات تطبيقية</span><span>شهادة إتمام</span></div>
+      <h1 id="course-title">…</h1>
+      <p class="desc" id="course-desc"></p>
+      <p class="meta" id="course-meta"></p>
+      <p class="who" id="course-who"></p>
+      <div class="instructor">
+        <img src="assets/zouhair-cutout.png" alt="زهير محرز">
+        <div><div class="iname">زهير محرز</div><div class="irole">مدرّب وباحث — مؤسس بيت الوقاية</div></div>
+      </div>
+      <div class="section" id="curriculum-section">
+        <h2>محتوى الدورة</h2>
+        <div id="curriculum"></div>
+        <p class="assess" id="assess-line"></p>
+      </div>
+      <p class="cert">🔒 شهادة إتمام مختومة إلكترونياً — رقم تسلسلي + QR قابل للتحقق — بشراكة مع بيت الوقاية</p>
+    </main>
+
+    <aside class="side" id="enroll">
+      <div class="side-card">
+        <img id="side-img" src="" alt="">
+        <div class="body">
+          <div class="price">499 <small>درهم</small></div>
+          <button class="primary" id="enroll-btn" type="button">سجل فالدورة</button>
+          <ul class="check" id="checklist"></ul>
+          <p class="paynote">الأداء بتحويل بنكي — بلا بطاقة بنكية</p>
+          <div class="msg" id="enroll-msg"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="foot">© 2026 زهير محرز — جميع الحقوق محفوظة ·</div>
+</div>
+<script>
+(function(){
+var COURSES = {
+  hijama: {
+    short: 'الحجامة',
+    title: 'دورة الحجامة وخرائطها',
+    desc: 'تكوين كامل: من التشريح التطبيقي والسلامة والتعقيم، للفرز والموانع، لخرائط النقاط، للحجامتين الجافة والدموية، حتى التوثيق المهني — فيديوهات تطبيقية من المركز.',
+    meta: '9 وحدات • 38 درس • ~7 ساعات • بالدارجة',
+    who: '🌿 بمواءمة مع معايير WHO في السلامة والتعقيم',
+    img: 'assets/course-hijama.jpg',
+    check1: '38 درس • 9 وحدات',
+    units: [
+      ['الوحدة 0 — مدخل وحدود الممارسة', 3, 'الدرس 0.1 مجاني 🎁'],
+      ['الوحدة 1 — أساسيات علمية وتشريح تطبيقي', 4, ''],
+      ['الوحدة 2 — السلامة والتعقيم قبل كل شيء', 5, ''],
+      ['الوحدة 3 — الفرز والموانع: شكون نخدمو وشكون لا', 5, ''],
+      ['الوحدة 4 — خرائط نقاط الحجامة', 4, 'الدرس 4.1 مجاني 🎁'],
+      ['الوحدة 5 — الحجامة الجافة', 4, ''],
+      ['الوحدة 6 — الحجامة الدموية: الجلسة الكاملة', 5, ''],
+      ['الوحدة 7 — ما بعد الجلسة والتوثيق المهني', 4, ''],
+      ['الوحدة 8 — من متدرب إلى ممارس', 4, '']
+    ],
+    assess: 'التقييم: اختبارات كل وحدة (≥80%) + امتحان نهائي من 40 سؤالاً (≥80%) + سجل 5 حالات موثقة قبل الشهادة.'
+  },
+  bone: {
+    short: 'تقويم العظام',
+    title: 'دورة تقويم العظام',
+    desc: 'تكوين تطبيقي في تقويم العظام: التشخيص الدقيق، تقييم القوام والحركة، والتقنيات اليدوية — فيديوهات تطبيقية بالدارجة من المركز.',
+    meta: 'فيديوهات تطبيقية • بالدارجة • تقييم عملي',
+    who: '🌿 تكوين بمعايير سلامة مهنية',
+    img: 'assets/course-bone.jpg',
+    check1: 'فيديوهات تطبيقية • تقييم عملي',
+    topics: ['التشخيص الدقيق', 'تقييم القوام والحركة', 'التقنيات اليدوية']
+  },
+  acu: {
+    short: 'الوخز بالإبر الصينية',
+    title: 'دورة الوخز بالإبر الصينية وخرائطها',
+    desc: 'تكوين في الوخز بالإبر الصينية وخرائطها: أساسيات الوخز، خرائط النقاط، والتطبيق الآمن — فيديوهات تطبيقية بالدارجة.',
+    meta: 'خرائط النقاط • فيديوهات تطبيقية • بالدارجة',
+    who: '🌿 بمواءمة مع معايير الممارسة الآمنة (WHO)',
+    img: 'assets/course-acu.jpg',
+    check1: 'خرائط النقاط • فيديوهات تطبيقية',
+    topics: ['أساسيات الوخز', 'خرائط النقاط', 'التطبيق الآمن']
+  }
+};
+var params = new URLSearchParams(window.location.search);
+var cid = params.get('c');
+if (!cid || !COURSES[cid]) { window.location.href = 'courses.html'; return; }
+var C = COURSES[cid];
+document.title = C.title + ' — زهير محرز';
+document.getElementById('crumb-name').textContent = C.title;
+document.getElementById('hero-img').src = C.img;
+document.getElementById('hero-img').alt = C.title;
+document.getElementById('course-title').textContent = C.title;
+document.getElementById('course-desc').textContent = C.desc;
+document.getElementById('course-meta').textContent = C.meta;
+document.getElementById('course-who').textContent = C.who;
+document.getElementById('side-img').src = C.img;
+document.getElementById('side-img').alt = C.title;
+var checkItems = [C.check1, 'ولوج مدى الحياة', 'شرح بالدارجة', 'شهادة إتمام مختومة إلكترونياً', 'من الهاتف والحاسوب'];
+document.getElementById('checklist').innerHTML = checkItems.map(function (x) { return '<li>' + x + '</li>'; }).join('');
+var curr = document.getElementById('curriculum');
+if (C.units) {
+  curr.innerHTML = C.units.map(function (u) {
+    return '<div class="unit"><div><div class="uname">' + u[0] + '</div>' + (u[2] ? '<div class="free">' + u[2] + '</div>' : '') + '</div><span class="uinfo">' + u[1] + ' دروس</span></div>';
+  }).join('');
+  document.getElementById('assess-line').textContent = C.assess;
+} else {
+  curr.innerHTML = '<ul class="topics">' + C.topics.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
+  document.getElementById('assess-line').textContent = '';
+}
+
+var firebaseConfig = {
+  apiKey: "AIzaSyClqrivuAchdsapjqcvwQnUq6Wz2po6_kg",
+  authDomain: "hijama-tracker.firebaseapp.com",
+  projectId: "hijama-tracker",
+  storageBucket: "hijama-tracker.firebasestorage.app",
+  messagingSenderId: "862559400219",
+  appId: "1:862559400219:web:7302f2cee9f80fb5e263be"
+};
+firebase.initializeApp(firebaseConfig);
+var auth = firebase.auth(), db = firebase.firestore();
+async function findEnrollment(id) {
+  var snap = await db.collection('course-enrollments').where('uid', '==', auth.currentUser.uid).get();
+  var found = null;
+  snap.forEach(function (d) {
+    var o = d.data();
+    if (o.courseId === id && o.status !== 'rejected' && !found) found = o;
+  });
+  return found;
+}
+var btn = document.getElementById('enroll-btn'), msgEl = document.getElementById('enroll-msg');
+btn.addEventListener('click', async function () {
+  var user = auth.currentUser;
+  if (!user) {
+    try { localStorage.setItem('pendingCourse', cid); } catch (e) {}
+    window.location.href = 'register.html';
+    return;
+  }
+  btn.disabled = true;
+  msgEl.innerHTML = 'جاري تسجيل طلبك...';
+  try {
+    var nameDoc = await db.collection('users').doc(user.uid).get();
+    var userName = (nameDoc.exists && nameDoc.data().name) ? nameDoc.data().name : user.email;
+    var existing = await findEnrollment(cid);
+    if (!existing) {
+      await db.collection('course-enrollments').add({
+        name: userName, email: user.email, course: C.short, courseId: cid,
+        method: 'bank', status: 'pending', uid: user.uid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+    if (existing && existing.status === 'approved') {
+      window.location.href = 'my-courses.html?course=' + cid;
+    } else {
+      window.location.href = 'payment.html?course=' + cid;
+    }
+  } catch (e) {
+    msgEl.innerHTML = '<span class="err">خطأ: ' + e.message + '</span>';
+    btn.disabled = false;
+  }
+});
+})();
+</script>
+</body>
+</html>

@@ -31,7 +31,6 @@ nav.main a.active,nav.main a:hover{color:#14201A}
 .step .num{width:34px;height:34px;border-radius:50%;background:var(--neon);color:#06280F;font-weight:900;display:grid;place-items:center;flex-shrink:0;margin-top:2px}
 .step p{margin:0;color:#5B6B62}
 .step p b{color:#14201A}
-.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .banks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
 .opt{background:#fff;border:2px solid #9DB8A8;border-radius:16px;padding:16px;cursor:pointer;text-align:center;font-family:inherit;color:#14201A;width:100%}
 .opt:hover{border-color:#5B6B62}
@@ -73,16 +72,13 @@ nav.main a.active,nav.main a:hover{color:#14201A}
 .faq p{margin:0 0 16px;color:#5B6B62}
 .foot{border-top:1px solid #B7C9BD;padding:20px 0 40px;color:#5B6B62;font-size:.85rem;text-align:center}
 
-.course-card{background:#fff;border:2px solid #B7C9BD;border-radius:18px;overflow:hidden;cursor:pointer;transition:.2s;position:relative}
-.course-card:hover{border-color:#5B6B62}
-.course-card img{width:100%;height:150px;object-fit:cover;display:block}
-.course-card .course-body{padding:16px}
-.course-card .cname{font-weight:900;font-size:1.05rem}
-.course-card .cmeta{color:#5B6B62;font-size:.9rem}
-.course-card .cprice{font-weight:900;font-size:1.2rem;color:#0B3D2E;margin:8px 0 0}
-.course-card .course-btn{width:100%;margin-top:12px;padding:11px;border-radius:999px;border:2px solid #0B3D2E;background:#fff;color:#0B3D2E;font-weight:900;cursor:pointer;font-family:inherit;font-size:1rem}
-.course-card.selected{border-color:#0B3D2E;box-shadow:0 0 0 2px rgba(11,61,46,.25)}
-.course-card.selected .course-btn{background:#0B3D2E;color:#fff}
+.chosen-course{display:flex;gap:16px;align-items:center}
+.chosen-course img{width:120px;height:90px;object-fit:cover;border-radius:14px;flex-shrink:0}
+.chosen-course .cname{font-weight:900;font-size:1.15rem}
+.chosen-course .cmeta{color:#5B6B62;font-size:.92rem}
+.chosen-course .cprice{font-weight:900;font-size:1.2rem;color:#0B3D2E;margin-top:4px}
+.chosen-course .chosen-badge{position:static;margin-inline-start:auto;flex-shrink:0}
+#no-course-card[hidden]{display:none}
 .chosen-badge{position:absolute;top:10px;inset-inline-start:10px;background:#0B3D2E;color:#fff;border-radius:999px;padding:4px 12px;font-weight:900;font-size:.85rem;z-index:2}
 .bank-select{position:relative}
 .bank-bar{width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #9DB8A8;border-radius:14px;padding:12px 16px;font-family:inherit;font-size:1.05rem;font-weight:800;color:#14201A;cursor:pointer;text-align:start}
@@ -99,7 +95,7 @@ nav.main a.active,nav.main a:hover{color:#14201A}
 .bank-item .bank-item-generic{font-size:1.3rem}
 .bank-item em{margin-inline-start:auto;font-style:normal;color:#5B6B62;font-size:.85rem;font-weight:700}
 .bank-item.selected{background:#E9F9EF}
-@media(max-width:720px){.pick{grid-template-columns:1fr}.trust{grid-template-columns:1fr}nav.main{display:none}}
+@media(max-width:720px){.trust{grid-template-columns:1fr}nav.main{display:none}.chosen-course{flex-wrap:wrap}.chosen-course img{width:100%;height:150px}.chosen-course .chosen-badge{margin-inline-start:0}}
 </style>
 </head>
 <body>
@@ -121,46 +117,30 @@ nav.main a.active,nav.main a:hover{color:#14201A}
 
   <div class="card" id="bank-steps">
     <h2>الدفع بالتحويل البنكي — كيفاش كيتم؟</h2>
-    <div class="step"><div class="num">1</div><p><b>اختار الدورة والبنك ديالك</b> من الأسفل.</p></div>
+    <div class="step"><div class="num">1</div><p><b>الدورة ديالك مختارة</b> — اختار البنك ديالك من الأسفل.</p></div>
     <div class="step"><div class="num">2</div><p><b>منين تختار البنك ديالك غادي يبان ليك الـRIB لتحت</b> — نسخو ولا سكانيا الـ QR، وحوّل 499 درهم من تطبيق البنك ديالك أو من الوكالة.</p></div>
     <div class="step"><div class="num">3</div><p><b>صيفط صورة الإيصال</b> عبر واتساب — الزر اللي لتحت، والرسالة جاهزة بالدورة والمبلغ.</p></div>
     <div class="step"><div class="num">4</div><p><b>التفعيل:</b> من CIH ف الحين بعد التأكد من التوصل، ومن بنك آخر مباشرة بعد وصول التحويل.</p></div>
   </div>
 
-  <div class="card">
-    <h2>اختار الدورة</h2>
-    <div class="pick" id="course-pick">
-      <div class="course-card" data-course="hijama">
-        <span class="chosen-badge" hidden>✓ مختارة</span>
-        <img src="assets/course-hijama.jpg" alt="دورة الحجامة وخرائطها">
-        <div class="course-body">
-          <div class="cname">دورة الحجامة وخرائطها</div>
-          <div class="cmeta">9 وحدات • ~35 درس • 6-8 ساعات</div>
-          <div class="cprice">499 درهم</div>
-          <button class="course-btn" type="button" data-course="hijama">اختار هاد الدورة</button>
-        </div>
+  <div class="card" id="chosen-course-card">
+    <h2>الدورة ديالك</h2>
+    <div class="chosen-course" id="chosen-course">
+      <img id="chosen-course-img" src="" alt="">
+      <div class="chosen-course-body">
+        <div class="cname" id="chosen-course-name"></div>
+        <div class="cmeta" id="chosen-course-meta"></div>
+        <div class="cprice">499 درهم</div>
       </div>
-      <div class="course-card" data-course="bone">
-        <span class="chosen-badge" hidden>✓ مختارة</span>
-        <img src="assets/course-bone.jpg" alt="دورة تقويم العظام">
-        <div class="course-body">
-          <div class="cname">دورة تقويم العظام</div>
-          <div class="cmeta">فيديوهات تطبيقية • تقييم عملي</div>
-          <div class="cprice">499 درهم</div>
-          <button class="course-btn" type="button" data-course="bone">اختار هاد الدورة</button>
-        </div>
-      </div>
-      <div class="course-card" data-course="acu">
-        <span class="chosen-badge" hidden>✓ مختارة</span>
-        <img src="assets/course-acu.jpg" alt="دورة الوخز بالإبر الصينية">
-        <div class="course-body">
-          <div class="cname">دورة الوخز بالإبر الصينية</div>
-          <div class="cmeta">خرائط النقاط • فيديوهات تطبيقية</div>
-          <div class="cprice">499 درهم</div>
-          <button class="course-btn" type="button" data-course="acu">اختار هاد الدورة</button>
-        </div>
-      </div>
+      <span class="chosen-badge">✓ مختارة</span>
     </div>
+    <p class="note" style="margin-top:14px"><a href="courses.html">← بدل الدورة</a></p>
+  </div>
+
+  <div class="card" id="no-course-card" hidden>
+    <h2>ما ختارتيش الدورة</h2>
+    <p style="color:#5B6B62">باش تخلص، ختار الدورة أولاً من صفحة الدورات.</p>
+    <p style="text-align:center"><a class="wa" href="courses.html" style="display:inline-block;padding:12px 28px">شوف الدورات ←</a></p>
   </div>
 
   <div class="card" id="bank-pick-card">
@@ -224,9 +204,9 @@ nav.main a.active,nav.main a:hover{color:#14201A}
 <script>
 (function(){
 var COURSES = {
-  hijama: 'الحجامة',
-  bone: 'تقويم العظام',
-  acu: 'الوخز بالإبر الصينية'
+  hijama: { short: 'الحجامة', name: 'دورة الحجامة وخرائطها', meta: '9 وحدات • 38 درس • ~7 ساعات', img: 'assets/course-hijama.jpg' },
+  bone: { short: 'تقويم العظام', name: 'دورة تقويم العظام', meta: 'فيديوهات تطبيقية • تقييم عملي', img: 'assets/course-bone.jpg' },
+  acu: { short: 'الوخز بالإبر الصينية', name: 'دورة الوخز بالإبر الصينية وخرائطها', meta: 'خرائط النقاط • فيديوهات تطبيقية', img: 'assets/course-acu.jpg' }
 };
 var BANKS = {
   cih: { name: 'CIH Bank', instant: true },
@@ -242,7 +222,7 @@ function render(){
   if (rib) rib.hidden = !state.bank;
   var sum = $('bank-summary');
   if (sum) sum.hidden = !(state.course && state.bank);
-  $('sum-course').textContent = state.course ? COURSES[state.course] : '— اختار دورة من الأعلى —';
+  $('sum-course').textContent = state.course ? COURSES[state.course].short : '— اختار دورة من الأعلى —';
   $('sum-bank').textContent = state.bank ? BANKS[state.bank].name : '— اختار بنك من الأعلى —';
   if (state.bank) {
     $('sum-activation').textContent = BANKS[state.bank].instant
@@ -253,9 +233,9 @@ function render(){
   }
   var msg;
   if (state.course && state.bank) {
-    msg = 'سلام، خلصت دورة ' + COURSES[state.course] + ' بالتحويل البنكي (499 درهم) من ' + BANKS[state.bank].name + '، وهاهي صورة الإيصال.';
+    msg = 'سلام، خلصت دورة ' + COURSES[state.course].short + ' بالتحويل البنكي (499 درهم) من ' + BANKS[state.bank].name + '، وهاهي صورة الإيصال.';
   } else if (state.course) {
-    msg = 'سلام، خلصت دورة ' + COURSES[state.course] + ' بالتحويل البنكي (499 درهم)، وهاهي صورة الإيصال.';
+    msg = 'سلام، خلصت دورة ' + COURSES[state.course].short + ' بالتحويل البنكي (499 درهم)، وهاهي صورة الإيصال.';
   } else {
     msg = 'سلام، بغيت نخلص دورة 499 درهم بالتحويل البنكي.';
   }
@@ -267,18 +247,14 @@ var BANK_LOGOS = {
   bp: 'assets/banks/banque-populaire-v2.png',
   boa: 'assets/banks/bank-of-africa-v2.png'
 };
-function selectCourse(c){
-  if (!COURSES[c]) return;
-  document.querySelectorAll('.course-card').forEach(function (card) {
-    var on = card.getAttribute('data-course') === c;
-    card.classList.toggle('selected', on);
-    var badge = card.querySelector('.chosen-badge');
-    if (badge) badge.hidden = !on;
-    var btn = card.querySelector('.course-btn');
-    if (btn) btn.textContent = on ? '✓ مختارة' : 'اختار هاد الدورة';
-  });
+function setChosenCourse(c){
+  if (!COURSES[c]) return false;
+  $('chosen-course-img').src = COURSES[c].img;
+  $('chosen-course-img').alt = COURSES[c].name;
+  $('chosen-course-name').textContent = COURSES[c].name;
+  $('chosen-course-meta').textContent = COURSES[c].meta;
   state.course = c;
-  render();
+  return true;
 }
 function selectBank(b){
   if (!BANKS[b]) return;
@@ -303,9 +279,6 @@ function closeBankMenu(){
   if (menu) menu.hidden = true;
   if (bar) bar.setAttribute('aria-expanded', 'false');
 }
-document.querySelectorAll('.course-card').forEach(function (card) {
-  card.addEventListener('click', function () { selectCourse(card.getAttribute('data-course')); });
-});
 $('bank-bar').addEventListener('click', function (e) {
   e.stopPropagation();
   var menu = $('bank-menu'), bar = $('bank-bar');
@@ -352,7 +325,13 @@ document.querySelectorAll('.copy-btn').forEach(function (btn) {
 });
 var params = new URLSearchParams(window.location.search);
 var c = params.get('course'), b = params.get('bank');
-if (c && COURSES[c]) selectCourse(c);
+if (c && COURSES[c]) {
+  setChosenCourse(c);
+} else {
+  $('chosen-course-card').hidden = true;
+  $('bank-pick-card').hidden = true;
+  $('no-course-card').hidden = false;
+}
 if (b && BANKS[b]) selectBank(b);
 render();
 })();

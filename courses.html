@@ -9,9 +9,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <style>
 :root{--dark:#0A120F;--neon:#1ED760}
 *{box-sizing:border-box}
@@ -38,10 +35,6 @@ nav.main a.active,nav.main a:hover{color:#fff}
 .meta{color:#9DB8A8;font-size:.92rem;margin:0 0 10px}
 .who{border:1px solid #2C4A38;background:#0E1A14;border-radius:12px;padding:10px 12px;font-weight:700;margin:0 0 8px}
 .cert{border:1px solid #D9A441;background:#241A06;border-radius:12px;padding:10px 12px;font-weight:700;margin:0 0 14px}
-button.primary{width:100%;padding:13px;border:0;border-radius:999px;background:var(--neon);color:#06280F;font-family:inherit;font-weight:900;font-size:1.02rem;cursor:pointer}
-button.primary:disabled{opacity:.6}
-.msg{margin-top:10px;font-weight:700;min-height:1.5em}
-.msg .err{color:#FF7A7A}
 .note{color:#9DB8A8;text-align:center;margin:0 0 8px}
 .foot{border-top:1px solid #1C3325;padding:20px 0 40px;color:#7C9A88;font-size:.85rem;text-align:center}
 @media(max-width:960px){.grid{grid-template-columns:1fr}nav.main{display:none}}
@@ -68,20 +61,18 @@ button.primary:disabled{opacity:.6}
   </div>
 
   <div class="grid" id="courses-list">
-    <article class="card">
+    <a class="card" href="course.html?c=hijama">
       <img src="assets/course-hijama.jpg" alt="دورة الحجامة وخرائطها">
       <div class="body">
         <h2>دورة الحجامة وخرائطها</h2>
         <p class="desc">تكوين كامل: من التشريح التطبيقي والسلامة والتعقيم، للفرز والموانع، لخرائط النقاط، للحجامتين الجافة والدموية، حتى التوثيق المهني — فيديوهات تطبيقية من المركز.</p>
-        <p class="meta">9 وحدات • ~35 درس • 6-8 ساعات • بالدارجة</p>
+        <p class="meta">9 وحدات • 38 درس • ~7 ساعات • بالدارجة</p>
         <p class="who">🌿 بمواءمة مع معايير WHO في السلامة والتعقيم</p>
         <p class="cert">🔒 شهادة إتمام مختومة إلكترونياً — رقم تسلسلي + QR قابل للتحقق — بشراكة مع بيت الوقاية</p>
-        <button class="primary enroll" data-course="hijama">التسجيل في الدورة</button>
-        <div class="msg"></div>
       </div>
-    </article>
+    </a>
 
-    <article class="card">
+    <a class="card" href="course.html?c=bone">
       <img src="assets/course-bone.jpg" alt="دورة تقويم العظام">
       <div class="body">
         <h2>دورة تقويم العظام</h2>
@@ -89,12 +80,10 @@ button.primary:disabled{opacity:.6}
         <p class="meta">فيديوهات تطبيقية • بالدارجة • تقييم عملي</p>
         <p class="who">🌿 تكوين بمعايير سلامة مهنية</p>
         <p class="cert">🔒 شهادة إتمام مختومة إلكترونياً — رقم تسلسلي + QR قابل للتحقق — بشراكة مع بيت الوقاية</p>
-        <button class="primary enroll" data-course="bone">التسجيل في الدورة</button>
-        <div class="msg"></div>
       </div>
-    </article>
+    </a>
 
-    <article class="card">
+    <a class="card" href="course.html?c=acu">
       <img src="assets/course-acu.jpg" alt="دورة الوخز بالإبر الصينية">
       <div class="body">
         <h2>دورة الوخز بالإبر الصينية وخرائطها</h2>
@@ -102,69 +91,13 @@ button.primary:disabled{opacity:.6}
         <p class="meta">خرائط النقاط • فيديوهات تطبيقية • بالدارجة</p>
         <p class="who">🌿 بمواءمة مع معايير الممارسة الآمنة (WHO)</p>
         <p class="cert">🔒 شهادة إتمام مختومة إلكترونياً — رقم تسلسلي + QR قابل للتحقق — بشراكة مع بيت الوقاية</p>
-        <button class="primary enroll" data-course="acu">التسجيل في الدورة</button>
-        <div class="msg"></div>
       </div>
-    </article>
+    </a>
   </div>
 
-  <p class="note">الدفع بالتحويل البنكي فقط، والتفعيل بعد التأكد من الأداء. الثمن وموعد انطلاق الدورات غادي نعلنوهم قريباً. <a href="payment.html">صفحة الدفع ←</a></p>
+  <p class="note">الدفع بالتحويل البنكي فقط، والتفعيل بعد التأكد من الأداء. الثمن وموعد انطلاق الدورات غادي نعلنوهم قريباً.</p>
   <div class="foot">© 2026 زهير محرز — جميع الحقوق محفوظة ·</div>
 </div>
-<script>
-(function(){
-var firebaseConfig = {
-  apiKey: "AIzaSyClqrivuAchdsapjqcvwQnUq6Wz2po6_kg",
-  authDomain: "hijama-tracker.firebaseapp.com",
-  projectId: "hijama-tracker",
-  storageBucket: "hijama-tracker.firebasestorage.app",
-  messagingSenderId: "862559400219",
-  appId: "1:862559400219:web:7302f2cee9f80fb5e263be"
-};
-firebase.initializeApp(firebaseConfig);
-var auth = firebase.auth(), db = firebase.firestore();
-var COURSES = { hijama: 'الحجامة', bone: 'تقويم العظام', acu: 'الوخز بالإبر الصينية' };
-async function findEnrollment(cid) {
-  var snap = await db.collection('course-enrollments').where('uid', '==', auth.currentUser.uid).get();
-  var found = null;
-  snap.forEach(function (d) {
-    var o = d.data();
-    if (o.courseId === cid && o.status !== 'rejected' && !found) found = o;
-  });
-  return found;
-}
-async function enroll(cid, btn, msgEl) {
-  var user = auth.currentUser;
-  if (!user) {
-    try { localStorage.setItem('pendingCourse', cid); } catch (e) {}
-    window.location.href = 'register.html';
-    return;
-  }
-  btn.disabled = true;
-  msgEl.innerHTML = 'جاري تسجيل طلبك...';
-  try {
-    var nameDoc = await db.collection('users').doc(user.uid).get();
-    var userName = (nameDoc.exists && nameDoc.data().name) ? nameDoc.data().name : user.email;
-    var existing = await findEnrollment(cid);
-    if (!existing) {
-      await db.collection('course-enrollments').add({
-        name: userName, email: user.email, course: COURSES[cid], courseId: cid,
-        method: 'bank', status: 'pending', uid: user.uid,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-    }
-    window.location.href = 'my-courses.html?show=confirm&course=' + cid;
-  } catch (e) {
-    msgEl.innerHTML = '<span class="err">خطأ: ' + e.message + '</span>';
-    btn.disabled = false;
-  }
-}
-document.querySelectorAll('.enroll').forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    enroll(btn.getAttribute('data-course'), btn, btn.parentElement.querySelector('.msg'));
-  });
-});
-})();
-</script>
+
 </body>
 </html>
