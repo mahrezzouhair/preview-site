@@ -12,66 +12,93 @@
 <style>
 :root{--dark:#0A120F;--neon:#1ED760}
 *{box-sizing:border-box}
-body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--dark);color:#E7F3EB;line-height:1.8}
-a{color:var(--neon);text-decoration:none}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;background:#FBFDFB;color:#14201A;line-height:1.8}
+a{color:#15803D;text-decoration:none}
 .wrap{max-width:980px;margin:0 auto;padding:0 20px}
 .top{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:12px;flex-wrap:wrap}
-.logo{font-weight:900;font-size:1.15rem;color:#fff}
+.logo{font-weight:900;font-size:1.15rem;color:#14201A}
 .logo .mark{display:inline-block;background:var(--neon);color:#06280F;border-radius:8px;padding:0 8px;margin-left:6px}
 nav.main{display:flex;gap:18px;flex-wrap:wrap}
-nav.main a{color:#C9D6CE;font-weight:700}
-nav.main a.active,nav.main a:hover{color:#fff}
+nav.main a{color:#5B6B62;font-weight:700}
+nav.main a.active,nav.main a:hover{color:#14201A}
 .hero{padding:36px 0 6px;text-align:center}
 .hero h1{font-size:2.1rem;margin:0 0 8px}
-.hero p{color:#9DB8A8;max-width:660px;margin:0 auto 8px}
-.hero .highlight{color:#fff;font-weight:800}
-.card{background:#101E16;border:1px solid #1C3325;border-radius:20px;padding:22px;margin:20px 0}
+.hero p{color:#5B6B62;max-width:660px;margin:0 auto 8px}
+.hero .highlight{color:#14201A;font-weight:800}
+.card{background:#fff;border:1.5px solid #B7C9BD;border-radius:20px;padding:22px;margin:20px 0;box-shadow:0 10px 30px rgba(10,40,25,.08)}
 .card h2{font-size:1.3rem;margin:0 0 14px}
 .step{display:flex;gap:12px;align-items:flex-start;margin:0 0 12px}
 .step .num{width:34px;height:34px;border-radius:50%;background:var(--neon);color:#06280F;font-weight:900;display:grid;place-items:center;flex-shrink:0;margin-top:2px}
-.step p{margin:0;color:#C9D6CE}
-.step p b{color:#fff}
+.step p{margin:0;color:#5B6B62}
+.step p b{color:#14201A}
 .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .banks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-.opt{background:#0E1A14;border:1px solid #1C3325;border-radius:16px;padding:16px;cursor:pointer;text-align:center;font-family:inherit;color:#E7F3EB;width:100%}
-.opt:hover{border-color:#2C4A38}
-.opt.selected{border-color:var(--neon);box-shadow:0 0 0 2px rgba(30,215,96,.35)}
+.opt{background:#fff;border:2px solid #9DB8A8;border-radius:16px;padding:16px;cursor:pointer;text-align:center;font-family:inherit;color:#14201A;width:100%}
+.opt:hover{border-color:#5B6B62}
+.opt.selected{border-color:#0B3D2E;box-shadow:0 0 0 2px rgba(11,61,46,.25)}
 .opt .cname{font-weight:900;font-size:1.05rem}
-.opt .cmeta{color:#9DB8A8;font-size:.9rem}
-.logo-tile{background:#fff;border-radius:12px;padding:12px;height:80px;display:grid;place-items:center;margin-bottom:10px;overflow:hidden}
+.opt .cmeta{color:#5B6B62;font-size:.9rem}
+.logo-tile{background:#fff;border:1px solid #E3EDE6;border-radius:12px;padding:12px;height:80px;display:grid;place-items:center;margin-bottom:10px;overflow:hidden}
 .logo-tile img{max-width:100%;max-height:56px;width:auto;height:auto;display:block}
 .logo-tile .generic{font-size:1.8rem}
 .badge{display:inline-block;border-radius:999px;padding:2px 12px;font-weight:900;font-size:.82rem;margin-top:6px}
 .badge.instant{background:#D9A441;color:#241A06}
-.badge.delayed{background:#1C3325;color:#9DB8A8}
-.timing{color:#C9D6CE;font-size:.92rem;margin:6px 0 0}
-.rib-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #1C3325;flex-wrap:wrap}
+.badge.delayed{background:#E3EDE6;color:#5B6B62}
+.timing{color:#5B6B62;font-size:.92rem;margin:6px 0 0}
+.rib-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #E3EDE6;flex-wrap:wrap}
 .rib-row:first-of-type{border-top:0}
-.rib-row .lbl{color:#9DB8A8}
-.rib-row .val{font-weight:900;color:#fff;direction:ltr;text-align:left;word-break:break-all}
-.rib-row .val.amount{font-size:1.25rem;color:var(--neon)}
-.copy-btn{background:#1C3325;color:#E7F3EB;border:1px solid #2C4A38;border-radius:999px;padding:6px 14px;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;flex-shrink:0}
-.copy-btn:hover{border-color:var(--neon)}
+.rib-row .lbl{color:#5B6B62}
+.rib-row .val{font-weight:900;color:#14201A;direction:ltr;text-align:left;word-break:break-all}
+.rib-row .val.amount{font-size:1.25rem;color:#15803D}
+.copy-btn{background:#F4FAF5;color:#14201A;border:1.5px solid #9DB8A8;border-radius:999px;padding:6px 14px;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;flex-shrink:0}
+.copy-btn:hover{border-color:#15803D}
 .copy-btn.done{background:var(--neon);color:#06280F;border-color:var(--neon)}
 #rib-card[hidden]{display:none}
 #rib-card{border-color:#D9A441;box-shadow:0 0 0 1px rgba(217,164,65,.35)}
 .qr-wrap{background:#fff;border-radius:16px;padding:16px;text-align:center;margin-top:16px}
 .qr-wrap img{width:200px;height:200px;max-width:70vw;display:block;margin:0 auto}
 .qr-wrap p{color:#33473A;font-size:.95rem;font-weight:700;margin:10px 0 0}
-.summary{background:#0E1A14;border:1px solid #2C4A38;border-radius:18px;padding:20px;margin:20px 0}
-.summary .row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid #1C3325}
+.summary{background:#fff;border:1.5px solid #B7C9BD;border-radius:18px;padding:20px;margin:20px 0;box-shadow:0 10px 30px rgba(10,40,25,.08)}
+.summary .row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid #E3EDE6}
 .summary .row:first-child{border-top:0}
-.summary .row span{color:#9DB8A8}
+.summary .row span{color:#5B6B62}
 .summary .row b{text-align:left}
 .wa{display:block;text-align:center;background:#25D366;color:#06280F;font-weight:900;border-radius:999px;padding:15px;font-size:1.12rem;margin:16px 0 8px}
 .wa:hover{filter:brightness(1.05)}
-.note{color:#9DB8A8;font-size:.95rem;text-align:center;margin:0 0 8px}
+.note{color:#5B6B62;font-size:.95rem;text-align:center;margin:0 0 8px}
 .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
-.trust div{background:#101E16;border:1px solid #1C3325;border-radius:16px;padding:14px;text-align:center;font-weight:700;font-size:.95rem}
+.trust div{background:#fff;border:1.5px solid #B7C9BD;border-radius:16px;padding:14px;text-align:center;font-weight:700;font-size:.95rem}
 .faq{margin:20px 0}
 .faq h3{margin:0 0 6px;font-size:1.05rem}
-.faq p{margin:0 0 16px;color:#C9D6CE}
-.foot{border-top:1px solid #1C3325;padding:20px 0 40px;color:#7C9A88;font-size:.85rem;text-align:center}
+.faq p{margin:0 0 16px;color:#5B6B62}
+.foot{border-top:1px solid #B7C9BD;padding:20px 0 40px;color:#5B6B62;font-size:.85rem;text-align:center}
+
+.course-card{background:#fff;border:2px solid #B7C9BD;border-radius:18px;overflow:hidden;cursor:pointer;transition:.2s;position:relative}
+.course-card:hover{border-color:#5B6B62}
+.course-card img{width:100%;height:150px;object-fit:cover;display:block}
+.course-card .course-body{padding:16px}
+.course-card .cname{font-weight:900;font-size:1.05rem}
+.course-card .cmeta{color:#5B6B62;font-size:.9rem}
+.course-card .cprice{font-weight:900;font-size:1.2rem;color:#0B3D2E;margin:8px 0 0}
+.course-card .course-btn{width:100%;margin-top:12px;padding:11px;border-radius:999px;border:2px solid #0B3D2E;background:#fff;color:#0B3D2E;font-weight:900;cursor:pointer;font-family:inherit;font-size:1rem}
+.course-card.selected{border-color:#0B3D2E;box-shadow:0 0 0 2px rgba(11,61,46,.25)}
+.course-card.selected .course-btn{background:#0B3D2E;color:#fff}
+.chosen-badge{position:absolute;top:10px;inset-inline-start:10px;background:#0B3D2E;color:#fff;border-radius:999px;padding:4px 12px;font-weight:900;font-size:.85rem;z-index:2}
+.bank-select{position:relative}
+.bank-bar{width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #9DB8A8;border-radius:14px;padding:12px 16px;font-family:inherit;font-size:1.05rem;font-weight:800;color:#14201A;cursor:pointer;text-align:start}
+.bank-bar .bank-bar-logo{display:grid;place-items:center;min-width:80px}
+.bank-bar .bank-bar-logo img{height:28px;max-width:90px;object-fit:contain;display:block}
+.bank-bar .bank-bar-logo .generic{font-size:1.4rem}
+.bank-bar .bank-bar-arrow{margin-inline-start:auto;color:#5B6B62;font-size:1.2rem}
+.bank-menu{position:absolute;top:calc(100% + 6px);inset-inline:0;background:#fff;border:2px solid #9DB8A8;border-radius:14px;overflow:hidden;z-index:10;box-shadow:0 14px 34px rgba(10,40,25,.16)}
+.bank-menu[hidden]{display:none}
+.bank-item{width:100%;display:flex;align-items:center;gap:12px;background:#fff;border:0;border-bottom:1px solid #E3EDE6;padding:12px 16px;font-family:inherit;font-size:1rem;font-weight:800;color:#14201A;cursor:pointer;text-align:start}
+.bank-item:last-child{border-bottom:0}
+.bank-item:hover{background:#F4FAF5}
+.bank-item img{height:26px;max-width:80px;object-fit:contain}
+.bank-item .bank-item-generic{font-size:1.3rem}
+.bank-item em{margin-inline-start:auto;font-style:normal;color:#5B6B62;font-size:.85rem;font-weight:700}
+.bank-item.selected{background:#E9F9EF}
 @media(max-width:720px){.pick{grid-template-columns:1fr}.trust{grid-template-columns:1fr}nav.main{display:none}}
 </style>
 </head>
@@ -103,45 +130,54 @@ nav.main a.active,nav.main a:hover{color:#fff}
   <div class="card">
     <h2>اختار الدورة</h2>
     <div class="pick" id="course-pick">
-      <button class="opt course-btn" data-course="hijama"><div class="cname">دورة الحجامة وخرائطها</div><div class="cmeta">9 وحدات • ~35 درس • 6-8 ساعات</div></button>
-      <button class="opt course-btn" data-course="bone"><div class="cname">دورة تقويم العظام</div><div class="cmeta">فيديوهات تطبيقية • تقييم عملي</div></button>
-      <button class="opt course-btn" data-course="acu"><div class="cname">دورة الوخز بالإبر الصينية</div><div class="cmeta">خرائط النقاط • فيديوهات تطبيقية</div></button>
+      <div class="course-card" data-course="hijama">
+        <span class="chosen-badge" hidden>✓ مختارة</span>
+        <img src="assets/course-hijama.jpg" alt="دورة الحجامة وخرائطها">
+        <div class="course-body">
+          <div class="cname">دورة الحجامة وخرائطها</div>
+          <div class="cmeta">9 وحدات • ~35 درس • 6-8 ساعات</div>
+          <div class="cprice">499 درهم</div>
+          <button class="course-btn" type="button" data-course="hijama">اختار هاد الدورة</button>
+        </div>
+      </div>
+      <div class="course-card" data-course="bone">
+        <span class="chosen-badge" hidden>✓ مختارة</span>
+        <img src="assets/course-bone.jpg" alt="دورة تقويم العظام">
+        <div class="course-body">
+          <div class="cname">دورة تقويم العظام</div>
+          <div class="cmeta">فيديوهات تطبيقية • تقييم عملي</div>
+          <div class="cprice">499 درهم</div>
+          <button class="course-btn" type="button" data-course="bone">اختار هاد الدورة</button>
+        </div>
+      </div>
+      <div class="course-card" data-course="acu">
+        <span class="chosen-badge" hidden>✓ مختارة</span>
+        <img src="assets/course-acu.jpg" alt="دورة الوخز بالإبر الصينية">
+        <div class="course-body">
+          <div class="cname">دورة الوخز بالإبر الصينية</div>
+          <div class="cmeta">خرائط النقاط • فيديوهات تطبيقية</div>
+          <div class="cprice">499 درهم</div>
+          <button class="course-btn" type="button" data-course="acu">اختار هاد الدورة</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="card" id="bank-pick-card">
     <h2>اختار البنك ديالك</h2>
-    <div class="banks" id="bank-pick">
-      <button class="opt bank-btn" data-bank="cih">
-        <div class="logo-tile"><img src="assets/banks/cih-v2.png" alt="شعار CIH Bank"></div>
-        <div class="cname">CIH Bank</div>
-        <div><span class="badge instant">⚡ تفعيل ف الحين</span></div>
-        <p class="timing">تحويل من CIH → التفعيل ف الحين بعد التأكد من التوصل</p>
+    <div class="bank-select" id="bank-select">
+      <button type="button" class="bank-bar" id="bank-bar" aria-haspopup="listbox" aria-expanded="false">
+        <span class="bank-bar-logo" id="bank-bar-logo"><span class="generic">🏦</span></span>
+        <span id="bank-bar-label">اختار البنك ديالك…</span>
+        <span class="bank-bar-arrow">▾</span>
       </button>
-      <button class="opt bank-btn" data-bank="attijariwafa">
-        <div class="logo-tile"><img src="assets/banks/attijariwafa-v2.png" alt="شعار التجاري وفا بنك"></div>
-        <div class="cname">التجاري وفا بنك</div>
-        <div><span class="badge delayed">تفعيل حتى يوصل التحويل</span></div>
-        <p class="timing">تحويل من التجاري وفا بنك → التفعيل بعد وصول التحويل</p>
-      </button>
-      <button class="opt bank-btn" data-bank="bp">
-        <div class="logo-tile"><img src="assets/banks/banque-populaire-v2.png" alt="شعار البنك الشعبي"></div>
-        <div class="cname">البنك الشعبي</div>
-        <div><span class="badge delayed">تفعيل حتى يوصل التحويل</span></div>
-        <p class="timing">تحويل من البنك الشعبي → التفعيل بعد وصول التحويل</p>
-      </button>
-      <button class="opt bank-btn" data-bank="boa">
-        <div class="logo-tile"><img src="assets/banks/bank-of-africa-v2.png" alt="شعار بنك إفريقيا"></div>
-        <div class="cname">بنك إفريقيا</div>
-        <div><span class="badge delayed">تفعيل حتى يوصل التحويل</span></div>
-        <p class="timing">تحويل من بنك إفريقيا → التفعيل بعد وصول التحويل</p>
-      </button>
-      <button class="opt bank-btn" data-bank="other">
-        <div class="logo-tile"><span class="generic">🏦</span></div>
-        <div class="cname">بنك آخر</div>
-        <div><span class="badge delayed">تفعيل حتى يوصل التحويل</span></div>
-        <p class="timing">أي بنك آخر في المغرب → التفعيل بعد وصول التحويل</p>
-      </button>
+      <div class="bank-menu" id="bank-menu" role="listbox" hidden>
+        <button type="button" class="bank-item" data-bank="cih"><img src="assets/banks/cih-v2.png" alt="CIH Bank"><span>CIH Bank</span><em>⚡ تفعيل ف الحين</em></button>
+        <button type="button" class="bank-item" data-bank="attijariwafa"><img src="assets/banks/attijariwafa-v2.png" alt="التجاري وفا بنك"><span>التجاري وفا بنك</span><em>تفعيل حتى يوصل التحويل</em></button>
+        <button type="button" class="bank-item" data-bank="bp"><img src="assets/banks/banque-populaire-v2.png" alt="البنك الشعبي"><span>البنك الشعبي</span><em>تفعيل حتى يوصل التحويل</em></button>
+        <button type="button" class="bank-item" data-bank="boa"><img src="assets/banks/bank-of-africa-v2.png" alt="بنك إفريقيا"><span>بنك إفريقيا</span><em>تفعيل حتى يوصل التحويل</em></button>
+        <button type="button" class="bank-item" data-bank="other"><span class="bank-item-generic">🏦</span><span>بنك آخر</span><em>تفعيل حتى يوصل التحويل</em></button>
+      </div>
     </div>
     <p class="note" style="margin-top:14px">منين تختار البنك ديالك، غادي يبان ليك الـRIB هنا لتحت مع زر النسخ و QR.</p>
   </div>
@@ -157,7 +193,7 @@ nav.main a.active,nav.main a:hover{color:#fff}
     <div class="qr-wrap"><img src="assets/banks/rib-qr.png" alt="QR code ديال الـ RIB"><p>سكانيا الـ QR من تطبيق البنك ديالك باش يطلع ليك الـ RIB مباشرة</p></div>
   </div>
 
-  <div class="summary" id="bank-summary">
+  <div class="summary" id="bank-summary" hidden>
     <h2 style="margin-top:0">ملخص الدفع</h2>
     <div class="row"><span>الدورة</span><b id="sum-course">— اختار دورة من الأعلى —</b></div>
     <div class="row"><span>البنك ديالك</span><b id="sum-bank">— اختار بنك من الأعلى —</b></div>
@@ -204,6 +240,8 @@ function $(id){ return document.getElementById(id); }
 function render(){
   var rib = $('rib-card');
   if (rib) rib.hidden = !state.bank;
+  var sum = $('bank-summary');
+  if (sum) sum.hidden = !(state.course && state.bank);
   $('sum-course').textContent = state.course ? COURSES[state.course] : '— اختار دورة من الأعلى —';
   $('sum-bank').textContent = state.bank ? BANKS[state.bank].name : '— اختار بنك من الأعلى —';
   if (state.bank) {
@@ -223,20 +261,69 @@ function render(){
   }
   $('wa-btn').href = 'https://wa.me/212664651301?text=' + encodeURIComponent(msg);
 }
-function bind(selector, key){
-  document.querySelectorAll(selector).forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      document.querySelectorAll(selector).forEach(function (b) { b.classList.remove('selected'); });
-      btn.classList.add('selected');
-      state[key] = btn.getAttribute('data-' + key);
-      render();
-      if (key === 'bank') {
-        var rib = $('rib-card');
-        if (rib && !rib.hidden) rib.scrollIntoView({behavior:'smooth', block:'nearest'});
-      }
-    });
+var BANK_LOGOS = {
+  cih: 'assets/banks/cih-v2.png',
+  attijariwafa: 'assets/banks/attijariwafa-v2.png',
+  bp: 'assets/banks/banque-populaire-v2.png',
+  boa: 'assets/banks/bank-of-africa-v2.png'
+};
+function selectCourse(c){
+  if (!COURSES[c]) return;
+  document.querySelectorAll('.course-card').forEach(function (card) {
+    var on = card.getAttribute('data-course') === c;
+    card.classList.toggle('selected', on);
+    var badge = card.querySelector('.chosen-badge');
+    if (badge) badge.hidden = !on;
+    var btn = card.querySelector('.course-btn');
+    if (btn) btn.textContent = on ? '✓ مختارة' : 'اختار هاد الدورة';
   });
+  state.course = c;
+  render();
 }
+function selectBank(b){
+  if (!BANKS[b]) return;
+  document.querySelectorAll('.bank-item').forEach(function (it) {
+    it.classList.toggle('selected', it.getAttribute('data-bank') === b);
+  });
+  var logo = $('bank-bar-logo');
+  if (logo) {
+    logo.innerHTML = BANK_LOGOS[b]
+      ? '<img src="' + BANK_LOGOS[b] + '" alt="' + BANKS[b].name + '">'
+      : '<span class="generic">🏦</span>';
+  }
+  $('bank-bar-label').textContent = BANKS[b].name;
+  state.bank = b;
+  closeBankMenu();
+  render();
+  var rib = $('rib-card');
+  if (rib && !rib.hidden) rib.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function closeBankMenu(){
+  var menu = $('bank-menu'), bar = $('bank-bar');
+  if (menu) menu.hidden = true;
+  if (bar) bar.setAttribute('aria-expanded', 'false');
+}
+document.querySelectorAll('.course-card').forEach(function (card) {
+  card.addEventListener('click', function () { selectCourse(card.getAttribute('data-course')); });
+});
+$('bank-bar').addEventListener('click', function (e) {
+  e.stopPropagation();
+  var menu = $('bank-menu'), bar = $('bank-bar');
+  var open = menu.hidden;
+  menu.hidden = !open;
+  bar.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+document.querySelectorAll('.bank-item').forEach(function (it) {
+  it.addEventListener('click', function (e) {
+    e.stopPropagation();
+    selectBank(it.getAttribute('data-bank'));
+  });
+});
+document.addEventListener('click', function (e) {
+  var wrap = $('bank-select');
+  if (wrap && !wrap.contains(e.target)) closeBankMenu();
+});
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeBankMenu(); });
 function copyText(text, btn){
   function done(){
     var old = btn.textContent;
@@ -263,18 +350,10 @@ function fallbackCopy(text, done){
 document.querySelectorAll('.copy-btn').forEach(function (btn) {
   btn.addEventListener('click', function () { copyText(btn.getAttribute('data-copy'), btn); });
 });
-bind('.course-btn', 'course');
-bind('.bank-btn', 'bank');
 var params = new URLSearchParams(window.location.search);
 var c = params.get('course'), b = params.get('bank');
-if (c && COURSES[c]) {
-  var cb = document.querySelector('.course-btn[data-course="' + c + '"]');
-  if (cb) { cb.classList.add('selected'); state.course = c; }
-}
-if (b && BANKS[b]) {
-  var bb = document.querySelector('.bank-btn[data-bank="' + b + '"]');
-  if (bb) { bb.classList.add('selected'); state.bank = b; }
-}
+if (c && COURSES[c]) selectCourse(c);
+if (b && BANKS[b]) selectBank(b);
 render();
 })();
 </script>
