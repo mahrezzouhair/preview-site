@@ -10,8 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-<style>
-:root{--dark:#0A120F;--green:#22C55E;--neon:#1ED760;--green-soft:#E9F9EF;--ink:#14201A;--muted:#5B6B62;--line:#B7C9BD;--radius:24px;--shadow:0 10px 30px rgba(10,40,25,.08)}
+:root{--dark:#0A120F;--green:#22C55E;--neon:#1ED760;--green-soft:#E9F9EF;--ink:#14201A;--muted:#5B6B62;--line:#DCE8DF;--radius:24px;--shadow:0 6px 18px rgba(10,40,25,.05)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Cairo',system-ui,sans-serif;background:#FBFDFB;color:var(--ink);line-height:1.8}
 a{text-decoration:none;color:inherit}
@@ -56,7 +55,9 @@ h1 .grad{background:linear-gradient(90deg,var(--neon),var(--green));-webkit-back
 .seg button{flex:1;border:2px solid #9DB8A8;background:#fff;border-radius:999px;padding:10px 8px;font-family:inherit;font-weight:800;color:var(--ink);cursor:pointer;transition:.2s}
 .seg button.on{background:#0B3D2E;border-color:#0B3D2E;color:#fff}
 .seg button.on::before{content:"✓ "}
-.btn{display:inline-flex;font-weight:800;padding:12px 26px;border-radius:999px;background:var(--neon);color:#06280F;border:none;font-family:inherit;font-size:1rem;cursor:pointer;margin-top:16px;transition:.2s}
+.btn{display:inline-flex;font-weight:800;padding:16px 32px;border-radius:999px;background:var(--neon);color:#06280F;border:none;font-family:inherit;font-size:1.15rem;cursor:pointer;margin-top:16px;transition:.2s}
+section>.btn{display:flex;width:100%;justify-content:center}
+@media(max-width:600px){.btn{padding:14px 24px;font-size:1.05rem}}
 .btn:hover{background:var(--green)}
 .result{margin-top:20px;background:linear-gradient(135deg,#E9F9EF,#D8F2E2);border:1.5px solid #B9E7C8;border-radius:20px;padding:22px;display:none;box-shadow:0 10px 26px rgba(10,40,25,.10)}
 .result.show{display:block}
@@ -80,7 +81,7 @@ footer{background:var(--dark);color:#A9BFAF;padding:22px 0;text-align:center;fon
 .cards .card .ic{font-size:2rem}
 .cards .card h2{font-size:1.15rem;font-weight:900;margin:10px 0 4px}
 .cards .card p{color:var(--muted);font-size:.95rem}
-.cards .card .go{display:inline-block;margin-top:12px;color:var(--green);font-weight:800}
+.cards .card .go{display:inline-block;margin-top:14px;background:var(--neon);color:#06280F;font-weight:900;padding:10px 22px;border-radius:999px;box-shadow:0 4px 12px rgba(30,215,96,.30)}
 </style>
 </head>
 <body>
