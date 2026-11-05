@@ -53,6 +53,11 @@ nav.main a.active,nav.main a:hover{color:#fff}
 .copy-btn{background:#1C3325;color:#E7F3EB;border:1px solid #2C4A38;border-radius:999px;padding:6px 14px;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;flex-shrink:0}
 .copy-btn:hover{border-color:var(--neon)}
 .copy-btn.done{background:var(--neon);color:#06280F;border-color:var(--neon)}
+#rib-card[hidden]{display:none}
+#rib-card{border-color:#D9A441;box-shadow:0 0 0 1px rgba(217,164,65,.35)}
+.qr-wrap{background:#fff;border-radius:16px;padding:16px;text-align:center;margin-top:16px}
+.qr-wrap img{width:200px;height:200px;max-width:70vw;display:block;margin:0 auto}
+.qr-wrap p{color:#33473A;font-size:.95rem;font-weight:700;margin:10px 0 0}
 .summary{background:#0E1A14;border:1px solid #2C4A38;border-radius:18px;padding:20px;margin:20px 0}
 .summary .row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid #1C3325}
 .summary .row:first-child{border-top:0}
@@ -90,7 +95,7 @@ nav.main a.active,nav.main a:hover{color:#fff}
   <div class="card" id="bank-steps">
     <h2>الدفع بالتحويل البنكي — كيفاش كيتم؟</h2>
     <div class="step"><div class="num">1</div><p><b>اختار الدورة والبنك ديالك</b> من الأسفل.</p></div>
-    <div class="step"><div class="num">2</div><p><b>حوّل 499 درهم</b> للـRIB اللي لتحت، من تطبيق البنك ديالك أو من الوكالة.</p></div>
+    <div class="step"><div class="num">2</div><p><b>منين تختار البنك ديالك غادي يبان ليك الـRIB لتحت</b> — نسخو ولا سكانيا الـ QR، وحوّل 499 درهم من تطبيق البنك ديالك أو من الوكالة.</p></div>
     <div class="step"><div class="num">3</div><p><b>صيفط صورة الإيصال</b> عبر واتساب — الزر اللي لتحت، والرسالة جاهزة بالدورة والمبلغ.</p></div>
     <div class="step"><div class="num">4</div><p><b>التفعيل:</b> من CIH ف الحين بعد التأكد من التوصل، ومن بنك آخر مباشرة بعد وصول التحويل.</p></div>
   </div>
@@ -138,9 +143,10 @@ nav.main a.active,nav.main a:hover{color:#fff}
         <p class="timing">أي بنك آخر في المغرب → التفعيل بعد وصول التحويل</p>
       </button>
     </div>
+    <p class="note" style="margin-top:14px">منين تختار البنك ديالك، غادي يبان ليك الـRIB هنا لتحت مع زر النسخ و QR.</p>
   </div>
 
-  <div class="card" id="rib-card">
+  <div class="card" id="rib-card" hidden>
     <h2>🏦 معلومات التحويل البنكي</h2>
     <div class="rib-row"><span class="lbl">المستفيد</span><span class="val">MONSIEUR ZOUHAIR MAHREZ</span></div>
     <div class="rib-row"><span class="lbl">البنك</span><span class="val">CIH Bank</span></div>
@@ -148,6 +154,7 @@ nav.main a.active,nav.main a:hover{color:#fff}
     <div class="rib-row"><span class="lbl">IBAN</span><span class="val">MA64 2307 8044 3742 7211 0013 0063</span><button class="copy-btn" type="button" data-copy="MA64230780443742721100130063">نسخ IBAN</button></div>
     <div class="rib-row"><span class="lbl">Code SWIFT</span><span class="val">CIHMMAMC</span></div>
     <div class="rib-row"><span class="lbl">المبلغ</span><span class="val amount">499 درهم</span></div>
+    <div class="qr-wrap"><img src="assets/banks/rib-qr.png" alt="QR code ديال الـ RIB"><p>سكانيا الـ QR من تطبيق البنك ديالك باش يطلع ليك الـ RIB مباشرة</p></div>
   </div>
 
   <div class="summary" id="bank-summary">
@@ -195,6 +202,8 @@ var BANKS = {
 var state = { course: null, bank: null };
 function $(id){ return document.getElementById(id); }
 function render(){
+  var rib = $('rib-card');
+  if (rib) rib.hidden = !state.bank;
   $('sum-course').textContent = state.course ? COURSES[state.course] : '— اختار دورة من الأعلى —';
   $('sum-bank').textContent = state.bank ? BANKS[state.bank].name : '— اختار بنك من الأعلى —';
   if (state.bank) {
@@ -221,6 +230,10 @@ function bind(selector, key){
       btn.classList.add('selected');
       state[key] = btn.getAttribute('data-' + key);
       render();
+      if (key === 'bank') {
+        var rib = $('rib-card');
+        if (rib && !rib.hidden) rib.scrollIntoView({behavior:'smooth', block:'nearest'});
+      }
     });
   });
 }
