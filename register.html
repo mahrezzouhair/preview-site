@@ -41,13 +41,12 @@ button.gbtn svg{width:20px;height:20px;flex:none}
 .msg .ok{color:var(--neon)}
 .foot{border-top:1px solid #1C3325;padding:20px 0 40px;color:#7C9A88;font-size:.85rem;text-align:center}
 .auth-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:28px;align-items:stretch;margin:22px 0 50px}
-.visual-col{background:linear-gradient(160deg,#101E16,#0A120F);border:1px solid #1C3325;border-radius:18px;padding:30px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.visual-col{padding:10px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .visual-art{width:min(340px,90%)}
 .visual-art svg{width:100%;height:auto;display:block}
 .visual-col h2{font-size:1.35rem;margin:18px 0 6px;color:#fff}
 .visual-col p{color:#9DB8A8;margin:0 0 16px}
-.visual-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.visual-chips span{border:1px solid #2C4A38;background:#0A120F;border-radius:999px;padding:6px 14px;font-size:.9rem;font-weight:700}
+.visual-tags{color:#9DB8A8;font-weight:700;margin:0}
 .form-col{min-width:0}
 @media (max-width:900px){.auth-grid{grid-template-columns:1fr}.visual-art{width:min(260px,80%)}}
 
@@ -65,25 +64,18 @@ button.gbtn svg{width:20px;height:20px;flex:none}
         <svg viewBox="0 0 400 400" role="img" aria-label="زهير محرز - الصحة والوقاية">
           <circle cx="200" cy="190" r="175" fill="#0E1A13" stroke="#1ED760" stroke-width="2"/>
           <circle cx="200" cy="190" r="140" fill="none" stroke="#1C3325" stroke-width="1.5" stroke-dasharray="3 7"/>
-          <g fill="none" stroke="#1ED760" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M130 230 a70 70 0 0 1 140 0"/>
-            <path d="M130 230 h140"/>
-            <path d="M200 160 v-18"/>
-            <circle cx="200" cy="135" r="7"/>
-          </g>
-          <g fill="none" stroke="#D9A441" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M268 268 a34 34 0 0 1 68 0"/>
-            <path d="M268 268 h68"/>
-          </g>
+          <path d="M200 258 C118 204 108 142 154 116 C184 100 200 126 200 142 C200 126 216 100 246 116 C292 142 282 204 200 258 Z" fill="#1ED760"/>
+          <polyline points="128,192 166,192 180,170 198,210 212,192 272,192" fill="none" stroke="#06280F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <g stroke="#D9A441" stroke-width="6" stroke-linecap="round"><path d="M330 82 v28"/><path d="M316 96 h28"/></g>
           <path d="M92 306 Q128 248 178 258 Q146 302 92 306 Z" fill="#1ED760" fill-opacity=".18" stroke="#1ED760" stroke-width="4" stroke-linejoin="round"/>
-          <polyline points="88,332 128,332 148,306 174,352 196,322 216,332 312,332" fill="none" stroke="#D9A441" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
           <circle cx="330" cy="110" r="5" fill="#D9A441"/>
           <circle cx="70" cy="120" r="4" fill="#1ED760"/>
         </svg>
       </div>
       <h2>تعلّم من ممارس وباحث، ماشي من مُنظِّر</h2>
       <p>حساب واحد لدوراتك وأدواتك الصحية - بالدارجة، وبخطوات بسيطة.</p>
-      <div class="visual-chips"><span>🎓 دورات</span><span>🧰 أدوات صحية</span><span>📜 شهادة</span></div>
+      <p class="visual-tags">🎓 دورات &nbsp;•&nbsp; 🧰 أدوات صحية &nbsp;•&nbsp; 📜 شهادة</p>
     </div>
     <div class="form-col">
   <div class="card" id="auth-card">

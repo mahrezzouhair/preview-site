@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#F7F5F0;--card:#FFFFFF;--ink:#16211C;--muted:#5C6B62;--green:#0B3D2E;--green2:#14563F;--gold:#B9975B;--line:#E6DFD0}
+:root{--paper:#F7F5F0;--card:#FFFFFF;--ink:#16211C;--muted:#5C6B62;--green:#0B3D2E;--green2:#14563F;--gold:#B9975B;--line:#CFC4A8}
 *{box-sizing:border-box}
 body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.8}
 a{color:var(--green2);text-decoration:none}
@@ -32,8 +32,8 @@ nav.main a:hover{color:var(--ink)}
 .hero-banner img{width:100%;border-radius:20px;border:1px solid var(--line);display:block;box-shadow:0 4px 20px rgba(20,30,25,.10)}
 .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0 8px}
 .btn{display:inline-block;border-radius:999px;padding:14px 30px;font-weight:900;font-size:1.05rem;font-family:inherit;cursor:pointer;border:0}
-.btn-gold{background:var(--gold);color:#241E0E}
-.btn-green{background:var(--green);color:#fff}
+.btn-gold{background:var(--gold);color:#241E0E;box-shadow:0 6px 18px rgba(185,151,91,.40)}
+.btn-green{background:var(--green);color:#fff;box-shadow:0 6px 18px rgba(11,61,46,.35)}
 .note{color:var(--muted);font-size:.95rem;text-align:center;margin:0}
 .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0}
 .strip div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center;font-weight:800;font-size:.95rem}
@@ -66,7 +66,7 @@ h2.section{font-size:1.6rem;margin:32px 0 4px}
 .tour-prev{right:12px}
 .tour-next{left:12px}
 .tour-dots{display:flex;gap:8px;justify-content:center;margin-top:14px}
-.tour-dots button{width:10px;height:10px;border-radius:50%;border:0;background:#cbd5cf;cursor:pointer;padding:0}
+.tour-dots button{width:10px;height:10px;border-radius:50%;border:0;background:#9DB8A8;cursor:pointer;padding:0}
 .tour-dots button.on{background:#10b981;width:26px;border-radius:999px}
 .tour-count{text-align:center;color:var(--muted);margin-top:8px;font-size:.9rem}
 @media (prefers-reduced-motion:reduce){.tour-track{transition:none}}

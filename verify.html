@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--dark:#0A120F;--green:#22C55E;--neon:#1ED760;--green-soft:#E9F9EF;--ink:#14201A;--muted:#5B6B62;--line:#E3EDE6;--radius:24px;--shadow:0 10px 30px rgba(10,40,25,.08)}
+:root{--dark:#0A120F;--green:#22C55E;--neon:#1ED760;--green-soft:#E9F9EF;--ink:#14201A;--muted:#5B6B62;--line:#B7C9BD;--radius:24px;--shadow:0 10px 30px rgba(10,40,25,.08)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Cairo',system-ui,sans-serif;background:#FBFDFB;color:var(--ink);line-height:1.8}
 a{text-decoration:none;color:inherit}
@@ -44,9 +44,9 @@ h1 .grad{background:linear-gradient(90deg,var(--neon),var(--green));-webkit-back
 .lead{color:var(--muted);max-width:620px;margin-bottom:34px}
 .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px}
 form{display:flex;gap:10px;flex-wrap:wrap}
-input[type=text]{flex:1;min-width:220px;font-family:inherit;font-size:1.05rem;padding:13px 18px;border:2px solid var(--line);border-radius:999px;outline:none;direction:ltr;text-align:left}
-input[type=text]:focus{border-color:var(--green)}
-button{font-family:inherit;font-weight:800;font-size:1rem;background:var(--neon);color:#06280F;border:0;border-radius:999px;padding:13px 30px;cursor:pointer;transition:.2s}
+input[type=text]{flex:1;min-width:220px;font-family:inherit;font-size:1.05rem;padding:13px 18px;border:2px solid #9DB8A8;border-radius:999px;outline:none;direction:ltr;text-align:left;background:#F4FAF5;color:var(--ink)}
+input[type=text]:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(34,197,94,.25)}
+button{font-family:inherit;font-weight:800;font-size:1rem;background:var(--neon);color:#06280F;border:0;border-radius:999px;padding:13px 30px;cursor:pointer;transition:.2s;box-shadow:0 6px 18px rgba(30,215,96,.35)}
 button:hover{background:var(--green)}
 .hint{color:var(--muted);font-size:.88rem;margin-top:12px}
 .result{margin-top:22px;display:none}
