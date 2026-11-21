@@ -1,0 +1,22 @@
+name = "mahrez-courses-gate"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+# Public configuration (safe to ship — nothing secret here).
+[vars]
+FIREBASE_PROJECT_ID = "hijama-tracker"
+BUCKET_NAME = "mahrez-courses"
+URL_TTL_SECONDS = 600
+# Comma-separated list of origins allowed to request signed URLs.
+# Add the personal domain here once it is bought, e.g.:
+# ALLOWED_ORIGINS = "https://mahrezzouhair.github.io, https://mahrezzouhair.com, https://www.mahrezzouhair.com"
+ALLOWED_ORIGINS = "https://mahrezzouhair.github.io"
+
+# Secrets — set with `wrangler secret put <NAME>` (never write real
+# values in this file or in git):
+#   R2_ACCOUNT_ID                Cloudflare account ID (R2 endpoint host)
+#   R2_ACCESS_KEY_ID             R2 API token access key id
+#   R2_SECRET_ACCESS_KEY         R2 API token secret access key
+#   FIREBASE_SERVICE_ACCOUNT_JSON  service-account JSON for hijama-tracker
+#                                  (client_email + private_key)

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>اختبار مشغل الفيديو — زهير محرز</title>
+<meta name="description" content="صفحة اختبار خفية لمشغل دروس الدورات عبر Cloudflare R2.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+:root{--dark:#0A120F;--neon:#1ED760}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;background:var(--dark);color:#E7F3EB;line-height:1.8}
+a{color:var(--neon);text-decoration:none}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px 40px}
+.top{padding:16px 0;font-weight:900;font-size:1.15rem;color:#fff}
+.top .mark{display:inline-block;background:var(--neon);color:#06280F;border-radius:8px;padding:0 8px;margin-left:6px}
+.card{background:#101E16;border:1px solid #1C3325;border-radius:18px;padding:20px;margin:16px 0}
+h1{font-size:1.5rem;margin:0 0 4px}
+.note{color:#9DB8A8;font-size:.95rem;margin:0 0 12px}
+.warn{background:#241A06;border:1px solid #D9A441;border-radius:12px;padding:10px 12px;font-weight:700;margin:0 0 14px}
+video{width:100%;border-radius:14px;background:#000;display:block}
+select,input[type=file]{padding:11px 13px;border-radius:12px;border:1px solid #2C4A38;background:#0A120F;color:#fff;font-family:inherit;font-size:1rem;max-width:100%}
+button.primary{padding:12px 26px;border:0;border-radius:999px;background:var(--neon);color:#06280F;font-family:inherit;font-weight:900;font-size:1rem;cursor:pointer}
+button.primary:disabled{opacity:.6}
+button.ghost{background:transparent;border:1px solid #2C4A38;color:#E7F3EB;border-radius:999px;padding:9px 18px;font-family:inherit;font-weight:800;cursor:pointer}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}
+#log{white-space:pre-wrap;font-size:.92rem;background:#0A120F;border:1px solid #1C3325;border-radius:12px;padding:12px;min-height:3em;color:#C9D6CE;direction:ltr;text-align:left}
+#log .err{color:#FF7A7A}
+#log .ok{color:#7CFFAB}
+.free{color:#D9A441;font-weight:900}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span class="mark">ز</span>زهير محرز</div>
+
+  <div class="card">
+    <h1>اختبار مشغل الفيديو (R2)</h1>
+    <p class="note">صفحة اختبار خفية — غير مربوطة بأي صفحة أخرى. كتجيب رابط موقّت من الـ Worker وكتشغّل الدرس فالمشغل ديالنا (بلا زر تحميل، بلا كليك يمين).</p>
+    <p class="warn" id="deploy-note">⚠️ الـ Worker ما زال ما تنشرش — هاد الصفحة غادي تخدم ملي يتنشر الـ Worker ويتعبى الـ WORKER_URL لتحت.</p>
+    <p class="note" id="who">…</p>
+    <div class="row">
+      <select id="course">
+        <option value="hijama">دورة الحجامة وخرائطها</option>
+        <option value="bone">دورة تقويم العظام</option>
+        <option value="acu">دورة الوخز بالإبر الصينية وخرائطها</option>
+      </select>
+      <select id="lesson"></select>
+      <button class="primary" id="btn-play" type="button">شغّل الدرس ▶</button>
+    </div>
+    <p class="note" id="lesson-note"></p>
+  </div>
+
+  <div class="card">
+    <video id="player" controls controlsList="nodownload" disablepictureinpicture preload="none" playsinline></video>
+    <p class="note" style="margin-top:10px">الرابط الموقّت كيموت بعد 10 دقايق — إلا وقف الفيديو، عاود الضغط على «شغّل الدرس» باش تجيب رابط جديد.</p>
+    <div id="log">جاهز.</div>
+  </div>
+
+  <div class="card">
+    <h1 style="font-size:1.1rem">اختبار محلي بلا Worker</h1>
+    <p class="note">إلا بغيتي تجرب واجهة المشغل بلا ما تنشر الـ Worker: ختار ملف فيديو من جهازك — كيتلعب محلياً فقط، وما كيترفع لوالو.</p>
+    <input type="file" id="local-file" accept="video/*">
+  </div>
+</div>
+<script>
+(function(){
+/* ============================================================
+   الإعداد الوحيد: رابط الـ Worker بعد النشر (wrangler deploy).
+   مثال: 'https://mahrez-courses-gate.XXXX.workers.dev'
+   خلّيه فاضي حتى يتنشر الـ Worker.
+   ============================================================ */
+var WORKER_URL = '';
+
+var firebaseConfig = {
+  apiKey: "AIzaSyClqrivuAchdsapjqcvwQnUq6Wz2po6_kg",
+  authDomain: "hijama-tracker.firebaseapp.com",
+  projectId: "hijama-tracker",
+  storageBucket: "hijama-tracker.firebasestorage.app",
+  messagingSenderId: "862559400219",
+  appId: "1:862559400219:web:7302f2cee9f80fb5e263be"
+};
+firebase.initializeApp(firebaseConfig);
+var auth = firebase.auth();
+
+// منهج الحجامة المعتمد (9 وحدات / 38 درس) — نفس الأرقام ديال course.html.
+var HIJAMA_UNITS = { 0: 3, 1: 4, 2: 5, 3: 5, 4: 4, 5: 4, 6: 5, 7: 4, 8: 4 };
+var FREE_LESSONS = { hijama: ['0.1', '4.1'] };
+
+function $(id){ return document.getElementById(id); }
+function log(msg, cls){
+  var el = $('log');
+  var line = document.createElement('div');
+  if (cls) line.className = cls;
+  line.textContent = new Date().toLocaleTimeString('ar-MA') + ' — ' + msg;
+  el.appendChild(line);
+}
+function esc(s){ return String(s == null ? '' : s); }
+
+function lessonOptions(course){
+  var opts = [];
+  if (course === 'hijama') {
+    Object.keys(HIJAMA_UNITS).forEach(function (u) {
+      for (var l = 1; l <= HIJAMA_UNITS[u]; l++) opts.push(u + '.' + l);
+    });
+  } else {
+    for (var i = 1; i <= 10; i++) opts.push('0.' + i);
+  }
+  return opts;
+}
+function fillLessons(){
+  var course = $('course').value;
+  var sel = $('lesson');
+  sel.innerHTML = lessonOptions(course).map(function (id) {
+    var free = (FREE_LESSONS[course] || []).indexOf(id) >= 0;
+    return '<option value="' + id + '">الدرس ' + id + (free ? ' 🎁 مجاني' : '') + '</option>';
+  }).join('');
+  updateLessonNote();
+}
+function updateLessonNote(){
+  var course = $('course').value, lesson = $('lesson').value;
+  var free = (FREE_LESSONS[course] || []).indexOf(lesson) >= 0;
+  $('lesson-note').textContent = free
+    ? 'هاد الدرس مجاني 🎁 — كيتشغّل بلا تسجيل وبلا تفعيل.'
+    : 'هاد الدرس خاصو تسجيل دخول + تفعيل الدورة (حالة approved).';
+}
+$('course').addEventListener('change', fillLessons);
+$('lesson').addEventListener('change', updateLessonNote);
+
+// بلا كليك يمين وبلا حفظ من المشغل.
+var player = $('player');
+player.addEventListener('contextmenu', function (e) { e.preventDefault(); return false; });
+
+$('local-file').addEventListener('change', function (e) {
+  var f = e.target.files && e.target.files[0];
+  if (!f) return;
+  player.src = URL.createObjectURL(f);
+  player.play().catch(function () {});
+  log('Local file playing: ' + f.name + ' (' + Math.round(f.size / 1024) + ' KB) — local only, nothing uploaded.', 'ok');
+});
+
+var currentUser = null;
+auth.onAuthStateChanged(function (user) {
+  currentUser = user;
+  $('who').textContent = user
+    ? 'دخلت بـ ' + user.email
+    : 'ما دخلتيش بعد — الدروس المجانية كتخدم بلا دخول، والدروس المدفوعة خاصها دخول + تفعيل. (الدخول من register.html)';
+});
+
+if (WORKER_URL) $('deploy-note').style.display = 'none';
+
+$('btn-play').addEventListener('click', async function () {
+  var course = $('course').value, lesson = $('lesson').value;
+  var free = (FREE_LESSONS[course] || []).indexOf(lesson) >= 0;
+  if (!WORKER_URL) { log('WORKER_URL ما زال فاضي — نشر الـ Worker أولاً (شوف R2-SETUP.md).', 'err'); return; }
+  var btn = $('btn-play');
+  btn.disabled = true;
+  log('Fetching signed URL: course=' + course + ' lesson=' + lesson + (free ? ' (free)' : ''));
+  try {
+    var headers = {};
+    if (!free) {
+      if (!currentUser) throw new Error('خاصك تدخل أولاً (هاد الدرس ماشي مجاني).');
+      var token = await currentUser.getIdToken();
+      headers['Authorization'] = 'Bearer ' + token;
+    }
+    var res = await fetch(WORKER_URL.replace(/\/$/, '') + '/watch?course=' + encodeURIComponent(course) + '&lesson=' + encodeURIComponent(lesson), { headers: headers });
+    var data = await res.json().catch(function () { return {}; });
+    if (!res.ok) {
+      var msg = data.error || ('HTTP ' + res.status);
+      if (data.detail) msg += ' — ' + data.detail;
+      throw new Error(msg);
+    }
+    log('Signed URL received, expires in ' + data.expiresIn + 's.', 'ok');
+    player.src = data.url;
+    await player.play();
+    log('Playing.', 'ok');
+  } catch (e) {
+    log('Error: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+fillLessons();
+})();
+</script>
+</body>
+</html>

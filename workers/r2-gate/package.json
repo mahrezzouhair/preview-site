@@ -1,0 +1,1 @@
+{"description":"Cloudflare Worker gate for the Mahrez Zouhair course videos stored in a private R2 bucket: verifies the Firebase ID token + approved enrollment, then returns a short-lived presigned R2 URL.","name":"mahrez-courses-gate","private":true,"scripts":{"deploy":"wrangler deploy","dev":"wrangler dev","test":"node --test tests/*.test.mjs"},"type":"module"}
