@@ -24,8 +24,6 @@ export const MAX_TTL_SECONDS = 3600;
 
 export const GOOGLE_JWKS_URL =
   'https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com';
-export const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
-export const FIRESTORE_SCOPE = 'https://www.googleapis.com/auth/datastore';
 
 // R2 object key for a lesson video.
 export function objectKey(courseId, lessonId) {

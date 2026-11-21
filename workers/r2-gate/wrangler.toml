@@ -18,5 +18,6 @@ ALLOWED_ORIGINS = "https://mahrezzouhair.github.io"
 #   R2_ACCOUNT_ID                Cloudflare account ID (R2 endpoint host)
 #   R2_ACCESS_KEY_ID             R2 API token access key id
 #   R2_SECRET_ACCESS_KEY         R2 API token secret access key
-#   FIREBASE_SERVICE_ACCOUNT_JSON  service-account JSON for hijama-tracker
-#                                  (client_email + private_key)
+#
+# No Firebase credential is needed: the Worker reads Firestore with
+# the learner's own ID token (see R2-SETUP.md).

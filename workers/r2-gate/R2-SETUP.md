@@ -53,25 +53,14 @@ R2 requires a payment method on file to enable — even for free use.
 4. The account ID is on the R2 overview page (right side, "Account
    ID") — copy it too.
 
-## Step 5 — Create a Firebase service-account key (hijama-tracker)
+## Step 5 — Set the Worker secrets
 
-The Worker needs to read Firestore (`course-enrollments`) to check
-that the learner really paid and was approved.
-
-1. Firebase console (console.firebase.google.com) → project
-   **hijama-tracker** → Project settings → Service accounts.
-2. Click "Generate new private key" → Generate key. A JSON file
-   downloads — it contains `client_email` and `private_key`.
-3. **This file is a master key for the project.** Keep it offline
-   (USB / password manager). Never send it in chat, never upload it
-   to a repo, never paste it into a web page.
-4. The service account also needs permission to read Firestore: in
-   Google Cloud console (console.cloud.google.com, same project
-   hijama-tracker) → IAM → find the service account
-   (`firebase-adminsdk-…@hijama-tracker.iam.gserviceaccount.com`) →
-   add the role **Cloud Datastore User** (read-only Firestore).
-
-## Step 6 — Set the Worker secrets
+> The Worker reads Firestore **as the learner**, with the learner's
+> own verified Firebase ID token — so Firestore rules (v4.3) enforce
+> ownership: a learner can only read their own enrollment docs.
+> There is **no service account and no master key** anywhere in this
+> setup — nothing to generate, nothing to keep offline, nothing that
+> could leak and open the whole project.
 
 On the machine with the repo (Muse does this part, or Zouhair in a
 terminal with wrangler installed):
@@ -82,11 +71,9 @@ wrangler login                                   # signs in as zouhair.secret@gm
 wrangler secret put R2_ACCOUNT_ID                # paste the Account ID from step 4
 wrangler secret put R2_ACCESS_KEY_ID             # paste the Access Key ID
 wrangler secret put R2_SECRET_ACCESS_KEY         # paste the Secret Access Key
-wrangler secret put FIREBASE_SERVICE_ACCOUNT_JSON
-# paste the WHOLE contents of the JSON file from step 5, as one line
 ```
 
-## Step 7 — Deploy the Worker
+## Step 6 — Deploy the Worker
 
 ```bash
 cd preview/workers/r2-gate
@@ -96,9 +83,9 @@ wrangler deploy
 
 Copy that URL into `preview/video-test.html` — the single
 `WORKER_URL` constant at the top of its script — and test with the
-sample clip (step 8).
+sample clip (step 7).
 
-## Step 8 — Upload the first video (test, then real)
+## Step 7 — Upload the first video (test, then real)
 
 ```bash
 export R2_ACCOUNT_ID=...            # same values as step 4
@@ -157,9 +144,8 @@ What that means for us:
 - The signed URL is visible in the browser's network tab to a
   determined user — that is true of every streaming service. The
   10-minute expiry limits what can be done with it.
-- Keep the service-account JSON (step 5) and the R2 secret key
-  (step 4) offline. Anyone holding them can read the bucket or the
-  Firestore data. If either ever leaks, revoke it immediately
-  (R2 token: delete it in the dashboard and create a new one;
-  service account: delete the key in Firebase console and generate
-  a new one) and re-run step 6.
+- Keep the R2 secret key (step 4) offline. Anyone holding it can
+  read the bucket. If it ever leaks, revoke it immediately (delete
+  the token in the dashboard and create a new one) and re-run
+  step 5. There is no Firebase master key in this setup at all —
+  the Worker only ever reads Firestore as the signed-in learner.

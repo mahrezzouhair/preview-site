@@ -23,11 +23,11 @@ learner (video-test.html / course page)
 | `src/config.js` | Courses, hijama curriculum (9 units / 38 lessons), free lessons (0.1, 4.1), validation, domain-lock helpers. |
 | `src/signing.js` | AWS Signature Version 4 on Web Crypto (presigned URLs + signed headers). Runs unchanged in Workers and in Node. |
 | `src/jwt.js` | Firebase ID token verification (RS256 against Google's public keys). No Admin SDK. |
-| `src/firestore.js` | Service-account OAuth2 token + enrollment check via the Firestore REST API. Mirrors `course.html`: `course-enrollments` docs carry `{ uid, courseId, course, status, name, email, method, createdAt }`; only `status === 'approved'` opens the video. |
+| `src/firestore.js` | Enrollment check via the Firestore REST API — reads **as the learner**, with their own verified Firebase ID token. Mirrors `course.html`: `course-enrollments` docs carry `{ uid, courseId, course, status, name, email, method, createdAt }`; only `status === 'approved'` opens the video. No service account, no master key. |
 | `src/encoding.js` | base64url helpers shared by `jwt.js` and `firestore.js`. |
 | `tests/` | `node --test` suite: SigV4 (AWS docs vector), JWT (generated keys), validation, Firestore (mocked fetch). |
 | `test-clip.mp4` | 10 s generated sample clip (ffmpeg test pattern) — for upload + player tests only, never a real lesson. |
-| `R2-SETUP.md` | Exact console steps the owner still has to do (account, bucket, token, service account, secrets, deploy) + costs + honest security notes. |
+| `R2-SETUP.md` | Exact console steps the owner still has to do (account, bucket, token, secrets, deploy) + costs + honest security notes. |
 
 ## Rules the gate enforces
 
@@ -44,7 +44,7 @@ learner (video-test.html / course page)
 | 401 | `missing_token` / `invalid_token` | No Bearer token, or the Firebase token failed verification |
 | 403 | `forbidden_origin` | Origin/Referer not in the allowed list |
 | 403 | `not_enrolled` | Signed in, but no approved enrollment for this course |
-| 502 | `enrollment_check_failed` | Firestore / token-minting problem on our side |
+| 502 | `enrollment_check_failed` | Firestore problem on our side |
 | 404 | `not_found` | Any path other than `/watch` |
 
 ## Local checks (no deploy, no account)
@@ -80,7 +80,6 @@ cd workers/r2-gate
 wrangler secret put R2_ACCOUNT_ID
 wrangler secret put R2_ACCESS_KEY_ID
 wrangler secret put R2_SECRET_ACCESS_KEY
-wrangler secret put FIREBASE_SERVICE_ACCOUNT_JSON
 wrangler deploy
 ```
 

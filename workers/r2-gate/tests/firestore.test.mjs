@@ -1,109 +1,112 @@
 // Firestore enrollment check tests (mocked fetch) — run with: node --test tests/
 // No real Firebase project is touched.
+//
+// The Worker reads Firestore AS the learner, with the learner's own
+// Firebase ID token — so the tests assert the Authorization header
+// carries exactly that user token (never a minted service-account one).
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { generateKeyPairSync } from 'node:crypto';
-import { getAccessToken, hasApprovedEnrollment } from '../src/firestore.js';
+import { checkEnrollment } from '../src/firestore.js';
 
 const PROJECT_ID = 'hijama-tracker';
+const UID = 'learner-uid-123';
+const USER_TOKEN = 'eyJhbGciOiJSUzI1NiJ9.user-token-fixture';
 
-function docRow(courseId, status) {
+function docRow({ courseId, course, status }) {
+  const fields = {
+    uid: { stringValue: UID },
+    status: { stringValue: status },
+  };
+  if (courseId !== undefined) fields.courseId = { stringValue: courseId };
+  if (course !== undefined) fields.course = { stringValue: course };
   return {
     document: {
       name: `projects/${PROJECT_ID}/databases/(default)/documents/course-enrollments/abc`,
-      fields: {
-        uid: { stringValue: 'learner-uid-123' },
-        courseId: { stringValue: courseId },
-        course: { stringValue: 'الحجامة' },
-        status: { stringValue: status },
-      },
+      fields,
     },
   };
 }
 
-function mockFetch(rows, capture) {
+function mockFetch(rows, capture, status = 200) {
   return async (url, opts) => {
     if (capture) capture.push({ url, opts });
     return {
-      ok: true,
+      ok: status >= 200 && status < 300,
+      status,
       json: async () => rows,
     };
   };
 }
 
-test('approved enrollment for the requested course grants access', async () => {
-  const fetchFn = mockFetch([docRow('hijama', 'approved')]);
-  const ok = await hasApprovedEnrollment({
-    projectId: PROJECT_ID, accessToken: 'tok', uid: 'learner-uid-123',
-    courseId: 'hijama', fetchFn,
+function check(rows, capture, status) {
+  return checkEnrollment(USER_TOKEN, UID, 'hijama', {
+    projectId: PROJECT_ID,
+    fetchFn: mockFetch(rows, capture, status),
   });
+}
+
+test('approved enrollment for the requested course grants access', async () => {
+  const ok = await check([docRow({ courseId: 'hijama', course: 'الحجامة', status: 'approved' })]);
+  assert.equal(ok, true);
+});
+
+test('approved enrollment matching via the course field grants access', async () => {
+  // Doc carries course === courseId and no courseId field.
+  const ok = await check([docRow({ course: 'hijama', status: 'approved' })]);
   assert.equal(ok, true);
 });
 
 test('pending enrollment does not grant access', async () => {
-  const fetchFn = mockFetch([docRow('hijama', 'pending')]);
-  const ok = await hasApprovedEnrollment({
-    projectId: PROJECT_ID, accessToken: 'tok', uid: 'learner-uid-123',
-    courseId: 'hijama', fetchFn,
-  });
+  const ok = await check([docRow({ courseId: 'hijama', course: 'الحجامة', status: 'pending' })]);
   assert.equal(ok, false);
 });
 
 test('approved enrollment for a different course does not grant access', async () => {
-  const fetchFn = mockFetch([docRow('bone', 'approved')]);
-  const ok = await hasApprovedEnrollment({
-    projectId: PROJECT_ID, accessToken: 'tok', uid: 'learner-uid-123',
-    courseId: 'hijama', fetchFn,
-  });
+  const ok = await check([docRow({ courseId: 'bone', course: 'تقويم العظام', status: 'approved' })]);
   assert.equal(ok, false);
 });
 
 test('no enrollment at all does not grant access', async () => {
-  const fetchFn = mockFetch([]);
-  const ok = await hasApprovedEnrollment({
-    projectId: PROJECT_ID, accessToken: 'tok', uid: 'learner-uid-123',
-    courseId: 'hijama', fetchFn,
-  });
+  const ok = await check([]);
   assert.equal(ok, false);
 });
 
-test('query goes to runQuery and filters by uid', async () => {
+test('non-array Firestore response does not grant access', async () => {
+  const ok = await check(null);
+  assert.equal(ok, false);
+});
+
+test('query goes to runQuery, filters by uid, and carries the user token', async () => {
   const captured = [];
-  const fetchFn = mockFetch([docRow('hijama', 'approved')], captured);
-  await hasApprovedEnrollment({
-    projectId: PROJECT_ID, accessToken: 'tok', uid: 'learner-uid-123',
-    courseId: 'hijama', fetchFn,
-  });
+  await check([docRow({ courseId: 'hijama', status: 'approved' })], captured);
   assert.equal(captured.length, 1);
-  assert.ok(captured[0].url.includes('/documents:runQuery'));
-  assert.equal(captured[0].opts.headers.Authorization, 'Bearer tok');
+  assert.ok(
+    captured[0].url ===
+      `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents:runQuery`
+  );
+  // The learner's own ID token — NOT a minted service-account token.
+  assert.equal(captured[0].opts.headers.Authorization, `Bearer ${USER_TOKEN}`);
   const body = JSON.parse(captured[0].opts.body);
   assert.equal(body.structuredQuery.from[0].collectionId, 'course-enrollments');
+  assert.equal(body.structuredQuery.where.fieldFilter.field.fieldPath, 'uid');
+  assert.equal(body.structuredQuery.where.fieldFilter.op, 'EQUAL');
   assert.equal(
     body.structuredQuery.where.fieldFilter.value.stringValue,
-    'learner-uid-123'
+    UID
   );
 });
 
-test('service-account token mint posts a JWT grant and caches the token', async () => {
-  const { privateKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
-  const pem = privateKey.export({ type: 'pkcs8', format: 'pem' });
-  const sa = { client_email: 'firebase-adminsdk@test.iam.gserviceaccount.com', private_key: pem };
-  const captured = [];
-  let calls = 0;
-  const fetchFn = async (url, opts) => {
-    calls++;
-    captured.push({ url, opts });
-    return { ok: true, json: async () => ({ access_token: 'ya29.test', expires_in: 3600 }) };
-  };
-  const t1 = await getAccessToken(sa, { fetchFn });
-  const t2 = await getAccessToken(sa, { fetchFn });
-  assert.equal(t1, 'ya29.test');
-  assert.equal(t2, 'ya29.test');
-  assert.equal(calls, 1, 'second call must use the cached token');
-  assert.ok(captured[0].url.includes('oauth2.googleapis.com/token'));
-  const params = new URLSearchParams(captured[0].opts.body);
-  assert.equal(params.get('grant_type'), 'urn:ietf:params:oauth:grant-type:jwt-bearer');
-  assert.equal(params.get('assertion').split('.').length, 3, 'assertion must be a JWT');
+test('Firestore 403 throws (index.js maps it to 502)', async () => {
+  await assert.rejects(
+    () => check([], undefined, 403),
+    /firestore query failed: HTTP 403/
+  );
+});
+
+test('Firestore 500 throws (index.js maps it to 502)', async () => {
+  await assert.rejects(
+    () => check([], undefined, 500),
+    /firestore query failed: HTTP 500/
+  );
 });

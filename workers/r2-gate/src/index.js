@@ -12,7 +12,9 @@
 //   3. Free preview lessons (hijama 0.1, 4.1) skip auth entirely.
 //   4. Firebase ID token verification (RS256 against Google's keys).
 //   5. Enrollment check — Firestore `course-enrollments` must hold an
-//      APPROVED doc for this uid + courseId.
+//      APPROVED doc for this uid + courseId. The query runs AS the
+//      learner, with their own verified ID token, so Firestore rules
+//      enforce ownership (no service account, no master key).
 //   6. Returns a short-lived presigned R2 URL (default 10 min) for
 //      courses/<courseId>/<lessonId>.mp4. R2 supports Range requests
 //      on presigned URLs, so seeking works in the player.
@@ -27,7 +29,7 @@ import {
 } from './config.js';
 import { presignUrl } from './signing.js';
 import { getGoogleKeys, verifyFirebaseIdToken } from './jwt.js';
-import { getAccessToken, hasApprovedEnrollment } from './firestore.js';
+import { checkEnrollment } from './firestore.js';
 
 function jsonResponse(body, status, origin) {
   const headers = { 'Content-Type': 'application/json' };
@@ -99,13 +101,8 @@ export default {
         return jsonResponse({ error: 'invalid_token', detail: e.message }, 401, origin);
       }
       try {
-        const sa = JSON.parse(env.FIREBASE_SERVICE_ACCOUNT_JSON);
-        const accessToken = await getAccessToken(sa);
-        const ok = await hasApprovedEnrollment({
+        const ok = await checkEnrollment(m[1], claims.uid, course, {
           projectId: env.FIREBASE_PROJECT_ID,
-          accessToken,
-          uid: claims.uid,
-          courseId: course,
         });
         if (!ok) return jsonResponse({ error: 'not_enrolled' }, 403, origin);
       } catch (e) {

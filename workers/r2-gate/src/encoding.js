@@ -1,4 +1,4 @@
-// Base64url helpers — shared by the JWT and service-account code.
+// Base64url helpers — shared by the JWT verification code.
 // Works in Cloudflare Workers and in Node (atob/btoa exist in both).
 export const base64url = {
   decode(s) {
